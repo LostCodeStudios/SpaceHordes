@@ -3,20 +3,80 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordes", "SpaceHordes\SpaceHordes\SpaceHordes.csproj", "{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "SpaceHordesContent", "SpaceHordes\SpaceHordesContent\SpaceHordesContent.contentproj", "{71BABA76-B31F-40FB-B17B-C5AF74460BAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordesContent", "SpaceHordes\SpaceHordesContent\SpaceHordesContent.contentproj", "{71BABA76-B31F-40FB-B17B-C5AF74460BAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox360SpaceHordes", "SpaceHordes\SpaceHordes\Xbox360SpaceHordes.csproj", "{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7SpaceHordes", "SpaceHordes\SpaceHordes\WP7SpaceHordes.csproj", "{546EADE3-36FE-455C-ADFD-6AEA3EC58208}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Windows Phone = Debug|Windows Phone
 		Debug|x86 = Debug|x86
+		Debug|Xbox 360 = Debug|Xbox 360
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Windows Phone = Release|Windows Phone
 		Release|x86 = Release|x86
+		Release|Xbox 360 = Release|Xbox 360
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Windows Phone.ActiveCfg = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Windows Phone.Build.0 = Debug|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|x86.ActiveCfg = Debug|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|x86.Build.0 = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Xbox 360.Build.0 = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Windows Phone.ActiveCfg = Release|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Windows Phone.Build.0 = Release|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|x86.ActiveCfg = Release|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|x86.Build.0 = Release|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Xbox 360.ActiveCfg = Release|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Xbox 360.Build.0 = Release|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|Windows Phone.ActiveCfg = Debug|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|x86.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Windows Phone.ActiveCfg = Release|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|x86.ActiveCfg = Release|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Xbox 360.ActiveCfg = Release|x86
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Mixed Platforms.ActiveCfg = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Mixed Platforms.Build.0 = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Windows Phone.ActiveCfg = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Windows Phone.Build.0 = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|x86.ActiveCfg = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Debug|Xbox 360.Deploy.0 = Debug|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Mixed Platforms.ActiveCfg = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Mixed Platforms.Build.0 = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Mixed Platforms.Deploy.0 = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Windows Phone.ActiveCfg = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Windows Phone.Build.0 = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|x86.ActiveCfg = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Xbox 360.Build.0 = Release|Xbox 360
+		{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}.Release|Xbox 360.Deploy.0 = Release|Xbox 360
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|Mixed Platforms.Build.0 = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|x86.ActiveCfg = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Debug|Xbox 360.ActiveCfg = Debug|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Mixed Platforms.ActiveCfg = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Mixed Platforms.Build.0 = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Mixed Platforms.Deploy.0 = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|x86.ActiveCfg = Release|Windows Phone
+		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Xbox 360.ActiveCfg = Release|Windows Phone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
