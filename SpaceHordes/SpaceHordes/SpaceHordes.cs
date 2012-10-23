@@ -9,6 +9,29 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+/***Some documentation notes:
+ * From this point, herein, standard regions for classes must be use and stuff. lol.
+
+        #region Functioning Loop
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Variables
+
+        #endregion
+
+        #region Helpers
+
+        #endregion
+
+ * * 
+ */
+
+
 namespace SpaceHordes
 {
     /// <summary>
