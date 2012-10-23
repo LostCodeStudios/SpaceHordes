@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox360SpaceHordes", "Space
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7SpaceHordes", "SpaceHordes\SpaceHordes\WP7SpaceHordes.csproj", "{546EADE3-36FE-455C-ADFD-6AEA3EC58208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game Library", "..\..\Visual Studio 2010\Projects\Space Hordes\Game Library\Game Library.csproj", "{9560ADD1-FF4A-4CCB-8FE3-43027F110942}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game Library", "Game Library\Game Library.csproj", "{5972DF23-3062-4AAC-95EB-33C5026921C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,18 +78,18 @@ Global
 		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
 		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|x86.ActiveCfg = Release|Windows Phone
 		{546EADE3-36FE-455C-ADFD-6AEA3EC58208}.Release|Xbox 360.ActiveCfg = Release|Windows Phone
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Debug|Windows Phone.ActiveCfg = Debug|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Debug|x86.ActiveCfg = Debug|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Debug|x86.Build.0 = Debug|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Debug|Xbox 360.ActiveCfg = Debug|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Release|Mixed Platforms.Build.0 = Release|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Release|Windows Phone.ActiveCfg = Release|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Release|x86.ActiveCfg = Release|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Release|x86.Build.0 = Release|x86
-		{9560ADD1-FF4A-4CCB-8FE3-43027F110942}.Release|Xbox 360.ActiveCfg = Release|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Debug|Windows Phone.ActiveCfg = Debug|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Debug|x86.ActiveCfg = Debug|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Debug|x86.Build.0 = Debug|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|Windows Phone.ActiveCfg = Release|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|x86.ActiveCfg = Release|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|x86.Build.0 = Release|x86
+		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|Xbox 360.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

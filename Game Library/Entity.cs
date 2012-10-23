@@ -13,7 +13,6 @@ namespace Game_Library
 {
     public class Entity
     {
-
         #region Functioning Loop
 
         #endregion
