@@ -10,9 +10,9 @@ namespace SpaceHordes
         /// </summary>
         static void Main(string[] args)
         {
-            using (SpaceHordes game = new SpaceHordes())
+            using (SpaceHordes SpaceGame = new SpaceHordes())
             {
-                game.Run();
+                SpaceGame.Run();
             }
         }
     }
