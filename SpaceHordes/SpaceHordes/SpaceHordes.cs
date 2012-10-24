@@ -1,6 +1,9 @@
+#region Using Statements
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -9,10 +12,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Game_Library;
+using Game_Library.Input;
+using Game_Library.GameStates;
+using Game_Library.GameStates.Screens;
+using Game_Library.Gameplay;
+
+#endregion
+
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
 
-        #region Functioning Loop
+        #region Fields
 
         #endregion
 
@@ -20,11 +31,11 @@ using Microsoft.Xna.Framework.Media;
 
         #endregion
 
-        #region Variables
+        #region Initialization
 
         #endregion
 
-        #region Helpers
+        #region Update & Draw
 
         #endregion
 
@@ -39,8 +50,16 @@ namespace SpaceHordes
     /// </summary>
     public class SpaceHordes : Microsoft.Xna.Framework.Game
     {
+        #region Fields
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        ScreenManager screenManager;
+
+        #endregion
+
+        #region Initalization
 
         public SpaceHordes()
         {
@@ -57,6 +76,15 @@ namespace SpaceHordes
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
+
+            screenManager = new ScreenManager(this);
+            Components.Add(screenManager);
+
+            screenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), null);
+            screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
 
             base.Initialize();
         }
@@ -81,6 +109,10 @@ namespace SpaceHordes
         {
             // TODO: Unload any non ContentManager content here
         }
+
+        #endregion
+
+        #region Update & Draw
 
         /// <summary>
         /// Allows the game to run logic such as updating the world,
@@ -107,11 +139,13 @@ namespace SpaceHordes
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
+
+        #endregion
     }
 }

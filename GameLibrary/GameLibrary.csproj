@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{5972DF23-3062-4AAC-95EB-33C5026921C3}</ProjectGuid>
+    <ProjectGuid>{2C81BBD4-1489-4E68-B0E9-F4F7725FB8F0}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game_Library</RootNamespace>
-    <AssemblyName>Game Library</AssemblyName>
+    <RootNamespace>GameLibrary</RootNamespace>
+    <AssemblyName>GameLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
-    <XnaCrossPlatformGroupID>bfc0e8a7-f7d4-42ba-9cd3-cf3b3db31c4d</XnaCrossPlatformGroupID>
+    <XnaCrossPlatformGroupID>a56f7253-ecd8-4417-b64a-294759adaadd</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -59,9 +59,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entity.cs" />
     <Compile Include="Gameplay\GameplayScreen.cs" />
-    <Compile Include="Gameplay\Sprite.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="GameStates\GameScreen.cs" />
     <Compile Include="GameStates\ScreenManager.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="GameStates\Screens\MessageBoxScreen.cs" />
     <Compile Include="GameStates\Screens\OptionsMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PauseMenuScreen.cs" />
+    <Compile Include="Graphics\Screen.cs" />
     <Compile Include="Input\InputAction.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\PlayerIndexEventArgs.cs" />

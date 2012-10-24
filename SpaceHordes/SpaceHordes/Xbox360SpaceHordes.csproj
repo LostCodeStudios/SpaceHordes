@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{cd38c4b6-ba2e-4fb3-9d41-e8373d3ee905}</ProjectGuid>
+    <ProjectGuid>{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -58,9 +58,14 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Game Library\Xbox Game Library.csproj">
+      <Project>{59DBC744-D750-4C4F-84C6-1492988CE1CF}</Project>
+      <Name>Xbox Game Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpaceHordesContent\SpaceHordesContent.contentproj">
-      <Name>SpaceHordesContent</Name>
+      <Name>SpaceHordesContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{71BABA76-B31F-40FB-B17B-C5AF74460BAA}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

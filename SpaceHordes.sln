@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7SpaceHordes", "SpaceHord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game Library", "Game Library\Game Library.csproj", "{5972DF23-3062-4AAC-95EB-33C5026921C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox Game Library", "Game Library\Xbox Game Library.csproj", "{59DBC744-D750-4C4F-84C6-1492988CE1CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -90,6 +92,18 @@ Global
 		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|x86.ActiveCfg = Release|x86
 		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|x86.Build.0 = Release|x86
 		{5972DF23-3062-4AAC-95EB-33C5026921C3}.Release|Xbox 360.ActiveCfg = Release|x86
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Debug|Mixed Platforms.ActiveCfg = Debug|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Debug|Mixed Platforms.Build.0 = Debug|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Debug|Windows Phone.ActiveCfg = Debug|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Debug|x86.ActiveCfg = Debug|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Release|Mixed Platforms.ActiveCfg = Release|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Release|Mixed Platforms.Build.0 = Release|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Release|Windows Phone.ActiveCfg = Release|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Release|x86.ActiveCfg = Release|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
+		{59DBC744-D750-4C4F-84C6-1492988CE1CF}.Release|Xbox 360.Build.0 = Release|Xbox 360
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

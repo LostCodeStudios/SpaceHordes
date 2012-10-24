@@ -116,6 +116,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Game Library\Game Library.csproj">
+      <Project>{5972DF23-3062-4AAC-95EB-33C5026921C3}</Project>
+      <Name>Game Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpaceHordesContent\SpaceHordesContent.contentproj">
       <Name>SpaceHordesContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
