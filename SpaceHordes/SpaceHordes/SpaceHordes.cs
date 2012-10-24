@@ -1,5 +1,3 @@
-#region Using Statements
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +15,6 @@ using Game_Library.Input;
 using Game_Library.GameStates;
 using Game_Library.GameStates.Screens;
 using Game_Library.Gameplay;
-
-#endregion
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
@@ -75,9 +71,14 @@ namespace SpaceHordes
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            #if WINDOWS_PHONE 
+                graphics.PreferredBackBufferHeight = 480; 
+                graphics.PreferredBackBufferWidth = 800; 
+            #else
+                graphics.PreferredBackBufferWidth = 1280;
+                graphics.PreferredBackBufferHeight = 720;
+            #endif
+
             graphics.ApplyChanges();
 
             screenManager = new ScreenManager(this);

@@ -1,11 +1,7 @@
-﻿#region Using Statements
-
-using System;
+﻿using System;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
-#endregion
 
 namespace Game_Library.Input
 {

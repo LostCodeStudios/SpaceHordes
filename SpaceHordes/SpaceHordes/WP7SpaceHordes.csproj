@@ -65,6 +65,10 @@
     <XnaCompressContent>false</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Game Library\WP7 Game Library.csproj">
+      <Project>{EB59B124-6BC4-4D85-A726-049393706EC3}</Project>
+      <Name>WP7 Game Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SpaceHordesContent\SpaceHordesContent.contentproj">
       <Name>SpaceHordesContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
