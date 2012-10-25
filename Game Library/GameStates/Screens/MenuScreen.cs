@@ -21,7 +21,7 @@ namespace Game_Library.GameStates.Screens
         int selectedEntry = 0;
         string menuTitle;
 
-        #if XBOX
+        #if XBOX || WINDOWS
 
         InputAction menuUp;
         InputAction menuDown;
@@ -57,7 +57,7 @@ namespace Game_Library.GameStates.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
-            #if XBOX
+            #if XBOX || WINDOWS
 
             //Define the input actions
             menuUp = new InputAction(
@@ -109,7 +109,7 @@ namespace Game_Library.GameStates.Screens
 
             #endif
 
-            #if XBOX
+            #if XBOX || WINDOWS
 
             PlayerIndex playerIndex;
 
