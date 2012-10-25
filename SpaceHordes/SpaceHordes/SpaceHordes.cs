@@ -81,11 +81,12 @@ namespace SpaceHordes
 
             graphics.ApplyChanges();
 
+            #if WINDOWS
+            this.IsMouseVisible = true;
+            #endif
+
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
-
-            screenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), null);
-            screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
 
             base.Initialize();
         }
@@ -99,7 +100,11 @@ namespace SpaceHordes
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            base.LoadContent();
+
             // TODO: use this.Content to load your game content here
+            screenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), null);
+            screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
         }
 
         /// <summary>

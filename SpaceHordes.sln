@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordes", "SpaceHordes\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordesContent", "SpaceHordes\SpaceHordesContent\SpaceHordesContent.contentproj", "{71BABA76-B31F-40FB-B17B-C5AF74460BAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox360SpaceHordes", "SpaceHordes\SpaceHordes\Xbox360SpaceHordes.csproj", "{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox SpaceHordes", "SpaceHordes\SpaceHordes\Xbox SpaceHordes.csproj", "{CD38C4B6-BA2E-4FB3-9D41-E8373D3EE905}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WP7SpaceHordes", "SpaceHordes\SpaceHordes\WP7SpaceHordes.csproj", "{546EADE3-36FE-455C-ADFD-6AEA3EC58208}"
 EndProject

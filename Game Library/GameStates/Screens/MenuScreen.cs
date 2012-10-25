@@ -21,10 +21,14 @@ namespace Game_Library.GameStates.Screens
         int selectedEntry = 0;
         string menuTitle;
 
+        #if XBOX
+
         InputAction menuUp;
         InputAction menuDown;
         InputAction menuSelect;
         InputAction menuCancel;
+
+        #endif
 
         #endregion
 
@@ -53,6 +57,8 @@ namespace Game_Library.GameStates.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
+            #if XBOX
+
             //Define the input actions
             menuUp = new InputAction(
                 new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp },
@@ -73,6 +79,8 @@ namespace Game_Library.GameStates.Screens
                 new Buttons[] { Buttons.B, Buttons.Back },
                 new Keys[] { Keys.Escape },
                 true);
+
+            #endif
         }
 
         #endregion
@@ -85,6 +93,24 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+            #if WINDOWS
+
+            foreach (MenuEntry entry in MenuEntries)
+            {
+                if (input.MouseHoverIn(entry.ClickRectangle))
+                {
+                    selectedEntry = MenuEntries.IndexOf(entry);
+                }
+                if (input.LeftButtonDownIn(entry.ClickRectangle))
+                {
+                    OnSelectEntry(selectedEntry, PlayerIndex.One );
+                }
+            }
+
+            #endif
+
+            #if XBOX
+
             PlayerIndex playerIndex;
 
             //Move to the previous menu entry?
@@ -113,6 +139,8 @@ namespace Game_Library.GameStates.Screens
             {
                 OnCancel(playerIndex);
             }
+
+            #endif
         }
 
         /// <summary>
@@ -193,7 +221,7 @@ namespace Game_Library.GameStates.Screens
             {
                 bool isSelected = IsActive && (i == selectedEntry);
 
-                menuEntries[i].Update(this, isSelected, gameTime);
+                menuEntries[i].Update(isSelected, gameTime);
             }
         }
 

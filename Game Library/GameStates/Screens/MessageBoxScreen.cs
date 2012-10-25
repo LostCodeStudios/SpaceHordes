@@ -21,8 +21,18 @@ namespace Game_Library.GameStates.Screens
         Texture2D gradientTexture;
         string filename;
 
+        MenuEntry accept;
+        MenuEntry cancel;
+
+        bool acceptSelected;
+        bool cancelSelected;
+
+        #if XBOX
+
         InputAction menuSelect;
         InputAction menuCancel;
+
+        #endif
 
         #endregion
 
@@ -41,7 +51,8 @@ namespace Game_Library.GameStates.Screens
         /// <param name="message"></param>
         public MessageBoxScreen(string message, string filename)
             : this(message, filename, true)
-        { }
+        {
+        }
 
         /// <summary>
         /// Constructor lets the caller specify whether to include the standard
@@ -66,6 +77,10 @@ namespace Game_Library.GameStates.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.2);
             TransitionOffTime = TimeSpan.FromSeconds(0.2);
 
+            accept = new MenuEntry("Accept");
+            cancel = new MenuEntry("Cancel");
+            #if XBOX
+
             menuSelect = new InputAction(
                 new Buttons[] { Buttons.A, Buttons.Start },
                 new Keys[] { Keys.Space, Keys.Enter },
@@ -74,6 +89,8 @@ namespace Game_Library.GameStates.Screens
                 new Buttons[] { Buttons.B, Buttons.Back },
                 new Keys[] { Keys.Escape, Keys.Back },
                 true);
+
+            #endif
         }
 
         public override void Activate()
@@ -81,13 +98,36 @@ namespace Game_Library.GameStates.Screens
             ContentManager content = ScreenManager.Game.Content;
             gradientTexture = content.Load<Texture2D>(filename);
         }
-
+        
         #endregion
 
         #region Handle Input
 
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+            #if WINDOWS
+
+            if (input.LeftClickIn(accept.ClickRectangle))
+            {
+                
+                if (Accepted != null)
+                    Accepted(this, null);
+
+                ExitScreen();
+            }
+
+            if (input.LeftClickIn(cancel.ClickRectangle))
+            {
+                if (Cancelled != null)
+                    Cancelled(this, null);
+
+                ExitScreen();
+            }
+
+            #endif
+
+            #if XBOX
+
             PlayerIndex playerIndex;
 
             // We pass in our ControllingPlayer, which may either be null (to
@@ -111,6 +151,8 @@ namespace Game_Library.GameStates.Screens
 
                 ExitScreen();
             }
+
+            #endif
         }
 
         #endregion
@@ -151,6 +193,8 @@ namespace Game_Library.GameStates.Screens
 
             //Draw the background rectangle
             spriteBatch.Draw(gradientTexture, backgroundRectangle, color);
+            accept.Draw(this, acceptSelected, gameTime);
+            cancel.Draw(this, cancelSelected, gameTime);
 
             //Draw the message box text.
             spriteBatch.DrawString(font, message, textPosition, color);
