@@ -76,17 +76,14 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\gradient.png">
-      <Name>gradient</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Textures\Hiscore.jpg">
       <Name>Hiscore</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\spritesheet.png">
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\spritesheet.bmp">
       <Name>spritesheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
