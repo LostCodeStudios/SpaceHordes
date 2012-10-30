@@ -69,8 +69,13 @@ namespace Game_Library.Model
             set
             {
                 _Location = value;
-                foreach (Sprite s in Sprites.Values)
-                    s.Location = value;
+                for (int i = 0; i < Sprites.Keys.Count; i++)
+                {
+                    string s = Sprites.Keys.ToArray()[i];
+                    Sprite temp = Sprites[s];
+                    temp.Location = value;
+                    Sprites.Set(s, temp);
+                }
             }
             get
             {
@@ -87,8 +92,13 @@ namespace Game_Library.Model
             set
             {
                 _Velocity = value;
-                foreach (Sprite s in Sprites.Values)
-                    s.Velocity = value;
+                for (int i = 0; i < Sprites.Keys.Count; i++)
+                {
+                    string s = Sprites.Keys.ToArray()[i];
+                    Sprite temp = Sprites[s];
+                    temp.Velocity = value;
+                    Sprites.Set(s, temp);
+                }
             }
             get
             {
@@ -105,8 +115,13 @@ namespace Game_Library.Model
             set
             {
                 _Rotation = value;
-                foreach (Sprite s in Sprites.Values)
-                    s.Rotation = value;
+                for (int i = 0; i < Sprites.Keys.Count; i++)
+                {
+                    string s = Sprites.Keys.ToArray()[i];
+                    Sprite temp = Sprites[s];
+                    temp.Rotation = value;
+                    Sprites.Set(s, temp);
+                }
             }
             get
             {

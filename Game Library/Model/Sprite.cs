@@ -341,8 +341,9 @@ namespace Game_Library.Model
                 }
 
                 //Movement
-                location.X += (float)(velocity * Math.Cos((double)Rotation));
-                location.Y += (float)(velocity * Math.Sin((double)Rotation));
+                location.Y += (float)(velocity * Math.Cos((double)Rotation));
+                location.X += (float)(velocity * Math.Sin((double)Rotation));
+                
             }
         }
 

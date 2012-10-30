@@ -74,9 +74,16 @@ namespace Game_Library.GameStates.Screens
             spriteSheet = Content.Load<Texture2D>("Textures/spritesheet");
 
             entities = new EntityManager();
-            Entity test = new Entity(new Vector2(400, 400), 0f, 0);
-            test.Sprites.Add("body",new Sprite(new Vector2(400,400),spriteSheet,new Rectangle(50,50,50,50),Vector2.Zero));
-            entities.Add("tester",test);
+            Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
+            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, new Rectangle(1, 1, 97, 78), Vector2.Zero));
+
+            Entity Dragon = new Entity(new Vector2(700, 300), 0, 0);
+            Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(700, 360), spriteSheet, new Rectangle(1, 491, 184, 83), Vector2.Zero));
+            Dragon.Sprites.Add("head", new Sprite(new Vector2(700+76, 360+83), spriteSheet, new Rectangle(1, 576, 32, 54), Vector2.Zero));
+            Dragon.Rotation = (float)(1 / 4 * Math.PI);
+            Dragon.Velocity = 1;
+            entities.Add("ShipMuhfuckka",test);
+            entities.Add("dragon", Dragon);
 
             ScreenManager.Game.ResetElapsedTime();
         }
@@ -122,6 +129,10 @@ namespace Game_Library.GameStates.Screens
             {
                 
                 //TODO: Game
+                
+
+
+
                 entities.Update(gameTime);
             }
 
