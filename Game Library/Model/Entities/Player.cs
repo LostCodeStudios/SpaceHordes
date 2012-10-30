@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Game_Library.Input;
 
-namespace Game_Library.Gameplay
+namespace Game_Library.Model.Entities
 {
     public enum ShotType
     {
