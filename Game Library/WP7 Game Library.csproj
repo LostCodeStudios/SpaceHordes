@@ -48,11 +48,11 @@
     <DefineConstants>DEBUG;TRACE;WINDOWS_PHONE</DefineConstants>
     <XnaCompressContent>false</XnaCompressContent>
   </PropertyGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="Entity.cs" />
-    <Compile Include="Gameplay\GameplayScreen.cs" />
-    <Compile Include="Gameplay\Sprite.cs" />
+    <Folder Include="Model\Physics\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameStates\GameplayScreen.cs" />
     <Compile Include="GameStates\GameScreen.cs" />
     <Compile Include="GameStates\ScreenManager.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />
@@ -63,9 +63,13 @@
     <Compile Include="GameStates\Screens\MessageBoxScreen.cs" />
     <Compile Include="GameStates\Screens\OptionsMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PauseMenuScreen.cs" />
+    <Compile Include="Input\IHandlesInput.cs" />
     <Compile Include="Input\InputAction.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\PlayerIndexEventArgs.cs" />
+    <Compile Include="Model\Entities\IPhysical.cs" />
+    <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

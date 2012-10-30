@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using Game_Library.Input;
-using Game_Library.Gameplay;
+using Game_Library.Model.Managers;
+using Game_Library.Model;
 
 namespace Game_Library.GameStates.Screens
 {
@@ -20,11 +21,12 @@ namespace Game_Library.GameStates.Screens
         #region Fields
 
         ContentManager content;
+        EntityManager entities;
         SpriteFont gameFont;
         string fontName;
 
         float pauseAlpha;
-
+        Texture2D spriteSheet;
         InputAction pauseAction;
 
         #endregion
@@ -69,6 +71,13 @@ namespace Game_Library.GameStates.Screens
 
             gameFont = content.Load<SpriteFont>(fontName);
 
+            spriteSheet = Content.Load<Texture2D>("spritesheet");
+
+            entities = new EntityManager();
+            Entity test = new Entity(new Vector2(400, 400), 0f, 0);
+            test.Sprites.Add("body",new Sprite(new Vector2(400,400),spriteSheet,new Rectangle(50,50,50,50),Vector2.Zero));
+            entities.Add("tester",test);
+
             ScreenManager.Game.ResetElapsedTime();
         }
 
@@ -111,7 +120,9 @@ namespace Game_Library.GameStates.Screens
 
             if (IsActive)
             {
+                
                 //TODO: Game
+                entities.Update(gameTime);
             }
 
         }
@@ -127,7 +138,9 @@ namespace Game_Library.GameStates.Screens
 
             int playerIndex = (int)ControllingPlayer.Value;
 
-            KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
+            #if WINDOWS
+                KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
+            #endif
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
 
             bool gamePadDisconnected = !gamePadState.IsConnected &&
@@ -142,6 +155,7 @@ namespace Game_Library.GameStates.Screens
 
         public override void Draw(GameTime gameTime)
         {
+
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
@@ -150,6 +164,7 @@ namespace Game_Library.GameStates.Screens
             spriteBatch.Begin();
             
             //TODO: All drawing for gameplay.
+            entities.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
 

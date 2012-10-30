@@ -6,12 +6,12 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Game_Library.Gameplay
+namespace Game_Library.Model
 {
     /// <summary>
     /// An animated sprite to be drawn during gameplay.
     /// </summary>
-    class Sprite
+    public class Sprite
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace Game_Library.Gameplay
         private Color tintColor = Color.White;
 
         private Vector2 location = Vector2.Zero;
-        private Vector2 velocity = Vector2.Zero;
+        private double velocity = 0;
         private float rotation = 0.0f;
 
         private List<Rectangle> frames = new List<Rectangle>();
@@ -151,13 +151,19 @@ namespace Game_Library.Gameplay
         public Vector2 Location
         {
             get { return location; }
-            set { location = value; }
+            set { location = value+Offset; }
         }
+
+        /// <summary>
+        /// The offset from a location value.
+        /// </summary>
+        public Vector2 Offset { set; get; }
+
 
         /// <summary>
         /// The sprite's velocity, used for updating position.
         /// </summary>
-        public Vector2 Velocity
+        public double Velocity
         {
             get { return velocity; }
             set { velocity = value; }
@@ -244,11 +250,12 @@ namespace Game_Library.Gameplay
             Vector2 location,
             Texture2D texture,
             Rectangle initialFrame,
-            Vector2 velocity)
+            Vector2 offset)
         {
+            Offset = offset;
             Location = location;
             Texture = texture;
-            Velocity = velocity;
+            Velocity = 0;
             frames.Add(initialFrame);
         }
 
@@ -325,7 +332,7 @@ namespace Game_Library.Gameplay
                     if (timeForCurrentFrame >= FrameTime)
                     {
                         //As long as the sprite should be animating
-                        if ((animateWhenStopped) || (Velocity != Vector2.Zero))
+                        if ((animateWhenStopped) || (velocity != 0))
                         {
                             currentFrame = (currentFrame + 1) % (frames.Count);
                             timeForCurrentFrame = 0.0f;
@@ -333,19 +340,21 @@ namespace Game_Library.Gameplay
                     }
                 }
 
-                location += (velocity * elapsed); //Update movement
+                //Movement
+                location.X += (float)(velocity * Math.Cos((double)Rotation));
+                location.Y += (float)(velocity * Math.Sin((double)Rotation));
             }
         }
 
         /// <summary>
         /// Draws the sprite to the screen using an active SpriteBatch.
         /// </summary>
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch sprB)
         {
             //Only draw if sprite is still valid
             if (!expired)
             {
-                spriteBatch.Draw(
+                sprB.Draw(
                     Texture,
                     Center,
                     Source,

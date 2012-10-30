@@ -14,10 +14,14 @@ using Game_Library;
 using Game_Library.Input;
 using Game_Library.GameStates;
 using Game_Library.GameStates.Screens;
-using Game_Library.Gameplay;
+using Game_Library.Model;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
+
+        #region Functioning Loop
+
+        #endregion
 
         #region Fields
 
@@ -27,11 +31,11 @@ using Game_Library.Gameplay;
 
         #endregion
 
-        #region Initialization
+        #region Methods
 
         #endregion
-
-        #region Update & Draw
+ 
+        #region Helpers
 
         #endregion
 
@@ -71,13 +75,9 @@ namespace SpaceHordes
         /// </summary>
         protected override void Initialize()
         {
-            #if WINDOWS_PHONE 
-                graphics.PreferredBackBufferHeight = 480; 
-                graphics.PreferredBackBufferWidth = 800; 
-            #else
-                graphics.PreferredBackBufferWidth = 1280;
-                graphics.PreferredBackBufferHeight = 720;
-            #endif
+
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
 
             graphics.ApplyChanges();
 
