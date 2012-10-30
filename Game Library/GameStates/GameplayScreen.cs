@@ -71,7 +71,7 @@ namespace Game_Library.GameStates.Screens
 
             gameFont = content.Load<SpriteFont>(fontName);
 
-            spriteSheet = Content.Load<Texture2D>("spritesheet");
+            spriteSheet = Content.Load<Texture2D>("Textures/spritesheet");
 
             entities = new EntityManager();
             Entity test = new Entity(new Vector2(400, 400), 0f, 0);
