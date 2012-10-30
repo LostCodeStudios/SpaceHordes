@@ -40,13 +40,11 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            const string message = "Are you sure you want to quit?";
+            BackgroundScreen background = new BackgroundScreen("Textures/hiscore");
+            MainMenuScreen mainMenu = new MainMenuScreen("Space Hordes");
 
-            MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message, "Textures/gradient");
-
-            confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
-
-            ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
+            ScreenManager.AddScreen(background, ControllingPlayer);
+            ScreenManager.AddScreen(mainMenu, ControllingPlayer);
         }
 
         /// <summary>

@@ -58,13 +58,7 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
- 	        const string message = "Are you sure you want to exit?";
-
-            MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message, "Textures/gradient");
-
-            confirmExitMessageBox.Accepted += ConfirmExitMessageBoxAccepted;
-
-            ScreenManager.AddScreen(confirmExitMessageBox, playerIndex);
+            ScreenManager.Game.Exit();
         }
 
         /// <summary>

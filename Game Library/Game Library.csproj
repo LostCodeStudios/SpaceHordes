@@ -67,6 +67,10 @@
     <Compile Include="Model\Managers\EntityManager.cs" />
     <Compile Include="Model\Managers\SpriteManager.cs" />
     <Compile Include="Model\Sprite.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Gameplay\GameplayScreen.cs" />
+    <Compile Include="Gameplay\Player.cs" />
+    <Compile Include="Gameplay\Sprite.cs" />
     <Compile Include="GameStates\GameScreen.cs" />
     <Compile Include="GameStates\ScreenManager.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />
@@ -74,7 +78,6 @@
     <Compile Include="GameStates\Screens\MainMenuScreen.cs" />
     <Compile Include="GameStates\Screens\MenuEntry.cs" />
     <Compile Include="GameStates\Screens\MenuScreen.cs" />
-    <Compile Include="GameStates\Screens\MessageBoxScreen.cs" />
     <Compile Include="GameStates\Screens\OptionsMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PauseMenuScreen.cs" />
     <Compile Include="Input\InputAction.cs" />
