@@ -80,6 +80,7 @@
     <Compile Include="Input\InputAction.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\PlayerIndexEventArgs.cs" />
+    <Compile Include="Model\Spritesheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

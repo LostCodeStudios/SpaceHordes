@@ -66,6 +66,7 @@
     <Compile Include="Model\Managers\EntityManager.cs" />
     <Compile Include="Model\Managers\SpriteManager.cs" />
     <Compile Include="Model\Sprite.cs" />
+    <Compile Include="Model\Spritesheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

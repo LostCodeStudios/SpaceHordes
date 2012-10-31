@@ -15,7 +15,9 @@ namespace Game_Library.Model
     {
         #region Fields
 
-        private Texture2D Texture;
+        Spritesheet spritesheet;
+        string filename;
+
         private Color tintColor = Color.White;
 
         private Vector2 location = Vector2.Zero;
@@ -248,15 +250,19 @@ namespace Game_Library.Model
         /// </summary>
         public Sprite(
             Vector2 location,
-            Texture2D texture,
-            Rectangle initialFrame,
+            Spritesheet sheet,
+            string key,
             Vector2 offset)
         {
             Offset = offset;
             Location = location;
-            Texture = texture;
+            spritesheet = sheet;
             Velocity = 0;
-            frames.Add(initialFrame);
+
+            for (int x = 0; x < sheet.Animations[key].Length; x++)
+            {
+                frames.Add(sheet.Animations[key][x]);
+            }
         }
 
         #endregion
@@ -356,7 +362,7 @@ namespace Game_Library.Model
             if (!expired)
             {
                 sprB.Draw(
-                    Texture,
+                    spritesheet.Texture,
                     Center,
                     Source,
                     tintColor,

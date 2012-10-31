@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Collections;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -71,15 +72,22 @@ namespace Game_Library.GameStates.Screens
 
             gameFont = content.Load<SpriteFont>(fontName);
 
-            spriteSheet = Content.Load<Texture2D>("Textures/spritesheet");
+            Spritesheet spriteSheet = new Spritesheet(Content, "Textures/spritesheet");
+
+            Dictionary<string, Rectangle[]> sourceRectangles = new Dictionary<string, Rectangle[]>();
+
+            //TODO: Add all the source rectangles.
+            sourceRectangles.Add("base", new Rectangle[] { new Rectangle(1, 1, 97, 78) });
+            sourceRectangles.Add("birdbody", new Rectangle[] { new Rectangle(1, 491, 184, 83) });
+            sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 32, 54) });
 
             entities = new EntityManager();
             Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
-            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, new Rectangle(1, 1, 97, 78), Vector2.Zero));
+            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, "base", Vector2.Zero));
 
             Entity Dragon = new Entity(new Vector2(700, 300), 0, 0);
-            Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(700, 360), spriteSheet, new Rectangle(1, 491, 184, 83), Vector2.Zero));
-            Dragon.Sprites.Add("head", new Sprite(new Vector2(700+76, 360+83), spriteSheet, new Rectangle(1, 576, 32, 54), Vector2.Zero));
+            Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(700, 360), spriteSheet, "birdbody", Vector2.Zero));
+            Dragon.Sprites.Add("head", new Sprite(new Vector2(700+76, 360+83), spriteSheet, "birdhead", Vector2.Zero));
             Dragon.Rotation = (float)(1 / 4 * Math.PI);
             Dragon.Velocity = 1;
             entities.Add("ShipMuhfuckka",test);
