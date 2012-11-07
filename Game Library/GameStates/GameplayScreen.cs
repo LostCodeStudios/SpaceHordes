@@ -74,68 +74,8 @@ namespace Game_Library.GameStates.Screens
 
             Spritesheet spriteSheet = new Spritesheet(Content, "Textures/spritesheet");
 
-            Dictionary<string, Rectangle[]> sourceRectangles = new Dictionary<string, Rectangle[]>();
-
-            //TODO: Add all the source rectangles.
-            sourceRectangles.Add("base",
-                new Rectangle[] {
-	                new Rectangle(1, 1, 97, 78),
-	                new Rectangle(99, 1, 97, 78),
-	                new Rectangle(197, 1, 97, 78)
-                });
-
-            sourceRectangles.Add("eye",
-                new Rectangle[] {
-                    new Rectangle(295, 1, 72, 69)
-                });
-
-            sourceRectangles.Add("blaster",
-                new Rectangle[] {
-                    new Rectangle(368, 1, 76, 29)
-                });
-
-            sourceRectangles.Add("eyeshot",
-                new Rectangle[] {
-                    new Rectangle(368, 31, 11, 11)
-                });
-
-            sourceRectangles.Add("redspikeball",
-                new Rectangle[] {
-                    new Rectangle(380, 31, 13, 11)
-                });
-
-            sourceRectangles.Add("tanshipredgrille",
-                new Rectangle[] {
-                    new Rectangle(396, 31, 443, 51)
-                });
-
-            sourceRectangles.Add("brownplane",
-                new Rectangle[] {
-                   new Rectangle(368, 43, 27, 23)
-                });
-
-            sourceRectangles.Add("greyshipredspike",
-                new Rectangle[] {
-                    new Rectangle(396, 52, 24, 21),
-                    new Rectangle(421, 52, 24, 21)
-                });
-
-            sourceRectangles.Add("player1",
-                new Rectangle[] {
-                    new Rectangle(1, 80, 25, 13)
-                });
-
-            sourceRectangles.Add("player2",
-                new Rectangle[] {
-                    new Rectangle(27, 80, 20, 17)
-                });
-
-            //TODO: Finish defining source rectangles
-
-            sourceRectangles.Add("birdbody", new Rectangle[] { new Rectangle(1, 491, 184, 83) });
-            sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 37, 51) });
-
-            spriteSheet.Animations = sourceRectangles;
+            //Get all the sprite source rectangles.
+            SetSourceRectangles(spriteSheet);
 
             entities = new EntityManager();
             Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
@@ -254,6 +194,229 @@ namespace Game_Library.GameStates.Screens
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+        }
+
+        #endregion
+
+        #region Source Rectangles
+
+        void SetSourceRectangles(Spritesheet sheet)
+        {
+            Dictionary<string, Rectangle[]> sourceRectangles = new Dictionary<string, Rectangle[]>();
+
+            //TODO: Add all the source rectangles.
+            sourceRectangles.Add("base",
+                new Rectangle[] {
+	                new Rectangle(1, 1, 97, 78),
+	                new Rectangle(99, 1, 97, 78),
+	                new Rectangle(197, 1, 97, 78)
+                });
+
+            sourceRectangles.Add("eye",
+                new Rectangle[] {
+                    new Rectangle(295, 1, 72, 69)
+                });
+
+            sourceRectangles.Add("blaster",
+                new Rectangle[] {
+                    new Rectangle(368, 1, 76, 29)
+                });
+
+            sourceRectangles.Add("eyeshot",
+                new Rectangle[] {
+                    new Rectangle(368, 31, 11, 11)
+                });
+
+            sourceRectangles.Add("redspikeball",
+                new Rectangle[] {
+                    new Rectangle(380, 31, 13, 11)
+                });
+
+            sourceRectangles.Add("tanshipredgrille",
+                new Rectangle[] {
+                    new Rectangle(396, 31, 443, 51)
+                });
+
+            sourceRectangles.Add("brownplane",
+                new Rectangle[] {
+                   new Rectangle(368, 43, 27, 23)
+                });
+
+            sourceRectangles.Add("greyshipredspike",
+                new Rectangle[] {
+                    new Rectangle(396, 52, 24, 21),
+                    new Rectangle(421, 52, 24, 21)
+                });
+
+            sourceRectangles.Add("player1",
+                new Rectangle[] {
+                    new Rectangle(1, 80, 25, 13)
+                });
+
+            sourceRectangles.Add("player2",
+                new Rectangle[] {
+                    new Rectangle(27, 80, 20, 17)
+                });
+
+            sourceRectangles.Add("orangebubble",
+                new Rectangle[] {
+                    new Rectangle(1, 98, 17, 17),
+                    new Rectangle(19, 98, 17, 17),
+                    new Rectangle(37, 98, 17, 17)
+                });
+
+            sourceRectangles.Add("redshot1",
+                new Rectangle[] {
+                    new Rectangle(55, 82, 6, 3)
+                });
+
+            sourceRectangles.Add("redshot2",
+                new Rectangle[] {
+                    new Rectangle(62, 81, 11, 5)
+                });
+
+            sourceRectangles.Add("redshot3",
+                new Rectangle[] {
+                    new Rectangle(74, 80, 11, 7)
+                });
+
+            sourceRectangles.Add("greenshot1",
+                new Rectangle[] {
+                    new Rectangle(55, 90, 6, 3)
+                });
+
+            sourceRectangles.Add("greenshot2",
+                new Rectangle[] {
+                    new Rectangle(62, 89, 11, 5)
+                });
+
+            sourceRectangles.Add("greenshot3",
+                new Rectangle[] {
+                    new Rectangle(74, 88, 11, 7)
+                });
+
+            sourceRectangles.Add("blueshot1",
+                new Rectangle[] {
+                    new Rectangle(55, 98, 6, 3)
+                });
+
+            sourceRectangles.Add("blueshot2",
+                new Rectangle[] {
+                    new Rectangle(62, 97, 11, 5)
+                });
+
+            sourceRectangles.Add("blueshot3",
+                new Rectangle[] {
+                    new Rectangle(74, 96, 11, 7)
+                });
+
+            sourceRectangles.Add("bluespark",
+                new Rectangle[] {
+                    new Rectangle(55, 104, 11, 11),
+                    new Rectangle(67, 104, 11, 11),
+                    new Rectangle(79, 104, 11, 11)
+                });
+
+            sourceRectangles.Add("greenspark",
+                new Rectangle[] {
+                    new Rectangle(0, 116, 23, 22),
+                    new Rectangle(24, 116, 23, 22),
+                    new Rectangle(48, 116, 23, 22),
+                    new Rectangle(72, 116, 23, 22),
+                    new Rectangle(96, 116, 23, 22),
+                    new Rectangle(120, 116, 23, 22)
+                });
+
+            sourceRectangles.Add("graybulbwithsidegunthings",
+                new Rectangle[] {
+                    new Rectangle(86, 80, 25, 23)
+                });
+
+            sourceRectangles.Add("longflame",
+                new Rectangle[] {
+                    new Rectangle(112, 80, 54, 17),
+                    new Rectangle(167, 80, 54, 17)
+                });
+
+            sourceRectangles.Add("redcrystal",
+                new Rectangle[] {
+                    new Rectangle(112, 101, 7, 14)
+                });
+
+            sourceRectangles.Add("greencrystal",
+                new Rectangle[] {
+                    new Rectangle(120, 101, 7, 14)
+                });
+
+            sourceRectangles.Add("bluecrystal",
+                new Rectangle[] {
+                    new Rectangle(128, 101, 7, 14)
+                });
+
+            sourceRectangles.Add("yellowcrystal",
+                new Rectangle[] {
+                    new Rectangle(136, 101, 7, 14)
+                });
+
+            sourceRectangles.Add("graycrystal",
+                new Rectangle[] {
+                    new Rectangle(144, 101, 7, 14)
+                });
+
+            sourceRectangles.Add("bluemissile",
+                new Rectangle[] {
+                    new Rectangle(152, 98, 54, 25)
+                });
+
+            sourceRectangles.Add("8prongbrownthingwithfangs",
+                new Rectangle[] {
+                    new Rectangle(222, 80, 28, 47),
+                    new Rectangle(251, 80, 28, 47),
+                    new Rectangle(280, 80, 28, 47)
+                });
+
+            sourceRectangles.Add("minibrownclawboss",
+                new Rectangle[] {
+                    new Rectangle(309, 71, 52, 56)
+                });
+
+            sourceRectangles.Add("redgrayblobship",
+                new Rectangle[] {
+                    new Rectangle(362, 74, 46, 85)
+                });
+
+            sourceRectangles.Add("redgrayairplane",
+                new Rectangle[] {
+                    new Rectangle(409, 74, 27, 69)
+                });
+
+            sourceRectangles.Add("miniturret",
+                new Rectangle[] {
+                    new Rectangle(409, 144, 19, 11)
+                });
+
+            sourceRectangles.Add("minifire",
+                new Rectangle[] {
+                    new Rectangle(144, 128, 27, 16),
+                    new Rectangle(172, 128, 27, 16),
+                    new Rectangle(200, 128, 27, 16)
+                });
+
+            sourceRectangles.Add("splosion1",
+                new Rectangle[] {
+                    new Rectangle(228, 128, 11, 11),
+                    new Rectangle(240, 128, 11, 11),
+                    new Rectangle(252, 128, 11, 11),
+                    new Rectangle(264, 128, 11, 11),
+                    new Rectangle(276, 128, 11, 11),
+                    new Rectangle(288, 128, 11, 11),
+                    new Rectangle(300, 128, 11, 11)
+                });
+            
+            sourceRectangles.Add("birdbody", new Rectangle[] { new Rectangle(1, 491, 184, 83) });
+            sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 37, 51) });
+
+            sheet.Animations = sourceRectangles;
         }
 
         #endregion

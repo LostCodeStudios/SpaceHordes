@@ -15,6 +15,7 @@ namespace Game_Library.Model
     {
         Loop,
         Reverse,
+        Once,
         None
     }
 
@@ -360,25 +361,35 @@ namespace Game_Library.Model
 
                 if (timeForCurrentFrame >= FrameTime)
                 {
-                    switch (AnimationType)
+                    //As long as the sprite should be animating
+                    if ((animateWhenStopped) || (velocity != 0))
                     {
-                        case AnimationType.Loop:
-                            //As long as the sprite should be animating
-                            if ((animateWhenStopped) || (velocity != 0))
-                            {
+                        //Handle animation updating for each sprite type
+                        switch (AnimationType)
+                        {
+                            case AnimationType.Loop:
                                 currentFrame = (currentFrame + frameInc) % (frames.Count);
                                 timeForCurrentFrame = 0.0f;
-                            }
-                            break;
+                                break;
 
-                        case AnimationType.Reverse:
-                            if ((animateWhenStopped) || (velocity != 0))
-                            {
+                            case AnimationType.Reverse:                              
                                 currentFrame += frameInc;
                                 if (currentFrame >= frames.Count)
+                                {
+                                    currentFrame = frames.Count;
                                     frameInc *= -1;
-                            }
-                            break;
+                                }
+                                break;
+
+                            case AnimationType.Once:
+                                currentFrame += frameInc;
+                                if (currentFrame >= frames.Count)
+                                {
+                                    currentFrame = frames.Count;
+                                    frameInc = 0;
+                                }
+                                break;
+                        }
                     }
                 }
 
