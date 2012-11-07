@@ -83,7 +83,7 @@ namespace Game_Library.GameStates.Screens
 
             Entity Dragon = new Entity(new Vector2(700, 300), 0, 0);
             Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(640, 0), spriteSheet, "birdbody", Vector2.Zero));
-            Dragon.Sprites.Add("head", new Sprite(new Vector2(640+76, 63), spriteSheet, "birdhead", Vector2.Zero));
+            Dragon.Sprites.Add("head", new Sprite(new Vector2(640+73, 63), spriteSheet, "birdhead", Vector2.Zero));
             Dragon.Rotation = (float)(1 / 4 * Math.PI);
             Dragon.Velocity = 1;
             entities.Add("ShipMuhfuckka",test);
@@ -258,6 +258,16 @@ namespace Game_Library.GameStates.Screens
                     new Rectangle(27, 80, 20, 17)
                 });
 
+            sourceRectangles.Add("player3",
+                new Rectangle[] {
+                    new Rectangle(249, 140, 25, 19)
+                });
+
+            sourceRectangles.Add("player4",
+                new Rectangle[] {
+                    new Rectangle(112, 139, 21, 17)
+                });
+
             sourceRectangles.Add("orangebubble",
                 new Rectangle[] {
                     new Rectangle(1, 98, 17, 17),
@@ -412,9 +422,300 @@ namespace Game_Library.GameStates.Screens
                     new Rectangle(288, 128, 11, 11),
                     new Rectangle(300, 128, 11, 11)
                 });
-            
-            sourceRectangles.Add("birdbody", new Rectangle[] { new Rectangle(1, 491, 184, 83) });
-            sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 37, 51) });
+
+            sourceRectangles.Add("splosion2",
+                new Rectangle[] {
+                    new Rectangle(1, 185, 23, 23),
+                    new Rectangle(25, 185, 23, 23),
+                    new Rectangle(49, 185, 23, 23),
+                    new Rectangle(73, 185, 23, 23),
+                    new Rectangle(97, 185, 23, 23),
+                    new Rectangle(121, 185, 23, 23),
+                    new Rectangle(145, 185, 23, 23),
+                    new Rectangle(169, 185, 23, 23)
+                });
+
+            sourceRectangles.Add("splosion3",
+                new Rectangle[] {
+                    new Rectangle(1, 443, 47, 47),
+                    new Rectangle(49, 443, 47, 47),
+                    new Rectangle(97, 443, 47, 47),
+                    new Rectangle(145, 443, 47, 47),
+                    new Rectangle(193, 443, 47, 47),
+                    new Rectangle(241, 443, 47, 47),
+                    new Rectangle(289, 443, 47, 47)
+                });
+
+            sourceRectangles.Add("splosion4",
+                new Rectangle[] {
+                    new Rectangle(1, 395, 47, 47),
+                    new Rectangle(49, 395, 47, 47),
+                    new Rectangle(97, 395, 47, 47),
+                    new Rectangle(145, 395, 47, 47),
+                    new Rectangle(193, 395, 47, 47),
+                    new Rectangle(241, 395, 47, 47),
+                    new Rectangle(289, 395, 47, 47)
+                });
+
+            sourceRectangles.Add("barrier",
+                new Rectangle[] {
+                    new Rectangle(1, 139, 27, 41)
+                });
+
+            sourceRectangles.Add("graye",
+                new Rectangle[] {
+                    new Rectangle(29, 139, 25, 45)
+                });
+
+            sourceRectangles.Add("redstripehomingball",
+                new Rectangle[] {
+                    new Rectangle(55, 139, 18, 17),
+                    new Rectangle(74, 139, 18, 17),
+                    new Rectangle(93, 139, 18, 17)
+                });
+
+            sourceRectangles.Add("brownstripwithtwoprongs",
+                new Rectangle[] {
+                    new Rectangle(55, 157, 23, 17)
+                });
+
+
+            sourceRectangles.Add("grayshipwithtwoprongs",
+                new Rectangle[] {
+                    new Rectangle(79, 157, 26, 16)
+                });
+
+            sourceRectangles.Add("grayshipwithtwowings",
+                new Rectangle[] {
+                    new Rectangle(79, 157, 21, 21)
+                });
+
+            sourceRectangles.Add("blueshipwithbulb",
+                new Rectangle[] {
+                    new Rectangle(134, 145, 42, 25)
+                });
+
+            sourceRectangles.Add("brownthingwithbluelight",
+                new Rectangle[] {
+                    new Rectangle(177, 145, 23, 24),
+                    new Rectangle(201, 145, 23, 24),
+                    new Rectangle(225, 145, 23, 24)
+                });
+
+            sourceRectangles.Add("graytriangleship",
+                new Rectangle[] {
+                    new Rectangle(1, 209, 24, 17),
+                    new Rectangle(26, 209, 24, 17),
+                    new Rectangle(51, 209, 24, 17),
+                    new Rectangle(76, 209, 24, 17),
+                    new Rectangle(101, 209, 24, 17)
+                });
+
+            sourceRectangles.Add("graymissile",
+                new Rectangle[] {
+                    new Rectangle(126, 209, 56, 19)
+                });
+
+            sourceRectangles.Add("greenfacething",
+                new Rectangle[] {
+                    new Rectangle(193, 170, 55, 67)
+                });
+
+            sourceRectangles.Add("blimp",
+                new Rectangle[] {
+                    new Rectangle(249, 160, 93, 170),
+                    new Rectangle(347, 160, 93, 170)
+                });
+
+            sourceRectangles.Add("bigredblobboss",
+                new Rectangle[] {
+                    new Rectangle(1, 229, 135, 111)
+                });
+
+            sourceRectangles.Add("purpleship",
+                new Rectangle[] {
+                    new Rectangle(137, 229, 20, 23)
+                });
+
+            sourceRectangles.Add("browntriangleship",
+                new Rectangle[] {
+                    new Rectangle(158, 229, 22, 23)
+                });
+
+            sourceRectangles.Add("greyshipbrownbulb",
+                new Rectangle[] {
+                    new Rectangle(182, 238, 26, 22)
+                });
+
+            sourceRectangles.Add("blueshipgraybulb",
+                new Rectangle[] {
+                    new Rectangle(209, 238, 26, 22)
+                });
+
+            sourceRectangles.Add("swastika",
+                new Rectangle[] {
+                    new Rectangle(137, 261, 47, 47)
+                });
+
+            sourceRectangles.Add("swastika2",
+                new Rectangle[] {
+                    new Rectangle(185, 261, 47, 47)
+                });
+
+            sourceRectangles.Add("blueshipredexhaust",
+                new Rectangle[] {
+                    new Rectangle(137, 309, 28, 23),
+                    new Rectangle(166, 309, 28, 23),
+                    new Rectangle(195, 309, 28, 23)
+                });
+
+            sourceRectangles.Add("massivebluemissile",
+                new Rectangle[] {
+                    new Rectangle(233, 291, 209, 45)
+                });
+
+            sourceRectangles.Add("redgunship",
+                new Rectangle[] {
+                    new Rectangle(1, 341, 137, 53),
+                    new Rectangle(139, 341, 137, 53),
+                    new Rectangle(277, 341, 137, 53)
+                });
+
+            sourceRectangles.Add("reddownmissile",
+                new Rectangle[] {
+                    new Rectangle(415, 337, 23, 48)
+                });
+
+            sourceRectangles.Add("brownarmship",
+                new Rectangle[] {
+                    new Rectangle(337, 395, 19, 23),
+                    new Rectangle(357, 395, 19, 23),
+                    new Rectangle(377, 395, 19, 23)
+                });
+
+            sourceRectangles.Add("brownfangship",
+                new Rectangle[] {
+                    new Rectangle(337, 419, 28, 21),
+                    new Rectangle(366, 419, 28, 21),
+                    new Rectangle(395, 419, 28, 21)
+                });
+
+            sourceRectangles.Add("redstar",
+                new Rectangle[] {
+                    new Rectangle(337, 441, 17, 19),
+                    new Rectangle(355, 441, 17, 19),
+                    new Rectangle(373, 441, 17, 19),
+                    new Rectangle(391, 441, 17, 19)
+                });
+
+            sourceRectangles.Add("squidship",
+                new Rectangle[] {
+                    new Rectangle(409, 441, 26, 19)
+                });
+
+            sourceRectangles.Add("bluecrystalship",
+                new Rectangle[] {
+                    new Rectangle(337, 461, 24, 20),
+                    new Rectangle(362, 461, 24, 20),
+                    new Rectangle(387, 461, 24, 20)
+                });
+
+            sourceRectangles.Add("birdbody", 
+                new Rectangle[] { 
+                    new Rectangle(1, 491, 184, 83)
+                });
+
+            sourceRectangles.Add("birdhead",
+                new Rectangle[] { 
+                    new Rectangle(1, 576, 37, 51),
+                    new Rectangle(39, 576, 37, 51),
+                    new Rectangle(77, 576, 37, 51)
+                });
+
+            sourceRectangles.Add("shipwiththetwoboxgunthings",
+                new Rectangle[] {
+                    new Rectangle(115, 576, 66, 50)
+                });
+
+            sourceRectangles.Add("minikillerhead",
+                new Rectangle[] {
+                    new Rectangle(187, 491, 125, 111)
+                });
+
+            sourceRectangles.Add("minikillereyes",
+                new Rectangle[] {
+                    new Rectangle(313, 491, 54, 14),
+                    new Rectangle(313, 506, 54, 14),
+                    new Rectangle(313, 521, 54, 14),
+                    new Rectangle(313, 536, 54, 14),
+                    new Rectangle(313, 551, 54, 14),
+                    new Rectangle(313, 566, 54, 14)
+                });
+
+            sourceRectangles.Add("brain",
+                new Rectangle[] {
+                    new Rectangle(368, 482, 79, 80)
+                });
+
+            sourceRectangles.Add("rednebula",
+                new Rectangle[] {
+                    new Rectangle(1, 628, 114, 120)
+                });
+
+            sourceRectangles.Add("greenbossship",
+                new Rectangle[] {
+                    new Rectangle(116, 627, 95, 101)
+                });
+
+            sourceRectangles.Add("clawbossthing",
+                new Rectangle[] {
+                    new Rectangle(212, 603, 113, 104),
+                    new Rectangle(326, 603, 113, 104)
+                });
+
+            sourceRectangles.Add("smasher",
+                new Rectangle[] {
+                    new Rectangle(230, 708, 67, 70)
+                });
+
+            sourceRectangles.Add("chainlink",
+                new Rectangle[] {
+                    new Rectangle(212, 708, 12, 18)
+                });
+
+            sourceRectangles.Add("smasherball",
+                new Rectangle[] {
+                    new Rectangle(116, 729, 37, 37),
+                    new Rectangle(154, 729, 37, 37),
+                    new Rectangle(192, 729, 37, 37)
+                });
+
+            sourceRectangles.Add("satellite",
+                new Rectangle[] {
+                    new Rectangle(298, 708, 68, 55),
+                    new Rectangle(367, 708, 68, 55)
+                });
+
+            sourceRectangles.Add("giantgraybossship",
+                new Rectangle[] {
+                    new Rectangle(1, 779, 117, 137),
+                    new Rectangle(119, 779, 117, 137)
+                });
+
+            sourceRectangles.Add("killerhead",
+                new Rectangle[] {
+                    new Rectangle(316, 764, 130, 165)
+                });
+
+            sourceRectangles.Add("killerleftgun",
+                new Rectangle[] {
+                    new Rectangle(234, 779, 40, 105)
+                });
+
+            sourceRectangles.Add("killerrightgun",
+                new Rectangle[] {
+                    new Rectangle(275, 779, 40, 105)
+                });
 
             sheet.Animations = sourceRectangles;
         }

@@ -16,7 +16,15 @@ namespace Game_Library.Model
         Loop,
         Reverse,
         Once,
+        State,
         None
+    }
+
+    public enum State
+    {
+        Normal = 0,
+        Firing = 1,
+        Damaged = 2
     }
 
     /// <summary>
@@ -43,6 +51,7 @@ namespace Game_Library.Model
 
         protected bool expired = false;
         AnimationType type = AnimationType.None;
+        State state = State.Normal;
         bool animateWhenStopped = true;
         bool collidable = true;
         int collisionRadius = 0;
@@ -141,6 +150,15 @@ namespace Game_Library.Model
         {
             get { return type; }
             set { type = value; }
+        }
+
+        /// <summary>
+        /// The state of the sprite.
+        /// </summary>
+        public State State
+        {
+            get { return state; }
+            set { state = value; }
         }
 
         #endregion
@@ -374,9 +392,8 @@ namespace Game_Library.Model
 
                             case AnimationType.Reverse:                              
                                 currentFrame += frameInc;
-                                if (currentFrame >= frames.Count)
+                                if (currentFrame == frames.Count || currentFrame == 0)
                                 {
-                                    currentFrame = frames.Count;
                                     frameInc *= -1;
                                 }
                                 break;
@@ -388,6 +405,10 @@ namespace Game_Library.Model
                                     currentFrame = frames.Count;
                                     frameInc = 0;
                                 }
+                                break;
+
+                            case AnimationType.State:
+                                currentFrame = (int)State;
                                 break;
                         }
                     }
