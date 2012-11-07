@@ -77,9 +77,65 @@ namespace Game_Library.GameStates.Screens
             Dictionary<string, Rectangle[]> sourceRectangles = new Dictionary<string, Rectangle[]>();
 
             //TODO: Add all the source rectangles.
-            sourceRectangles.Add("base", new Rectangle[] { new Rectangle(1, 1, 97, 78) });
+            sourceRectangles.Add("base",
+                new Rectangle[] {
+	                new Rectangle(1, 1, 97, 78),
+	                new Rectangle(99, 1, 97, 78),
+	                new Rectangle(197, 1, 97, 78)
+                });
+
+            sourceRectangles.Add("eye",
+                new Rectangle[] {
+                    new Rectangle(295, 1, 72, 69)
+                });
+
+            sourceRectangles.Add("blaster",
+                new Rectangle[] {
+                    new Rectangle(368, 1, 76, 29)
+                });
+
+            sourceRectangles.Add("eyeshot",
+                new Rectangle[] {
+                    new Rectangle(368, 31, 11, 11)
+                });
+
+            sourceRectangles.Add("redspikeball",
+                new Rectangle[] {
+                    new Rectangle(380, 31, 13, 11)
+                });
+
+            sourceRectangles.Add("tanshipredgrille",
+                new Rectangle[] {
+                    new Rectangle(396, 31, 443, 51)
+                });
+
+            sourceRectangles.Add("brownplane",
+                new Rectangle[] {
+                   new Rectangle(368, 43, 27, 23)
+                });
+
+            sourceRectangles.Add("greyshipredspike",
+                new Rectangle[] {
+                    new Rectangle(396, 52, 24, 21),
+                    new Rectangle(421, 52, 24, 21)
+                });
+
+            sourceRectangles.Add("player1",
+                new Rectangle[] {
+                    new Rectangle(1, 80, 25, 13)
+                });
+
+            sourceRectangles.Add("player2",
+                new Rectangle[] {
+                    new Rectangle(27, 80, 20, 17)
+                });
+
+            //TODO: Finish defining source rectangles
+
             sourceRectangles.Add("birdbody", new Rectangle[] { new Rectangle(1, 491, 184, 83) });
             sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 32, 54) });
+
+            spriteSheet.Animations = sourceRectangles;
 
             entities = new EntityManager();
             Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
