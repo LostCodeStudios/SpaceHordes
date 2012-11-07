@@ -9,6 +9,16 @@ using Microsoft.Xna.Framework.Graphics;
 namespace Game_Library.Model
 {
     /// <summary>
+    /// The type of animation used by the sprite.
+    /// </summary>
+    public enum AnimationType
+    {
+        Loop,
+        Reverse,
+        None
+    }
+
+    /// <summary>
     /// An animated sprite to be drawn during gameplay.
     /// </summary>
     public class Sprite
@@ -18,25 +28,23 @@ namespace Game_Library.Model
         Spritesheet spritesheet;
         string filename;
 
-        private Color tintColor = Color.White;
+        Color tintColor = Color.White;
 
-        private Vector2 location = Vector2.Zero;
-        private double velocity = 0;
-        private float rotation = 0.0f;
+        Vector2 location = Vector2.Zero;
+        double velocity = 0;
+        float rotation = 0.0f;
 
-        private List<Rectangle> frames = new List<Rectangle>();
-        private int currentFrame;
-        private float frameTime = 0.1f;
-        private float timeForCurrentFrame = 0.0f;
-        
-        private int boundingXPadding = 0;
-        private int boundingYPadding = 0;
+        List<Rectangle> frames = new List<Rectangle>();
+        int currentFrame;
+        float frameTime = 0.1f;
+        float timeForCurrentFrame = 0.0f;
+        int frameInc = 1;
 
         protected bool expired = false;
-        private bool animate = true;
-        private bool animateWhenStopped = true;
-        private bool collidable = true;
-        private int collisionRadius = 0;
+        AnimationType type = AnimationType.None;
+        bool animateWhenStopped = true;
+        bool collidable = true;
+        int collisionRadius = 0;
 
         #endregion
 
@@ -108,24 +116,6 @@ namespace Game_Library.Model
         }
 
         /// <summary>
-        /// How many pixels separate each frame horizontally on the spritesheet.
-        /// </summary>
-        public int BoundingXPadding
-        {
-            get { return boundingXPadding; }
-            set { boundingXPadding = Math.Max(0, value); }
-        }
-
-        /// <summary>
-        /// How many pixels separate each frame vertically on the spritesheet.
-        /// </summary>
-        public int BoundingYPadding
-        {
-            get { return boundingXPadding; }
-            set { boundingYPadding = Math.Max(0, value); }
-        }
-
-        /// <summary>
         /// Does the sprite still cycle animations when velocity is at 0?
         /// </summary>
         public bool AnimateWhenStopped
@@ -141,6 +131,15 @@ namespace Game_Library.Model
         {
             get { return expired; }
             set { expired = value; }
+        }
+
+        /// <summary>
+        /// The type of animation used by this sprite.
+        /// </summary>
+        public AnimationType AnimationType
+        {
+            get { return type; }
+            set { type = value; }
         }
 
         #endregion
@@ -216,10 +215,10 @@ namespace Game_Library.Model
             get
             {
                 return new Rectangle(
-                    (int)Location.X + BoundingXPadding,
-                    (int)Location.Y + BoundingYPadding,
-                    FrameWidth - (BoundingXPadding * 2),
-                    FrameHeight - (BoundingYPadding * 2));
+                    (int)Location.X,
+                    (int)Location.Y,
+                    FrameWidth,
+                    FrameHeight);
             }
         }
 
@@ -252,17 +251,33 @@ namespace Game_Library.Model
             Vector2 location,
             Spritesheet sheet,
             string key,
-            Vector2 offset)
+            Vector2 offset,
+            AnimationType type)
         {
             Offset = offset;
             Location = location;
             spritesheet = sheet;
             Velocity = 0;
+            AnimationType = type;
 
             for (int x = 0; x < sheet.Animations[key].Length; x++)
             {
                 frames.Add(sheet.Animations[key][x]);
             }
+        }
+
+        /// <summary>
+        /// Constructs a new Sprite.
+        /// </summary>
+        public Sprite(
+            Vector2 location,
+            Spritesheet sheet,
+            string key,
+            Vector2 offset)
+            : this(location, sheet, key, offset, AnimationType.None)
+        {
+            if (sheet.Animations[key].Length > 1)
+                AnimationType = AnimationType.Loop;
         }
 
         #endregion
@@ -301,19 +316,28 @@ namespace Game_Library.Model
         #region Animation Methods
 
         /// <summary>
-        /// Adds a frame to the sprite's frames list.
-        /// </summary>
-        public void AddFrame(Rectangle frameRectangle)
-        {
-            frames.Add(frameRectangle);
-        }
-
-        /// <summary>
         /// Changes the sprite's rotation to face a specified direction.
         /// </summary>
         public void RotateTo(Vector2 direction)
         {
             Rotation = (float)Math.Atan2(direction.Y, direction.X);
+        }
+
+        /// <summary>
+        /// For sprites that advance frames to reflect the status of an entity, this simply advances to the next frame and returns whether or not the sprite is expired as a result.
+        /// </summary>
+        /// <returns></returns>
+        public bool AdvanceFrame()
+        {
+            currentFrame++;
+
+            if (currentFrame >= frames.Count)
+            {
+                Expired = true;
+                return true;
+            }
+
+            return false;
         }
 
         #endregion
@@ -331,18 +355,30 @@ namespace Game_Library.Model
                 //See how much time has passed.
                 float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
                 //Update the frame's timer.
-                timeForCurrentFrame += elapsed;
+                if (AnimationType != AnimationType.None)
+                    timeForCurrentFrame += elapsed;
 
-                if (animate)
+                if (timeForCurrentFrame >= FrameTime)
                 {
-                    if (timeForCurrentFrame >= FrameTime)
+                    switch (AnimationType)
                     {
-                        //As long as the sprite should be animating
-                        if ((animateWhenStopped) || (velocity != 0))
-                        {
-                            currentFrame = (currentFrame + 1) % (frames.Count);
-                            timeForCurrentFrame = 0.0f;
-                        }
+                        case AnimationType.Loop:
+                            //As long as the sprite should be animating
+                            if ((animateWhenStopped) || (velocity != 0))
+                            {
+                                currentFrame = (currentFrame + frameInc) % (frames.Count);
+                                timeForCurrentFrame = 0.0f;
+                            }
+                            break;
+
+                        case AnimationType.Reverse:
+                            if ((animateWhenStopped) || (velocity != 0))
+                            {
+                                currentFrame += frameInc;
+                                if (currentFrame >= frames.Count)
+                                    frameInc *= -1;
+                            }
+                            break;
                     }
                 }
 

@@ -133,17 +133,17 @@ namespace Game_Library.GameStates.Screens
             //TODO: Finish defining source rectangles
 
             sourceRectangles.Add("birdbody", new Rectangle[] { new Rectangle(1, 491, 184, 83) });
-            sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 32, 54) });
+            sourceRectangles.Add("birdhead", new Rectangle[] { new Rectangle(1, 576, 37, 51) });
 
             spriteSheet.Animations = sourceRectangles;
 
             entities = new EntityManager();
             Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
-            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, "base", Vector2.Zero));
+            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, "base", Vector2.Zero, AnimationType.None));
 
             Entity Dragon = new Entity(new Vector2(700, 300), 0, 0);
-            Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(700, 360), spriteSheet, "birdbody", Vector2.Zero));
-            Dragon.Sprites.Add("head", new Sprite(new Vector2(700+76, 360+83), spriteSheet, "birdhead", Vector2.Zero));
+            Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(640, 0), spriteSheet, "birdbody", Vector2.Zero));
+            Dragon.Sprites.Add("head", new Sprite(new Vector2(640+76, 63), spriteSheet, "birdhead", Vector2.Zero));
             Dragon.Rotation = (float)(1 / 4 * Math.PI);
             Dragon.Velocity = 1;
             entities.Add("ShipMuhfuckka",test);
@@ -193,8 +193,13 @@ namespace Game_Library.GameStates.Screens
             {
                 
                 //TODO: Game
-                
 
+                if (entities["dragon"].Sprites["hawtbody"].IsBoxColliding(entities["ShipMuhfuckka"].Sprites["base"].HitBox))
+                {
+                    entities["dragon"].Sprites["hawtbody"].Location = new Vector2(640, 0);
+                    entities["dragon"].Sprites["head"].Location = new Vector2(640 + 76, 63);
+                    entities["ShipMuhfuckka"].Sprites["base"].AdvanceFrame();
+                }
 
 
                 entities.Update(gameTime);
