@@ -41,9 +41,7 @@
     <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Gameplay\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="GameStates\GameplayScreen.cs" />
     <Compile Include="GameStates\GameScreen.cs" />

@@ -79,7 +79,7 @@ namespace Game_Library.GameStates.Screens
 
             entities = new EntityManager();
             Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
-            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, "base", Vector2.Zero, AnimationType.None));
+            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, "base", Vector2.Zero, AnimationType.Static));
 
             Entity Dragon = new Entity(new Vector2(700, 300), 0, 0);
             Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(640, 0), spriteSheet, "birdbody", Vector2.Zero));

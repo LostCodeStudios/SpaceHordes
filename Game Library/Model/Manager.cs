@@ -14,7 +14,7 @@ namespace Game_Library.Model
     {
         #region Functioning Loop
         public abstract void Update(GameTime gameTime);
-        public abstract void Draw(GameTime gameTime, SpriteBatch sprB);
+        public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         #endregion
 
         #region Fields
