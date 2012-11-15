@@ -78,15 +78,15 @@ namespace Game_Library.GameStates.Screens
             SetSourceRectangles(spriteSheet);
 
             entities = new EntityManager();
-            Entity test = new Entity(new Vector2(700, 300), 1.234f, 20);
-            test.Sprites.Add("base", new Sprite(new Vector2(640, 360), spriteSheet, "base", Vector2.Zero, AnimationType.Static));
 
-            Entity Dragon = new Entity(new Vector2(700, 300), 0, 0);
-            Dragon.Sprites.Add("hawtbody", new Sprite(new Vector2(640, 0), spriteSheet, "birdbody", Vector2.Zero));
-            Dragon.Sprites.Add("head", new Sprite(new Vector2(640+73, 63), spriteSheet, "birdhead", Vector2.Zero));
-            Dragon.Rotation = (float)(1 / 4 * Math.PI);
-            Dragon.Velocity = 1;
-            entities.Add("ShipMuhfuckka",test);
+            Entity Base = new Entity(new Vector2(700, 300), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
+            entities.Add("base", Base);
+
+            Entity Dragon = new Entity(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
+            Dragon.Add("head",new Entity(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
+            Dragon.Velocity = new Vector2(0, 0);
+
+            entities.Add("ShipMuhfuckka",Base);
             entities.Add("dragon", Dragon);
 
             ScreenManager.Game.ResetElapsedTime();
@@ -134,14 +134,14 @@ namespace Game_Library.GameStates.Screens
                 
                 //TODO: Game
 
-                if (entities["dragon"].Sprites["hawtbody"].IsBoxColliding(entities["ShipMuhfuckka"].Sprites["base"].HitBox))
-                {
-                    entities["dragon"].Sprites["hawtbody"].Location = new Vector2(640, 0);
-                    entities["dragon"].Sprites["head"].Location = new Vector2(640 + 76, 63);
-                    entities["ShipMuhfuckka"].Sprites["base"].AdvanceFrame();
-                }
-
-
+                //if (entities["dragon"].Sprites["hawtbody"].IsBoxColliding(entities["ShipMuhfuckka"].Sprites["base"].HitBox))
+                //{
+                //    entities["dragon"].Sprites["hawtbody"].Location = new Vector2(640, 0);
+                //    entities["dragon"].Sprites["head"].Location = new Vector2(640 + 76, 63);
+                //    entities["ShipMuhfuckka"].Sprites["base"].AdvanceFrame();
+                //}
+                entities["dragon"].Rotation += 0.01f;
+                
                 entities.Update(gameTime);
             }
 

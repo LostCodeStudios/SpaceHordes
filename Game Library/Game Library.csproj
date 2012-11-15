@@ -65,7 +65,6 @@
     <Compile Include="GameStates\GameplayScreen.cs" />
     <Compile Include="Model\Manager.cs" />
     <Compile Include="Model\Managers\EntityManager.cs" />
-    <Compile Include="Model\Managers\SpriteManager.cs" />
     <Compile Include="Model\Sprite.cs" />
     <Compile Include="Model\Entities\Player.cs" />
     <Compile Include="GameStates\GameScreen.cs" />
