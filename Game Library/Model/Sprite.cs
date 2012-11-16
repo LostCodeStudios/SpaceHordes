@@ -90,7 +90,7 @@ namespace Game_Library.Model
             }
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 centerPosition, float rotation)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 centerPosition, float rotation)
         {
             //TODO: ADD SCALE AND COLOR TO SPRITES LOL. XD LOL. LOL. FRSRS.
             spriteBatch.Draw(SpriteSheet.Texture, centerPosition, Source, Color, rotation, Origin, 1f, SpriteEffects.None, 0f);
@@ -210,7 +210,7 @@ namespace Game_Library.Model
         /// <summary>
         /// Animates the sprite.
         /// </summary>
-        protected void AdvanceFrame()
+        protected virtual void AdvanceFrame()
         {
             //If the sprite is animated, animate
             if (this.AnimationPattern != AnimationType.Static)

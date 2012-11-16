@@ -63,8 +63,11 @@
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Manager.cs" />
     <Compile Include="Model\Managers\EntityManager.cs" />
+    <Compile Include="Model\Screen.cs" />
     <Compile Include="Model\Sprite.cs" />
     <Compile Include="Model\Spritesheet.cs" />
+    <Compile Include="Model\Star.cs" />
+    <Compile Include="Model\StarField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

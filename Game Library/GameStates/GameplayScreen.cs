@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework.Input;
 
 using Game_Library.Input;
 using Game_Library.Model.Managers;
-using Game_Library.Model;
 using Game_Library.Model.Entities;
+using Game_Library.Model;
 
 namespace Game_Library.GameStates.Screens
 {
@@ -24,14 +24,17 @@ namespace Game_Library.GameStates.Screens
 
         ContentManager content;
         EntityManager entities;
+        StarField starField;
         SpriteFont gameFont;
         string fontName;
 
         float pauseAlpha;
-        Texture2D spriteSheet;
+        Spritesheet spriteSheet;
         InputAction pauseAction;
 
         bool colliding = false;
+        int x = 1000;
+
 
         #endregion
 
@@ -73,14 +76,18 @@ namespace Game_Library.GameStates.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+            Screen.Initialize(ScreenManager.GraphicsDevice.Viewport);
+
             gameFont = content.Load<SpriteFont>(fontName);
 
-            Spritesheet spriteSheet = new Spritesheet(Content, "Textures/spritesheet");
+            spriteSheet = new Spritesheet(Content, "Textures/spritesheet");
 
             //Get all the sprite source rectangles.
             SetSourceRectangles(spriteSheet);
 
             entities = new EntityManager();
+            starField = new StarField(spriteSheet);
+
 
             Ship Base = new Ship(new Vector2(700, 250), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
             entities.Add("base", Base);
@@ -88,6 +95,9 @@ namespace Game_Library.GameStates.Screens
             Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
             Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
             Dragon.Velocity = new Vector2(0, 0);
+            Dragon.Acceleration = new Vector2(0, 0.05f);
+            
+
 
             entities.Add("ShipMuhfuckka",Base);
             entities.Add("dragon", Dragon);
@@ -152,6 +162,7 @@ namespace Game_Library.GameStates.Screens
                 if (dragon.IsCollidingWith(entities["base"] as Ship))
                     colliding = true;
 
+                starField.Update(gameTime);
                 entities.Update(gameTime);
             }
 
@@ -171,6 +182,7 @@ namespace Game_Library.GameStates.Screens
             #if WINDOWS
                 KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
             #endif
+
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
 
             bool gamePadDisconnected = !gamePadState.IsConnected &&
@@ -195,6 +207,7 @@ namespace Game_Library.GameStates.Screens
             
             //TODO: All drawing for gameplay.
             entities.Draw(gameTime, spriteBatch);
+            starField.Draw(gameTime, spriteBatch);
 
             if (colliding)
                 spriteBatch.DrawString(gameFont, "Colliding", Vector2.Zero, Color.White);

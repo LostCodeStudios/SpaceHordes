@@ -33,8 +33,7 @@ namespace Game_Library.Model
         /// <param name="toAdd">The value of the entry which will be added.</param>
         public new virtual void Add(TKey key, TValue toAdd)
         {
-            base.Add(key, toAdd);
-            
+            base.Add(key, toAdd);   
         }
 
         /// <summary>
