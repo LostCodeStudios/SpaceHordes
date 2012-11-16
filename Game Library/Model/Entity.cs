@@ -17,9 +17,9 @@ namespace Game_Library.Model
     {
         public Entity(Vector2 position, float rotation, Sprite sprite)
         {
-            this.Position = position;
-            this.Rotation = rotation;
-            this.Sprite = sprite;
+            Position = position;
+            Rotation = rotation;
+            Sprite = sprite;
         }
 
         #region Functioning Loop
@@ -142,6 +142,31 @@ namespace Game_Library.Model
         {
             entity._Parent = this;
             base.Add(name, entity);
+        }
+
+        protected static Rectangle BoundingRectangle(Rectangle rectangle, Matrix transform)
+        {
+            // Get all four corners in local space
+            Vector2 leftTop = new Vector2(rectangle.Left, rectangle.Top);
+            Vector2 rightTop = new Vector2(rectangle.Right, rectangle.Top);
+            Vector2 leftBottom = new Vector2(rectangle.Left, rectangle.Bottom);
+            Vector2 rightBottom = new Vector2(rectangle.Right, rectangle.Bottom);
+
+            // Transform all four corners into work space
+            Vector2.Transform(ref leftTop, ref transform, out leftTop);
+            Vector2.Transform(ref rightTop, ref transform, out rightTop);
+            Vector2.Transform(ref leftBottom, ref transform, out leftBottom);
+            Vector2.Transform(ref rightBottom, ref transform, out rightBottom);
+
+            // Find the minimum and maximum extents of the rectangle in world space
+            Vector2 min = Vector2.Min(Vector2.Min(leftTop, rightTop),
+                                      Vector2.Min(leftBottom, rightBottom));
+            Vector2 max = Vector2.Max(Vector2.Max(leftTop, rightTop),
+                                      Vector2.Max(leftBottom, rightBottom));
+
+            // Return that as a rectangle
+            return new Rectangle((int)min.X, (int)min.Y,
+                                 (int)(max.X - min.X), (int)(max.Y - min.Y));
         }
 
         #endregion

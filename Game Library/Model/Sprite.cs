@@ -32,14 +32,31 @@ namespace Game_Library.Model
         /// <param name="spriteSheet">The sprite sheet from which the sprite will get it's specific texture and asset data.</param>
         public Sprite(string assetName, Vector2 offset, Spritesheet spriteSheet)
         {
-            this.Origin = offset;
-            this.SpriteSheet = spriteSheet;
-            this.SpriteName = assetName;
+            Origin = offset;
+            SpriteSheet = spriteSheet;
+            SpriteName = assetName;
             Color = Color.White;
             _TickCount = 0;
             AnimationIndex = 0;
             AnimationPattern = AnimationType.Static;
             AnimationTickRate = 0;
+
+            data = new Color[Frames.Length][];
+
+            for (int x = 0; x < data.Length; x++)
+            {
+                data[x] = new Color[Source.Width * Source.Height];
+            }
+
+            //Set the color data for each frame, to be used for pixel collision.
+            for (int x = 0; x < Frames.Length; x++)
+            {
+                SpriteSheet.Texture.GetData(0,
+                    Frames[x],
+                    Data, 0,
+                    Frames[x].Width *
+                    Frames[x].Height);
+            }
         }
 
         /// <summary>
@@ -76,14 +93,43 @@ namespace Game_Library.Model
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 centerPosition, float rotation)
         {
             //TODO: ADD SCALE AND COLOR TO SPRITES LOL. XD LOL. LOL. FRSRS.
-            spriteBatch.Draw(SpriteSheet.Texture, centerPosition, SpriteSheet.Animations[SpriteName].ElementAt(AnimationIndex), Color, rotation, Origin, 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(SpriteSheet.Texture, centerPosition, Source, Color, rotation, Origin, 1f, SpriteEffects.None, 0f);
         }
 
 
         #endregion
 
-        
+        #region Fields
+
+        Color[][] data;
+
+        #endregion
+
         #region Properties
+
+        /// <summary>
+        /// The source rectangle of the current frame.
+        /// </summary>
+        public Rectangle Source
+        {
+            get { return Frames[AnimationIndex]; }
+        }
+
+        /// <summary>
+        /// The array of frames for this sprite.
+        /// </summary>
+        public Rectangle[] Frames
+        {
+            get { return SpriteSheet.Animations[SpriteName]; }
+        }
+
+        /// <summary>
+        /// The color data used for checking collision.
+        /// </summary>
+        public Color[] Data
+        {
+            get { return data[AnimationIndex]; }
+        }
 
         /// <summary>
         /// The sprite sheet from which the sprite will get it's specific texture and asset data.

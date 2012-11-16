@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Game_Library.Input;
 using Game_Library.Model.Managers;
 using Game_Library.Model;
+using Game_Library.Model.Entities;
 
 namespace Game_Library.GameStates.Screens
 {
@@ -29,6 +30,8 @@ namespace Game_Library.GameStates.Screens
         float pauseAlpha;
         Texture2D spriteSheet;
         InputAction pauseAction;
+
+        bool colliding = false;
 
         #endregion
 
@@ -79,11 +82,11 @@ namespace Game_Library.GameStates.Screens
 
             entities = new EntityManager();
 
-            Entity Base = new Entity(new Vector2(700, 300), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
+            Ship Base = new Ship(new Vector2(700, 250), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
             entities.Add("base", Base);
 
-            Entity Dragon = new Entity(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
-            Dragon.Add("head",new Entity(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
+            Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
+            Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
             Dragon.Velocity = new Vector2(0, 0);
 
             entities.Add("ShipMuhfuckka",Base);
@@ -141,7 +144,14 @@ namespace Game_Library.GameStates.Screens
                 //    entities["ShipMuhfuckka"].Sprites["base"].AdvanceFrame();
                 //}
                 entities["dragon"].Rotation += 0.01f;
-                
+
+                colliding = false;
+
+                Ship dragon = entities["dragon"] as Ship;
+
+                if (dragon.IsCollidingWith(entities["base"] as Ship))
+                    colliding = true;
+
                 entities.Update(gameTime);
             }
 
@@ -185,6 +195,9 @@ namespace Game_Library.GameStates.Screens
             
             //TODO: All drawing for gameplay.
             entities.Draw(gameTime, spriteBatch);
+
+            if (colliding)
+                spriteBatch.DrawString(gameFont, "Colliding", Vector2.Zero, Color.White);
 
             spriteBatch.End();
 
@@ -622,7 +635,7 @@ namespace Game_Library.GameStates.Screens
 
             sourceRectangles.Add("birdbody", 
                 new Rectangle[] { 
-                    new Rectangle(1, 491, 184, 83)
+                    new Rectangle(1, 492, 184, 82)
                 });
 
             sourceRectangles.Add("birdhead",

@@ -11,7 +11,12 @@ namespace Game_Library.Model.Entities
         /// Handles collision between two physical objects.
         /// </summary>
         /// <param name="collidingWith"></param>
-        void HandleCollision(IPhysical collidingWith); 
+        void HandleCollision(IPhysical collidingWith);
 
+        /// <summary>
+        /// Checks for collision between two physical objects.
+        /// </summary>
+        /// <param name="collidingWith"></param>
+        bool IsCollidingWith(IPhysical collidingWith);
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Input\PlayerIndexEventArgs.cs" />
     <Compile Include="Model\Entities\IPhysical.cs" />
     <Compile Include="Model\Entities\Player.cs" />
+    <Compile Include="Model\Entities\Ship.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Manager.cs" />
     <Compile Include="Model\Managers\EntityManager.cs" />
