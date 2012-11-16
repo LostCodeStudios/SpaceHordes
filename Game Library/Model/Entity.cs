@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Game_Library.Model;
 using Game_Library.Model.Managers;
+using Game_Library.Input;
 
 namespace Game_Library.Model
 {
@@ -34,6 +35,12 @@ namespace Game_Library.Model
             }
             Sprite.Update(gameTime);
         }
+
+        public virtual void Update(GameTime gameTime, InputState input)
+        {
+            Update(gameTime);
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Sprite.Draw(gameTime, spriteBatch, Position, Rotation);

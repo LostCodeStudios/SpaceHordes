@@ -22,7 +22,7 @@ namespace Game_Library.Model
         {
             spritesheet = sheet;
 
-            GenerateStars(3, 35);
+            GenerateStars(3, 50);
         }
 
         #endregion

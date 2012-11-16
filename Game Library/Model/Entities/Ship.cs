@@ -79,7 +79,7 @@ namespace Game_Library.Model.Entities
 
             //If the two rectangles are intersecting, return true
             if (thisRectangle.Intersects(otherRectangle))
-                return PixelCollision(thisTransform, this.Sprite.Source.Width, this.Sprite.Source.Height, this.Sprite.Data,
+                return !PixelCollision(thisTransform, this.Sprite.Source.Width, this.Sprite.Source.Height, this.Sprite.Data,
                     otherTransform, otherEntity.Sprite.Source.Width, otherEntity.Sprite.Source.Height, otherEntity.Sprite.Data);
 
             return false;

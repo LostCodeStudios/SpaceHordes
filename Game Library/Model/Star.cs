@@ -26,15 +26,16 @@ namespace Game_Library.Model
         public Star(bool big, Spritesheet spritesheet)
             : base("redstar", Vector2.Zero, spritesheet)
         {
-             
-            //randomize location
-            location = new Vector2(r.Next(Screen.Viewport.Width), r.Next(Screen.Viewport.Height));
-
             if (big)
+            {
+                //randomize location
+                location = new Vector2(r.Next(Screen.Viewport.Width - spritesheet.Animations["rednebula"][0].Width), r.Next(Screen.Viewport.Height - spritesheet.Animations["rednebula"][0].Height));
                 SpriteName = "rednebula";
+            }
 
             else
             {
+                location = new Vector2(r.Next(Screen.Viewport.Width), r.Next(Screen.Viewport.Height));
                 minFrame = r.Next(2);
                 maxFrame = r.Next(minFrame, 3);
 

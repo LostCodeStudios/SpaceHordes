@@ -89,13 +89,12 @@ namespace Game_Library.GameStates.Screens
             starField = new StarField(spriteSheet);
 
 
-            Ship Base = new Ship(new Vector2(700, 250), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
+            Ship Base = new Ship(new Vector2(700, 275), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
             entities.Add("base", Base);
 
             Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
             Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
             Dragon.Velocity = new Vector2(0, 0);
-            Dragon.Acceleration = new Vector2(0, 0.05f);
             
 
 
@@ -153,7 +152,7 @@ namespace Game_Library.GameStates.Screens
                 //    entities["dragon"].Sprites["head"].Location = new Vector2(640 + 76, 63);
                 //    entities["ShipMuhfuckka"].Sprites["base"].AdvanceFrame();
                 //}
-                entities["dragon"].Rotation += 0.01f;
+                entities["dragon"].Rotation += 0.005f;
 
                 colliding = false;
 
@@ -206,8 +205,8 @@ namespace Game_Library.GameStates.Screens
             spriteBatch.Begin();
             
             //TODO: All drawing for gameplay.
-            entities.Draw(gameTime, spriteBatch);
             starField.Draw(gameTime, spriteBatch);
+            entities.Draw(gameTime, spriteBatch);
 
             if (colliding)
                 spriteBatch.DrawString(gameFont, "Colliding", Vector2.Zero, Color.White);
