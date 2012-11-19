@@ -198,14 +198,16 @@ namespace Game_Library.Model.Entities
 #if WINDOWS || XBOX
 
             //Gamepad movement
+            if (input.CurrentGamePadStates[(int)controllingPlayer].IsConnected)
+            {
+                Vector2 leftStick = input.CurrentGamePadStates[(int)controllingPlayer].ThumbSticks.Left;
+                moveVelocity = new Vector2(leftStick.X, -leftStick.Y);
 
-            Vector2 leftStick = input.CurrentGamePadStates[(int)controllingPlayer].ThumbSticks.Left;
-            moveVelocity = new Vector2(leftStick.X, -leftStick.Y);
+                if (moveVelocity != Vector2.Zero)
+                    moveVelocity.Normalize();
 
-            if (moveVelocity != Vector2.Zero)
-                moveVelocity.Normalize();
-
-            Velocity = moveVelocity;
+                Velocity = moveVelocity;
+            }
             
 #endif
 
@@ -228,9 +230,12 @@ namespace Game_Library.Model.Entities
 
             #if WINDOWS || XBOX
 
-            //Determine shot angle based on right stick
-            Vector2 rightStick = input.CurrentGamePadStates[(int)controllingPlayer].ThumbSticks.Right;
-            shotAngle = new Vector2(rightStick.X, -rightStick.Y);
+            if (input.CurrentGamePadStates[(int)controllingPlayer].IsConnected)
+            {
+                //Determine shot angle based on right stick
+                Vector2 rightStick = input.CurrentGamePadStates[(int)controllingPlayer].ThumbSticks.Right;
+                shotAngle = new Vector2(rightStick.X, -rightStick.Y);
+            }
 
             #endif
 
@@ -243,8 +248,8 @@ namespace Game_Library.Model.Entities
                 Shoot();
             #endif
 
-            #if XBOX
-            if (shotAngle != Vector2.Zero)
+            #if WINDOWS || XBOX
+            if (input.CurrentGamePadStates[(int)controllingPlayer].IsConnected && shotAngle != Vector2.Zero)
                 Shoot();
             #endif
 
