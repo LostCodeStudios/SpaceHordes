@@ -36,11 +36,6 @@ namespace Game_Library.Model
             Sprite.Update(gameTime);
         }
 
-        public virtual void Update(GameTime gameTime, InputState input)
-        {
-            Update(gameTime);
-        }
-
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Sprite.Draw(gameTime, spriteBatch, Position, Rotation);
@@ -174,6 +169,15 @@ namespace Game_Library.Model
             // Return that as a rectangle
             return new Rectangle((int)min.X, (int)min.Y,
                                  (int)(max.X - min.X), (int)(max.Y - min.Y));
+        }
+
+        /// <summary>
+        /// Rotates the entity towards a Vector2.
+        /// </summary>
+        /// <param name="direction"></param>
+        public void RotateTo(Vector2 direction)
+        {
+            Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
 
         #endregion

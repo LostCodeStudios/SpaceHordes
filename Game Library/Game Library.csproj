@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Input\IHandlesInput.cs" />
+    <Compile Include="Model\Entities\IInput.cs" />
     <Compile Include="Model\Entities\IPhysical.cs" />
     <Compile Include="Model\Entities\Ship.cs" />
     <Compile Include="Model\Entity.cs" />

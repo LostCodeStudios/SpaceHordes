@@ -57,6 +57,7 @@
     <Compile Include="Input\InputAction.cs" />
     <Compile Include="Input\InputState.cs" />
     <Compile Include="Input\PlayerIndexEventArgs.cs" />
+    <Compile Include="Model\Entities\IInput.cs" />
     <Compile Include="Model\Entities\IPhysical.cs" />
     <Compile Include="Model\Entities\Player.cs" />
     <Compile Include="Model\Entities\Ship.cs" />

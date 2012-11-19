@@ -48,6 +48,14 @@ namespace Game_Library.GameStates.Screens
             get { return content; }
         }
 
+        /// <summary>
+        /// The spritesheet.
+        /// </summary>
+        public Spritesheet Spritesheet
+        {
+            get { return spriteSheet; }
+        }
+
         #endregion
 
         #region Initialization
@@ -89,7 +97,7 @@ namespace Game_Library.GameStates.Screens
             starField = new StarField(spriteSheet);
 
 
-            Ship Base = new Ship(new Vector2(700, 275), 0f, new Sprite("base", new Vector2(0, 0), spriteSheet));
+            Player Base = Player.PlayerAt(PlayerIndex.One, spriteSheet);
             entities.Add("base", Base);
 
             Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
@@ -186,6 +194,8 @@ namespace Game_Library.GameStates.Screens
 
             bool gamePadDisconnected = !gamePadState.IsConnected &&
                 input.GamePadWasConnected[playerIndex];
+
+            entities.HandleInput(input);
 
             PlayerIndex player;
             if (pauseAction.Evaluate(input, ControllingPlayer, out player) || gamePadDisconnected)

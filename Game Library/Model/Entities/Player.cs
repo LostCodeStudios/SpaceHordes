@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -14,12 +16,14 @@ namespace Game_Library.Model.Entities
         Blue
     }
 
-    public class Player : Ship
+    public class Player : Ship, IInput
     {
         #region Fields
 
         PlayerIndex controllingPlayer;
         const int statBoxOffset = 100;
+        static Dictionary<PlayerIndex, Vector2> locations = new Dictionary<PlayerIndex, Vector2>();
+        static Vector2 playerBaseOffset = new Vector2(200, 100);
 
         InputAction red = new InputAction(
             new Buttons[] { Buttons.B },
@@ -94,10 +98,8 @@ namespace Game_Library.Model.Entities
 
         #region Update & Draw
 
-        public override void Update(GameTime gameTime, InputState input)
+        public override void Update(GameTime gameTime)
         {
-            HandleInput(input);
-
             base.Update(gameTime);
         }
 
@@ -105,7 +107,7 @@ namespace Game_Library.Model.Entities
 
         #region Input
 
-        private void HandleInput(InputState input)
+        public void HandleInput(InputState input)
         {
             PlayerIndex index;
 
@@ -204,6 +206,10 @@ namespace Game_Library.Model.Entities
             
 #endif
 
+            ClampToScreen();
+            if (Velocity != Vector2.Zero)
+                RotateTo(Velocity);
+
             #endregion
 
             #region Shooting
@@ -239,6 +245,63 @@ namespace Game_Library.Model.Entities
             #endif
 
             #endregion
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Makes a new player (1-4) from the given player index.
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public static Player PlayerAt(PlayerIndex index, Spritesheet sheet)
+        {
+            int number = (int)index + 1;
+
+            if (locations.Values.Count == 0)
+                setStartingLocations();
+
+            Rectangle box = sheet.Animations["player" + number.ToString()][0];
+            Vector2 offset = new Vector2(box.Center.X - box.Location.X, box.Center.Y - box.Location.Y);
+
+            Player toReturn = new Player(locations[index], 0.0f,
+                new Sprite("player" + number.ToString(), offset, sheet));
+
+            toReturn.controllingPlayer = index;
+            
+            toReturn.RotateTo(locations[index] - Screen.Center);
+
+            return toReturn;
+        }
+
+        private static void setStartingLocations()
+        {
+            locations.Add(PlayerIndex.One,
+                new Vector2(Screen.Center.X - playerBaseOffset.X, Screen.Center.Y - playerBaseOffset.Y));
+            locations.Add(PlayerIndex.Two,
+                new Vector2(Screen.Center.X + playerBaseOffset.X, Screen.Center.Y - playerBaseOffset.Y));
+            locations.Add(PlayerIndex.Three,
+                new Vector2(Screen.Center.X - playerBaseOffset.X, Screen.Center.Y + playerBaseOffset.Y));
+            locations.Add(PlayerIndex.Four,
+                new Vector2(Screen.Center.X + playerBaseOffset.X, Screen.Center.Y + playerBaseOffset.Y));
+        }
+
+        private void ClampToScreen()
+        {
+            if (Position.X < 0)
+                Position = new Vector2(0, Position.Y);
+
+            if (Position.Y < 0)
+                Position = new Vector2(Position.X, 0);
+
+            if (Position.X > Screen.Viewport.Width)
+                Position = new Vector2(Screen.Viewport.Width, Position.Y);
+
+            if (Position.Y > Screen.Viewport.Height)
+                Position = new Vector2(Position.X, Screen.Viewport.Height);
+
         }
 
         #endregion
