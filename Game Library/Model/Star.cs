@@ -12,11 +12,6 @@ namespace Game_Library.Model
         #region Fields
 
         static Random r = new Random();
-
-        int minFrame;
-        int maxFrame;
-        int frameInc = 1;
-
         Vector2 location;
 
         #endregion
@@ -36,9 +31,8 @@ namespace Game_Library.Model
             else
             {
                 location = new Vector2(r.Next(Screen.Viewport.Width), r.Next(Screen.Viewport.Height));
-                minFrame = r.Next(2);
-                maxFrame = r.Next(minFrame, 3);
 
+                AnimationPattern = AnimationType.Loop;
                 AnimationTickRate = 5;
             }
         }
