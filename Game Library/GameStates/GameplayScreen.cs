@@ -96,17 +96,19 @@ namespace Game_Library.GameStates.Screens
             entities = new EntityManager();
             starField = new StarField(spriteSheet);
 
-
-            Player Base = Player.PlayerAt(PlayerIndex.One, spriteSheet);
-            entities.Add("base", Base);
+            Player player1 = Player.PlayerAt(PlayerIndex.One, spriteSheet);
+            Player player2 = Player.PlayerAt(PlayerIndex.Two, spriteSheet);
+            Player player3 = Player.PlayerAt(PlayerIndex.Three, spriteSheet);
+            Player player4 = Player.PlayerAt(PlayerIndex.Four, spriteSheet);
+            entities.Add("player1", player1);
+            entities.Add("player2", player2);
+            entities.Add("player3", player3);
+            entities.Add("player4", player4);
 
             Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
             Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
             Dragon.Velocity = new Vector2(0, 0);
             
-
-
-            entities.Add("ShipMuhfuckka",Base);
             entities.Add("dragon", Dragon);
 
             ScreenManager.Game.ResetElapsedTime();
@@ -166,7 +168,7 @@ namespace Game_Library.GameStates.Screens
 
                 Ship dragon = entities["dragon"] as Ship;
 
-                if (dragon.IsCollidingWith(entities["base"] as Ship))
+                if (dragon.IsCollidingWith(entities["player1"] as Ship))
                     colliding = true;
 
                 starField.Update(gameTime);
