@@ -18,17 +18,30 @@ namespace Game_Library.GameStates.Screens
             : base(text)
         {
             //Create our menu entries.
+#if WINDOWS
             MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
+#endif
+
+#if XBOX
+            MenuEntry playGameMenuEntry = new MenuEntry("Play Solo");
+            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Multiplayer");
+#endif
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
             //Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
+#if XBOX
+            playMultiplayerMenuEntry.Selected += PlayMultiplayerMenuEntrySelected;
+#endif
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
+#if XBOX
+            MenuEntries.Add(playMultiplayerMenuEntry);
+#endif
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
@@ -42,7 +55,12 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Fonts/gamefont"));
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Fonts/gamefont", false));
+        }
+
+        void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Fonts/gamefont", true));
         }
 
         /// <summary>

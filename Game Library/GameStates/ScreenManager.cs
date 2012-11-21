@@ -86,6 +86,14 @@ namespace Game_Library.GameStates
             get { return blankTexture; }
         }
 
+        /// <summary>
+        /// Public reference of the main input state.
+        /// </summary>
+        public InputState Input
+        {
+            get { return input; }
+        }
+
         #endregion
 
         #region Initialization

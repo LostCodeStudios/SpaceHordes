@@ -35,6 +35,7 @@ namespace Game_Library.GameStates.Screens
         bool colliding = false;
         int x = 1000;
 
+        bool multiplayer;
 
         #endregion
 
@@ -63,11 +64,12 @@ namespace Game_Library.GameStates.Screens
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(string fontName)
+        public GameplayScreen(string fontName, bool multiplayer)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
+            this.multiplayer = multiplayer;
             this.fontName = fontName;
 
             pauseAction = new InputAction(
@@ -96,14 +98,28 @@ namespace Game_Library.GameStates.Screens
             entities = new EntityManager();
             starField = new StarField(spriteSheet);
 
-            Player player1 = Player.PlayerAt(PlayerIndex.One, spriteSheet);
-            Player player2 = Player.PlayerAt(PlayerIndex.Two, spriteSheet);
-            Player player3 = Player.PlayerAt(PlayerIndex.Three, spriteSheet);
-            Player player4 = Player.PlayerAt(PlayerIndex.Four, spriteSheet);
-            entities.Add("player1", player1);
-            entities.Add("player2", player2);
-            entities.Add("player3", player3);
-            entities.Add("player4", player4);
+            if (multiplayer)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    if (screenManager.Input.GamePadWasConnected[x])
+                    {
+                        Player player = Player.PlayerAt((PlayerIndex)x, spriteSheet);
+                        entities.Add("player" + (x + 1).ToString(), player);
+                    }
+                }
+            }
+
+            else
+            {
+                Player player;
+                if (controllingPlayer != null)
+                    player = Player.PlayerAt((PlayerIndex)controllingPlayer, spriteSheet);
+                else
+                    player= Player.PlayerAt(PlayerIndex.One, spriteSheet);
+                entities.Add("player1", player);
+            }
+            
 
             Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
             Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));

@@ -35,8 +35,8 @@ namespace Game_Library.GameStates
         ScreenState screenState = ScreenState.TransitionOn;
         bool isExiting = false;
         bool otherScreenHasFocus;
-        ScreenManager screenManager;
-        PlayerIndex? controllingPlayer;
+        protected ScreenManager screenManager;
+        protected PlayerIndex? controllingPlayer;
         bool isSerializable = true;
 
         #endregion
