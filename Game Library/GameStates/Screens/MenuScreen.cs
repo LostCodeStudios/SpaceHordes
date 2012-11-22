@@ -22,12 +22,10 @@ namespace Game_Library.GameStates.Screens
         string menuTitle;
 
         #if XBOX || WINDOWS
-
         InputAction menuUp;
         InputAction menuDown;
         InputAction menuSelect;
         InputAction menuCancel;
-
         #endif
 
         #endregion

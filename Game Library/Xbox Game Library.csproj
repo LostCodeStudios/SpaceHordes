@@ -47,6 +47,7 @@
     <Compile Include="GameStates\GameScreen.cs" />
     <Compile Include="GameStates\ScreenManager.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />
+    <Compile Include="GameStates\Screens\HighScoreScreen.cs" />
     <Compile Include="GameStates\Screens\LoadingScreen.cs" />
     <Compile Include="GameStates\Screens\MainMenuScreen.cs" />
     <Compile Include="GameStates\Screens\MenuEntry.cs" />

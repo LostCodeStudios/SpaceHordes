@@ -121,7 +121,7 @@ namespace Game_Library.GameStates.Screens
             }
             
 
-            Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet,AnimationType.Loop,Color.White));
+            Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet, AnimationType.Loop,Color.White));
             Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
             Dragon.Velocity = new Vector2(0, 0);
             

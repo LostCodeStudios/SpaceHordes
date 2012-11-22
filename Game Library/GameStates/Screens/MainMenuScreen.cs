@@ -26,6 +26,9 @@ namespace Game_Library.GameStates.Screens
             MenuEntry playGameMenuEntry = new MenuEntry("Play Solo");
             MenuEntry playMultiplayerMenuEntry = new MenuEntry("Multiplayer");
 #endif
+
+            MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
+
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
@@ -34,6 +37,8 @@ namespace Game_Library.GameStates.Screens
 #if XBOX
             playMultiplayerMenuEntry.Selected += PlayMultiplayerMenuEntrySelected;
 #endif
+
+            highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
@@ -42,6 +47,7 @@ namespace Game_Library.GameStates.Screens
 #if XBOX
             MenuEntries.Add(playMultiplayerMenuEntry);
 #endif
+            MenuEntries.Add(highScoresMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
@@ -61,6 +67,11 @@ namespace Game_Library.GameStates.Screens
         void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Fonts/gamefont", true));
+        }
+
+        void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
         }
 
         /// <summary>

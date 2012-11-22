@@ -59,6 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameStates\Screens\HighScoreScreen.cs" />
     <Compile Include="Input\IHandlesInput.cs" />
     <Compile Include="Model\Entities\IInput.cs" />
     <Compile Include="Model\Entities\IPhysical.cs" />
