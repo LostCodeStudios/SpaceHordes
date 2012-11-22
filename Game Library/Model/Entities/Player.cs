@@ -103,6 +103,11 @@ namespace Game_Library.Model.Entities
             base.Update(gameTime);
         }
 
+        public override void Draw(GameTime gameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
+        }
+
         #endregion
 
         #region Input

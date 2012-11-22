@@ -102,7 +102,7 @@ namespace Game_Library.GameStates.Screens
             {
                 for (int x = 0; x < 4; x++)
                 {
-                    if (screenManager.Input.GamePadWasConnected[x])
+                    if (ScreenManager.Input.GamePadWasConnected[x])
                     {
                         Player player = Player.PlayerAt((PlayerIndex)x, spriteSheet);
                         entities.Add("player" + (x + 1).ToString(), player);
@@ -113,8 +113,8 @@ namespace Game_Library.GameStates.Screens
             else
             {
                 Player player;
-                if (controllingPlayer != null)
-                    player = Player.PlayerAt((PlayerIndex)controllingPlayer, spriteSheet);
+                if (ControllingPlayer != null)
+                    player = Player.PlayerAt((PlayerIndex)ControllingPlayer, spriteSheet);
                 else
                     player= Player.PlayerAt(PlayerIndex.One, spriteSheet);
                 entities.Add("player1", player);
@@ -183,8 +183,14 @@ namespace Game_Library.GameStates.Screens
                 colliding = false;
 
                 Ship dragon = entities["dragon"] as Ship;
+                Ship player = entities["player1"] as Ship;
 
-                if (dragon.IsCollidingWith(entities["player1"] as Ship))
+                //if (dragon.IsCollidingWith(entities["player1"] as Ship))
+                //    colliding = true;
+                if (player.IsCollidingWith(dragon))
+                    colliding = true;
+
+                if (dragon.IsCollidingWith(player))
                     colliding = true;
 
                 starField.Update(gameTime);
@@ -238,6 +244,11 @@ namespace Game_Library.GameStates.Screens
 
             if (colliding)
                 spriteBatch.DrawString(gameFont, "Colliding", Vector2.Zero, Color.White);
+
+            Ship dragon = entities["dragon"] as Ship;
+            Ship player = entities["player1"] as Ship;
+            spriteBatch.Draw(ScreenManager.BlankTexture, dragon.test, Color.White);
+            spriteBatch.Draw(ScreenManager.BlankTexture, player.test, Color.White);
 
             spriteBatch.End();
 

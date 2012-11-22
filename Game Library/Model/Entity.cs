@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Game_Library.Model;
 using Game_Library.Model.Managers;
 using Game_Library.Input;
+using Game_Library.Model.Entities;
 
 namespace Game_Library.Model
 {

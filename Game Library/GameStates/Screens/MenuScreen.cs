@@ -146,7 +146,7 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         protected virtual void OnSelectEntry(int entryIndex, PlayerIndex playerIndex)
         {
-            menuEntries[entryIndex].OnSelectEntry(playerIndex);
+                menuEntries[entryIndex].OnSelectEntry(playerIndex);
         }
 
         /// <summary>

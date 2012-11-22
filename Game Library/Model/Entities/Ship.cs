@@ -12,6 +12,8 @@ namespace Game_Library.Model.Entities
     /// </summary>
     public class Ship : Entity, IPhysical
     {
+        public Rectangle test;
+
         #region Constructor
 
         public Ship(Vector2 position, float rotation, Sprite sprite)
@@ -61,6 +63,11 @@ namespace Game_Library.Model.Entities
                          Sprite.SpriteSheet.Animations[Sprite.SpriteName][Sprite.AnimationIndex].Width, 
                          Sprite.SpriteSheet.Animations[Sprite.SpriteName][Sprite.AnimationIndex].Height),
                      thisTransform);
+
+            thisRectangle.X = (int)Position.X - thisRectangle.Width / 2;
+            thisRectangle.Y = (int)Position.Y - thisRectangle.Height / 2;
+
+            test = thisRectangle;
 
             Entity otherEntity = other as Entity;
 

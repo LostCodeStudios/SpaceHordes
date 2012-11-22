@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -25,6 +26,8 @@ namespace Game_Library.GameStates.Screens
         string[] initials = new string[maxScores];
         long[] scores = new long[maxScores];
 
+        int selectedScore;
+
         InputAction menuCancel;
 
         #endregion
@@ -35,28 +38,84 @@ namespace Game_Library.GameStates.Screens
         /// Makes a new high score screen, with a set title.
         /// </summary>
         /// <param name="titleText"></param>
-        public HighScoreScreen(string titleText)
+        public HighScoreScreen(string titleText, int selected)
         {
             this.titleText = titleText;
+            selectedScore = selected;
 
             menuCancel = new InputAction(
                 new Buttons[] { Buttons.B, Buttons.Back },
                 new Keys[] { Keys.Escape },
                 true);
 
-            #region Demo Code
+#if WINDOWS
+            string folderPath = @"C:\Users\Nathaniel\Documents\Space Hordes";
 
-            for (int x = 0; x < maxScores; x++)
-                initials[x] = "NLN";
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
 
-            for (int x = 1; x <= maxScores; x++)
-                scores[maxScores - x] = (long)(1 * Math.Pow(10, x));
+            string filePath = folderPath + @"\scores.txt";
 
-            #endregion
+            if (!File.Exists(filePath))
+            {
+                //If there is no scores file, make a new one
+
+                FileStream fs = null;
+                using (fs = File.Create(filePath))
+                {
+                    fs.Close();
+                }
+
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.WriteLine("NLN 10000");
+                    sw.WriteLine("NLN 7500");
+                    sw.WriteLine("NLN 5000");
+                    sw.WriteLine("NLN 2500");
+                    sw.WriteLine("NLN 2000");
+                    sw.WriteLine("NLN 1500");
+                    sw.WriteLine("NLN 1000");
+                    sw.WriteLine("NLN 750");
+                    sw.WriteLine("NLN 500");
+                    sw.WriteLine("NLN 250");
+
+                    sw.Close();
+                }
+            }
+
+            if (File.Exists(filePath))
+            {
+                using (TextReader tr = new StreamReader(filePath))
+                {
+                    for (int x = 0; x < maxScores; x++)
+                    {
+                        char[] initial = new char[3];
+                        tr.Read(initial, 0, 3);
+                        initials[x] = "" + initial[0] + initial[1] + initial[2];
+
+                        long score = long.Parse(tr.ReadLine());
+                        scores[x] = score;
+                    }
+                    tr.Close();
+                }
+            }
+#endif
+        }
+        
+        /// <summary>
+        /// Makes a high score screen with a specific score highlighted.
+        /// </summary>
+        /// <param name="selected"></param>
+        public HighScoreScreen(int selected)
+            : this(defaultTitle, selected)
+        {
         }
 
+        /// <summary>
+        /// Makes a high score screen with the top score highlighted.
+        /// </summary>
         public HighScoreScreen()
-            : this(defaultTitle)
+            : this(0)
         {
         }
 
@@ -99,12 +158,14 @@ namespace Game_Library.GameStates.Screens
             for (int i = 0; i < maxScores; i++)
             {
                 //Draw the initials and number
-                spriteBatch.DrawString(font, (i + 1).ToString() + ". " + initials[i], nameLocation, Color.White);
+                Color color = (i == selectedScore) ? Color.Yellow : Color.White;
+
+                spriteBatch.DrawString(font, (i + 1).ToString() + ". " + initials[i], nameLocation, color);
 
                 //Draw the score
                 Vector2 loc = new Vector2(scoreLocation.X - font.MeasureString(scores[i].ToString()).X, scoreLocation.Y);
 
-                spriteBatch.DrawString(font, scores[i].ToString(), loc, Color.White);
+                spriteBatch.DrawString(font, scores[i].ToString(), loc, color);
 
                 //Wrap to next line
                 nameLocation.Y += font.LineSpacing;
