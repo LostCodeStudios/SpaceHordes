@@ -84,6 +84,9 @@ namespace Game_Library.Model.Entities
                          otherEntity.Sprite.SpriteSheet.Animations[Sprite.SpriteName][Sprite.AnimationIndex].Height),
                      thisTransform);
 
+            otherRectangle.X = (int)otherEntity.Position.X - otherRectangle.Width / 2;
+            otherRectangle.Y = (int)otherEntity.Position.Y - otherRectangle.Height / 2;
+
             //If the two rectangles are intersecting, return true
             if (thisRectangle.Intersects(otherRectangle))
                 return true;

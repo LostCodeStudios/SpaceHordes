@@ -122,7 +122,7 @@ namespace Game_Library.GameStates.Screens
             
 
             Ship Dragon = new Ship(new Vector2(700, 200), 0f, new Sprite("birdbody", new Vector2(92, 64), spriteSheet, AnimationType.Loop,Color.White));
-            Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
+            //Dragon.Add("head",new Ship(new Vector2(700,200), 0f, new Sprite("birdhead", new Vector2(37/2, 51/2-30), spriteSheet)));
             Dragon.Velocity = new Vector2(0, 0);
             
             entities.Add("dragon", Dragon);
@@ -185,8 +185,6 @@ namespace Game_Library.GameStates.Screens
                 Ship dragon = entities["dragon"] as Ship;
                 Ship player = entities["player1"] as Ship;
 
-                //if (dragon.IsCollidingWith(entities["player1"] as Ship))
-                //    colliding = true;
                 if (player.IsCollidingWith(dragon))
                     colliding = true;
 
@@ -237,7 +235,11 @@ namespace Game_Library.GameStates.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-            
+
+            Ship dragon = entities["dragon"] as Ship;
+            Ship player = entities["player1"] as Ship;
+            spriteBatch.Draw(ScreenManager.BlankTexture, dragon.test, Color.White);
+            spriteBatch.Draw(ScreenManager.BlankTexture, player.test, Color.White);
             //TODO: All drawing for gameplay.
             starField.Draw(gameTime, spriteBatch);
             entities.Draw(gameTime, spriteBatch);
@@ -245,10 +247,8 @@ namespace Game_Library.GameStates.Screens
             if (colliding)
                 spriteBatch.DrawString(gameFont, "Colliding", Vector2.Zero, Color.White);
 
-            Ship dragon = entities["dragon"] as Ship;
-            Ship player = entities["player1"] as Ship;
-            spriteBatch.Draw(ScreenManager.BlankTexture, dragon.test, Color.White);
-            spriteBatch.Draw(ScreenManager.BlankTexture, player.test, Color.White);
+            
+            
 
             spriteBatch.End();
 
@@ -314,12 +314,12 @@ namespace Game_Library.GameStates.Screens
 
             sourceRectangles.Add("player1",
                 new Rectangle[] {
-                    new Rectangle(1, 80, 25, 13)
+                    new Rectangle(2, 81, 23, 11)
                 });
 
             sourceRectangles.Add("player2",
                 new Rectangle[] {
-                    new Rectangle(27, 80, 20, 17)
+                    new Rectangle(27, 80, 20, 16)
                 });
 
             sourceRectangles.Add("player3",
@@ -686,14 +686,14 @@ namespace Game_Library.GameStates.Screens
 
             sourceRectangles.Add("birdbody", 
                 new Rectangle[] { 
-                    new Rectangle(1, 492, 184, 82)
+                    new Rectangle(2, 492, 183, 82)
                 });
 
             sourceRectangles.Add("birdhead",
                 new Rectangle[] { 
-                    new Rectangle(1, 576, 37, 51),
-                    new Rectangle(39, 576, 37, 51),
-                    new Rectangle(77, 576, 37, 51)
+                    new Rectangle(2, 576, 35, 50),
+                    new Rectangle(39, 576, 35, 50),
+                    new Rectangle(77, 576, 35, 50)
                 });
 
             sourceRectangles.Add("shipwiththetwoboxgunthings",
