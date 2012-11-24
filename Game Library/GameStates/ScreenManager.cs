@@ -8,7 +8,9 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-
+#if XBOX
+using Microsoft.Xna.Framework.Storage;
+#endif
 using Game_Library.Input;
 
 namespace Game_Library.GameStates
@@ -24,6 +26,10 @@ namespace Game_Library.GameStates
         #region Fields
 
         private const string StateFilename = "ScreenManagerState.xml";
+
+#if XBOX
+        StorageDevice storageDevice;
+#endif
 
         List<GameScreen> screens = new List<GameScreen>();
         List<GameScreen> tempScreensList = new List<GameScreen>();
@@ -93,6 +99,17 @@ namespace Game_Library.GameStates
         {
             get { return input; }
         }
+
+#if XBOX
+        /// <summary>
+        /// The game's storage device.
+        /// </summary>
+        public StorageDevice StorageDevice
+        {
+            get { return storageDevice; }
+            set { storageDevice = value; }
+        }
+#endif
 
         #endregion
 

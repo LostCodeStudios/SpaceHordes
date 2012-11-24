@@ -12,7 +12,7 @@ namespace Game_Library.GameStates.Screens
         #region Fields
 
         //TODO: Add MenuEntries for options.
-
+        
         #endregion
 
         #region Initialization

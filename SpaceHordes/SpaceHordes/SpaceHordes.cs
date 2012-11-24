@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Microsoft.Xna.Framework.Storage;
+
 using Game_Library;
 using Game_Library.Input;
 using Game_Library.GameStates;
@@ -57,6 +59,9 @@ namespace SpaceHordes
 
         ScreenManager screenManager;
 
+        IAsyncResult result;
+        bool needStorageDevice = true;
+
         #endregion
 
         #region Initalization
@@ -65,6 +70,8 @@ namespace SpaceHordes
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            Components.Add(new GamerServicesComponent(this));
         }
 
         /// <summary>
@@ -132,12 +139,32 @@ namespace SpaceHordes
                 this.Exit();
 
             
-
+#if XBOX
             //UPDATE
+            // Set the request flag
+            if ((!Guide.IsVisible) && (needStorageDevice == false))
+            {
+                needStorageDevice = true;
+                result = StorageDevice.BeginShowSelector(
+                        PlayerIndex.One, null, null);
+            }
 
+            // If a save is pending, save as soon as the
+            // storage device is chosen
+            if ((needStorageDevice) && (result.IsCompleted))
+            {
+                StorageDevice device = StorageDevice.EndShowSelector(result);
+                if (device != null && device.IsConnected)
+                {
+                    screenManager.StorageDevice = device;
+                }
+                // Reset the request flag
+                needStorageDevice = false;
+            }
+#endif
 
-            base.Update(gameTime);
-        }
+                base.Update(gameTime);
+            }
 
         /// <summary>
         /// This is called when the game should draw itself.
