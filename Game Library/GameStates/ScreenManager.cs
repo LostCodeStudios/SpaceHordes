@@ -8,9 +8,8 @@ using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-#if XBOX
 using Microsoft.Xna.Framework.Storage;
-#endif
+
 using Game_Library.Input;
 
 namespace Game_Library.GameStates
