@@ -32,6 +32,83 @@ namespace Game_Library.GameStates.Screens
 
         #endregion
 
+        #region Static Properties
+
+        /// <summary>
+        /// The folder path where save files will be stored for PC.
+        /// </summary>
+        public static string FolderPath
+        {
+            get
+            {
+                #if WINDOWS
+                return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
+                #endif
+
+                #if XBOX
+                return "";
+                #endif
+            }
+        }
+
+        /// <summary>
+        /// The path of the scores text file
+        /// </summary>
+        public static string FilePath
+        {
+            get 
+            { 
+                #if WINDOWS
+                return FolderPath + @"\scores.txt";
+                #endif
+
+                #if XBOX
+                return "";
+                #endif
+            }
+        }
+
+        /// <summary>
+        /// The default initials in the high score screen.
+        /// </summary>
+        public static string[] FirstInitials
+        {
+            get
+            {
+                string[] toReturn = new string[10];
+
+                for (int x = 0; x < 10; x++)
+                    toReturn[x] = "NLN";
+
+                return toReturn;
+            }
+        }
+
+        /// <summary>
+        /// The default top 10 scores.
+        /// </summary>
+        public static long[] FirstScores
+        {
+            get
+            {
+                return new long[]
+                {
+                    10000,
+                    7500,
+                    5000,
+                    2500,
+                    2000,
+                    1500,
+                    1000,
+                    750,
+                    500,
+                    250
+                };
+            }
+        }
+
+        #endregion
+
         #region Initialization
 
         /// <summary>
@@ -49,56 +126,10 @@ namespace Game_Library.GameStates.Screens
                 true);
 
 #if WINDOWS
-            string folderPath = @"C:\Users\Nathaniel\Documents\Space Hordes";
+            if (!File.Exists(FilePath))
+                WriteInitialScores();
 
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-
-            string filePath = folderPath + @"\scores.txt";
-
-            if (!File.Exists(filePath))
-            {
-                //If there is no scores file, make a new one
-
-                FileStream fs = null;
-                using (fs = File.Create(filePath))
-                {
-                    fs.Close();
-                }
-
-                using (StreamWriter sw = new StreamWriter(filePath))
-                {
-                    sw.WriteLine("NLN 10000");
-                    sw.WriteLine("NLN 7500");
-                    sw.WriteLine("NLN 5000");
-                    sw.WriteLine("NLN 2500");
-                    sw.WriteLine("NLN 2000");
-                    sw.WriteLine("NLN 1500");
-                    sw.WriteLine("NLN 1000");
-                    sw.WriteLine("NLN 750");
-                    sw.WriteLine("NLN 500");
-                    sw.WriteLine("NLN 250");
-
-                    sw.Close();
-                }
-            }
-
-            if (File.Exists(filePath))
-            {
-                using (TextReader tr = new StreamReader(filePath))
-                {
-                    for (int x = 0; x < maxScores; x++)
-                    {
-                        char[] initial = new char[3];
-                        tr.Read(initial, 0, 3);
-                        initials[x] = "" + initial[0] + initial[1] + initial[2];
-
-                        long score = long.Parse(tr.ReadLine());
-                        scores[x] = score;
-                    }
-                    tr.Close();
-                }
-            }
+            ReadScores(out initials, out scores);
 #endif
 #if XBOX
             //
@@ -132,6 +163,7 @@ namespace Game_Library.GameStates.Screens
 
             if (menuCancel.Evaluate(input, null, out index))
             {
+                AddScore("NLN", 0);
                 ExitScreen();
             }
         }
@@ -192,6 +224,115 @@ namespace Game_Library.GameStates.Screens
                 titleOrigin, titleScale, SpriteEffects.None, 0);
 
             spriteBatch.End();
+        }
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Writes the given values into the save file.
+        /// </summary>
+        /// <param name="initials">The 10 initials.</param>
+        /// <param name="scores">The 10 scores.</param>
+        public static void WriteScores(string[] initials, long[] scores)
+        {
+            using (StreamWriter sw = new StreamWriter(FilePath))
+            {
+                for (int x = 0; x < initials.Length; x++)
+                {
+                    sw.WriteLine(initials[x] + scores[x]);
+                }
+
+                sw.Close();
+            }
+        }
+
+        /// <summary>
+        /// Writes in the default scores.
+        /// </summary>
+        public static void WriteInitialScores()
+        {
+            if (!Directory.Exists(FolderPath))
+                Directory.CreateDirectory(FolderPath);
+
+            if (!File.Exists(FilePath))
+            {
+                //If there is no scores file, make a new one
+
+                FileStream fs = null;
+                using (fs = File.Create(FilePath))
+                {
+                    fs.Close();
+                }
+            }
+
+            WriteScores(FirstInitials, FirstScores);
+        }
+
+        /// <summary>
+        /// Returns the saved initials and scores.
+        /// </summary>
+        /// <param name="initials"></param>
+        /// <param name="scores"></param>
+        public static void ReadScores(out string[] initials, out long[] scores)
+        {
+            initials = new string[10];
+            scores = new long[10];
+
+            if (File.Exists(FilePath))
+            {
+                using (TextReader tr = new StreamReader(FilePath))
+                {
+                    for (int x = 0; x < maxScores; x++)
+                    {
+                        char[] initial = new char[3];
+                        tr.Read(initial, 0, 3);
+                        initials[x] = "" + initial[0] + initial[1] + initial[2];
+
+                        long score = long.Parse(tr.ReadLine());
+                        scores[x] = score;
+                    }
+                    tr.Close();
+                }
+            }
+
+            else
+            {
+                initials = FirstInitials;
+                scores = FirstScores;
+            }
+        }
+
+        public int AddScore(string name, long score)
+        {
+            string[] initials;
+            long[] scores;
+            ReadScores(out initials, out scores);
+
+            if (!(score > scores[scores.Length - 1]))
+                return -1;
+
+            int place = scores.Length - 1;
+
+            for (int i = 0; i < scores.Length; i++)
+            {
+                if (score > scores[i])
+                {
+                    place = i;
+                    break;
+                }
+            }
+
+            for (int i = scores.Length - 1; i > place; i--)
+                scores[i] = scores[i - 1];
+            
+            scores[place] = score;
+            initials[place] = name;
+
+            WriteScores(initials, scores);
+
+            return place;
         }
 
         #endregion
