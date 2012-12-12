@@ -163,7 +163,7 @@ namespace Game_Library.GameStates.Screens
 
             if (menuCancel.Evaluate(input, null, out index))
             {
-                AddScore("NLN", 0);
+                AddScore("WHG", 999);
                 ExitScreen();
             }
         }

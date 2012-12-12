@@ -220,6 +220,10 @@ namespace Game_Library.GameStates.Screens
             entities.HandleInput(input);
 
             PlayerIndex player;
+
+            if(input.CurrentKeyboardStates[0].IsKeyDown(Keys.Space))
+                ScreenManager.AddScreen(new InitialEntryScreen(new Vector2(0, 50)), ControllingPlayer);
+
             if (pauseAction.Evaluate(input, ControllingPlayer, out player) || gamePadDisconnected)
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);

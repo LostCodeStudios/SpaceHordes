@@ -103,7 +103,7 @@ namespace Game_Library.GameStates.Screens
             float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 3;
 
             if (isSelected)
-                selectionFade = Math.Min(selectionFade + fadeSpeed, 0.5f);
+                selectionFade = Math.Min(selectionFade + fadeSpeed, 0.3f);
             else
                 selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
 
