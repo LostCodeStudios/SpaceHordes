@@ -27,8 +27,37 @@ namespace Game_Library.GameStates.Screens
         long[] scores = new long[maxScores];
 
         int selectedScore;
+        int players;
 
         InputAction menuCancel;
+        InputAction left;
+        InputAction right;
+
+        #endregion
+
+        #region Properties
+
+        public int Players
+        {
+            get { return players; }
+            set 
+            {
+                players = value;
+                if (players < 1)
+                    players = 4;
+                if (players > 4)
+                    players = 1;
+
+                titleText = "Solo Scores";
+
+                if (players > 1)
+                {
+                    titleText = players.ToString() + " Player Scores";
+                }
+
+                ReadScores(players, out initials, out scores);
+            }
+        }
 
         #endregion
 
@@ -71,7 +100,7 @@ namespace Game_Library.GameStates.Screens
         /// <summary>
         /// The default initials in the high score screen.
         /// </summary>
-        public static string[] FirstInitials
+        public static string[] FirstInitials1
         {
             get
             {
@@ -87,7 +116,7 @@ namespace Game_Library.GameStates.Screens
         /// <summary>
         /// The default top 10 scores.
         /// </summary>
-        public static long[] FirstScores
+        public static long[] FirstScores1
         {
             get
             {
@@ -107,6 +136,111 @@ namespace Game_Library.GameStates.Screens
             }
         }
 
+        public static string[] FirstInitials2
+        {
+            get
+            {
+                string[] toReturn = new string[10];
+
+                for (int x = 0; x < 10; x++)
+                {
+                    toReturn[x] = "NLN, WHG";
+                }
+
+                return toReturn;
+            }
+        }
+
+        public static long[] FirstScores2
+        {
+            get
+            {
+                return new long[]
+                {
+                    20000,
+                    15000,
+                    10000,
+                    5000,
+                    4000,
+                    3000,
+                    2000,
+                    1500,
+                    1000,
+                    500
+                };
+            }
+        }
+
+        public static string[] FirstInitials3
+        {
+            get
+            {
+                string[] toReturn = new string[10];
+
+                for (int x = 0; x < 10; x++)
+                {
+                    toReturn[x] = "NLN, WHG, DNC";
+                }
+
+                return toReturn;
+            }
+        }
+
+        public static long[] FirstScores3
+        {
+            get
+            {
+                return new long[]
+                {
+                    30000,
+                    22500,
+                    15000,
+                    7500,
+                    6000,
+                    4500,
+                    3000,
+                    2250,
+                    1500,
+                    750
+                };
+            }
+        }
+
+        public static string[] FirstInitials4
+        {
+            get
+            {
+                string[] toReturn = new string[10];
+
+                for (int x = 0; x < 10; x++)
+                {
+                    toReturn[x] = "NLN, WHG, DNC, NKG";
+                }
+
+                return toReturn;
+            }
+        }
+
+        public static long[] FirstScores4
+        {
+            get
+            {
+                return new long[]
+                {
+                    40000,
+                    30000,
+                    20000,
+                    10000,
+                    8000,
+                    6000,
+                    4000,
+                    3000,
+                    2000,
+                    1000
+                };
+            }
+        }
+
         #endregion
 
         #region Initialization
@@ -115,9 +249,8 @@ namespace Game_Library.GameStates.Screens
         /// Makes a new high score screen, with a set title.
         /// </summary>
         /// <param name="titleText"></param>
-        public HighScoreScreen(string titleText, int selected)
+        public HighScoreScreen(int players, int selected)
         {
-            this.titleText = titleText;
             selectedScore = selected;
 
             menuCancel = new InputAction(
@@ -125,11 +258,26 @@ namespace Game_Library.GameStates.Screens
                 new Keys[] { Keys.Escape },
                 true);
 
-#if WINDOWS
-            if (!File.Exists(FilePath))
-                WriteInitialScores();
+            left = new InputAction(
+                new Buttons[] { Buttons.LeftShoulder, Buttons.LeftTrigger, Buttons.LeftThumbstickLeft },
+                new Keys[] { Keys.Left },
+                true);
 
-            ReadScores(out initials, out scores);
+            right = new InputAction(
+                new Buttons[] { Buttons.RightShoulder, Buttons.RightTrigger, Buttons.LeftThumbstickRight },
+                new Keys[] { Keys.Right },
+                true);
+
+#if WINDOWS
+
+            Players = players;
+
+            if (!File.Exists(FilePath))
+            {
+                WriteInitialScores();
+            }
+
+            ReadScores(players, out initials, out scores);
 #endif
 #if XBOX
             //
@@ -141,7 +289,7 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         /// <param name="selected"></param>
         public HighScoreScreen(int selected)
-            : this(defaultTitle, selected)
+            : this(1, selected)
         {
         }
 
@@ -161,10 +309,20 @@ namespace Game_Library.GameStates.Screens
         {
             PlayerIndex index;
 
-            if (menuCancel.Evaluate(input, null, out index))
+            if (menuCancel.Evaluate(input, ControllingPlayer, out index))
             {
-                AddScore("WHG", 999);
-                ExitScreen();
+                AddScore(1, "NLN", 100000);
+                ExitScreen(); 
+            }
+
+            if (left.Evaluate(input, ControllingPlayer, out index))
+            {
+                Players--;
+            }
+
+            if (right.Evaluate(input, ControllingPlayer, out index))
+            {
+                Players++;
             }
         }
 
@@ -233,18 +391,51 @@ namespace Game_Library.GameStates.Screens
         /// <summary>
         /// Writes the given values into the save file.
         /// </summary>
+        /// <param name="players">How many players.</param>
         /// <param name="initials">The 10 initials.</param>
         /// <param name="scores">The 10 scores.</param>
-        public static void WriteScores(string[] initials, long[] scores)
+        public static void WriteScores(int players, string[] initials, long[] scores)
         {
+            Dictionary<int, string[]> initials1 = new Dictionary<int, string[]>();
+            Dictionary<int, long[]> scores1 = new Dictionary<int, long[]>();
+
+            for (int x = 1; x <= 4; x++)
+            {
+                string[] initials2;
+                long[] scores2;
+                ReadScores(x, out initials2, out scores2);
+                initials1.Add(x, initials2);
+                scores1.Add(x, scores2);
+            }
+
             using (StreamWriter sw = new StreamWriter(FilePath))
             {
-                for (int x = 0; x < initials.Length; x++)
+                for (int x = 1; x <= 4; x++)
                 {
-                    sw.WriteLine(initials[x] + scores[x]);
+                    if (x != players)
+                    {
+                        //put initials1 rows into 1d array
+
+                        WriteScores(x, initials1[x], scores1[x], sw);
+                    }
+
+                    else
+                    {
+                        WriteScores(players, initials, scores, sw);
+                    }
                 }
 
                 sw.Close();
+            }
+        }
+
+        public static void WriteScores(int players, string[] initials, long[] scores, StreamWriter writer)
+        {
+            writer.WriteLine("[" + players.ToString() + "]");
+
+            for (int x = 0; x < initials.Length; x++)
+            {
+                writer.WriteLine(initials[x] + " " + scores[x]);
             }
         }
 
@@ -260,14 +451,14 @@ namespace Game_Library.GameStates.Screens
             {
                 //If there is no scores file, make a new one
 
-                FileStream fs = null;
-                using (fs = File.Create(FilePath))
+                
+                using (FileStream fs = File.Create(FilePath))
                 {
                     fs.Close();
                 }
             }
 
-            WriteScores(FirstInitials, FirstScores);
+            WriteScores(1, FirstInitials1, FirstScores1);
         }
 
         /// <summary>
@@ -275,40 +466,90 @@ namespace Game_Library.GameStates.Screens
         /// </summary>
         /// <param name="initials"></param>
         /// <param name="scores"></param>
-        public static void ReadScores(out string[] initials, out long[] scores)
+        public static void ReadScores(int players, out string[] initials, out long[] scores)
         {
             initials = new string[10];
             scores = new long[10];
+
+            string[] tags = new string[4];
 
             if (File.Exists(FilePath))
             {
                 using (TextReader tr = new StreamReader(FilePath))
                 {
-                    for (int x = 0; x < maxScores; x++)
+                    bool loop = true;
+                    int x = 0;
+                    while (x < 4)
                     {
-                        char[] initial = new char[3];
-                        tr.Read(initial, 0, 3);
-                        initials[x] = "" + initial[0] + initial[1] + initial[2];
-
-                        long score = long.Parse(tr.ReadLine());
-                        scores[x] = score;
+                        if (tr.ReadLine() == "[" + x.ToString() + "]")
+                        {
+                            tags[x] = "[" + x.ToString() + "]";
+                        }
+                        x++;
                     }
+
                     tr.Close();
                 }
-            }
 
-            else
-            {
-                initials = FirstInitials;
-                scores = FirstScores;
-            }
+                if (tags.Contains<string>("[" + players.ToString() + "]"))
+                {
+                    using (TextReader tr = new StreamReader(FilePath))
+                    {
+                        while (tr.ReadLine() != "[" + players.ToString() + "]")
+                        {
+                        }
+
+                        for (int x = 0; x < maxScores; x++)
+                        {
+                            char[] initial = new char[3];
+                            tr.Read(initial, 0, 3);
+                            initials[x] = "" + initial[0] + initial[1] + initial[2];
+
+                            long score = long.Parse(tr.ReadLine());
+                            scores[x] = score;
+                        }
+
+                        tr.Close();
+                    }
+                }
+
+                else
+                {
+                    switch (players)
+                    {
+                        case 1:
+                            initials = FirstInitials1;
+                            scores = FirstScores1;
+                            break;
+                        case 2:
+                            initials = FirstInitials2;
+                            scores = FirstScores2;
+                            break;
+                        case 3:
+                            initials = FirstInitials3;
+                            scores = FirstScores3;
+                            break;
+                        case 4:
+                            initials = FirstInitials4;
+                            scores = FirstScores4;
+                            break;
+                    }
+                }
+            } 
         }
 
-        public int AddScore(string name, long score)
+        /// <summary>
+        /// Adds a score to the specified scoreboard.
+        /// </summary>
+        /// <param name="players">Which scoreboard.</param>
+        /// <param name="names">The names of the players</param>
+        /// <param name="score">The score</param>
+        /// <returns>The place at which the score was placed.</returns>
+        public int AddScore(int players, string names, long score)
         {
             string[] initials;
             long[] scores;
-            ReadScores(out initials, out scores);
+            ReadScores(players, out initials, out scores);
 
             if (!(score > scores[scores.Length - 1]))
                 return -1;
@@ -328,9 +569,9 @@ namespace Game_Library.GameStates.Screens
                 scores[i] = scores[i - 1];
             
             scores[place] = score;
-            initials[place] = name;
+            initials[place] = names;
 
-            WriteScores(initials, scores);
+            WriteScores(players, initials, scores);
 
             return place;
         }
