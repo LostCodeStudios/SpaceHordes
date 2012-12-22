@@ -311,7 +311,6 @@ namespace Game_Library.GameStates.Screens
 
             if (menuCancel.Evaluate(input, ControllingPlayer, out index))
             {
-                AddScore(1, "NLN", 100000);
                 ExitScreen(); 
             }
 
@@ -435,7 +434,8 @@ namespace Game_Library.GameStates.Screens
 
             for (int x = 0; x < initials.Length; x++)
             {
-                writer.WriteLine(initials[x] + " " + scores[x]);
+                writer.WriteLine(initials[x]);
+                writer.WriteLine(scores[x]);
             }
         }
 
@@ -477,13 +477,25 @@ namespace Game_Library.GameStates.Screens
             {
                 using (TextReader tr = new StreamReader(FilePath))
                 {
-                    bool loop = true;
-                    int x = 0;
-                    while (x < 4)
+                    int x = 1;
+                    while (x <= 4)
                     {
-                        if (tr.ReadLine() == "[" + x.ToString() + "]")
+                        bool loop = true;
+
+                        while (loop)
                         {
-                            tags[x] = "[" + x.ToString() + "]";
+                            string line = tr.ReadLine();
+
+                            if (line == null)
+                            {
+                                loop = false;
+                            }
+
+                            else if (line == "[" + x.ToString() + "]")
+                            {
+                                tags[x - 1] = "[" + x.ToString() + "]";
+                                loop = false;
+                            }
                         }
                         x++;
                     }
@@ -501,9 +513,9 @@ namespace Game_Library.GameStates.Screens
 
                         for (int x = 0; x < maxScores; x++)
                         {
-                            char[] initial = new char[3];
-                            tr.Read(initial, 0, 3);
-                            initials[x] = "" + initial[0] + initial[1] + initial[2];
+                            string initial = tr.ReadLine();
+
+                            initials[x] = initial;
 
                             long score = long.Parse(tr.ReadLine());
                             scores[x] = score;
