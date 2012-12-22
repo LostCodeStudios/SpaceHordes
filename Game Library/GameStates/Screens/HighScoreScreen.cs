@@ -557,8 +557,13 @@ namespace Game_Library.GameStates.Screens
         /// <param name="names">The names of the players</param>
         /// <param name="score">The score</param>
         /// <returns>The place at which the score was placed.</returns>
-        public int AddScore(int players, string names, long score)
+        public static int AddScore(int players, string names, long score)
         {
+            if (!File.Exists(FilePath))
+            {
+                WriteInitialScores();
+            }
+
             string[] initials;
             long[] scores;
             ReadScores(players, out initials, out scores);
@@ -586,6 +591,21 @@ namespace Game_Library.GameStates.Screens
             WriteScores(players, initials, scores);
 
             return place;
+        }
+
+        /// <summary>
+        /// Tells whether the given number is above the lowest high score and should be added to the score list.
+        /// </summary>
+        /// <param name="players"></param>
+        /// <param name="score"></param>
+        /// <returns></returns>
+        public static bool IsHighScore(int players, long score)
+        {
+            string[] initials;
+            long[] scores;
+            ReadScores(players, out initials, out scores);
+
+            return (score > scores[9]);
         }
 
         #endregion

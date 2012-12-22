@@ -37,6 +37,10 @@ namespace Game_Library.GameStates.Screens
 
         bool multiplayer;
 
+        Vector2 mouseLoc;
+
+        long score = 100000;
+
         #endregion
 
         #region Properties
@@ -221,13 +225,15 @@ namespace Game_Library.GameStates.Screens
 
             PlayerIndex player;
 
-            if(input.CurrentKeyboardStates[0].IsKeyDown(Keys.Space))
-                ScreenManager.AddScreen(new InitialEntryScreen(new Vector2(0, 50)), ControllingPlayer);
+            if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Space))
+                GameOver();
 
             if (pauseAction.Evaluate(input, ControllingPlayer, out player) || gamePadDisconnected)
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
+
+            mouseLoc = input.MouseLocation;
         }
 
         public override void Draw(GameTime gameTime)
@@ -251,7 +257,8 @@ namespace Game_Library.GameStates.Screens
             if (colliding)
                 spriteBatch.DrawString(gameFont, "Colliding", Vector2.Zero, Color.White);
 
-            
+            spriteBatch.DrawString(gameFont, "X: " + mouseLoc.X, new Vector2(300, 300), Color.White);
+            spriteBatch.DrawString(gameFont, "Y: " + mouseLoc.Y, new Vector2(500, 300), Color.White);
             
 
             spriteBatch.End();
@@ -262,6 +269,17 @@ namespace Game_Library.GameStates.Screens
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void GameOver()
+        {
+            ScreenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), ControllingPlayer);
+            ScreenManager.AddScreen(new GameOverScreen(new PlayerIndex[] { (PlayerIndex)ControllingPlayer }, score), ControllingPlayer);
+            ExitScreen();
         }
 
         #endregion

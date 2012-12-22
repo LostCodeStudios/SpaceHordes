@@ -17,16 +17,20 @@ namespace Game_Library.GameStates.Screens
     {
         #region Fields
 
+        GameOverScreen parent;
+
         Vector2 position;
 
         int selectedChar = 0;
-        MenuEntry[] initials = new MenuEntry[3];
+        InitialEntryChar[] initials = new InitialEntryChar[3];
 
         InputAction up;
         InputAction down;
         InputAction left;
         InputAction right;
         InputAction accept;
+
+        bool expired = false;
 
         #endregion
 
@@ -48,12 +52,20 @@ namespace Game_Library.GameStates.Screens
             }
         }
 
+        public bool Expired
+        {
+            get { return expired; }
+            set { expired = value; }
+        }
+
         #endregion
 
         #region Initialization
 
-        public InitialEntryScreen(Vector2 position)
+        public InitialEntryScreen(Vector2 position, GameOverScreen parent)
         {
+            this.parent = parent;
+
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             IsPopup = true;
@@ -89,14 +101,17 @@ namespace Game_Library.GameStates.Screens
         {
             base.Activate();
 
-            Vector2 loc = position;
+            //Draw using a center point rather than a top left corner
+            Vector2 loc = position 
+                - new Vector2(7, 0)
+                - new Vector2(ScreenManager.InitialEntryFont.MeasureString("AAA").X / 2, 0);
 
             for (int i = 0; i < initials.Length; i++)
             {
-                initials[i] = new MenuEntry("A");
+                initials[i] = new InitialEntryChar("A");
                 initials[i].Position = loc;
 
-                loc += new Vector2(ScreenManager.Font.MeasureString("A").X + 10, 0);
+                loc += new Vector2(ScreenManager.InitialEntryFont.MeasureString("A").X + 7, 0);
             }
         }
 
@@ -121,7 +136,7 @@ namespace Game_Library.GameStates.Screens
         {
             base.Draw(gameTime);
 
-            ScreenManager.SpriteBatch.Begin();
+            //ScreenManager.SpriteBatch.Begin();
 
             foreach (MenuEntry entry in initials)
             {
@@ -131,7 +146,7 @@ namespace Game_Library.GameStates.Screens
                     entry.Draw(this, false, gameTime);
             }
 
-            ScreenManager.SpriteBatch.End();
+            //ScreenManager.SpriteBatch.End();
         }
 
         #endregion
@@ -197,7 +212,11 @@ namespace Game_Library.GameStates.Screens
             selectedChar = (int)MathHelper.Clamp((float)selectedChar, 0f, 2f);
 
             if (accept.Evaluate(input, ControllingPlayer, out index))
+            {
+                parent.Initials.Add(Initials);
                 ExitScreen();
+                expired = true;
+            }
         }
 
         #endregion

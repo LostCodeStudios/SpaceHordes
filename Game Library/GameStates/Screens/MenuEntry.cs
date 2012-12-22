@@ -14,11 +14,11 @@ namespace Game_Library.GameStates.Screens
     {
         #region Fields
 
-        string text;
-        float selectionFade;
-        Vector2 position;
+        protected string text;
+        protected float selectionFade;
+        protected Vector2 position;
 
-        Rectangle clickRectangle;
+        protected Rectangle clickRectangle;
 
         #endregion
 
@@ -131,7 +131,6 @@ namespace Game_Library.GameStates.Screens
 
             spriteBatch.DrawString(font, text, position, color, 0,
                 origin, Scale, SpriteEffects.None, 0);
-
         }
 
         /// <summary>

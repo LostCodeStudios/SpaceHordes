@@ -38,6 +38,8 @@ namespace Game_Library.GameStates
         SpriteBatch spriteBatch;
         SpriteFont font;
         SpriteFont titleFont;
+        SpriteFont initialEntryFont;
+
         Texture2D blankTexture;
 
         bool isInitialized;
@@ -70,6 +72,11 @@ namespace Game_Library.GameStates
         public SpriteFont TitleFont
         {
             get { return titleFont; }
+        }
+
+        public SpriteFont InitialEntryFont
+        {
+            get { return initialEntryFont; }
         }
 
         /// <summary>
@@ -144,6 +151,8 @@ namespace Game_Library.GameStates
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("Fonts/menufont");
             titleFont = content.Load<SpriteFont>("Fonts/titlefont");
+            initialEntryFont = content.Load<SpriteFont>("Fonts/InitialEntryFont");
+
             blankTexture = content.Load<Texture2D>("Textures/blank");
 
             //Tell each of the screens to load their content.

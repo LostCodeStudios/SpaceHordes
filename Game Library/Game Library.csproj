@@ -60,7 +60,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameStates\Screens\GameOverScreen.cs" />
     <Compile Include="GameStates\Screens\HighScoreScreen.cs" />
+    <Compile Include="GameStates\Screens\InitialEntryChar.cs" />
     <Compile Include="GameStates\Screens\InitialEntryScreen.cs" />
     <Compile Include="Input\IHandlesInput.cs" />
     <Compile Include="Model\Entities\IInput.cs" />
