@@ -1,0 +1,25 @@
+using System;
+
+namespace GameLibrary.Entities
+{
+	public abstract class IntervalTagSystem : TagSystem
+	{
+		private int acc;
+		private int interval;
+	
+		public IntervalTagSystem(int interval, string tag) : base(tag) {
+			this.interval = interval;
+		}
+
+        protected override bool CheckProcessing()
+        {
+			acc += world.Delta;
+			if(acc >= interval) {
+				acc -= interval;
+				return enabled;
+			}
+			return false;
+		}
+	}
+}
+

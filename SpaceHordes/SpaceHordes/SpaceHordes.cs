@@ -11,11 +11,10 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Storage;
 
-using Game_Library;
-using Game_Library.Input;
-using Game_Library.GameStates;
-using Game_Library.GameStates.Screens;
-using Game_Library.Model;
+using GameLibrary;
+using GameLibrary.Input;
+using GameLibrary.GameStates;
+using GameLibrary.GameStates.Screens;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
