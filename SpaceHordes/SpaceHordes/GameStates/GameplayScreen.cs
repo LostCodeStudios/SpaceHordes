@@ -41,7 +41,7 @@ namespace SpaceHordes.GameStates.Screens
 
         Vector2 mouseLoc;
 
-        long score = 100000;
+        long score = 0;
 
         #region Entities
         private PhysicsSystem physicsSystem;
