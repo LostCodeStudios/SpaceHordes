@@ -114,6 +114,7 @@
     <Compile Include="Entities\Systems\PhysicsSystem.cs" />
     <Compile Include="Entities\Systems\RenderSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
+    <Compile Include="Entities\Templates\EnemyTemplate.cs" />
     <Compile Include="Entities\Templates\PlayerTemplate.cs" />
     <Compile Include="GameStates\GameplayScreen.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />

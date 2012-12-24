@@ -51,6 +51,7 @@ namespace SpaceHordes.GameStates.Screens
 
         private EntityWorld entityWorld;
         private Entity player;
+        private Entity Enemy;
         #endregion
 
 
@@ -116,10 +117,12 @@ namespace SpaceHordes.GameStates.Screens
             camera = new Camera(ScreenManager.GraphicsDevice);
 
 
-            entityWorld = new EntityWorld(new Vector2(0, 10f));
+            entityWorld = new EntityWorld(new Vector2(0, 0f));
 
             var systemManager = entityWorld.SystemManager;
             entityWorld.SetEntityTemplate("Player", new PlayerTemplate(entityWorld, spriteSheet));
+            entityWorld.SetEntityTemplate("Base", new BaseTemplate(entityWorld, spriteSheet));
+            entityWorld.SetEntityTemplate("Enemy", new EnemyTemplate(entityWorld, spriteSheet));
             physicsSystem = systemManager.SetSystem(new PhysicsSystem(),
                 ExecutionType.Update);
 
@@ -130,7 +133,7 @@ namespace SpaceHordes.GameStates.Screens
 
             systemManager.InitializeAll();
             #endregion
-
+            #region Player
             if (multiplayer)
             {
                 for (int x = 0; x < 4; x++)
@@ -145,13 +148,21 @@ namespace SpaceHordes.GameStates.Screens
             {
                 player = entityWorld.CreateEntity("Player", (PlayerIndex)0);
             }
-
             player.Refresh();
+            #endregion
+            #region Base
+            Entity Base = entityWorld.CreateEntity("Base");
+            Base.Refresh();
+            #endregion
+            #region TestEnemy
+            Enemy = entityWorld.CreateEntity("Enemy");
+            Enemy.Refresh();
+            #endregion
 
             camera.ResetCamera();
 
             camera.TrackingBody = player.GetComponent<Physical>("Body");
-            camera.EnableRotationTracking = true;
+            //camera.EnableRotationTracking = true;
 #if DEBUG
             debugRenderSystem.LoadContent(ScreenManager.GraphicsDevice, Content);
 #endif
@@ -200,9 +211,11 @@ namespace SpaceHordes.GameStates.Screens
             {
                 //Update world.
                 entityWorld.LoopStart();
-                entityWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
                 entityWorld.Delta = (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-
+                Physical eBody = Enemy.GetComponent<Physical>("Body");
+                Physical pBody = player.GetComponent<Physical>("Body");
+                eBody.Position += ((pBody.Position - eBody.Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
+                entityWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
                 entityWorld.SystemManager.UpdateSynchronous(ExecutionType.Update);
                 camera.Update(gameTime);
               
@@ -223,6 +236,32 @@ namespace SpaceHordes.GameStates.Screens
 
             #if WINDOWS
                 KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
+                if (keyboardState.IsKeyDown(Keys.A))
+                {
+                    player.GetComponent<Physical>("Body").AngularVelocity = 0;
+                    player.GetComponent<Physical>("Body").Rotation -= 0.1f;
+                }
+                else if (keyboardState.IsKeyDown(Keys.D))
+                {
+                    player.GetComponent<Physical>("Body").AngularVelocity = 0;
+                    player.GetComponent<Physical>("Body").Rotation += 0.1f;
+                }
+
+                if (keyboardState.IsKeyDown(Keys.W))
+                {
+                    player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
+                    player.GetComponent<Physical>("Body").Position += ConvertUnits.ToSimUnits(new Vector2((float)
+                        Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
+                        Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
+                }
+                else if (keyboardState.IsKeyDown(Keys.S))
+                {
+                    player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
+
+                    player.GetComponent<Physical>("Body").Position -= ConvertUnits.ToSimUnits(new Vector2((float)
+                        Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
+                        Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
+                }
             #endif
 
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
@@ -230,12 +269,14 @@ namespace SpaceHordes.GameStates.Screens
             bool gamePadDisconnected = !gamePadState.IsConnected &&
                 input.GamePadWasConnected[playerIndex];
 
-            PlayerIndex player;
+            PlayerIndex playerI;
 
-            if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Space))
+            if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
                 GameOver();
 
-            if (pauseAction.Evaluate(input, ControllingPlayer, out player) || gamePadDisconnected)
+            
+
+            if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }

@@ -15,11 +15,11 @@ using GameLibrary.Physics.Factories;
 
 namespace SpaceHordes.Entities.Templates
 {
-    public class PlayerTemplate : IEntityTemplate
+    public class EnemyTemplate : IEntityTemplate
     {
         private EntityWorld world;
         private SpriteSheet spriteSheet;
-        public PlayerTemplate(EntityWorld world, SpriteSheet spriteSheet)
+        public EnemyTemplate(EntityWorld world, SpriteSheet spriteSheet)
         {
             this.world = world;
             this.spriteSheet = spriteSheet;
@@ -33,56 +33,39 @@ namespace SpaceHordes.Entities.Templates
         /// <returns></returns>
         public Entity BuildEntity(Entity e, params object[] args)
         {
-            e.Group = "Players";
-            string tag = "Player" + ((int)((PlayerIndex)args[0])+1);
-            e.Tag = tag;
+            e.Group = "Enemies";
+            string tag = "Enemy";
             
 
             #region Physical
             //Set up initial body
             Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e));
             FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
-                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width),
-                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height),
+                ConvertUnits.ToSimUnits(spriteSheet.Animations["purpleship"][0].Width),
+                ConvertUnits.ToSimUnits(spriteSheet.Animations["purpleship"][0].Height),
                 1,
                 ConvertUnits.ToSimUnits(
-                    new Vector2(spriteSheet.Animations[tag][0].Width/2f,
-                        spriteSheet.Animations[tag][0].Height/2f)),
+                    new Vector2(spriteSheet.Animations["purpleship"][0].Width / 2f,
+                        spriteSheet.Animations["purpleship"][0].Height / 2f)),
                 Body);
 
-            if (locations.Values.Count == 0)
-                SetStartingLocations();
+
             //Set the position
-            Body.Position = locations[(PlayerIndex)args[0]];
-            Body.BodyType = BodyType.Static;
+            Body.Position = new Vector2(2);
+            Body.Friction = 1f;
+            Body.BodyType = BodyType.Dynamic;
             Body.SleepingAllowed = false;
             #endregion
 
             #region Sprite
 
             Sprite Sprite = e.AddComponent<Sprite>("Body",
-                new Sprite(spriteSheet.Texture, spriteSheet.Animations[tag][0],
+                new Sprite(spriteSheet.Texture, spriteSheet.Animations["purpleship"][0],
                     Body, 1, Color.White, 0f));
 
             #endregion
 
             return e;
         }
-
-        #region Helpers
-        private static Dictionary<PlayerIndex, Vector2> locations = new Dictionary<PlayerIndex, Vector2>();
-        private static void SetStartingLocations()
-        {
-            locations.Add(PlayerIndex.One,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0 )));
-            locations.Add(PlayerIndex.Two,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0)));
-            locations.Add(PlayerIndex.Three,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0)));
-            locations.Add(PlayerIndex.Four,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0)));
-        }
-        #endregion
-
     }
 }
