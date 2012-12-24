@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SpaceHordes.Entities.Components;
 using GameLibrary.Physics.Dynamics;
 using GameLibrary.Physics.Dynamics.Contacts;
 using GameLibrary.Entities;
+using GameLibrary.Entities.Components;
 
-namespace SpaceHordes.Entities.Systems
+namespace GameLibrary.Entities.Systems
 {
     public class PhysicsSystem : EntityProcessingSystem
     {

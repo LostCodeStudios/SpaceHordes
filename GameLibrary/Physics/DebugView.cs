@@ -27,6 +27,7 @@ using System;
 using GameLibrary.Physics.Common;
 using GameLibrary.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using GameLibrary.Entities;
 
 namespace GameLibrary.Physics
 {
@@ -93,12 +94,12 @@ namespace GameLibrary.Physics
     /// entities in your game.
     public abstract class DebugView
     {
-        protected DebugView(PhysicsWorld world)
+        protected DebugView(EntityWorld world)
         {
             World = world;
         }
 
-        protected PhysicsWorld World { get; private set; }
+        protected EntityWorld World { get; private set; }
 
         /// <summary>
         /// Gets or sets the debug view flags.
@@ -181,5 +182,19 @@ namespace GameLibrary.Physics
         /// </summary>
         /// <param name="transform">The transform.</param>
         public abstract void DrawTransform(ref Transform transform);
+
+
+
+        public void EnableOrDisableFlag(DebugViewFlags flag)
+        {
+            if ((this.Flags & flag) == flag)
+            {
+                this.RemoveFlags(flag);
+            }
+            else
+            {
+                this.AppendFlags(flag);
+            }
+        }
     }
 }

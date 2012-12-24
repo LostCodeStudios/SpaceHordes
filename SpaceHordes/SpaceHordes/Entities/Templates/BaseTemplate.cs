@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using GameLibrary.Entities;
 using GameLibrary.Helpers;
-using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework;
 using GameLibrary.Physics.Factories;
+using GameLibrary;
 
 namespace SpaceHordes.Entities.Templates
 {
     class BaseTemplate : IEntityTemplate
     {
-        private EntityWorld world;
+        private World world;
         private SpriteSheet spriteSheet;
-        public BaseTemplate(EntityWorld world, SpriteSheet spriteSheet)
+        public BaseTemplate(World world, SpriteSheet spriteSheet)
         {
             this.world = world;
             this.spriteSheet = spriteSheet;

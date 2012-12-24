@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities;
@@ -12,14 +12,15 @@ using GameLibrary.Physics.Dynamics;
 using GameLibrary.Physics.Dynamics.Joints;
 using GameLibrary.Helpers;
 using GameLibrary.Physics.Factories;
+using GameLibrary;
 
 namespace SpaceHordes.Entities.Templates
 {
     public class EnemyTemplate : IEntityTemplate
     {
-        private EntityWorld world;
+        private World world;
         private SpriteSheet spriteSheet;
-        public EnemyTemplate(EntityWorld world, SpriteSheet spriteSheet)
+        public EnemyTemplate(World world, SpriteSheet spriteSheet)
         {
             this.world = world;
             this.spriteSheet = spriteSheet;

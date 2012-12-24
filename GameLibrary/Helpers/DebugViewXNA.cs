@@ -13,6 +13,7 @@ using GameLibrary.Physics.Dynamics.Contacts;
 using GameLibrary.Physics.Collision.Shapes;
 using GameLibrary.Physics.Common;
 using GameLibrary.Physics.Controllers;
+using GameLibrary.Entities;
 
 namespace GameLibrary.Helpers
 {
@@ -40,7 +41,7 @@ namespace GameLibrary.Helpers
         public Color KinematicShapeColor = new Color(0.5f, 0.5f, 0.9f);
         public Color SleepingShapeColor = new Color(0.6f, 0.6f, 0.6f);
         public Color StaticShapeColor = new Color(0.5f, 0.9f, 0.5f);
-        public Color TextColor = Color.White;
+        public Color TextColor = Color.Green;
 
         //Contacts
         private int _pointCount;
@@ -57,6 +58,12 @@ namespace GameLibrary.Helpers
         private int _avg;
         private int _min;
 
+        /// <summary>
+        /// UserData to be displayed on the debug panel.
+        /// </summary>
+        public Dictionary<string, object> DebugPanelUserData;
+        
+
         //Performance graph
         public bool AdaptiveLimits = true;
         public int ValuesToGraph = 500;
@@ -65,9 +72,9 @@ namespace GameLibrary.Helpers
         private List<float> _graphValues = new List<float>();
 
 #if XBOX
-        public Rectangle PerformancePanelBounds = new Rectangle(265, 100, 200, 100);
+        public Rectangle PerformancePanelBounds = new Rectangle(305, 100, 200, 100);
 #else
-        public Rectangle PerformancePanelBounds = new Rectangle(250, 100, 200, 100);
+        public Rectangle PerformancePanelBounds = new Rectangle(300, 100, 200, 100);
 #endif
         private Vector2[] _background = new Vector2[4];
         public bool Enabled = true;
@@ -78,7 +85,7 @@ namespace GameLibrary.Helpers
         public const int CircleSegments = 32;
 #endif
 
-        public DebugViewXNA(PhysicsWorld world)
+        public DebugViewXNA(EntityWorld world)
             : base(world)
         {
             world.ContactManager.PreSolve += PreSolve;
@@ -87,6 +94,8 @@ namespace GameLibrary.Helpers
             AppendFlags(DebugViewFlags.Shape);
             AppendFlags(DebugViewFlags.Controllers);
             AppendFlags(DebugViewFlags.Joint);
+
+            DebugPanelUserData = new Dictionary<string, object>();
         }
 
         public void BeginCustomDraw(ref Matrix projection, ref Matrix view)
@@ -313,7 +322,7 @@ namespace GameLibrary.Helpers
 
         private void DrawPerformanceGraph()
         {
-            _graphValues.Add(World.UpdateTime);
+            _graphValues.Add(World.PhysicsUpdateTime + World.EntitySystemUpdateTime);
 
             if (_graphValues.Count > ValuesToGraph + 1)
                 _graphValues.RemoveAt(0);
@@ -394,13 +403,27 @@ namespace GameLibrary.Helpers
                              "\n- Controllers: " + World.ControllerList.Count +
                              "\n- Proxies: " + World.ProxyCount);
 
-            DrawString(x + 110, y, "Update time:" +
-                                   "\n- Body: " + World.SolveUpdateTime +
-                                   "\n- Contact: " + World.ContactsUpdateTime +
-                                   "\n- CCD: " + World.ContinuousPhysicsTime +
-                                   "\n- Joint: " + World.Island.JointUpdateTime +
-                                   "\n- Controller: " + World.ControllersUpdateTime +
-                                   "\n- Total: " + World.UpdateTime);
+            DrawString(x + 110, y, "Update Time: " + ((float)(World.EntitySystemUpdateTime + World.PhysicsUpdateTime)).ToString() +
+                                   "\n-Physics: " + World.PhysicsUpdateTime +
+                                   "\n  - Body: " + World.SolveUpdateTime +
+                                   "\n  - Contact: " + World.ContactsUpdateTime +
+                                   "\n  - CCD: " + World.ContinuousPhysicsTime +
+                                   "\n  - Joint: " + World.Island.JointUpdateTime +
+                                   "\n  - Controller: " + World.ControllersUpdateTime +
+                                   "\n-Entity: " + World.EntitySystemUpdateTime);
+
+            if (DebugPanelUserData.Count > 0)
+            {
+                DrawString(x, y+130, "UserData:" + _GetUserDataString());
+            }
+        }
+
+        internal string _GetUserDataString()
+        {
+            string outputString = "";
+            foreach (string Key in DebugPanelUserData.Keys)
+                outputString += "\n- " + Key + ": " + DebugPanelUserData[Key].ToString();
+            return outputString;
         }
 
         public void DrawAABB(ref AABB aabb, Color color)
@@ -806,10 +829,21 @@ namespace GameLibrary.Helpers
             // draw any strings we have
             for (int i = 0; i < _stringData.Count; i++)
             {
-                _batch.DrawString(_font, string.Format(_stringData[i].S, _stringData[i].Args),
-                                  new Vector2(_stringData[i].X + 1f, _stringData[i].Y + 1f), Color.Black);
-                _batch.DrawString(_font, string.Format(_stringData[i].S, _stringData[i].Args),
-                                  new Vector2(_stringData[i].X, _stringData[i].Y), _stringData[i].Color);
+                if (_stringData[i].Args.Length > 0) //If they have variable arguments
+                {
+                    _batch.DrawString(_font, string.Format(_stringData[i].S, _stringData[i].Args),
+                                      new Vector2(_stringData[i].X + 1f, _stringData[i].Y + 1f), Color.Black);
+                    _batch.DrawString(_font, string.Format(_stringData[i].S, _stringData[i].Args),
+                                      new Vector2(_stringData[i].X, _stringData[i].Y), _stringData[i].Color);
+                }
+                else
+                {
+                    _batch.DrawString(_font, _stringData[i].S,
+                        new Vector2(_stringData[i].X + 1f, _stringData[i].Y + 1f), Color.Black);
+                    _batch.DrawString(_font, _stringData[i].S,
+                        new Vector2(_stringData[i].X, _stringData[i].Y), _stringData[i].Color);
+                }
+
             }
             // end the sprite batch effect
             _batch.End();
@@ -827,18 +861,27 @@ namespace GameLibrary.Helpers
             RenderDebugData(ref projection, ref view);
         }
 
-        public void LoadContent(GraphicsDevice device, ContentManager content)
+        public void LoadContent(GraphicsDevice device, ContentManager content, params KeyValuePair<string, object>[] userData)
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _device = device;
             _batch = new SpriteBatch(_device);
             _primitiveBatch = new PrimitiveBatch(_device, 1000);
-            _font = content.Load<SpriteFont>("Fonts/gamefont");
+           _font = content.Load<SpriteFont>("Fonts/debugfont");
             _stringData = new List<StringData>();
 
             _localProjection = Matrix.CreateOrthographicOffCenter(0f, _device.Viewport.Width, _device.Viewport.Height,
                                                                   0f, 0f, 1f);
             _localView = Matrix.Identity;
+
+            if (userData != null && userData.Length > 0)
+            {
+                foreach (KeyValuePair<string, object> data in userData)
+                    DebugPanelUserData.Add(data.Key, data.Value);
+                this.EnableOrDisableFlag(DebugViewFlags.PerformanceGraph);
+                this.EnableOrDisableFlag(DebugViewFlags.DebugPanel);
+                
+            }
         }
 
         #region Nested type: ContactPoint

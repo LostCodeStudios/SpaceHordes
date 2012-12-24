@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 namespace GameLibrary.Entities
 {
 	public enum ExecutionType
@@ -110,10 +111,14 @@ namespace GameLibrary.Entities
                     UpdatebagSync(Drawlayers[item]);
                 } 				
 			} else if(execType == ExecutionType.Update) {
+                Stopwatch watch = new Stopwatch();
+                watch.Start();
                 foreach (int item in Updatelayers.Keys)
                 {
                     UpdatebagSync(Updatelayers[item]);
-                } 
+                }
+                watch.Stop();
+                world.EntitySystemUpdateTime = watch.ElapsedTicks;
 			}	
         }
 

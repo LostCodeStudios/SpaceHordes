@@ -6,7 +6,7 @@ using GameLibrary.Physics.Dynamics;
 using GameLibrary.Entities;
 
 
-namespace SpaceHordes.Entities.Components
+namespace GameLibrary.Entities.Components
 {
     /// <summary>
     /// A physical component is a body ;)
@@ -14,7 +14,7 @@ namespace SpaceHordes.Entities.Components
     public class Physical : Body, Component
     {
 
-        public Physical(EntityWorld world, Entity e)
+        public Physical(World world, Entity e)
             : base(world, e)
         {
         }
@@ -26,6 +26,16 @@ namespace SpaceHordes.Entities.Components
         #endregion
 
         #region Events
+        #endregion
+
+        #region Helpers
+        public override string ToString()
+        {
+            return "[(Pos=" + this.Position
+                + "),\n                (LVel=" + this.LinearVelocity
+                + "),\n                (AVel=" + this.AngularVelocity
+                + "),\n                (Ent=" + this.UserData + ")]";
+        }
         #endregion
     }
 }

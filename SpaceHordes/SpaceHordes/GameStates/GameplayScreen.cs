@@ -11,10 +11,11 @@ using Microsoft.Xna.Framework.Input;
 using GameLibrary.Input;
 using GameLibrary.Helpers;
 using GameLibrary.GameStates;
-using SpaceHordes.Entities.Systems;
+using GameLibrary.Entities.Systems;
 using GameLibrary.Entities;
 using SpaceHordes.Entities.Templates;
-using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Systems;
 
 
 namespace SpaceHordes.GameStates.Screens
@@ -35,25 +36,13 @@ namespace SpaceHordes.GameStates.Screens
         SpriteSheet spriteSheet;
         InputAction pauseAction;
 
-        int x = 1000;
-
         bool multiplayer;
 
         Vector2 mouseLoc;
 
         long score = 100000;
 
-        #region Entities
-        private PhysicsSystem physicsSystem;
-        private RenderSystem renderSystem;
-        private DebugRenderSystem debugRenderSystem;
-        private Camera camera;
-
-        private EntityWorld entityWorld;
-        private Entity player;
-        private Entity Enemy;
-        #endregion
-
+        SpaceWorld World;
 
 
         #endregion
@@ -102,70 +91,31 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         public override void Activate()
         {
+            #region Screen
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             gameFont = content.Load<SpriteFont>(fontName);
             spriteBatch = ScreenManager.SpriteBatch;
             spriteSheet = new SpriteSheet(Content, "Textures/spritesheet");
             SetSourceRectangles(spriteSheet);
-
-            // TODO: Add your initialization logic here
-            #region GameLibrary
-            ConvertUnits.SetDisplayUnitToSimUnitRatio(24f);
-            ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
-
-            camera = new Camera(ScreenManager.GraphicsDevice);
-
-
-            entityWorld = new EntityWorld(new Vector2(0, 0f));
-
-            var systemManager = entityWorld.SystemManager;
-            entityWorld.SetEntityTemplate("Player", new PlayerTemplate(entityWorld, spriteSheet));
-            entityWorld.SetEntityTemplate("Base", new BaseTemplate(entityWorld, spriteSheet));
-            entityWorld.SetEntityTemplate("Enemy", new EnemyTemplate(entityWorld, spriteSheet));
-            physicsSystem = systemManager.SetSystem(new PhysicsSystem(),
-                ExecutionType.Update);
-
-#if DEBUG
-            debugRenderSystem = systemManager.SetSystem(new DebugRenderSystem(camera), ExecutionType.Draw);
-#endif
-            renderSystem = systemManager.SetSystem(new RenderSystem(ScreenManager.GraphicsDevice, spriteBatch), ExecutionType.Draw);
-
-            systemManager.InitializeAll();
-            #endregion
-            #region Player
+            PlayerIndex[] players = new PlayerIndex[4];
             if (multiplayer)
             {
                 for (int x = 0; x < 4; x++)
                 {
                     if (ScreenManager.Input.GamePadWasConnected[x])
                     {
-                        player = entityWorld.CreateEntity("Player", (PlayerIndex)x);
+                        players[x] = (PlayerIndex)x;
                     }
                 }
+
             }
-            else
-            {
-                player = entityWorld.CreateEntity("Player", (PlayerIndex)0);
-            }
-            player.Refresh();
-            #endregion
-            #region Base
-            Entity Base = entityWorld.CreateEntity("Base");
-            Base.Refresh();
-            #endregion
-            #region TestEnemy
-            Enemy = entityWorld.CreateEntity("Enemy");
-            Enemy.Refresh();
             #endregion
 
-            camera.ResetCamera();
-
-            camera.TrackingBody = player.GetComponent<Physical>("Body");
-            //camera.EnableRotationTracking = true;
-#if DEBUG
-            debugRenderSystem.LoadContent(ScreenManager.GraphicsDevice, Content);
-#endif
+            //World
+            World = new SpaceWorld(new Camera(ScreenManager.GraphicsDevice), spriteBatch,spriteSheet );
+            World.Initialize();
+            World.LoadContent(content, players);
 
             ScreenManager.Game.ResetElapsedTime();
         }
@@ -209,16 +159,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (IsActive)
             {
-                //Update world.
-                entityWorld.LoopStart();
-                entityWorld.Delta = (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-                Physical eBody = Enemy.GetComponent<Physical>("Body");
-                Physical pBody = player.GetComponent<Physical>("Body");
-                eBody.Position += ((pBody.Position - eBody.Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
-                entityWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
-                entityWorld.SystemManager.UpdateSynchronous(ExecutionType.Update);
-                camera.Update(gameTime);
-              
+                World.Update(gameTime); //Update the world.
             }
 
         }
@@ -238,29 +179,29 @@ namespace SpaceHordes.GameStates.Screens
                 KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    player.GetComponent<Physical>("Body").AngularVelocity = 0;
-                    player.GetComponent<Physical>("Body").Rotation -= 0.1f;
+                    World.Player.GetComponent<Physical>("Body").AngularVelocity = 0;
+                    World.Player.GetComponent<Physical>("Body").Rotation -= 0.1f;
                 }
                 else if (keyboardState.IsKeyDown(Keys.D))
                 {
-                    player.GetComponent<Physical>("Body").AngularVelocity = 0;
-                    player.GetComponent<Physical>("Body").Rotation += 0.1f;
+                    World.Player.GetComponent<Physical>("Body").AngularVelocity = 0;
+                    World.Player.GetComponent<Physical>("Body").Rotation += 0.1f;
                 }
 
                 if (keyboardState.IsKeyDown(Keys.W))
                 {
-                    player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
-                    player.GetComponent<Physical>("Body").Position += ConvertUnits.ToSimUnits(new Vector2((float)
-                        Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
-                        Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
+                    World.Player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
+                    World.Player.GetComponent<Physical>("Body").Position += ConvertUnits.ToSimUnits(new Vector2((float)
+                        Math.Cos(World.Player.GetComponent<Physical>("Body").Rotation), (float)
+                        Math.Sin(World.Player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
                 }
                 else if (keyboardState.IsKeyDown(Keys.S))
                 {
-                    player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
+                    World.Player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
 
-                    player.GetComponent<Physical>("Body").Position -= ConvertUnits.ToSimUnits(new Vector2((float)
-                        Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
-                        Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
+                    World.Player.GetComponent<Physical>("Body").Position -= ConvertUnits.ToSimUnits(new Vector2((float)
+                        Math.Cos(World.Player.GetComponent<Physical>("Body").Rotation), (float)
+                        Math.Sin(World.Player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
                 }
             #endif
 
@@ -290,9 +231,8 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
-            spriteBatch.Begin(0, null, null, null, null, null, camera.View);
-            entityWorld.SystemManager.UpdateSynchronous(ExecutionType.Draw);
-
+            spriteBatch.Begin(0, null, null, null, null, null, World.Camera.View);
+            World.Draw(gameTime); //Draw the world.
             spriteBatch.End();
 
             if (TransitionPosition > 0 || pauseAlpha > 0)

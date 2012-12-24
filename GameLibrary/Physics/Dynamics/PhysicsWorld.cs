@@ -259,7 +259,7 @@ namespace GameLibrary.Physics.Dynamics
 
         public List<BreakableBody> BreakableBodyList { get; private set; }
 
-        public float UpdateTime { get; private set; }
+        public float PhysicsUpdateTime { get; protected set; }
 
         public float ContinuousPhysicsTime { get; private set; }
 
@@ -754,7 +754,7 @@ namespace GameLibrary.Physics.Dynamics
                 _watch.Stop();
                 //AddRemoveTime = 1000 * AddRemoveTime / Stopwatch.Frequency;
 
-                UpdateTime = _watch.ElapsedTicks;
+                PhysicsUpdateTime = _watch.ElapsedTicks;
                 _watch.Reset();
             }
 #endif

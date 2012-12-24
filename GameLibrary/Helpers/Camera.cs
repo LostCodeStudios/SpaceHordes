@@ -384,6 +384,11 @@ namespace GameLibrary.Helpers
 
             return new Vector2(t.X, t.Y);
         }
+
+        public override string ToString()
+        {
+            return _currentPosition.ToString();
+        }
         #endregion
        
 

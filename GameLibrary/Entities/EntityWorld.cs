@@ -2,18 +2,23 @@ using System;
 using System.Collections.Generic;
 using GameLibrary.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 namespace GameLibrary.Entities
 {
-	public sealed class EntityWorld : PhysicsWorld {
+    /// <summary>
+    /// The entity world, a subset of the physics world.
+    /// </summary>
+	public class EntityWorld : PhysicsWorld {
 		private SystemManager systemManager;
-		private EntityManager entityManager;
-		private TagManager tagManager;
-		private GroupManager groupManager;
+        private EntityManager entityManager;
+        private TagManager tagManager;
+        private GroupManager groupManager;
         private Bag<Entity> refreshed = new Bag<Entity>();
-        private Bag<Entity> deleted = new Bag<Entity>();        
-		private Dictionary<String,Stack<int>> cached = new Dictionary<String, Stack<int>>();
+        private Bag<Entity> deleted = new Bag<Entity>();
+        private Dictionary<String, Stack<int>> cached = new Dictionary<String, Stack<int>>();
         private Dictionary<String, IEntityTemplate> entityTemplates = new Dictionary<String, IEntityTemplate>();
 		private int delta;
+        private Vector2 vector2;
 		
 		public EntityWorld(Vector2 gravity) : base(gravity){
 			entityManager = new EntityManager(this);
@@ -42,10 +47,17 @@ namespace GameLibrary.Entities
 		 * Time since last game loop.
 		 * @return delta in milliseconds.
 		 */
-		public int Delta {
+        public int Delta
+        {
 			get { return delta; }
 			set { delta = value; }
 		}
+
+        public float EntitySystemUpdateTime
+        {
+            get;
+            internal set;
+        }
 		
 		/**
 		 * Delete the provided entity from the world.
@@ -96,7 +108,6 @@ namespace GameLibrary.Entities
             System.Diagnostics.Debug.Assert(entityId >= 0);
 			return entityManager.GetEntity(entityId);
 		}
-
 
         public void LoopStart()
         {

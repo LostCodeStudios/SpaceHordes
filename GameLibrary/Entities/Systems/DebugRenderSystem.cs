@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Entities;
 using GameLibrary.Helpers;
 
-namespace SpaceHordes.Entities.Systems
+namespace GameLibrary.Entities.Systems
 {
     public class DebugRenderSystem  : IntervalEntitySystem
     {
         DebugViewXNA _debugView;
         Camera _Camera;
-
+        bool contentLoaded = false;
         public DebugRenderSystem(Camera camera) : base(33)
         {
             this._Camera = camera;
@@ -25,9 +24,13 @@ namespace SpaceHordes.Entities.Systems
             _debugView = new DebugViewXNA(world);
         }
 
-        public void LoadContent(GraphicsDevice device, ContentManager content)
+        public void LoadContent(GraphicsDevice device, ContentManager content, params KeyValuePair<string, object>[] userData)
         {
-            _debugView.LoadContent(device, content);
+            if (!contentLoaded)
+            {
+                _debugView.LoadContent(device, content, userData);
+                contentLoaded = true;
+            }
         }
 
         public override void Process()

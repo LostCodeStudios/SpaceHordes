@@ -67,6 +67,8 @@
     <Compile Include="Entities\BlackBoard\TriggerMultiCondition.cs" />
     <Compile Include="Entities\Component.cs" />
     <Compile Include="Entities\ComponentMapper.cs" />
+    <Compile Include="Entities\Components\Physical.cs" />
+    <Compile Include="Entities\Components\Sprite.cs" />
     <Compile Include="Entities\ComponentType.cs" />
     <Compile Include="Entities\ComponentTypeManager.cs" />
     <Compile Include="Entities\DelayedEntityProcessingSystem.cs" />
@@ -87,6 +89,9 @@
     <Compile Include="Entities\QueueSystemProcessingThreadSafe.cs" />
     <Compile Include="Entities\SystemBitManager.cs" />
     <Compile Include="Entities\SystemManager.cs" />
+    <Compile Include="Entities\Systems\DebugRenderSystem.cs" />
+    <Compile Include="Entities\Systems\PhysicsSystem.cs" />
+    <Compile Include="Entities\Systems\RenderSystem.cs" />
     <Compile Include="Entities\TagManager.cs" />
     <Compile Include="Entities\TagSystem.cs" />
     <Compile Include="Entities\Utils\Bag.cs">
@@ -107,10 +112,10 @@
     <Compile Include="Helpers\LineBatch.cs" />
     <Compile Include="Helpers\PrimitiveBatch.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
-    <Compile Include="Input\IHandlesInput.cs" />
-    <Compile Include="Input\InputAction.cs" />
-    <Compile Include="Input\InputState.cs" />
-    <Compile Include="Input\PlayerIndexEventArgs.cs" />
+    <Compile Include="Helpers\Input\IHandlesInput.cs" />
+    <Compile Include="Helpers\Input\InputAction.cs" />
+    <Compile Include="Helpers\Input\InputState.cs" />
+    <Compile Include="Helpers\Input\PlayerIndexEventArgs.cs" />
     <Compile Include="Physics\Collision\Collision.cs" />
     <Compile Include="Physics\Collision\Distance.cs" />
     <Compile Include="Physics\Collision\DynamicTree.cs" />
@@ -216,9 +221,9 @@
     <Compile Include="Physics\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\SpriteSheet.cs" />
+    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entities\LICENSE.txt" />
     <Content Include="Physics\Background.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

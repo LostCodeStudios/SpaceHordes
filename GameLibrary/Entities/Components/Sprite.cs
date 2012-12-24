@@ -8,7 +8,7 @@ using GameLibrary.Entities;
 using GameLibrary.Physics.Dynamics;
 using GameLibrary.Helpers;
 
-namespace SpaceHordes.Entities.Components
+namespace GameLibrary.Entities.Components
 {
     /// <summary>
     /// A sprite component
