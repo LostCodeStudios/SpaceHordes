@@ -15,6 +15,7 @@ using GameLibrary;
 using GameLibrary.Input;
 using GameLibrary.GameStates;
 using GameLibrary.GameStates.Screens;
+using SpaceHordes.GameStates.Screens;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
@@ -69,6 +70,14 @@ namespace SpaceHordes
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            Window.Title = "Space Hordes";
+            graphics.PreferMultiSampling = true;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+
+            IsFixedTimeStep = true;
+            graphics.ApplyChanges();
+
             Components.Add(new GamerServicesComponent(this));
         }
 
@@ -81,10 +90,6 @@ namespace SpaceHordes
         protected override void Initialize()
         {
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
-
-            graphics.ApplyChanges();
 
             #if WINDOWS
             this.IsMouseVisible = true;

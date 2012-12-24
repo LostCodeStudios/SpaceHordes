@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 
 using GameLibrary.Input;
+using GameLibrary.GameStates.Screens;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// The main menu screen is the first thing displayed when 

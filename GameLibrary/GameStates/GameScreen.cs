@@ -131,7 +131,7 @@ namespace GameLibrary.GameStates
         public ScreenManager ScreenManager
         {
             get { return screenManager; }
-            internal set { screenManager = value; }
+            set { screenManager = value; }
         }
 
         /// <summary>

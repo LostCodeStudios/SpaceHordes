@@ -10,8 +10,10 @@ using Microsoft.Xna.Framework.Input;
 
 using GameLibrary;
 using GameLibrary.Input;
+using GameLibrary.GameStates.Screens;
+using GameLibrary.GameStates;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     class InitialEntryScreen : GameScreen
     {

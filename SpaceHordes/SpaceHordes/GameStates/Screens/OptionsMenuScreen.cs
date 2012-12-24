@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using GameLibrary.GameStates.Screens;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// The options screen is brought up over the top of the

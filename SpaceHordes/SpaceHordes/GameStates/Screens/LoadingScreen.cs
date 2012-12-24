@@ -2,9 +2,10 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameLibrary.GameStates;
 
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// The loading screen coordinates transitions between the menu system and the

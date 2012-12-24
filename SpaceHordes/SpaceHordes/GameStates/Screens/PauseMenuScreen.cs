@@ -2,8 +2,9 @@
 
 using GameLibrary;
 using GameLibrary.Input;
+using GameLibrary.GameStates.Screens;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// The pause menu comes up over the top of the game,

@@ -833,7 +833,7 @@ namespace GameLibrary.Helpers
             _device = device;
             _batch = new SpriteBatch(_device);
             _primitiveBatch = new PrimitiveBatch(_device, 1000);
-            _font = content.Load<SpriteFont>("font");
+            _font = content.Load<SpriteFont>("Fonts/gamefont");
             _stringData = new List<StringData>();
 
             _localProjection = Matrix.CreateOrthographicOffCenter(0f, _device.Viewport.Width, _device.Viewport.Height,

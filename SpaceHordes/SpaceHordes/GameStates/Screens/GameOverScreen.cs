@@ -8,8 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using GameLibrary.Input;
+using GameLibrary.GameStates;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     public class GameOverScreen : GameScreen
     {
@@ -186,7 +187,7 @@ namespace GameLibrary.GameStates.Screens
 
         #region Input
 
-        public override void HandleInput(GameTime gameTime, Input.InputState input)
+        public override void HandleInput(GameTime gameTime, GameLibrary.Input.InputState input)
         {
             base.HandleInput(gameTime, input);
 

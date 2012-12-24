@@ -9,8 +9,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 using GameLibrary.Input;
+using GameLibrary.GameStates;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// A screen for displaying 10 high scores, read from a text file.

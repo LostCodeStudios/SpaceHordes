@@ -10,9 +10,14 @@ using Microsoft.Xna.Framework.Input;
 
 using GameLibrary.Input;
 using GameLibrary.Helpers;
+using GameLibrary.GameStates;
+using SpaceHordes.Entities.Systems;
+using GameLibrary.Entities;
+using SpaceHordes.Entities.Templates;
+using SpaceHordes.Entities.Components;
 
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// This screen implements the actual game logic.
@@ -23,13 +28,13 @@ namespace GameLibrary.GameStates.Screens
 
         ContentManager content;
         SpriteFont gameFont;
+        SpriteBatch spriteBatch;
         string fontName;
 
         float pauseAlpha;
         SpriteSheet spriteSheet;
         InputAction pauseAction;
 
-        bool colliding = false;
         int x = 1000;
 
         bool multiplayer;
@@ -37,6 +42,18 @@ namespace GameLibrary.GameStates.Screens
         Vector2 mouseLoc;
 
         long score = 100000;
+
+        #region Entities
+        private PhysicsSystem physicsSystem;
+        private RenderSystem renderSystem;
+        private DebugRenderSystem debugRenderSystem;
+        private Camera camera;
+
+        private EntityWorld entityWorld;
+        private Entity player;
+        #endregion
+
+
 
         #endregion
 
@@ -86,13 +103,33 @@ namespace GameLibrary.GameStates.Screens
         {
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
+            gameFont = content.Load<SpriteFont>(fontName);
+            spriteBatch = ScreenManager.SpriteBatch;
+            spriteSheet = new SpriteSheet(Content, "Textures/spritesheet");
+            SetSourceRectangles(spriteSheet);
 
+            // TODO: Add your initialization logic here
+            #region GameLibrary
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(24f);
             ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
 
-            gameFont = content.Load<SpriteFont>(fontName);
+            camera = new Camera(ScreenManager.GraphicsDevice);
 
-            spriteSheet = new SpriteSheet(Content, "Textures/spritesheet");
 
+            entityWorld = new EntityWorld(new Vector2(0, 10f));
+
+            var systemManager = entityWorld.SystemManager;
+            entityWorld.SetEntityTemplate("Player", new PlayerTemplate(entityWorld, spriteSheet));
+            physicsSystem = systemManager.SetSystem(new PhysicsSystem(),
+                ExecutionType.Update);
+
+#if DEBUG
+            debugRenderSystem = systemManager.SetSystem(new DebugRenderSystem(camera), ExecutionType.Draw);
+#endif
+            renderSystem = systemManager.SetSystem(new RenderSystem(ScreenManager.GraphicsDevice, spriteBatch), ExecutionType.Draw);
+
+            systemManager.InitializeAll();
+            #endregion
 
             if (multiplayer)
             {
@@ -100,15 +137,24 @@ namespace GameLibrary.GameStates.Screens
                 {
                     if (ScreenManager.Input.GamePadWasConnected[x])
                     {
-                       
+                        player = entityWorld.CreateEntity("Player", (PlayerIndex)x);
                     }
                 }
             }
-
             else
-            {               
+            {
+                player = entityWorld.CreateEntity("Player", (PlayerIndex)0);
             }
-            
+
+            player.Refresh();
+
+            camera.ResetCamera();
+
+            camera.TrackingBody = player.GetComponent<Physical>("Body");
+            camera.EnableRotationTracking = true;
+#if DEBUG
+            debugRenderSystem.LoadContent(ScreenManager.GraphicsDevice, Content);
+#endif
 
             ScreenManager.Game.ResetElapsedTime();
         }
@@ -152,7 +198,13 @@ namespace GameLibrary.GameStates.Screens
 
             if (IsActive)
             {
-                
+                //Update world.
+                entityWorld.LoopStart();
+                entityWorld.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+                entityWorld.Delta = (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+                entityWorld.SystemManager.UpdateSynchronous(ExecutionType.Update);
+                camera.Update(gameTime);
               
             }
 
@@ -197,14 +249,8 @@ namespace GameLibrary.GameStates.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-
-            spriteBatch.Begin();
-
-           
-            spriteBatch.DrawString(gameFont, "X: " + mouseLoc.X, new Vector2(300, 300), Color.White);
-            spriteBatch.DrawString(gameFont, "Y: " + mouseLoc.Y, new Vector2(500, 300), Color.White);
-            
+            spriteBatch.Begin(0, null, null, null, null, null, camera.View);
+            entityWorld.SystemManager.UpdateSynchronous(ExecutionType.Draw);
 
             spriteBatch.End();
 
@@ -279,22 +325,22 @@ namespace GameLibrary.GameStates.Screens
                     new Rectangle(421, 52, 24, 21)
                 });
 
-            sourceRectangles.Add("player1",
+            sourceRectangles.Add("Player1",
                 new Rectangle[] {
                     new Rectangle(2, 81, 23, 11)
                 });
 
-            sourceRectangles.Add("player2",
+            sourceRectangles.Add("Player2",
                 new Rectangle[] {
                     new Rectangle(27, 80, 20, 16)
                 });
 
-            sourceRectangles.Add("player3",
+            sourceRectangles.Add("Player3",
                 new Rectangle[] {
                     new Rectangle(249, 140, 25, 19)
                 });
 
-            sourceRectangles.Add("player4",
+            sourceRectangles.Add("Player4",
                 new Rectangle[] {
                     new Rectangle(112, 139, 21, 17)
                 });

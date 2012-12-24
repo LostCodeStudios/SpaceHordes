@@ -5,8 +5,10 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameLibrary.GameStates;
+using GameLibrary.GameStates.Screens;
 
-namespace GameLibrary.GameStates.Screens
+namespace SpaceHordes.GameStates.Screens
 {
     class InitialEntryChar : MenuEntry
     {
