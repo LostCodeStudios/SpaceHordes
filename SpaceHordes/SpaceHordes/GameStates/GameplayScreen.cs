@@ -223,67 +223,6 @@ namespace SpaceHordes.GameStates.Screens
 
         }
 
-        /// <summary>
-        /// Lets the game respond to user input. Only called when this screen
-        /// is active.
-        /// </summary>
-        public override void HandleInput(GameTime gameTime, InputState input)
-        {
-            if (input == null)
-                throw new ArgumentNullException("input");
-
-            int playerIndex = (int)ControllingPlayer.Value;
-
-            #if WINDOWS
-                KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
-                if (keyboardState.IsKeyDown(Keys.A))
-                {
-                    player.GetComponent<Physical>("Body").AngularVelocity = 0;
-                    player.GetComponent<Physical>("Body").Rotation -= 0.1f;
-                }
-                else if (keyboardState.IsKeyDown(Keys.D))
-                {
-                    player.GetComponent<Physical>("Body").AngularVelocity = 0;
-                    player.GetComponent<Physical>("Body").Rotation += 0.1f;
-                }
-
-                if (keyboardState.IsKeyDown(Keys.W))
-                {
-                    player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
-                    player.GetComponent<Physical>("Body").Position += ConvertUnits.ToSimUnits(new Vector2((float)
-                        Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
-                        Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
-                }
-                else if (keyboardState.IsKeyDown(Keys.S))
-                {
-                    player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
-
-                    player.GetComponent<Physical>("Body").Position -= ConvertUnits.ToSimUnits(new Vector2((float)
-                        Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
-                        Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
-                }
-            #endif
-
-            GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
-
-            bool gamePadDisconnected = !gamePadState.IsConnected &&
-                input.GamePadWasConnected[playerIndex];
-
-            PlayerIndex playerI;
-
-            if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
-                GameOver();
-
-            
-
-            if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
-            {
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
-            }
-
-            mouseLoc = input.MouseLocation;
-        }
-
         public override void Draw(GameTime gameTime)
         {
 
@@ -301,6 +240,71 @@ namespace SpaceHordes.GameStates.Screens
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+        }
+
+        #endregion
+
+        #region Input
+
+        /// <summary>
+        /// Lets the game respond to user input. Only called when this screen
+        /// is active.
+        /// </summary>
+        public override void HandleInput(GameTime gameTime, InputState input)
+        {
+            if (input == null)
+                throw new ArgumentNullException("input");
+
+            int playerIndex = (int)ControllingPlayer.Value;
+
+#if WINDOWS
+            KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                player.GetComponent<Physical>("Body").AngularVelocity = 0;
+                player.GetComponent<Physical>("Body").Rotation -= 0.1f;
+            }
+            else if (keyboardState.IsKeyDown(Keys.D))
+            {
+                player.GetComponent<Physical>("Body").AngularVelocity = 0;
+                player.GetComponent<Physical>("Body").Rotation += 0.1f;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.W))
+            {
+                player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
+                player.GetComponent<Physical>("Body").Position += ConvertUnits.ToSimUnits(new Vector2((float)
+                    Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
+                    Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
+            }
+            else if (keyboardState.IsKeyDown(Keys.S))
+            {
+                player.GetComponent<Physical>("Body").LinearVelocity = Vector2.Zero;
+
+                player.GetComponent<Physical>("Body").Position -= ConvertUnits.ToSimUnits(new Vector2((float)
+                    Math.Cos(player.GetComponent<Physical>("Body").Rotation), (float)
+                    Math.Sin(player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
+            }
+#endif
+
+            GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
+
+            bool gamePadDisconnected = !gamePadState.IsConnected &&
+                input.GamePadWasConnected[playerIndex];
+
+            PlayerIndex playerI;
+
+            if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
+                GameOver();
+
+
+
+            if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
+            {
+                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+            }
+
+            mouseLoc = input.MouseLocation;
         }
 
         #endregion

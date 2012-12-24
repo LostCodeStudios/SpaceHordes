@@ -451,8 +451,6 @@ namespace SpaceHordes.GameStates.Screens
             if (!File.Exists(FilePath))
             {
                 //If there is no scores file, make a new one
-
-                
                 using (FileStream fs = File.Create(FilePath))
                 {
                     fs.Close();
