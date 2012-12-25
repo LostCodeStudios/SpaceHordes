@@ -69,7 +69,10 @@ namespace GameLibrary.Helpers
         public int ValuesToGraph = 500;
         public int MinimumValue;
         public int MaximumValue = 1000;
-        private List<float> _graphValues = new List<float>();
+        private List<float> _graphTotalValues = new List<float>();
+        private List<float> _graphPhysicsValues = new List<float>();
+        private List<float> _graphEntitiesValues = new List<float>();
+
 
 #if XBOX
         public Rectangle PerformancePanelBounds = new Rectangle(305, 100, 200, 100);
@@ -322,21 +325,27 @@ namespace GameLibrary.Helpers
 
         private void DrawPerformanceGraph()
         {
-            _graphValues.Add(World.PhysicsUpdateTime + World.EntitySystemUpdateTime);
+            _graphTotalValues.Add(World.PhysicsUpdateTime + World.EntitySystemUpdateTime);
+            _graphEntitiesValues.Add(World.EntitySystemUpdateTime);
+            _graphPhysicsValues.Add(World.PhysicsUpdateTime);
 
-            if (_graphValues.Count > ValuesToGraph + 1)
-                _graphValues.RemoveAt(0);
+            if (_graphTotalValues.Count > ValuesToGraph + 1)
+                _graphTotalValues.RemoveAt(0);
+            if (_graphPhysicsValues.Count > ValuesToGraph + 1)
+                _graphPhysicsValues.RemoveAt(0);
+            if (_graphEntitiesValues.Count > ValuesToGraph + 1)
+                _graphEntitiesValues.RemoveAt(0);
 
             float x = PerformancePanelBounds.X;
             float deltaX = PerformancePanelBounds.Width / (float)ValuesToGraph;
             float yScale = PerformancePanelBounds.Bottom - (float)PerformancePanelBounds.Top;
 
             // we must have at least 2 values to start rendering
-            if (_graphValues.Count > 2)
+            if (_graphTotalValues.Count > 2)
             {
-                _max = (int)_graphValues.Max();
-                _avg = (int)_graphValues.Average();
-                _min = (int)_graphValues.Min();
+                _max = (int)_graphTotalValues.Max();
+                _avg = (int)_graphTotalValues.Average();
+                _min = (int)_graphEntitiesValues.Min();
 
                 if (AdaptiveLimits)
                 {
@@ -344,14 +353,16 @@ namespace GameLibrary.Helpers
                     MinimumValue = 0;
                 }
 
+                #region Draw Physics
+                x = PerformancePanelBounds.X;
                 // start at last value (newest value added)
                 // continue until no values are left
-                for (int i = _graphValues.Count - 1; i > 0; i--)
+                for (int i = _graphPhysicsValues.Count - 1; i > 0; i--)
                 {
                     float y1 = PerformancePanelBounds.Bottom -
-                               ((_graphValues[i] / (MaximumValue - MinimumValue)) * yScale);
+                               ((_graphPhysicsValues[i] / (MaximumValue - MinimumValue)) * yScale);
                     float y2 = PerformancePanelBounds.Bottom -
-                               ((_graphValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
+                               ((_graphPhysicsValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
 
                     Vector2 x1 =
                         new Vector2(MathHelper.Clamp(x, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
@@ -362,15 +373,69 @@ namespace GameLibrary.Helpers
                             MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
                             MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
 
-                    DrawSegment(x1, x2, Color.LightGreen);
+                    DrawSegment(x1, x2, Color.Blue);
 
                     x += deltaX;
                 }
+                #endregion
+
+                #region Draw Entities
+                x = PerformancePanelBounds.X;
+                // start at last value (newest value added)
+                // continue until no values are left
+                for (int i = _graphEntitiesValues.Count - 1; i > 0; i--)
+                {
+                    float y1 = PerformancePanelBounds.Bottom -
+                               ((_graphEntitiesValues[i] / (MaximumValue - MinimumValue)) * yScale);
+                    float y2 = PerformancePanelBounds.Bottom -
+                               ((_graphEntitiesValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
+
+                    Vector2 x1 =
+                        new Vector2(MathHelper.Clamp(x, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                                    MathHelper.Clamp(y1, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                    Vector2 x2 =
+                        new Vector2(
+                            MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                            MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                    DrawSegment(x1, x2, Color.Red);
+
+                    x += deltaX;
+                }
+                #endregion
+
             }
+
+            #region Draw Total
+            x = PerformancePanelBounds.X;
+            // start at last value (newest value added)
+            // continue until no values are left
+            for (int i = _graphTotalValues.Count - 1; i > 0; i--)
+            {
+                float y1 = PerformancePanelBounds.Bottom -
+                           ((_graphTotalValues[i] / (MaximumValue - MinimumValue)) * yScale);
+                float y2 = PerformancePanelBounds.Bottom -
+                           ((_graphTotalValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
+
+                Vector2 x1 =
+                    new Vector2(MathHelper.Clamp(x, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                                MathHelper.Clamp(y1, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                Vector2 x2 =
+                    new Vector2(
+                        MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                        MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                DrawSegment(x1, x2, Color.LightGreen);
+
+                x += deltaX;
+            }
+            #endregion
 
             DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Top, "Max: " + _max);
             DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Center.Y - 7, "Avg: " + _avg);
-            DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Bottom - 15, "Min: " + _min);
+            DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Bottom - 15, "Min: " + _min, Color.Red);
 
             //Draw background.
             _background[0] = new Vector2(PerformancePanelBounds.X, PerformancePanelBounds.Y);
@@ -401,16 +466,17 @@ namespace GameLibrary.Helpers
                              "\n- Contacts: " + World.ContactList.Count +
                              "\n- Joints: " + World.JointList.Count +
                              "\n- Controllers: " + World.ControllerList.Count +
-                             "\n- Proxies: " + World.ProxyCount);
+                             "\n- Proxies: " + World.ProxyCount +
+                             "\n- Entities: " + World.EntityManager.ActiveEntitiesCount, Color.Green);
 
-            DrawString(x + 110, y, "Update Time: " + ((float)(World.EntitySystemUpdateTime + World.PhysicsUpdateTime)).ToString() +
-                                   "\n-Physics: " + World.PhysicsUpdateTime +
-                                   "\n  - Body: " + World.SolveUpdateTime +
-                                   "\n  - Contact: " + World.ContactsUpdateTime +
-                                   "\n  - CCD: " + World.ContinuousPhysicsTime +
-                                   "\n  - Joint: " + World.Island.JointUpdateTime +
-                                   "\n  - Controller: " + World.ControllersUpdateTime +
-                                   "\n-Entity: " + World.EntitySystemUpdateTime);
+            DrawString(x + 110, y, "Update Time: " + (_graphEntitiesValues.Average() + _graphPhysicsValues.Average()).ToString());
+            DrawString(x + 110, y, "\n --Physics: " + _graphPhysicsValues.Average() +
+                                   "\n   - Body: " + World.SolveUpdateTime +
+                                   "\n   - Contact: " + World.ContactsUpdateTime +
+                                   "\n   - CCD: " + World.ContinuousPhysicsTime +
+                                   "\n   - Joint: " + World.Island.JointUpdateTime +
+                                   "\n   - Controller: " + World.ControllersUpdateTime, Color.Blue);
+            DrawString(x + 110, y, "\n\n\n\n\n\n\n --Entity: " + _graphEntitiesValues.Average(), Color.Red);
 
             if (DebugPanelUserData.Count > 0)
             {
@@ -741,8 +807,14 @@ namespace GameLibrary.Helpers
 
         public void DrawString(int x, int y, string s, params object[] args)
         {
-            _stringData.Add(new StringData(x, y, s, args, TextColor));
+            this.DrawString(x, y, s, TextColor, args);
         }
+
+        public void DrawString(int x, int y, string s, Color color, params object[] args)
+        {
+            _stringData.Add(new StringData(x, y, s, args, color));
+        }
+
 
         public void DrawArrow(Vector2 start, Vector2 end, float length, float width, bool drawStartIndicator,
                               Color color)
@@ -882,6 +954,10 @@ namespace GameLibrary.Helpers
                 this.EnableOrDisableFlag(DebugViewFlags.DebugPanel);
                 
             }
+
+            _graphTotalValues.Add(World.PhysicsUpdateTime + World.EntitySystemUpdateTime);
+            _graphEntitiesValues.Add(World.EntitySystemUpdateTime);
+            _graphPhysicsValues.Add(World.PhysicsUpdateTime);
         }
 
         #region Nested type: ContactPoint

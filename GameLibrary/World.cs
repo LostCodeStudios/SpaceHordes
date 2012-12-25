@@ -48,9 +48,10 @@ namespace GameLibrary
             #region Systems
             //Systems
             _PhysicsSystem = this.SystemManager.SetSystem(new PhysicsSystem(), ExecutionType.Update);
-            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(_SpriteBatch), ExecutionType.Draw);
 #if DEBUG
             _DebugRenderSystem = this.SystemManager.SetSystem(new DebugRenderSystem(this.Camera), ExecutionType.Draw);
+#else
+            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(_SpriteBatch), ExecutionType.Draw);
 #endif
             #endregion
 
