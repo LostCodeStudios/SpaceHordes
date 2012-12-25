@@ -16,7 +16,7 @@ namespace SpaceHordes.GameStates.Screens
         #region Fields
 
         //TODO: Add MenuEntries for options.
-        MenuEntry sound  = new MenuEntry("Sound: On");
+        MenuEntry sound  = new MenuEntry("//Sound: On");
         MenuEntry music = new MenuEntry("Music: On");
 
         #endregion
@@ -77,7 +77,7 @@ namespace SpaceHordes.GameStates.Screens
                 ReadSettings(out sound, out music);
 
                 WriteSettings(value, music);
-                Sound.Enabled = value;
+                //Sound.Enabled = value;
             }
         }
 
@@ -154,7 +154,7 @@ namespace SpaceHordes.GameStates.Screens
 
         private void updateMenuEntryText()
         {
-            this.sound.Text = "Sound: ";
+            this.sound.Text = "//Sound: ";
 
             switch (SoundOn)
             {
@@ -198,7 +198,7 @@ namespace SpaceHordes.GameStates.Screens
 
             using (TextReader tr = new StreamReader(FilePath))
             {
-                while (tr.ReadLine() != "[Sound]")
+                while (tr.ReadLine() != "[//Sound]")
                 {
                 }
 
@@ -242,7 +242,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine("[Sound]");
+                writer.WriteLine("[//Sound]");
 
                 switch (sound)
                 {

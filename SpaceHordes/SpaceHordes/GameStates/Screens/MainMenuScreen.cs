@@ -52,7 +52,7 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
-            Sound.Enabled = OptionsMenuScreen.SoundOn;
+            //Sound.Enabled = OptionsMenuScreen.SoundOn;
         }
 
         #endregion
