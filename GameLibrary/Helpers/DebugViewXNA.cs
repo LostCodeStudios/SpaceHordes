@@ -31,6 +31,8 @@ namespace GameLibrary.Helpers
         private GraphicsDevice _device;
         private Vector2[] _tempVertices = new Vector2[Settings.MaxPolygonVertices];
         private List<StringData> _stringData;
+        private List<StringData> _worldStringData;
+        private Camera _camera;
 
         private Matrix _localProjection;
         private Matrix _localView;
@@ -41,7 +43,7 @@ namespace GameLibrary.Helpers
         public Color KinematicShapeColor = new Color(0.5f, 0.5f, 0.9f);
         public Color SleepingShapeColor = new Color(0.6f, 0.6f, 0.6f);
         public Color StaticShapeColor = new Color(0.5f, 0.9f, 0.5f);
-        public Color TextColor = Color.Green;
+        public Color TextColor = Color.LightGreen;
 
         //Contacts
         private int _pointCount;
@@ -66,9 +68,9 @@ namespace GameLibrary.Helpers
 
         //Performance graph
         public bool AdaptiveLimits = true;
-        public int ValuesToGraph = 500;
-        public int MinimumValue;
-        public int MaximumValue = 1000;
+        public float ValuesToGraph = 500;
+        public float MinimumValue = -1000;
+        public float MaximumValue = 1000;
         private List<float> _graphTotalValues = new List<float>();
         private List<float> _graphPhysicsValues = new List<float>();
         private List<float> _graphEntitiesValues = new List<float>();
@@ -88,7 +90,7 @@ namespace GameLibrary.Helpers
         public const int CircleSegments = 32;
 #endif
 
-        public DebugViewXNA(EntityWorld world)
+        public DebugViewXNA(EntityWorld world, Camera camera)
             : base(world)
         {
             world.ContactManager.PreSolve += PreSolve;
@@ -99,6 +101,13 @@ namespace GameLibrary.Helpers
             AppendFlags(DebugViewFlags.Joint);
 
             DebugPanelUserData = new Dictionary<string, object>();
+            this._camera = camera;
+        }
+
+        public void BeginCustomDraw()
+        {
+            Matrix proj = _camera.SimProjection, view = _camera.SimView;
+            BeginCustomDraw(ref proj, ref view);
         }
 
         public void BeginCustomDraw(ref Matrix projection, ref Matrix view)
@@ -165,6 +174,8 @@ namespace GameLibrary.Helpers
             {
                 foreach (Body b in World.BodyList)
                 {
+                    if (b.UserData != null && b.UserData is Entity) //Draw the name of the entity
+                        DrawString(true, (int)ConvertUnits.ToDisplayUnits(b.WorldCenter.X), (int)ConvertUnits.ToDisplayUnits(b.WorldCenter.Y), "[" + (b.UserData as Entity).Id + "] " + (b.UserData as Entity).Tag.ToString(), Color.LightSalmon);
                     Transform xf;
                     b.GetTransform(out xf);
                     foreach (Fixture f in b.FixtureList)
@@ -235,7 +246,7 @@ namespace GameLibrary.Helpers
                             for (int i = 0; i < polygon.Vertices.Count; i++)
                             {
                                 Vector2 tmp = MathUtils.Multiply(ref xf, polygon.Vertices[i]);
-                                DrawPoint(tmp, 0.1f, Color.Red);
+                                DrawPoint(tmp, 0.1f, Color.LightSalmon);
                             }
                         }
                     }
@@ -323,6 +334,7 @@ namespace GameLibrary.Helpers
             }
         }
 
+        List<float> _graphAvgTotalValues = new List<float>();
         private void DrawPerformanceGraph()
         {
             _graphTotalValues.Add(World.PhysicsUpdateTime + World.EntitySystemUpdateTime);
@@ -331,27 +343,57 @@ namespace GameLibrary.Helpers
 
             if (_graphTotalValues.Count > ValuesToGraph + 1)
                 _graphTotalValues.RemoveAt(0);
-            if (_graphPhysicsValues.Count > ValuesToGraph + 1)
-                _graphPhysicsValues.RemoveAt(0);
             if (_graphEntitiesValues.Count > ValuesToGraph + 1)
                 _graphEntitiesValues.RemoveAt(0);
+            if (_graphPhysicsValues.Count > ValuesToGraph + 1)
+                _graphPhysicsValues.RemoveAt(0);
+            if (_graphAvgTotalValues.Count > ValuesToGraph + 1)
+                _graphAvgTotalValues.RemoveAt(0);
 
             float x = PerformancePanelBounds.X;
             float deltaX = PerformancePanelBounds.Width / (float)ValuesToGraph;
             float yScale = PerformancePanelBounds.Bottom - (float)PerformancePanelBounds.Top;
+            float yAxis = (PerformancePanelBounds.Bottom +
+                (MinimumValue / (MaximumValue - MinimumValue)) * yScale);
 
             // we must have at least 2 values to start rendering
             if (_graphTotalValues.Count > 2)
             {
                 _max = (int)_graphTotalValues.Max();
                 _avg = (int)_graphTotalValues.Average();
+                _graphAvgTotalValues.Add(_avg);
                 _min = (int)_graphEntitiesValues.Min();
 
                 if (AdaptiveLimits)
                 {
-                    MaximumValue = _max;
-                    MinimumValue = 0;
+                    MaximumValue = _graphAvgTotalValues[0]*2;
+                    MinimumValue = -500;
                 }
+                #region Draw Total
+                x = PerformancePanelBounds.X;
+                // start at last value (newest value added)
+                // continue until no values are left
+                for (int i = _graphTotalValues.Count - 1; i > 0; i--)
+                {
+                    float y1 = yAxis -
+                               ((_graphTotalValues[i] / (MaximumValue - MinimumValue)) * yScale);
+                    float y2 = yAxis -
+                               ((_graphTotalValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
+
+                    Vector2 x1 =
+                        new Vector2(MathHelper.Clamp(x, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                                    MathHelper.Clamp(y1, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                    Vector2 x2 =
+                        new Vector2(
+                            MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                            MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                    DrawSegment(x1, x2, Color.LightGreen);
+
+                    x += deltaX;
+                }
+                #endregion
 
                 #region Draw Physics
                 x = PerformancePanelBounds.X;
@@ -359,9 +401,9 @@ namespace GameLibrary.Helpers
                 // continue until no values are left
                 for (int i = _graphPhysicsValues.Count - 1; i > 0; i--)
                 {
-                    float y1 = PerformancePanelBounds.Bottom -
+                    float y1 = yAxis -
                                ((_graphPhysicsValues[i] / (MaximumValue - MinimumValue)) * yScale);
-                    float y2 = PerformancePanelBounds.Bottom -
+                    float y2 = yAxis -
                                ((_graphPhysicsValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
 
                     Vector2 x1 =
@@ -373,7 +415,7 @@ namespace GameLibrary.Helpers
                             MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
                             MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
 
-                    DrawSegment(x1, x2, Color.Blue);
+                    DrawSegment(x1, x2, Color.LightBlue);
 
                     x += deltaX;
                 }
@@ -385,9 +427,9 @@ namespace GameLibrary.Helpers
                 // continue until no values are left
                 for (int i = _graphEntitiesValues.Count - 1; i > 0; i--)
                 {
-                    float y1 = PerformancePanelBounds.Bottom -
+                    float y1 = yAxis -
                                ((_graphEntitiesValues[i] / (MaximumValue - MinimumValue)) * yScale);
-                    float y2 = PerformancePanelBounds.Bottom -
+                    float y2 = yAxis -
                                ((_graphEntitiesValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
 
                     Vector2 x1 =
@@ -399,7 +441,33 @@ namespace GameLibrary.Helpers
                             MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
                             MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
 
-                    DrawSegment(x1, x2, Color.Red);
+                    DrawSegment(x1, x2, Color.LightSalmon);
+
+                    x += deltaX;
+                }
+                #endregion
+
+                #region Draw Average
+                x = PerformancePanelBounds.X;
+                // start at last value (newest value added)
+                // continue until no values are left
+                for (int i = _graphAvgTotalValues.Count - 1; i > 0; i--)
+                {
+                    float y1 = yAxis -
+                               ((_graphAvgTotalValues[i] / (MaximumValue - MinimumValue)) * yScale);
+                    float y2 = yAxis -
+                               ((_graphAvgTotalValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
+
+                    Vector2 x1 =
+                        new Vector2(MathHelper.Clamp(x, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                                    MathHelper.Clamp(y1, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                    Vector2 x2 =
+                        new Vector2(
+                            MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
+                            MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
+
+                    DrawSegment(x1, x2, Color.White);
 
                     x += deltaX;
                 }
@@ -407,35 +475,16 @@ namespace GameLibrary.Helpers
 
             }
 
-            #region Draw Total
-            x = PerformancePanelBounds.X;
-            // start at last value (newest value added)
-            // continue until no values are left
-            for (int i = _graphTotalValues.Count - 1; i > 0; i--)
-            {
-                float y1 = PerformancePanelBounds.Bottom -
-                           ((_graphTotalValues[i] / (MaximumValue - MinimumValue)) * yScale);
-                float y2 = PerformancePanelBounds.Bottom -
-                           ((_graphTotalValues[i - 1] / (MaximumValue - MinimumValue)) * yScale);
-
-                Vector2 x1 =
-                    new Vector2(MathHelper.Clamp(x, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
-                                MathHelper.Clamp(y1, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
-
-                Vector2 x2 =
-                    new Vector2(
-                        MathHelper.Clamp(x + deltaX, PerformancePanelBounds.Left, PerformancePanelBounds.Right),
-                        MathHelper.Clamp(y2, PerformancePanelBounds.Top, PerformancePanelBounds.Bottom));
-
-                DrawSegment(x1, x2, Color.LightGreen);
-
-                x += deltaX;
-            }
-            #endregion
+            float avgAxis;
+            if (_graphAvgTotalValues.Count > 0)
+                avgAxis = yAxis -
+                ((_graphAvgTotalValues.Last() / (MaximumValue - MinimumValue)) * yScale)-4;
+            else
+                avgAxis = PerformancePanelBounds.Center.Y - 4;
 
             DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Top, "Max: " + _max);
-            DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Center.Y - 7, "Avg: " + _avg);
-            DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Bottom - 15, "Min: " + _min, Color.Red);
+            DrawString(PerformancePanelBounds.Right + 10, (int)MathHelper.Clamp(avgAxis, PerformancePanelBounds.Top, yAxis), "Avg: " + _avg, Color.White);
+            DrawString(PerformancePanelBounds.Right + 10, PerformancePanelBounds.Bottom - 15, "Min: " + _min, Color.LightSalmon);
 
             //Draw background.
             _background[0] = new Vector2(PerformancePanelBounds.X, PerformancePanelBounds.Y);
@@ -447,6 +496,13 @@ namespace GameLibrary.Helpers
                                          PerformancePanelBounds.Y);
 
             DrawSolidPolygon(_background, 4, Color.DarkGray, true);
+
+            #region Draw Zero
+            DrawSegment(new Vector2(PerformancePanelBounds.X, yAxis),
+                new Vector2(PerformancePanelBounds.X - 8, yAxis),
+                Color.White);
+            DrawString(PerformancePanelBounds.X - 8, (int)yAxis-12, "0", Color.White);
+            #endregion
         }
 
         private void DrawDebugPanel()
@@ -460,14 +516,14 @@ namespace GameLibrary.Helpers
             int x = (int)DebugPanelPosition.X;
             int y = (int)DebugPanelPosition.Y;
 
-            DrawString(x, y, "Objects:" +
-                             "\n- Bodies: " + World.BodyList.Count +
+            DrawString(x, y, "Objects:");
+            DrawString(x, y, "\n- Bodies: " + World.BodyList.Count +
                              "\n- Fixtures: " + fixtures +
                              "\n- Contacts: " + World.ContactList.Count +
                              "\n- Joints: " + World.JointList.Count +
                              "\n- Controllers: " + World.ControllerList.Count +
-                             "\n- Proxies: " + World.ProxyCount +
-                             "\n- Entities: " + World.EntityManager.ActiveEntitiesCount, Color.Green);
+                             "\n- Proxies: " + World.ProxyCount, Color.LightBlue);
+            DrawString(x, y, "\n\n\n\n\n\n\n- Entities: " + World.EntityManager.ActiveEntitiesCount, Color.LightSalmon);
 
             DrawString(x + 110, y, "Update Time: " + (_graphEntitiesValues.Average() + _graphPhysicsValues.Average()).ToString());
             DrawString(x + 110, y, "\n --Physics: " + _graphPhysicsValues.Average() +
@@ -475,12 +531,12 @@ namespace GameLibrary.Helpers
                                    "\n   - Contact: " + World.ContactsUpdateTime +
                                    "\n   - CCD: " + World.ContinuousPhysicsTime +
                                    "\n   - Joint: " + World.Island.JointUpdateTime +
-                                   "\n   - Controller: " + World.ControllersUpdateTime, Color.Blue);
-            DrawString(x + 110, y, "\n\n\n\n\n\n\n --Entity: " + _graphEntitiesValues.Average(), Color.Red);
+                                   "\n   - Controller: " + World.ControllersUpdateTime, Color.LightBlue);
+            DrawString(x + 110, y, "\n\n\n\n\n\n\n --Entity: " + _graphEntitiesValues.Average(), Color.LightSalmon);
 
             if (DebugPanelUserData.Count > 0)
             {
-                DrawString(x, y+130, "UserData:" + _GetUserDataString());
+                DrawString(x, y+130, "UserData:" + _GetUserDataString(), Color.Green);
             }
         }
 
@@ -548,8 +604,8 @@ namespace GameLibrary.Helpers
                 case JointType.Revolute:
                     //DrawSegment(x2, p1, color);
                     DrawSegment(p2, p1, color);
-                    DrawSolidCircle(p2, 0.1f, Vector2.Zero, Color.Red);
-                    DrawSolidCircle(p1, 0.1f, Vector2.Zero, Color.Blue);
+                    DrawSolidCircle(p2, 0.1f, Vector2.Zero, Color.LightSalmon);
+                    DrawSolidCircle(p1, 0.1f, Vector2.Zero, Color.LightBlue);
                     break;
                 case JointType.FixedAngle:
                     //Should not draw anything.
@@ -787,10 +843,10 @@ namespace GameLibrary.Helpers
             Vector2 p1 = transform.Position;
 
             Vector2 p2 = p1 + axisScale * transform.R.Col1;
-            DrawSegment(p1, p2, Color.Red);
+            DrawSegment(p1, p2, Color.LightSalmon);
 
             p2 = p1 + axisScale * transform.R.Col2;
-            DrawSegment(p1, p2, Color.Green);
+            DrawSegment(p1, p2, Color.LightGreen);
         }
 
         public void DrawPoint(Vector2 p, float size, Color color)
@@ -807,12 +863,20 @@ namespace GameLibrary.Helpers
 
         public void DrawString(int x, int y, string s, params object[] args)
         {
-            this.DrawString(x, y, s, TextColor, args);
+            this.DrawString( x, y, s, TextColor, args);
         }
 
         public void DrawString(int x, int y, string s, Color color, params object[] args)
         {
             _stringData.Add(new StringData(x, y, s, args, color));
+        }
+
+        public void DrawString(bool drawInWorld, int x, int y, string s, Color color, params object[] args)
+        {
+            if (drawInWorld)
+                _worldStringData.Add(new StringData(x, y, s, args, color));
+            else
+                _stringData.Add(new StringData(x, y, s, args, color));
         }
 
 
@@ -898,7 +962,7 @@ namespace GameLibrary.Helpers
             // begin the sprite batch effect
             _batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            // draw any strings we have
+            // draw any strings we have (NORMAL)
             for (int i = 0; i < _stringData.Count; i++)
             {
                 if (_stringData[i].Args.Length > 0) //If they have variable arguments
@@ -919,8 +983,34 @@ namespace GameLibrary.Helpers
             }
             // end the sprite batch effect
             _batch.End();
-
             _stringData.Clear();
+
+            //draw any strings that are in the (WORLD)
+            _batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, _camera.View);
+
+            for (int i = 0; i < _worldStringData.Count; i++)
+            {
+                if (_worldStringData[i].Args.Length > 0) //If they have variable arguments
+                {
+                    _batch.DrawString(_font, string.Format(_worldStringData[i].S, _worldStringData[i].Args),
+                                      new Vector2(_worldStringData[i].X + 1f, _worldStringData[i].Y + 1f), Color.Black);
+                    _batch.DrawString(_font, string.Format(_worldStringData[i].S, _worldStringData[i].Args),
+                                      new Vector2(_worldStringData[i].X, _worldStringData[i].Y), _worldStringData[i].Color);
+                }
+                else
+                {
+                    _batch.DrawString(_font, _worldStringData[i].S,
+                        new Vector2(_worldStringData[i].X + 1f, _worldStringData[i].Y + 1f), Color.Black);
+                    _batch.DrawString(_font, _worldStringData[i].S,
+                        new Vector2(_worldStringData[i].X, _worldStringData[i].Y), _worldStringData[i].Color);
+                }
+                _worldStringData.RemoveAll(new Predicate<StringData>(x => x.S == _worldStringData[i].S));
+                i--;
+
+            }
+
+            _batch.End();
+            _worldStringData.Clear();
         }
 
         public void RenderDebugData(ref Matrix projection)
@@ -941,6 +1031,7 @@ namespace GameLibrary.Helpers
             _primitiveBatch = new PrimitiveBatch(_device, 1000);
            _font = content.Load<SpriteFont>("Fonts/debugfont");
             _stringData = new List<StringData>();
+            _worldStringData = new List<StringData>();
 
             _localProjection = Matrix.CreateOrthographicOffCenter(0f, _device.Viewport.Width, _device.Viewport.Height,
                                                                   0f, 0f, 1f);

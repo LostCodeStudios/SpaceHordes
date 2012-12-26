@@ -47,12 +47,12 @@ namespace GameLibrary
         {
             #region Systems
             //Systems
-            _PhysicsSystem = this.SystemManager.SetSystem(new PhysicsSystem(), ExecutionType.Update);
+            _PhysicsUpdateSystem = this.SystemManager.SetSystem(new PhysicsUpdateSystem(), ExecutionType.Update);
+            _MovementSystem = this.SystemManager.SetSystem(new MovementSystem(), ExecutionType.Update);
 #if DEBUG
             _DebugRenderSystem = this.SystemManager.SetSystem(new DebugRenderSystem(this.Camera), ExecutionType.Draw);
-#else
-            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(_SpriteBatch), ExecutionType.Draw);
 #endif
+            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(_SpriteBatch), ExecutionType.Draw);
             #endregion
 
             SystemManager.InitializeAll();
@@ -101,8 +101,9 @@ namespace GameLibrary
         protected SpriteBatch _SpriteBatch;
 
         //Systems
-        protected PhysicsSystem _PhysicsSystem;
+        protected PhysicsUpdateSystem _PhysicsUpdateSystem;
         protected RenderSystem _RenderSystem;
+        protected MovementSystem _MovementSystem;
         protected DebugRenderSystem _DebugRenderSystem;
 
         #endregion

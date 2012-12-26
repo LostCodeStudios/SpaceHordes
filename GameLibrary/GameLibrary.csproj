@@ -69,6 +69,8 @@
     <Compile Include="Entities\ComponentMapper.cs" />
     <Compile Include="Entities\Components\Physical.cs" />
     <Compile Include="Entities\Components\Sprite.cs" />
+    <Compile Include="Entities\Components\Transform.cs" />
+    <Compile Include="Entities\Components\Velocity.cs" />
     <Compile Include="Entities\ComponentType.cs" />
     <Compile Include="Entities\ComponentTypeManager.cs" />
     <Compile Include="Entities\DelayedEntityProcessingSystem.cs" />
@@ -90,7 +92,8 @@
     <Compile Include="Entities\SystemBitManager.cs" />
     <Compile Include="Entities\SystemManager.cs" />
     <Compile Include="Entities\Systems\DebugRenderSystem.cs" />
-    <Compile Include="Entities\Systems\PhysicsSystem.cs" />
+    <Compile Include="Entities\Systems\MovementSystem.cs" />
+    <Compile Include="Entities\Systems\PhysicsUpdateSystem.cs" />
     <Compile Include="Entities\Systems\RenderSystem.cs" />
     <Compile Include="Entities\TagManager.cs" />
     <Compile Include="Entities\TagSystem.cs" />

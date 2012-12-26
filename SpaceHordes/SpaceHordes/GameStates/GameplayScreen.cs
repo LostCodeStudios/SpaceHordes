@@ -16,6 +16,7 @@ using GameLibrary.Entities;
 using SpaceHordes.Entities.Templates;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Systems;
+using SpaceHordes.Entities.Components;
 
 
 namespace SpaceHordes.GameStates.Screens
@@ -203,6 +204,10 @@ namespace SpaceHordes.GameStates.Screens
                         Math.Cos(World.Player.GetComponent<Physical>("Body").Rotation), (float)
                         Math.Sin(World.Player.GetComponent<Physical>("Body").Rotation)) * new Vector2(5));
                 }
+                if (keyboardState.IsKeyDown(Keys.Space))
+                {
+                    World.Player.GetComponent<Gun>("Body").BulletsToFire++;
+                }
             #endif
 
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
@@ -231,7 +236,7 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
-            spriteBatch.Begin(0, null, null, null, null, null, World.Camera.View);
+            spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, World.Camera.View);
             World.Draw(gameTime); //Draw the world.
             spriteBatch.End();
 

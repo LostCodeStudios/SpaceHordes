@@ -12,67 +12,55 @@ namespace GameLibrary.Entities.Systems
 {
     public class RenderSystem : EntityProcessingSystem
     {
-        private ComponentMapper<Physical> physicalMapper;
+        private ComponentMapper<Transform> transformMapper;
         private ComponentMapper<Sprite> spriteMapper;
         private SpriteBatch spriteBatch;
+        public SpriteSheet SpriteSheet;
 
         public RenderSystem(SpriteBatch spritebatch):
-            base(typeof(Sprite), typeof(Physical))
+            base(typeof(Sprite), typeof(Transform))
         {
             this.spriteBatch = spritebatch;
         }
 
-
         public override void Initialize()
         {
             spriteMapper = new ComponentMapper<Sprite>(world);
-            physicalMapper = new ComponentMapper<Physical>(world);
+            transformMapper = new ComponentMapper<Transform>(world);
         }
 
 
         public override void Process(Entity e)
         {
             //draw 
-            Dictionary<string, Physical> bodies = physicalMapper.Get(e);
-            Dictionary<string, Sprite>sprites= spriteMapper.Get(e);
+            Dictionary<string, Transform> transforms  = transformMapper.Get(e);
+            Dictionary<string, Sprite>   sprites = spriteMapper.Get(e);
 
-            Physical lastKnownBody = null;
-            
-            foreach(string key in sprites.Keys){
-                if (bodies.ContainsKey(key)) //If the key has a corrisponding body
+            if (sprites != null)
+            {
+                foreach (string key in sprites.Keys)
                 {
-                    spriteBatch.Draw(sprites[key].SpriteSheet, ConvertUnits.ToDisplayUnits(bodies[key].Position),
-                        sprites[key].Source,
-                        sprites[key].Color,
-                        bodies[key].Rotation,
-                        sprites[key].Origin,
-                        sprites[key].Scale,
-                        SpriteEffects.None,
-                        sprites[key].Layer);
-                    lastKnownBody = bodies[key];
+                    if (transforms.ContainsKey(key)) //If the key has a corrisponding body
+                    {
+                        if (SpriteSheet == null)
+                            spriteBatch.Draw(sprites[key].SpriteSheet, ConvertUnits.ToDisplayUnits(transforms[key].Position),
+                                sprites[key].Source,
+                                sprites[key].Color,
+                                transforms[key].Rotation,
+                                sprites[key].Origin,
+                                sprites[key].Scale,
+                                SpriteEffects.None, 0f);
+                        else
+                            spriteBatch.Draw(SpriteSheet.Texture, ConvertUnits.ToDisplayUnits(transforms[key].Position),
+                                sprites[key].Source,
+                                sprites[key].Color,
+                                transforms[key].Rotation,
+                                sprites[key].Origin,
+                                sprites[key].Scale,
+                                SpriteEffects.None, 0f);
+                    }
                 }
-                else if(lastKnownBody != null)//If not corrisponding body, use last known body
-                    spriteBatch.Draw(sprites[key].SpriteSheet, ConvertUnits.ToDisplayUnits(lastKnownBody.Position),
-                        sprites[key].Source,
-                        sprites[key].Color,
-                        lastKnownBody.Rotation,
-                        sprites[key].Origin,
-                        sprites[key].Scale,
-                        SpriteEffects.None,
-                        sprites[key].Layer);
-                else //No known position
-                    spriteBatch.Draw(sprites[key].SpriteSheet, ConvertUnits.ToDisplayUnits(Vector2.Zero),
-                        sprites[key].Source,
-                        sprites[key].Color,
-                        0f,
-                        sprites[key].Origin,
-                        sprites[key].Scale,
-                        SpriteEffects.None,
-                        sprites[key].Layer);
-
             }
-                
-
         }
     }
 }

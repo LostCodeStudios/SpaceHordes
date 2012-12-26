@@ -92,7 +92,15 @@ namespace GameLibrary.Entities
 		      mergedBag.Get(i).Initialize();
 		   }
 		}
-
+#if DEBUG
+        public override string ToString()
+        {
+            string times = "";
+            for(int i = 0; i < Systems.Count(); i++)
+                times +=  "             [" + Type.GetTypeFromHandle(Type.GetTypeHandle(Systems[i])) + ": "+ Systems[i].UpdateTime.ToString() + "]\n";
+            return times;
+        }
+#endif
 
         void UpdatebagSync(Bag<EntitySystem> temp) 
         {

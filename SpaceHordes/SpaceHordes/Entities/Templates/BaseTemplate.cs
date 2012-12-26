@@ -26,7 +26,7 @@ namespace SpaceHordes.Entities.Templates
             e.Group = "Structures";
             e.Tag = "Base";
             #region Physical
-            Physical Body = e.AddComponent<Physical>("Body", new Physical(world, e));
+            Physical Body = e.AddComponent<Physical>("Body", new Physical(world, e, "Body"));
             {
                FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
                 ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Width),
@@ -38,6 +38,7 @@ namespace SpaceHordes.Entities.Templates
                 Body);
                 Body.Position = ConvertUnits.ToSimUnits(new Vector2(0,0));
                 Body.BodyType = GameLibrary.Physics.Dynamics.BodyType.Static;
+                Body.CollisionGroup = -2;
 
                 Body.SleepingAllowed = false;
             }

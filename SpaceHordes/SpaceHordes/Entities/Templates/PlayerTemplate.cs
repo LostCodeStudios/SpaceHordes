@@ -13,6 +13,7 @@ using GameLibrary.Physics.Dynamics.Joints;
 using GameLibrary.Helpers;
 using GameLibrary.Physics.Factories;
 using GameLibrary;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -41,7 +42,7 @@ namespace SpaceHordes.Entities.Templates
 
             #region Physical
             //Set up initial body
-            Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e));
+            Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e, "Body"));
             FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width),
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height),
@@ -55,8 +56,10 @@ namespace SpaceHordes.Entities.Templates
                 SetStartingLocations();
             //Set the position
             Body.Position = locations[(PlayerIndex)args[0]];
-            Body.BodyType = BodyType.Static;
+            Body.BodyType = BodyType.Dynamic;
             Body.SleepingAllowed = false;
+            Body.FixedRotation = true;
+            Body.CollisionGroup = -2;
             #endregion
 
             #region Sprite
@@ -64,6 +67,12 @@ namespace SpaceHordes.Entities.Templates
             Sprite Sprite = e.AddComponent<Sprite>("Body",
                 new Sprite(spriteSheet.Texture, spriteSheet.Animations[tag][0],
                     Body, 1, Color.White, 0f));
+
+            #endregion
+
+            #region Gun
+            Gun Gun = e.AddComponent<Gun>("Body", new Gun(1000000, "TestBullet"));
+            
 
             #endregion
 

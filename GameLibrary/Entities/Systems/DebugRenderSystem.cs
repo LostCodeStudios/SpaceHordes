@@ -21,7 +21,7 @@ namespace GameLibrary.Entities.Systems
         }
         public override void Initialize()
         {
-            _debugView = new DebugViewXNA(world);
+            _debugView = new DebugViewXNA(world, _Camera);
         }
 
         public void LoadContent(GraphicsDevice device, ContentManager content, params KeyValuePair<string, object>[] userData)

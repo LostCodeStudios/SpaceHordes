@@ -13,6 +13,7 @@ using GameLibrary.Physics.Dynamics.Joints;
 using GameLibrary.Helpers;
 using GameLibrary.Physics.Factories;
 using GameLibrary;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -35,12 +36,12 @@ namespace SpaceHordes.Entities.Templates
         public Entity BuildEntity(Entity e, params object[] args)
         {
             e.Group = "Enemies";
-            string tag = "Enemy";
+            e.Tag = "Enemy" + e.Id;
             
 
             #region Physical
             //Set up initial body
-            Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e));
+            Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e, "Body"));
             FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
                 ConvertUnits.ToSimUnits(spriteSheet.Animations["purpleship"][0].Width),
                 ConvertUnits.ToSimUnits(spriteSheet.Animations["purpleship"][0].Height),
@@ -55,6 +56,7 @@ namespace SpaceHordes.Entities.Templates
             Body.Position = new Vector2(2);
             Body.Friction = 1f;
             Body.BodyType = BodyType.Dynamic;
+            Body.CollisionGroup = -1;
             Body.SleepingAllowed = false;
             #endregion
 
@@ -64,6 +66,10 @@ namespace SpaceHordes.Entities.Templates
                 new Sprite(spriteSheet.Texture, spriteSheet.Animations["purpleship"][0],
                     Body, 1, Color.White, 0f));
 
+            #endregion
+
+            #region Bullet
+            Gun Gun = e.AddComponent<Gun>("Enemybody", new Gun(100000, "TestBullet"));
             #endregion
 
             return e;

@@ -161,16 +161,18 @@ namespace GameLibrary.Entities
         {
             if (e.Id < EntityComponents.Size) //If entity exists
             {
+
                 if (!(ComponentTypeManager.GetTypeFor(component.GetType()).Id
-                    < EntityComponents.Get(e.Id).Size)) //If type in entity does not exist
+                    < EntityComponents.Get(e.Id).Size) || EntityComponents.Get(e.Id)[(ComponentTypeManager.GetTypeFor(component.GetType()).Id)] == null) //If type in entity does not exist
                 {
                     EntityComponents[e.Id][ComponentTypeManager.GetTypeFor(component.GetType()).Id] = new Dictionary<string, Component>();
                     e.AddTypeBit(ComponentTypeManager.GetTypeFor(component.GetType()).Bit);
                 }
+                   
                 //Update components
                 {
                     //Add the components
-                    Dictionary<string, Component> d = EntityComponents.Get(e.Id).Get(ComponentTypeManager.GetTypeFor(component.GetType()).Id);
+                    Dictionary<string, Component>  d = EntityComponents.Get(e.Id).Get(ComponentTypeManager.GetTypeFor(component.GetType()).Id);
                     d.Add(componentName, component);
 
                     return component;
@@ -231,9 +233,8 @@ namespace GameLibrary.Entities
 
             e.TypeBits = 0;
 
+            EntityComponents.Set(e.Id, null);
             Refresh(e);
-
-            RemoveComponentsOfEntity(e);
 
             count--;
             totalRemoved++;
@@ -256,7 +257,6 @@ namespace GameLibrary.Entities
             if (e.Id < EntityComponents.Size)
             {
                 EntityComponents.Remove(e.Id);
-                //TODO: ADD EVENT FOR RMEOVED
             }
 
 
@@ -389,14 +389,16 @@ namespace GameLibrary.Entities
         {
             ComponentType type = ComponentTypeManager.GetTypeFor<T>();
 
-            if (e.Id < EntityComponents.Size && EntityComponents.Get(e.Id).Size > type.Id)
+            if (e.Id < EntityComponents.Size && EntityComponents.Get(e.Id) != null  && EntityComponents.Get(e.Id).Size > type.Id)
             {
-                Dictionary<string, T> comps = new Dictionary<string, T>();
-                foreach (string key in EntityComponents.Get(e.Id).Get(type.Id).Keys)
                 {
-                    comps[key] = (T)EntityComponents.Get(e.Id).Get(type.Id)[key];
+                    Dictionary<string, T> comps = new Dictionary<string, T>();
+                    foreach (string key in EntityComponents.Get(e.Id).Get(type.Id).Keys)
+                    {
+                        comps[key] = (T)EntityComponents.Get(e.Id).Get(type.Id)[key];
+                    }
+                    return comps;
                 }
-                return comps;
             }
             else
                 return null; 
