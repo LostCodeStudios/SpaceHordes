@@ -90,7 +90,7 @@ namespace SpaceHordes
             #endregion
 
             //Camera
-            Camera.TrackingBody = Player.GetComponent<Physical>("Body");
+            //Camera.TrackingBody = Player.GetComponent<Physical>("Body");
             Camera.MaxPosition = new Vector2(100, 100);
             Camera.MinPosition = new Vector2(-100, -100);
 

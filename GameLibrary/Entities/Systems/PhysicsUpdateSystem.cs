@@ -81,6 +81,8 @@ namespace GameLibrary.Entities.Systems
                         transforms[key]._Position = bodies[key].Position;
                     }
                     #endregion
+
+                    bodies[key].RotateTo(bodies[key].LinearVelocity);
                 }
         }
 
