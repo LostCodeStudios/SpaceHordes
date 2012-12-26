@@ -326,7 +326,6 @@ namespace GameLibrary.Physics.Common
             return true;
         }
 
-        //TODO: Test
         //Implementation found here: http://www.gamedev.net/community/forums/topic.asp?topic_id=548477
         public bool IsSimple2()
         {

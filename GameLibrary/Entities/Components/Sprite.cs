@@ -13,7 +13,7 @@ namespace GameLibrary.Entities.Components
     /// <summary>
     /// A sprite component
     /// </summary>
-    public class Sprite : Component
+    public struct Sprite : Component
     {
         public Sprite(Texture2D spriteSheet, Rectangle source, Vector2 origin, float scale, Color color, float layer)
         {

@@ -4,29 +4,30 @@ using System.Linq;
 using System.Text;
 using GameLibrary.Physics.Dynamics;
 using GameLibrary.Entities;
+using Microsoft.Xna.Framework;
 
 
 namespace GameLibrary.Entities.Components
 {
     /// <summary>
-    /// A physical component is a body ;)
+    /// A physical component is a body. Physical components are always coupled with Transform & Velocity
     /// </summary>
     public class Physical : Body, Component
     {
-
-        public Physical(World world, Entity e)
+        public Physical(World world, Entity e, string ComponentName)
             : base(world, e)
         {
+            //Create transform && velocity,
+            e.AddComponent(ComponentName, new Transform());
+            e.AddComponent(ComponentName, new Velocity());
+            e.Refresh();
+            
         }
-
-        #region Fields
-        #endregion
-
-        #region Properties
-        #endregion
-
-        #region Events
-        #endregion
+        ~Physical()
+        {
+            this.World.RemoveBody(this);
+            
+        }
 
         #region Helpers
         public override string ToString()

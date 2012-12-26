@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 #if !XBOX && !WINDOWS_PHONE
 using System.Numerics;
+using System.Diagnostics;
+using Microsoft.Xna.Framework;
 #endif
 
 #if XBOX || WINDOWS_PHONE
@@ -51,12 +53,26 @@ namespace GameLibrary.Entities
 		 * Called before processing of entities begins. 
 		 */
         protected virtual void Begin() { }
-	
-		public virtual void Process() {
-			if(CheckProcessing()) {
-				Begin();
+
+
+#if DEBUG
+        public long UpdateTime = 0;
+        private Stopwatch w = new Stopwatch();
+#endif
+        public virtual void Process() {
+			if(CheckProcessing())
+            {
+#if DEBUG
+                w.Reset();
+                w.Start();
+#endif
+                Begin();
 				ProcessEntities(actives);
 				End();
+#if DEBUG
+                w.Stop();
+                UpdateTime = (long)MathHelper.SmoothStep(UpdateTime, w.ElapsedTicks, 1f);
+#endif
 			}
 		}
 		

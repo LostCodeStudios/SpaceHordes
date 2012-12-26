@@ -613,8 +613,8 @@ namespace GameLibrary.Physics.Dynamics
 
                     // You tried to remove a body that is not contained in the BodyList.
                     // Are you removing the body more than once?
-                    Debug.Assert(BodyList.Contains(body));
-
+                    if (!BodyList.Contains(body))
+                        break;
                     // Delete the attached joints.
                     JointEdge je = body.JointList;
                     while (je != null)

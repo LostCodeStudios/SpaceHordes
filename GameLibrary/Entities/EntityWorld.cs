@@ -58,8 +58,7 @@ namespace GameLibrary.Entities
             get;
             internal set;
         }
-		
-		/**
+        /**
 		 * Delete the provided entity from the world.
 		 * @param e entity
 		 */
@@ -116,8 +115,9 @@ namespace GameLibrary.Entities
                 for (int i = 0, j = deleted.Size; j > i; i++)
                 {
                     Entity e = deleted.Get(i);
-                    entityManager.Remove(e);
                     groupManager.Remove(e);
+
+                    entityManager.Remove(e);
                     e.DeletingState = false;
                 }
                 deleted.Clear();

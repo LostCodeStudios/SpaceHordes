@@ -94,7 +94,7 @@ namespace GameLibrary.Physics
         /// We have both FPE and Box2D filtering in the engine. If you are upgrading
         /// from earlier versions of FPE, set this to true.
         /// </summary>
-        public static bool UseFPECollisionCategories;
+        public static bool UseFPECollisionCategories = false;
 
         /// <summary>
         /// Conserve memory makes sure that objects are used by reference instead of cloned.
@@ -103,7 +103,7 @@ namespace GameLibrary.Physics
         /// does not affect the engine itself, however, this uses extra memory. This behavior
         /// can be turned off by setting ConserveMemory to true.
         /// </summary>
-        public const bool ConserveMemory = false;
+        public const bool ConserveMemory = true;
 
         /// <summary>
         /// The maximum number of contact points between two convex shapes.
