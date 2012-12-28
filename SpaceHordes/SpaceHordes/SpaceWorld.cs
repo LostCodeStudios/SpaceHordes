@@ -13,6 +13,8 @@ using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Entities.Components;
 using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes
 {
@@ -56,7 +58,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Enemy", new EnemyTemplate(this, _spriteSheet));
             this.SetEntityTemplate("TestBullet", new BulletTemplate(
                 new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["redshot1"][0]),
-                new Velocity(new Vector2(5), 0))
+                new Velocity(new Vector2(1), 1f))
                 );
             #endregion
 
@@ -90,15 +92,14 @@ namespace SpaceHordes
             #endregion
 
             //Camera
-            //Camera.TrackingBody = Player.GetComponent<Physical>("Body");
+            //Camera.TrackingBody = Player.GetComponent<Body>("Body");
             Camera.MaxPosition = new Vector2(100, 100);
             Camera.MinPosition = new Vector2(-100, -100);
 
-            this._RenderSystem.SpriteSheet = this._spriteSheet;
 #if DEBUG   //Debug render system
             this._DebugRenderSystem.LoadContent(_SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
-                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<Physical>("Body")),
+                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 #endif
             base.LoadContent(Content, args);
@@ -110,25 +111,25 @@ namespace SpaceHordes
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            Physical pBody = Player.GetComponent<Physical>("Body");
+            Body pBody = Player.GetComponent<Body>();
 
 
             for (int i = 0; i < EnemyCount; i++)
             {
                 if((int)gameTime.TotalGameTime.Milliseconds % 500 == 0)
-                    Enemies[i].GetComponent<Gun>("Enemybody").BulletsToFire++;
+                    Enemies[i].GetComponent<Gun>().BulletsToFire++;
 
                 if (i == 0)
                 {
-                    Enemies[i].GetComponent<Physical>("Body").Position += 
-                        ((pBody.Position - Enemies[i].GetComponent<Physical>("Body").Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
-                    Enemies[i].GetComponent<Physical>("Body").Rotation = pBody.Rotation - 0.01f;
+                    Enemies[i].GetComponent<Body>().Position += 
+                        ((pBody.Position - Enemies[i].GetComponent<Body>().Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
+                    Enemies[i].GetComponent<Body>().Rotation = pBody.Rotation - 0.01f;
                 }
                 else
                 {
-                    Enemies[i].GetComponent<Physical>("Body").Position +=
-                        ((Enemies[i-1].GetComponent<Physical>("Body").Position - Enemies[i].GetComponent<Physical>("Body").Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
-                    Enemies[i].GetComponent<Physical>("Body").Rotation = Enemies[i-1].GetComponent<Physical>("Body").Rotation - 0.01f;
+                    Enemies[i].GetComponent<Body>().Position +=
+                        ((Enemies[i-1].GetComponent<Body>().Position - Enemies[i].GetComponent<Body>().Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
+                    Enemies[i].GetComponent<Body>().Rotation = Enemies[i-1].GetComponent<Body>().Rotation - 0.01f;
                 }
             }
 
@@ -154,6 +155,6 @@ namespace SpaceHordes
         private SpriteSheet _spriteSheet;
         #endregion
 
-        public const int EnemyCount = 10;
+        public const int EnemyCount = 60;
     }
 }

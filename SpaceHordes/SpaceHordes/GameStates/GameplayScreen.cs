@@ -17,6 +17,7 @@ using SpaceHordes.Entities.Templates;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Systems;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
 
 
 namespace SpaceHordes.GameStates.Screens
@@ -111,6 +112,7 @@ namespace SpaceHordes.GameStates.Screens
                 }
 
             }
+            ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
             #endregion
 
             //World
@@ -224,10 +226,10 @@ namespace SpaceHordes.GameStates.Screens
             }
             if (keyboardState.IsKeyDown(Keys.Space))
             {
-                World.Player.GetComponent<Gun>("Body").BulletsToFire++;
+                World.Player.GetComponent<Gun>().BulletsToFire++;
             }
 
-            World.Player.GetComponent<Physical>("Body").LinearVelocity = new Vector2(x, y);
+            World.Player.GetComponent<Body>().LinearVelocity = new Vector2(x, y);
 #endif
 
 #if XBOX
@@ -238,9 +240,9 @@ namespace SpaceHordes.GameStates.Screens
 
             PlayerIndex playerI;
 
-            World.Player.GetComponent<Physical>("Body").LinearVelocity = new Vector2(input.CurrentGamePad, y);
+            World.Player.GetComponent<Body>("Body").LinearVelocity = new Vector2(input.CurrentGamePad, y);
 
-#endif
+
             if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
                 GameOver();
 
@@ -251,6 +253,8 @@ namespace SpaceHordes.GameStates.Screens
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
 
+
+#endif
             mouseLoc = input.MouseLocation;
         }
 
@@ -276,9 +280,9 @@ namespace SpaceHordes.GameStates.Screens
             //TODO: Add all the source rectangles.
             sourceRectangles.Add("base",
                 new Rectangle[] {
-	                new Rectangle(1, 1, 97, 78),
-	                new Rectangle(99, 1, 97, 78),
-	                new Rectangle(197, 1, 97, 78)
+                    new Rectangle(1, 1, 97, 78),
+                    new Rectangle(99, 1, 97, 78),
+                    new Rectangle(197, 1, 97, 78)
                 });
 
             sourceRectangles.Add("eye",

@@ -6,8 +6,10 @@ using GameLibrary.Entities;
 using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework;
-using GameLibrary.Physics.Factories;
+using GameLibrary.Dependencies.Physics.Factories;
 using GameLibrary;
+using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -25,8 +27,8 @@ namespace SpaceHordes.Entities.Templates
         {
             e.Group = "Structures";
             e.Tag = "Base";
-            #region Physical
-            Physical Body = e.AddComponent<Physical>("Body", new Physical(world, e, "Body"));
+            #region Body
+            Body Body = e.AddComponent<Body>(new Body(world, e));
             {
                FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
                 ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Width),
@@ -37,7 +39,7 @@ namespace SpaceHordes.Entities.Templates
                         spriteSheet.Animations["base"][0].Height/2f)),
                 Body);
                 Body.Position = ConvertUnits.ToSimUnits(new Vector2(0,0));
-                Body.BodyType = GameLibrary.Physics.Dynamics.BodyType.Static;
+                Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
                 Body.CollisionGroup = -2;
 
                 Body.SleepingAllowed = false;
@@ -45,7 +47,7 @@ namespace SpaceHordes.Entities.Templates
             #endregion
 
             #region Sprite
-            Sprite Sprite = e.AddComponent<Sprite>("Body",
+            Sprite Sprite = e.AddComponent<Sprite>(
                 new Sprite(spriteSheet.Texture,  spriteSheet.Animations["base"][0],
                     Body, 1, Color.White, 0f));
             #endregion

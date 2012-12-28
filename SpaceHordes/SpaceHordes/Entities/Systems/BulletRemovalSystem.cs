@@ -7,6 +7,8 @@ using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
 using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
+using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -16,9 +18,9 @@ namespace SpaceHordes.Entities.Systems
     class BulletRemovalSystem : ParallelEntityProcessingSystem
     {
         Camera camera;
-        ComponentMapper<Transform> TransformMapper;
+        ComponentMapper<Particle> TransformMapper;
         public BulletRemovalSystem(Camera camera)
-            : base(typeof(Transform))
+            : base(typeof(Particle))
         {
             this.camera = camera;
             //this.EntitiesToProcessEachFrame = 10;
@@ -26,13 +28,13 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Initialize()
         {
-            TransformMapper = new ComponentMapper<Transform>(world);
+            TransformMapper = new ComponentMapper<Particle>(world);
         }
         public override void Process(Entity e)
         {
-            if (e.Group == "Bullets" && TransformMapper.Get(e) != null) //If bullet has component
+            if (e.Group == "Bullets") //If bullet has component
             {
-                Transform t = TransformMapper.Get(e).Values.First();
+                Particle t = TransformMapper.Get(e);
                 if ((t.Position.X > camera.ConvertScreenToWorld(new Vector2(1280, 720)).X
                     || t.Position.Y > camera.ConvertScreenToWorld(new Vector2(1280, 720)).Y ||
                     (t.Position.X < camera.ConvertScreenToWorld(new Vector2(0, 0)).X

@@ -6,14 +6,13 @@ using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities;
-using GameLibrary.Physics.Common;
-using GameLibrary.Physics.Collision.Shapes;
-using GameLibrary.Physics.Dynamics;
-using GameLibrary.Physics.Dynamics.Joints;
-using GameLibrary.Helpers;
-using GameLibrary.Physics.Factories;
 using GameLibrary;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Dependencies.Entities;
+using GameLibrary.Helpers;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Dependencies.Physics.Factories;
+using GameLibrary.Dependencies.Physics.Dynamics;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -40,9 +39,9 @@ namespace SpaceHordes.Entities.Templates
             e.Tag = tag;
             
 
-            #region Physical
+            #region Body
             //Set up initial body
-            Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e, "Body"));
+            Body Body = e.AddComponent<Body>(new Body(world,e));
             FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width),
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height),
@@ -64,14 +63,14 @@ namespace SpaceHordes.Entities.Templates
 
             #region Sprite
 
-            Sprite Sprite = e.AddComponent<Sprite>("Body",
+            Sprite Sprite = e.AddComponent<Sprite>(
                 new Sprite(spriteSheet.Texture, spriteSheet.Animations[tag][0],
                     Body, 1, Color.White, 0f));
 
             #endregion
 
             #region Gun
-            Gun Gun = e.AddComponent<Gun>("Body", new Gun(1000000, "TestBullet"));
+            Gun Gun = e.AddComponent<Gun>(new Gun(1000000, "TestBullet"));
             
 
             #endregion

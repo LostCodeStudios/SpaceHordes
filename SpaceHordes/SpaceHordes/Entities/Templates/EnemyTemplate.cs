@@ -6,14 +6,16 @@ using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities;
-using GameLibrary.Physics.Common;
-using GameLibrary.Physics.Collision.Shapes;
-using GameLibrary.Physics.Dynamics;
-using GameLibrary.Physics.Dynamics.Joints;
+using GameLibrary.Dependencies.Physics.Common;
+using GameLibrary.Dependencies.Physics.Collision.Shapes;
+using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Dynamics.Joints;
 using GameLibrary.Helpers;
-using GameLibrary.Physics.Factories;
+using GameLibrary.Dependencies.Physics.Factories;
 using GameLibrary;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -39,9 +41,9 @@ namespace SpaceHordes.Entities.Templates
             e.Tag = "Enemy" + e.Id;
             
 
-            #region Physical
+            #region Body
             //Set up initial body
-            Physical Body = e.AddComponent<Physical>("Body", new Physical(world,e, "Body"));
+            Body Body = e.AddComponent<Body>(new Body(world,e));
             FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
                 ConvertUnits.ToSimUnits(spriteSheet.Animations["purpleship"][0].Width),
                 ConvertUnits.ToSimUnits(spriteSheet.Animations["purpleship"][0].Height),
@@ -54,22 +56,20 @@ namespace SpaceHordes.Entities.Templates
 
             //Set the position
             Body.Position = new Vector2(2);
-            Body.Friction = 1f;
             Body.BodyType = BodyType.Dynamic;
-            Body.CollisionGroup = -1;
             Body.SleepingAllowed = false;
             #endregion
 
             #region Sprite
 
-            Sprite Sprite = e.AddComponent<Sprite>("Body",
+            Sprite Sprite = e.AddComponent<Sprite>(
                 new Sprite(spriteSheet.Texture, spriteSheet.Animations["purpleship"][0],
                     Body, 1, Color.White, 0f));
 
             #endregion
 
             #region Bullet
-            Gun Gun = e.AddComponent<Gun>("Enemybody", new Gun(100000, "TestBullet"));
+            Gun Gun = e.AddComponent<Gun>(new Gun(100000, "TestBullet"));
             #endregion
 
             return e;

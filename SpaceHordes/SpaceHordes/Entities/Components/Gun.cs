@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GameLibrary.Entities;
 using SpaceHordes.Entities.Templates;
+using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
