@@ -40,6 +40,9 @@ namespace SpaceHordes
             #region Systems
             gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
             bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
+            bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
+            healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this._SpriteBatch), ExecutionType.Draw);
+            healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
             #endregion
             base.Initialize();
         }
@@ -58,7 +61,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Enemy", new EnemyTemplate(this, _spriteSheet));
             this.SetEntityTemplate("TestBullet", new BulletTemplate(
                 new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["redshot1"][0]),
-                new Velocity(new Vector2(1), 1f))
+                new Velocity(new Vector2(5), 0f))
                 );
             #endregion
 
@@ -77,18 +80,8 @@ namespace SpaceHordes
             }
 
             //Set up base.
-            Entity Base = this.CreateEntity("Base");
+            Base = this.CreateEntity("Base");
             Base.Refresh();
-
-            Enemies = new List<Entity>();
-
-            for (int i = 0; i < EnemyCount; i++)
-            {
-                Enemies.Add(this.CreateEntity("Enemy"));
-                Enemies[i].Refresh();
-            }
-
-
             #endregion
 
             //Camera
@@ -96,10 +89,13 @@ namespace SpaceHordes
             Camera.MaxPosition = new Vector2(100, 100);
             Camera.MinPosition = new Vector2(-100, -100);
 
+            healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
+
 #if DEBUG   //Debug render system
             this._DebugRenderSystem.LoadContent(_SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
                  new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
+                 new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 #endif
             base.LoadContent(Content, args);
@@ -111,28 +107,6 @@ namespace SpaceHordes
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            Body pBody = Player.GetComponent<Body>();
-
-
-            for (int i = 0; i < EnemyCount; i++)
-            {
-                if((int)gameTime.TotalGameTime.Milliseconds % 500 == 0)
-                    Enemies[i].GetComponent<Gun>().BulletsToFire++;
-
-                if (i == 0)
-                {
-                    Enemies[i].GetComponent<Body>().Position += 
-                        ((pBody.Position - Enemies[i].GetComponent<Body>().Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
-                    Enemies[i].GetComponent<Body>().Rotation = pBody.Rotation - 0.01f;
-                }
-                else
-                {
-                    Enemies[i].GetComponent<Body>().Position +=
-                        ((Enemies[i-1].GetComponent<Body>().Position - Enemies[i].GetComponent<Body>().Position) * new Vector2((float)gameTime.ElapsedGameTime.TotalSeconds + 0.03f));
-                    Enemies[i].GetComponent<Body>().Rotation = Enemies[i-1].GetComponent<Body>().Rotation - 0.01f;
-                }
-            }
-
 
 
             base.Update(gameTime);
@@ -146,15 +120,16 @@ namespace SpaceHordes
         //Systems
         GunSystem gunSystem;
         BulletRemovalSystem bulletRemovalSystem;
+        BulletCollisionSystem bulletCollisionSystem;
+        HealthRenderSystem healthRenderSystem;
+        HealthSystem healthSystem;
 
         //Entities for safe keeping
         public Entity Player;
-        public List<Entity> Enemies;
+        public Entity Base;
         #endregion
 
         private SpriteSheet _spriteSheet;
         #endregion
-
-        public const int EnemyCount = 60;
     }
 }

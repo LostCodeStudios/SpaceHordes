@@ -107,10 +107,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Components\Bullet.cs" />
     <Compile Include="Entities\Components\Gun.cs" />
-    <Compile Include="Entities\Systems\Bullet.cs" />
+    <Compile Include="Entities\Components\Health.cs" />
+    <Compile Include="Entities\Systems\BulletCollisionSystem.cs" />
     <Compile Include="Entities\Systems\BulletRemovalSystem.cs" />
     <Compile Include="Entities\Systems\GunSystem.cs" />
+    <Compile Include="Entities\Systems\HealthRenderSystem.cs" />
+    <Compile Include="Entities\Systems\HealthSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
     <Compile Include="Entities\Templates\BulletTemplate.cs" />
     <Compile Include="Entities\Templates\EnemyTemplate.cs" />

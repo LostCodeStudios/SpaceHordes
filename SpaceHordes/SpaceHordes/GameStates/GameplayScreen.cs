@@ -208,21 +208,29 @@ namespace SpaceHordes.GameStates.Screens
 
             if (keyboardState.IsKeyDown(Keys.A))
             {
-                x = -1f;
+                World.Player.GetComponent<Body>().AngularVelocity = 0;
+                World.Player.GetComponent<Body>().Rotation -= 0.1f;
             }
-
             else if (keyboardState.IsKeyDown(Keys.D))
             {
-                x = 1f;
+                World.Player.GetComponent<Body>().AngularVelocity = 0;
+                World.Player.GetComponent<Body>().Rotation += 0.1f;
             }
 
             if (keyboardState.IsKeyDown(Keys.W))
             {
-                y = 1f;
+                World.Player.GetComponent<Body>().LinearVelocity = Vector2.Zero;
+                World.Player.GetComponent<Body>().Position += ConvertUnits.ToSimUnits(new Vector2((float)
+                    Math.Cos(World.Player.GetComponent<Body>().Rotation), (float)
+                    Math.Sin(World.Player.GetComponent<Body>().Rotation)) * new Vector2(5));
             }
             else if (keyboardState.IsKeyDown(Keys.S))
             {
-                y = -1f;
+                World.Player.GetComponent<Body>().LinearVelocity = Vector2.Zero;
+
+                World.Player.GetComponent<Body>().Position -= ConvertUnits.ToSimUnits(new Vector2((float)
+                    Math.Cos(World.Player.GetComponent<Body>().Rotation), (float)
+                    Math.Sin(World.Player.GetComponent<Body>().Rotation)) * new Vector2(5));
             }
             if (keyboardState.IsKeyDown(Keys.Space))
             {

@@ -48,6 +48,8 @@ namespace SpaceHordes.Entities.Templates
                     _DefaultVelocity.AngularVelocity));
             e.AddComponent<Sprite>(_DefaultSprite);
 
+            e.AddComponent<Bullet>(new Bullet(10, "Structures"));
+
             return e;
         }
 

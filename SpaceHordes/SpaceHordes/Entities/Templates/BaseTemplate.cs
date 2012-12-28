@@ -10,6 +10,7 @@ using GameLibrary.Dependencies.Physics.Factories;
 using GameLibrary;
 using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -40,7 +41,6 @@ namespace SpaceHordes.Entities.Templates
                 Body);
                 Body.Position = ConvertUnits.ToSimUnits(new Vector2(0,0));
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
-                Body.CollisionGroup = -2;
 
                 Body.SleepingAllowed = false;
             }
@@ -51,6 +51,8 @@ namespace SpaceHordes.Entities.Templates
                 new Sprite(spriteSheet.Texture,  spriteSheet.Animations["base"][0],
                     Body, 1, Color.White, 0f));
             #endregion
+
+            e.AddComponent<Health>(new Health(10000));
 
             return e;
         }

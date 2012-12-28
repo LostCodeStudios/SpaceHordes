@@ -75,6 +75,10 @@ namespace SpaceHordes.Entities.Templates
 
             #endregion
 
+            #region Health
+            
+            #endregion
+
             return e;
         }
 
