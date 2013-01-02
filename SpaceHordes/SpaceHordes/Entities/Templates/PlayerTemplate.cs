@@ -70,7 +70,7 @@ namespace SpaceHordes.Entities.Templates
             #endregion
 
             #region Gun
-            Gun Gun = e.AddComponent<Gun>(new Gun(1000000, "TestBullet"));
+            Gun Gun = e.AddComponent<Gun>(new Gun(1000000, "FrostBullet"));
             
 
             #endregion

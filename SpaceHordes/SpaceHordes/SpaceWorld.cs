@@ -29,21 +29,15 @@ namespace SpaceHordes
             this._spriteSheet = spriteSheet;
         }
 
-        #region Functioning Loop
+        #region Initialization
         /// <summary>
-        /// Intializes the SpaceWorld
+        /// Initializes the spaceworld
         /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="args"></param>
         public override void Initialize()
         {
-            #region Systems
-            gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
-            bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
-            bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
-            healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this._SpriteBatch), ExecutionType.Draw);
-            healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
-            #endregion
+            Camera.MaxPosition = new Vector2(100, 100);
+            Camera.MinPosition = new Vector2(-100, -100);
+
             base.Initialize();
         }
 
@@ -51,21 +45,73 @@ namespace SpaceHordes
         /// Loads the content of the Space World
         /// </summary>
         /// <param name="Content"></param>
-        /// <param name="args">{0-4} Player indices in use.</param>
+        /// <param name="args"></param>
         public override void LoadContent(ContentManager Content, params object[] args)
         {
-            #region Templates
-            //Templates
-            this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
-            this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet));
-            this.SetEntityTemplate("Enemy", new EnemyTemplate(this, _spriteSheet));
-            this.SetEntityTemplate("TestBullet", new BulletTemplate(
-                new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["redshot1"][0]),
-                new Velocity(new Vector2(5), 0f))
-                );
-            #endregion
+            base.LoadContent(Content, args);
+           // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
+#if DEBUG   //Debug render system
+            this._DebugRenderSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
+                 new KeyValuePair<string, object>("Camera", this.Camera),
+                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
+                 new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
+                 new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
+#endif
+        }
 
-            #region Entities
+        /// <summary>
+        /// Builds all of the entity systems in space world.
+        /// </summary>
+        protected override void BuildSystems()
+        {
+            gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
+            bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
+            bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
+            //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
+            healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
+            enemySpawnSystem = this.SystemManager.SetSystem(new EnemySpawnSystem(), ExecutionType.Update);
+            slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
+            enemyMovementSystem = this.SystemManager.SetSystem(new EnemyMovementSystem(), ExecutionType.Update);
+
+
+            base.BuildSystems();
+        }
+
+        /// <summary>
+        /// Builds all of the templates in the space world.
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <param name="args"></param>
+        protected override void BuildTemplates(ContentManager Content, params object[] args)
+        {
+            this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
+            this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet)); //TEST
+            this.SetEntityTemplate("Enemy", new EnemyTemplate(this, _spriteSheet)); //TEST
+
+            //Test bullet
+            //this.SetEntityTemplate("TestBullet", new BulletTemplate(
+            //    new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["redshot1"][0]),
+            //    new Velocity(new Vector2(5), 0f))
+            //    );
+
+            //Bullets
+            this.SetEntityTemplate("FrostBullet", new BulletTemplate(
+                new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["blueshot1"][0]),
+                new Velocity(new Vector2(5), 0f),
+                new Bullet(12, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                    )));
+
+
+            base.BuildTemplates(Content, args);
+        }
+
+        /// <summary>
+        /// Builds all of the entities in the SpaceWorld.
+        /// </summary>
+        /// <param name="Content"></param>
+        /// <param name="args">{0-4} Player indices in use.</param>
+        protected override void BuildEntities(ContentManager Content, params object[] args)
+        {
             //Set up player(s)
             if (args != null && args.Length > 0 && args[0] != null) //IF MULTIPLAYER
                 for (int i = 0; i < args.Length && i < 4; i++)
@@ -82,35 +128,12 @@ namespace SpaceHordes
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();
-            #endregion
-
-            //Camera
-            //Camera.TrackingBody = Player.GetComponent<Body>("Body");
-            Camera.MaxPosition = new Vector2(100, 100);
-            Camera.MinPosition = new Vector2(-100, -100);
-
-            healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
-
-#if DEBUG   //Debug render system
-            this._DebugRenderSystem.LoadContent(_SpriteBatch.GraphicsDevice, Content,
-                 new KeyValuePair<string, object>("Camera", this.Camera),
-                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
-                 new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
-                 new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
-#endif
-            base.LoadContent(Content, args);
+            enemyMovementSystem.LoadContent(Base.GetComponent<ITransform>());
         }
 
-        /// <summary>
-        /// Updates the SpaceWorld.
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public override void Update(GameTime gameTime)
-        {
+        #endregion
 
-
-            base.Update(gameTime);
-        }
+        #region Functioning Loop
 
         #endregion
 
@@ -123,6 +146,9 @@ namespace SpaceHordes
         BulletCollisionSystem bulletCollisionSystem;
         HealthRenderSystem healthRenderSystem;
         HealthSystem healthSystem;
+        EnemySpawnSystem enemySpawnSystem;
+        EnemyMovementSystem enemyMovementSystem;
+        SlowSystem slowSystem;
 
         //Entities for safe keeping
         public Entity Player;

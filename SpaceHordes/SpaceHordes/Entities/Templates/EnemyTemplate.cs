@@ -38,7 +38,6 @@ namespace SpaceHordes.Entities.Templates
         public Entity BuildEntity(Entity e, params object[] args)
         {
             e.Group = "Enemies";
-            e.Tag = "Enemy" + e.Id;
             
 
             #region Body
@@ -56,6 +55,9 @@ namespace SpaceHordes.Entities.Templates
 
             //Set the position
             Body.Position = new Vector2(2);
+            if (args != null && args.Length > 0)
+                Body.Position = (Vector2)args[0];
+
             Body.BodyType = BodyType.Dynamic;
             Body.SleepingAllowed = false;
             #endregion
@@ -69,8 +71,9 @@ namespace SpaceHordes.Entities.Templates
             #endregion
 
             #region Bullet
-            Gun Gun = e.AddComponent<Gun>(new Gun(100000, "TestBullet"));
             #endregion
+
+            e.AddComponent<Health>(new Health(20));
 
             return e;
         }

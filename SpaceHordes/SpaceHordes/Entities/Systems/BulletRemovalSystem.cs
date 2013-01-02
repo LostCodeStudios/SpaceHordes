@@ -15,7 +15,7 @@ namespace SpaceHordes.Entities.Systems
     /// <summary>
     /// Checks if Transforms have gone off of the screen.
     /// </summary>
-    class BulletRemovalSystem : ParallelEntityProcessingSystem
+    class BulletRemovalSystem : EntityProcessingSystem
     {
         Camera camera;
         ComponentMapper<Particle> TransformMapper;
