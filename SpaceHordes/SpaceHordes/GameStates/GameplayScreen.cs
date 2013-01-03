@@ -173,9 +173,7 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
-            spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, World.Camera.View);
             World.Draw(gameTime); //Draw the world.
-            spriteBatch.End();
 
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
