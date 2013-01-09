@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Physics.Collision.Shapes;
+using GameLibrary.Dependencies.Physics.Collision.Shapes;
 
 namespace GameLibrary.Helpers
 {

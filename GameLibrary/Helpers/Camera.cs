@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Helpers;
-using GameLibrary.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Dynamics;
 
 namespace GameLibrary.Helpers
 {
@@ -196,7 +196,7 @@ namespace GameLibrary.Helpers
         private bool _rotationTracking;
         private Vector2 _targetPosition;
         private float _targetRotation;
-        private Body _trackingBody;
+        private PhysicsBody _trackingBody;
         private Vector2 _translateCenter;
         private Matrix _view;
         #endregion
@@ -311,7 +311,7 @@ namespace GameLibrary.Helpers
         /// the body that this camera is currently tracking. 
         /// Null if not tracking any.
         /// </summary>
-        public Body TrackingBody
+        public PhysicsBody TrackingBody
         {
             get { return _trackingBody; }
             set

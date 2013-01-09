@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameLibrary.Physics.Collision;
-using GameLibrary.Physics.Collision.Shapes;
-using GameLibrary.Physics.Common;
-using GameLibrary.Physics.Common.Decomposition;
-using GameLibrary.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Collision;
+using GameLibrary.Dependencies.Physics.Collision.Shapes;
+using GameLibrary.Dependencies.Physics.Common;
+using GameLibrary.Dependencies.Physics.Common.Decomposition;
+using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,7 +34,7 @@ namespace GameLibrary.Helpers
             _effect = new BasicEffect(_device);
         }
 
-        public static Vector2 CalculateOrigin(Body b)
+        public static Vector2 CalculateOrigin(PhysicsBody b)
         {
             Vector2 lBound = new Vector2(float.MaxValue);
             AABB bounds;

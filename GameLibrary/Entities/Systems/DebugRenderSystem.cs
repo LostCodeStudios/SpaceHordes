@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Entities;
+using GameLibrary.Dependencies.Entities;
 using GameLibrary.Helpers;
 
 namespace GameLibrary.Entities.Systems
@@ -14,7 +14,6 @@ namespace GameLibrary.Entities.Systems
     {
         DebugViewXNA _debugView;
         Camera _Camera;
-        bool contentLoaded = false;
         public DebugRenderSystem(Camera camera) : base(33)
         {
             this._Camera = camera;
@@ -26,11 +25,9 @@ namespace GameLibrary.Entities.Systems
 
         public void LoadContent(GraphicsDevice device, ContentManager content, params KeyValuePair<string, object>[] userData)
         {
-            if (!contentLoaded)
-            {
+
                 _debugView.LoadContent(device, content, userData);
-                contentLoaded = true;
-            }
+
         }
 
         public override void Process()

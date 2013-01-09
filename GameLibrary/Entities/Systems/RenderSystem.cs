@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using GameLibrary.Entities;
+using GameLibrary.Dependencies.Entities;
 using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
 
@@ -12,55 +12,55 @@ namespace GameLibrary.Entities.Systems
 {
     public class RenderSystem : EntityProcessingSystem
     {
-        private ComponentMapper<Transform> transformMapper;
+        private ComponentMapper<ITransform> transformMapper;
         private ComponentMapper<Sprite> spriteMapper;
-        private SpriteBatch spriteBatch;
-        public SpriteSheet SpriteSheet;
 
-        public RenderSystem(SpriteBatch spritebatch):
-            base(typeof(Sprite), typeof(Transform))
+        private SpriteBatch spriteBatch;
+        private Camera camera;
+
+        public RenderSystem(SpriteBatch spritebatch, Camera camera):
+            base(typeof(Sprite), typeof(ITransform))
         {
             this.spriteBatch = spritebatch;
+            this.camera = camera;
         }
 
         public override void Initialize()
         {
             spriteMapper = new ComponentMapper<Sprite>(world);
-            transformMapper = new ComponentMapper<Transform>(world);
+            transformMapper = new ComponentMapper<ITransform>(world);
         }
 
-
+        /// <summary>
+        /// Renders all entities with a sprite and a transform to the screen.
+        /// </summary>
+        /// <param name="e"></param>
         public override void Process(Entity e)
         {
-            //draw 
-            Dictionary<string, Transform> transforms  = transformMapper.Get(e);
-            Dictionary<string, Sprite>   sprites = spriteMapper.Get(e);
+            //Get sprite data and transform
+            ITransform transform  = transformMapper.Get(e);
+            Sprite  sprite = spriteMapper.Get(e);
 
-            if (sprites != null)
-            {
-                foreach (string key in sprites.Keys)
-                {
-                    if (transforms.ContainsKey(key)) //If the key has a corrisponding body
-                    {
-                        if (SpriteSheet == null)
-                            spriteBatch.Draw(sprites[key].SpriteSheet, ConvertUnits.ToDisplayUnits(transforms[key].Position),
-                                sprites[key].Source,
-                                sprites[key].Color,
-                                transforms[key].Rotation,
-                                sprites[key].Origin,
-                                sprites[key].Scale,
-                                SpriteEffects.None, 0f);
-                        else
-                            spriteBatch.Draw(SpriteSheet.Texture, ConvertUnits.ToDisplayUnits(transforms[key].Position),
-                                sprites[key].Source,
-                                sprites[key].Color,
-                                transforms[key].Rotation,
-                                sprites[key].Origin,
-                                sprites[key].Scale,
-                                SpriteEffects.None, 0f);
-                    }
-                }
-            }
+
+            //Draw to sprite batch
+            spriteBatch.Draw(sprite.SpriteSheet, ConvertUnits.ToDisplayUnits(transform.Position),
+                sprite.Source,
+                sprite.Color,
+                transform.Rotation,
+                sprite.Origin,
+                sprite.Scale,
+                SpriteEffects.None, sprite.Layer);
+        }
+
+        /// <summary>
+        /// Starts/Ends spriteBatch
+        /// </summary>
+        /// <param name="entities"></param>
+        protected override void ProcessEntities(Dictionary<int, Entity> entities) 
+        {
+            spriteBatch.Begin(SpriteSortMode.BackToFront, null, null, null, null, null, camera.View);
+            base.ProcessEntities(entities);
+            spriteBatch.End();
         }
     }
 }

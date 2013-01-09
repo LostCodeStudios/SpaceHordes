@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using GameLibrary.Entities;
-using GameLibrary.Physics.Dynamics;
+using GameLibrary.Dependencies.Entities;
+using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Helpers;
+using GameLibrary.Entities.Components.Physics;
 
 namespace GameLibrary.Entities.Components
 {

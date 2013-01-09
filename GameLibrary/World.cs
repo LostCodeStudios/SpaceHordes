@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameLibrary.Entities;
+using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +27,7 @@ namespace GameLibrary
             : base(gravity)
         {
             this.Camera = camera;
-            this._SpriteBatch = spriteBatch;
+            this.SpriteBatch = spriteBatch;
         }
 
         /// <summary>
@@ -39,22 +39,14 @@ namespace GameLibrary
         }
         #endregion
 
-        #region Functioning Loop
+        #region Initialization
+
         /// <summary>
         /// Initializes the world.
         /// </summary>
         public virtual void Initialize()
         {
-            #region Systems
-            //Systems
-            _PhysicsUpdateSystem = this.SystemManager.SetSystem(new PhysicsUpdateSystem(), ExecutionType.Update);
-            _MovementSystem = this.SystemManager.SetSystem(new MovementSystem(), ExecutionType.Update);
-#if DEBUG
-            _DebugRenderSystem = this.SystemManager.SetSystem(new DebugRenderSystem(this.Camera), ExecutionType.Draw);
-#endif
-            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(_SpriteBatch), ExecutionType.Draw);
-            #endregion
-
+            this.BuildSystems();
             SystemManager.InitializeAll();
         }
 
@@ -63,12 +55,52 @@ namespace GameLibrary
         /// </summary>
         /// <param name="Content"></param>
         public virtual void LoadContent(ContentManager Content, params object[] args)
-        {   //If user doesn't implement use default.
+        {
 #if DEBUG   //Debug render system
-            this._DebugRenderSystem.LoadContent(_SpriteBatch.GraphicsDevice, Content);
+            this._DebugRenderSystem.LoadContent(SpriteBatch.GraphicsDevice, Content);
 #endif
+
+            //Builds templates in world.
+
+            this.BuildTemplates(Content, args);
+            this.BuildEntities(Content, args);
         }
 
+        #region Building
+        /// <summary>
+        /// Builds all of the systems.
+        /// </summary>
+        protected virtual void BuildSystems()
+        {
+            //Default Systems
+            _MovementSystem = this.SystemManager.SetSystem(new ParticleMovementSystem(), ExecutionType.Update);
+#if DEBUG
+            _DebugRenderSystem = this.SystemManager.SetSystem(new DebugRenderSystem(this.Camera), ExecutionType.Draw, 1);
+#endif
+            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
+        }
+
+        /// <summary>
+        /// Builds all of the templates in the world.
+        /// </summary>
+        protected virtual void BuildTemplates(ContentManager Content, params object[] args)
+        {
+
+        }
+
+        /// <summary>
+        /// Builds all of the entities in the world (initially)
+        /// </summary>
+        protected virtual void BuildEntities(ContentManager Content, params object[] args)
+        {
+        }
+
+
+        #endregion
+
+        #endregion
+
+        #region Functioning Loop
         /// <summary>
         /// Updates the world
         /// </summary>
@@ -78,8 +110,8 @@ namespace GameLibrary
             this.LoopStart(); //Start the functioning loop
             {
                 this.Delta = (int)gameTime.ElapsedGameTime.TotalMilliseconds; //set change in time.
-                this.Step((float)gameTime.ElapsedGameTime.TotalSeconds); //Update physical world.
                 this.SystemManager.UpdateSynchronous(ExecutionType.Update); //Update the entity world.
+                this.Step((float)gameTime.ElapsedGameTime.TotalSeconds); //Update physical world.
                 Camera.Update(gameTime); //Finally update the camera.
             }
         }
@@ -98,12 +130,11 @@ namespace GameLibrary
         #region Fields
 
         public Camera Camera;
-        protected SpriteBatch _SpriteBatch;
+        protected SpriteBatch SpriteBatch;
 
         //Systems
-        protected PhysicsUpdateSystem _PhysicsUpdateSystem;
         protected RenderSystem _RenderSystem;
-        protected MovementSystem _MovementSystem;
+        protected ParticleMovementSystem _MovementSystem;
         protected DebugRenderSystem _DebugRenderSystem;
 
         #endregion

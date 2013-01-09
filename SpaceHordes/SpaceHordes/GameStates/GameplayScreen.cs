@@ -236,19 +236,22 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             World.Player.GetComponent<Body>().LinearVelocity = new Vector2(x, y);
+
 #endif
 
-#if XBOX
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
 
             bool gamePadDisconnected = !gamePadState.IsConnected &&
                 input.GamePadWasConnected[playerIndex];
-
-            PlayerIndex playerI;
-
+#if XBOX
+            
             World.Player.GetComponent<Body>("Body").LinearVelocity = new Vector2(input.CurrentGamePad, y);
 
+#endif
 
+#if WINDOWS || XBOX
+
+            PlayerIndex playerI;
             if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
                 GameOver();
 
@@ -259,8 +262,9 @@ namespace SpaceHordes.GameStates.Screens
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
 
-
 #endif
+
+
             mouseLoc = input.MouseLocation;
         }
 
