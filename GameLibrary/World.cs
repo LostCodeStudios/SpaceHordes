@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GameLibrary.Entities;
+using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Helpers;
 using GameLibrary.Entities.Systems;
+using GameLibrary.Helpers.Debug;
 
 namespace GameLibrary
 {
@@ -23,38 +24,31 @@ namespace GameLibrary
         /// <param name="gravity">The gravity of a world.</param>
         /// <param name="camera"> The camera which views the world.</param>
         /// <param name="spriteBatch">The spritebatch to which the world may render.</param>
-        public World(Camera camera, SpriteBatch spriteBatch, Vector2 gravity)
+        public World(Game Game, Vector2 gravity)
             : base(gravity)
         {
-            this.Camera = camera;
-            this._SpriteBatch = spriteBatch;
+            this.Camera = new Camera(Game.GraphicsDevice);
+            this.SpriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            this.BuildEvents(Game);
         }
 
         /// <summary>
         /// Constructs a world with no gravity.
         /// </summary>
-        public World(Camera camera, SpriteBatch spriteBatch)
-            : this(camera, spriteBatch, Vector2.Zero)
+        public World(Game Game)
+            : this(Game, Vector2.Zero)
         {
         }
         #endregion
 
-        #region Functioning Loop
+        #region Initialization
+
         /// <summary>
         /// Initializes the world.
         /// </summary>
         public virtual void Initialize()
         {
-            #region Systems
-            //Systems
-            _PhysicsUpdateSystem = this.SystemManager.SetSystem(new PhysicsUpdateSystem(), ExecutionType.Update);
-            _MovementSystem = this.SystemManager.SetSystem(new MovementSystem(), ExecutionType.Update);
-#if DEBUG
-            _DebugRenderSystem = this.SystemManager.SetSystem(new DebugRenderSystem(this.Camera), ExecutionType.Draw);
-#endif
-            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(_SpriteBatch), ExecutionType.Draw);
-            #endregion
-
+            this.BuildSystems();
             SystemManager.InitializeAll();
         }
 
@@ -63,12 +57,57 @@ namespace GameLibrary
         /// </summary>
         /// <param name="Content"></param>
         public virtual void LoadContent(ContentManager Content, params object[] args)
-        {   //If user doesn't implement use default.
+        {
 #if DEBUG   //Debug render system
-            this._DebugRenderSystem.LoadContent(_SpriteBatch.GraphicsDevice, Content);
+            this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content);
 #endif
+
+
+
+            //Builds templates in world.
+
+            this.BuildTemplates(Content, args);
+            this.BuildEntities(Content, args);
         }
 
+        #region Building
+        /// <summary>
+        /// Builds all of the systems.
+        /// </summary>
+        protected virtual void BuildSystems()
+        {
+            //Default Systems
+            _MovementSystem = this.SystemManager.SetSystem(new ParticleMovementSystem(), ExecutionType.Update);
+#if DEBUG
+            _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);
+#endif
+            _SpriteRenderSystem = this.SystemManager.SetSystem(new SpriteRenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
+        }
+
+        /// <summary>
+        /// Builds all of the templates in the world.
+        /// </summary>
+        protected virtual void BuildTemplates(ContentManager Content, params object[] args)
+        {
+        }
+
+        /// <summary>
+        /// Builds all of the entities in the world (initially)
+        /// </summary>
+        protected virtual void BuildEntities(ContentManager Content, params object[] args)
+        {
+        }
+
+        protected virtual void BuildEvents(Game Game)
+        {
+            Game.Exiting += this.OnExit;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Functioning Loop
         /// <summary>
         /// Updates the world
         /// </summary>
@@ -78,8 +117,8 @@ namespace GameLibrary
             this.LoopStart(); //Start the functioning loop
             {
                 this.Delta = (int)gameTime.ElapsedGameTime.TotalMilliseconds; //set change in time.
-                this.Step((float)gameTime.ElapsedGameTime.TotalSeconds); //Update physical world.
                 this.SystemManager.UpdateSynchronous(ExecutionType.Update); //Update the entity world.
+                this.Step((float)gameTime.ElapsedGameTime.TotalSeconds); //Update physical world.
                 Camera.Update(gameTime); //Finally update the camera.
             }
         }
@@ -95,17 +134,39 @@ namespace GameLibrary
         }
         #endregion
 
+        #region Properties
+
+        public virtual string Name
+        {
+            get { return "GameLibrary"; }
+        }
+
+        #endregion
+
         #region Fields
 
         public Camera Camera;
-        protected SpriteBatch _SpriteBatch;
+        protected SpriteBatch SpriteBatch;
 
         //Systems
-        protected PhysicsUpdateSystem _PhysicsUpdateSystem;
-        protected RenderSystem _RenderSystem;
-        protected MovementSystem _MovementSystem;
-        protected DebugRenderSystem _DebugRenderSystem;
+        protected SpriteRenderSystem _SpriteRenderSystem;
+        protected ParticleMovementSystem _MovementSystem;
+        protected DebugSystem _DebugSystem;
 
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Called whe the world is exited.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public virtual void OnExit(object sender, EventArgs args)
+        {
+#if DEBUG
+            this._DebugSystem.Dispose();
+#endif
+        }
         #endregion
     }
 }

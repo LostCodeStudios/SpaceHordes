@@ -15,7 +15,6 @@ using GameLibrary.Entities.Systems;
 using GameLibrary.Entities;
 using SpaceHordes.Entities.Templates;
 using GameLibrary.Entities.Components;
-using GameLibrary.Entities.Systems;
 using SpaceHordes.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 
@@ -114,9 +113,8 @@ namespace SpaceHordes.GameStates.Screens
             }
             ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
             #endregion
-
             //World
-            World = new SpaceWorld(new Camera(ScreenManager.GraphicsDevice), spriteBatch,spriteSheet );
+            World = new SpaceWorld(ScreenManager.Game, spriteSheet);
             World.Initialize();
             World.LoadContent(content, players);
 

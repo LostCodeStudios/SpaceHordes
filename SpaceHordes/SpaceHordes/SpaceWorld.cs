@@ -21,10 +21,10 @@ namespace SpaceHordes
     /// <summary>
     /// Space Hordes world implementation
     /// </summary>
-    class SpaceWorld : World
+    public class SpaceWorld : World
     {
-        public SpaceWorld(Camera camera,SpriteBatch spriteBatch,  SpriteSheet spriteSheet)
-            : base(camera, spriteBatch)
+        public SpaceWorld(Game game,SpriteSheet spriteSheet)
+            : base(game, new Vector2(0,0))
         {
             this._spriteSheet = spriteSheet;
         }
@@ -35,8 +35,6 @@ namespace SpaceHordes
         /// </summary>
         public override void Initialize()
         {
-            Camera.MaxPosition = new Vector2(100, 100);
-            Camera.MinPosition = new Vector2(-100, -100);
 
             base.Initialize();
         }
@@ -51,7 +49,7 @@ namespace SpaceHordes
             base.LoadContent(Content, args);
            // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
 #if DEBUG   //Debug render system
-            this._DebugRenderSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
+            this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
                  new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
                  new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
