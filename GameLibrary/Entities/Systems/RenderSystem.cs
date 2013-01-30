@@ -18,11 +18,7 @@ namespace GameLibrary.Entities.Systems
         private SpriteBatch spriteBatch;
         private Camera camera;
 
-<<<<<<< HEAD
         public SpriteRenderSystem(SpriteBatch spritebatch, Camera camera):
-=======
-        public RenderSystem(SpriteBatch spritebatch, Camera camera):
->>>>>>> 504288a005a7e9f93a7f075bbce85c75b34f1386
             base(typeof(Sprite), typeof(ITransform))
         {
             this.spriteBatch = spritebatch;

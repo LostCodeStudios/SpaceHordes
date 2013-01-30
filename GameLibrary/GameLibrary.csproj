@@ -201,7 +201,6 @@
     <Compile Include="Dependencies\Physics\Controllers\SimpleWindForce.cs" />
     <Compile Include="Dependencies\Physics\Controllers\VelocityLimitController.cs" />
     <Compile Include="Dependencies\Physics\PhysicsDebugView.cs" />
-    <Compile Include="Dependencies\Physics\DebugView.cs" />
     <Compile Include="Dependencies\Physics\Dynamics\PhysicsBody.cs" />
     <Compile Include="Dependencies\Physics\Dynamics\PhysicsBreakableBody.cs" />
     <Compile Include="Dependencies\Physics\Dynamics\ContactManager.cs" />
