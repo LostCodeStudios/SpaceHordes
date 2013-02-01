@@ -118,6 +118,7 @@
     <Compile Include="Entities\Systems\GunSystem.cs" />
     <Compile Include="Entities\Systems\HealthRenderSystem.cs" />
     <Compile Include="Entities\Systems\HealthSystem.cs" />
+    <Compile Include="Entities\Systems\PlayerControlSystem.cs" />
     <Compile Include="Entities\Systems\SlowSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
     <Compile Include="Entities\Templates\BulletTemplate.cs" />

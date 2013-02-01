@@ -46,9 +46,7 @@ namespace SpaceHordes.Entities.Templates
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width),
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height),
                 1,
-                ConvertUnits.ToSimUnits(
-                    new Vector2(spriteSheet.Animations[tag][0].Width/2f,
-                        spriteSheet.Animations[tag][0].Height/2f)),
+                Vector2.Zero,
                 Body);
 
             if (locations.Values.Count == 0)

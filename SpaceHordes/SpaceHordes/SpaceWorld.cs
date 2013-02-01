@@ -72,7 +72,7 @@ namespace SpaceHordes
             enemySpawnSystem = this.SystemManager.SetSystem(new EnemySpawnSystem(), ExecutionType.Update);
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new EnemyMovementSystem(), ExecutionType.Update);
-
+            playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
 
             base.BuildSystems();
         }
@@ -149,7 +149,7 @@ namespace SpaceHordes
         EnemySpawnSystem enemySpawnSystem;
         EnemyMovementSystem enemyMovementSystem;
         SlowSystem slowSystem;
-
+        PlayerControlSystem playerControlSystem;
         //Entities for safe keeping
         public Entity Player;
         public Entity Base;
