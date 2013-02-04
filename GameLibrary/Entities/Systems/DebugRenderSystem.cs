@@ -7,12 +7,13 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Dependencies.Entities;
 using GameLibrary.Helpers;
+using GameLibrary.Helpers.Debug;
 
 namespace GameLibrary.Entities.Systems
 {
     public class DebugRenderSystem  : IntervalEntitySystem
     {
-        DebugViewXNA _debugView;
+        DebugView _debugView;
         Camera _Camera;
         public DebugRenderSystem(Camera camera) : base(33)
         {
@@ -20,7 +21,7 @@ namespace GameLibrary.Entities.Systems
         }
         public override void Initialize()
         {
-            _debugView = new DebugViewXNA(world, _Camera);
+            _debugView = new DebugView(world, _Camera);
         }
 
         public void LoadContent(GraphicsDevice device, ContentManager content, params KeyValuePair<string, object>[] userData)

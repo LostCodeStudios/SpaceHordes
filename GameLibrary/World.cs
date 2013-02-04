@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Helpers;
 using GameLibrary.Entities.Systems;
+using GameLibrary.Helpers.Debug;
 
 namespace GameLibrary
 {
@@ -23,18 +24,19 @@ namespace GameLibrary
         /// <param name="gravity">The gravity of a world.</param>
         /// <param name="camera"> The camera which views the world.</param>
         /// <param name="spriteBatch">The spritebatch to which the world may render.</param>
-        public World(Camera camera, SpriteBatch spriteBatch, Vector2 gravity)
+        public World(Game Game, Vector2 gravity)
             : base(gravity)
         {
-            this.Camera = camera;
-            this.SpriteBatch = spriteBatch;
+            this.Camera = new Camera(Game.GraphicsDevice);
+            this.SpriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            this.BuildEvents(Game);
         }
 
         /// <summary>
         /// Constructs a world with no gravity.
         /// </summary>
-        public World(Camera camera, SpriteBatch spriteBatch)
-            : this(camera, spriteBatch, Vector2.Zero)
+        public World(Game Game)
+            : this(Game, Vector2.Zero)
         {
         }
         #endregion
@@ -57,8 +59,10 @@ namespace GameLibrary
         public virtual void LoadContent(ContentManager Content, params object[] args)
         {
 #if DEBUG   //Debug render system
-            this._DebugRenderSystem.LoadContent(SpriteBatch.GraphicsDevice, Content);
+            this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content);
 #endif
+
+
 
             //Builds templates in world.
 
@@ -75,9 +79,9 @@ namespace GameLibrary
             //Default Systems
             _MovementSystem = this.SystemManager.SetSystem(new ParticleMovementSystem(), ExecutionType.Update);
 #if DEBUG
-            _DebugRenderSystem = this.SystemManager.SetSystem(new DebugRenderSystem(this.Camera), ExecutionType.Draw, 1);
+            _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);
 #endif
-            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
+            _SpriteRenderSystem = this.SystemManager.SetSystem(new SpriteRenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
         }
 
         /// <summary>
@@ -85,7 +89,6 @@ namespace GameLibrary
         /// </summary>
         protected virtual void BuildTemplates(ContentManager Content, params object[] args)
         {
-
         }
 
         /// <summary>
@@ -95,6 +98,10 @@ namespace GameLibrary
         {
         }
 
+        protected virtual void BuildEvents(Game Game)
+        {
+            Game.Exiting += this.OnExit;
+        }
 
         #endregion
 
@@ -127,16 +134,39 @@ namespace GameLibrary
         }
         #endregion
 
+        #region Properties
+
+        public virtual string Name
+        {
+            get { return "GameLibrary"; }
+        }
+
+        #endregion
+
         #region Fields
 
         public Camera Camera;
         protected SpriteBatch SpriteBatch;
 
         //Systems
-        protected RenderSystem _RenderSystem;
+        protected SpriteRenderSystem _SpriteRenderSystem;
         protected ParticleMovementSystem _MovementSystem;
-        protected DebugRenderSystem _DebugRenderSystem;
+        protected DebugSystem _DebugSystem;
 
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Called whe the world is exited.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public virtual void OnExit(object sender, EventArgs args)
+        {
+#if DEBUG
+            this._DebugSystem.Dispose();
+#endif
+        }
         #endregion
     }
 }

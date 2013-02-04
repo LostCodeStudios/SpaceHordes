@@ -12,7 +12,7 @@ using BigInteger = System.Int32;
 
 namespace GameLibrary.Dependencies.Entities
 {
-    public abstract class EntitySystem {
+    public abstract class EntitySystem : IDisposable{
 
         protected static BlackBoard blackBoard = new BlackBoard();
 
@@ -98,6 +98,10 @@ namespace GameLibrary.Dependencies.Entities
          * Override to implement code that gets executed when systems are initialized.
          */
         public virtual void Initialize() { }
+
+        public virtual void Dispose()
+        {
+        }
     
         /**
          * Called if the system has received a entity it is interested in, e.g. created or a component was added to it.
@@ -204,6 +208,5 @@ namespace GameLibrary.Dependencies.Entities
             }
             return types;
         }
-    
-    }
+}
 }
