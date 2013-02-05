@@ -1,10 +1,10 @@
 Content\Fonts\gamefont.xnb
 Content\Fonts\menufont.xnb
 Content\Fonts\titlefont.xnb
+Content\Fonts\InitialEntryFont.xnb
+Content\Fonts\debugfont.xnb
 Content\Textures\blank.xnb
 Content\Textures\GameMenu.xnb
 Content\Textures\Hiscore.xnb
 Content\Textures\spritesheet.xnb
-Content\Fonts\InitialEntryFont.xnb
-Content\Fonts\debugfont.xnb
 Content\Textures\spritesheet.bmp
