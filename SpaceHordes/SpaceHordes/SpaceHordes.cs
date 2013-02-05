@@ -16,6 +16,7 @@ using GameLibrary.Input;
 using GameLibrary.GameStates;
 using GameLibrary.GameStates.Screens;
 using SpaceHordes.GameStates.Screens;
+using GameLibrary.Helpers;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
@@ -96,6 +97,8 @@ namespace SpaceHordes
             #endif
 
             screenManager = new ScreenManager(this);
+            ScreenHelper.Initialize(GraphicsDevice);
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(24f);
             Components.Add(screenManager);
 
             base.Initialize();

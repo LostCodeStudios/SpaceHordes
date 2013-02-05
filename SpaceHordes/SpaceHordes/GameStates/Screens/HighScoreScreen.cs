@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using GameLibrary.Input;
 using GameLibrary.GameStates;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -269,6 +270,9 @@ namespace SpaceHordes.GameStates.Screens
                 new Keys[] { Keys.Right },
                 true);
 
+            TransitionOnTime = TimeSpan.FromSeconds(0.5f);
+            TransitionOffTime = TimeSpan.FromSeconds(0.5f);
+
 #if WINDOWS
 
             Players = players;
@@ -344,14 +348,30 @@ namespace SpaceHordes.GameStates.Screens
 
             spriteBatch.Begin();
 
-            Vector2 nameLocation = new Vector2(300, 180);
-            Vector2 scoreLocation = new Vector2(980, 180);
+            float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
+
+            Vector2 nameLocation = 
+                new Vector2(ScreenHelper.Viewport.Width / 4.266666667f, ScreenHelper.Viewport.Height / 4f);
+
+            if (ScreenState == ScreenState.TransitionOn)
+                nameLocation.X -= transitionOffset * 256;
+            else
+                nameLocation.X -= transitionOffset * 512;
+
+            Vector2 scoreLocation = 
+                new Vector2(ScreenHelper.Viewport.Width / 1.30612244f, ScreenHelper.Viewport.Height / 4f);
+
+            if (ScreenState == ScreenState.TransitionOn)
+                scoreLocation.X += transitionOffset * 256;
+            else
+                scoreLocation.X += transitionOffset * 512;
 
             //Draw each menu entry in turn.
             for (int i = 0; i < maxScores; i++)
             {
                 //Draw the initials and number
                 Color color = (i == selectedScore) ? Color.Yellow : Color.White;
+                color *= TransitionAlpha;
 
                 spriteBatch.DrawString(font, (i + 1).ToString() + ". " + initials[i], nameLocation, color);
 
@@ -364,11 +384,6 @@ namespace SpaceHordes.GameStates.Screens
                 nameLocation.Y += font.LineSpacing;
                 scoreLocation.Y += font.LineSpacing;
             }
-
-            // Make the menu slide into place during transitions, using a
-            // power curve to make things look more interesting (this makes
-            // the movement slow down as it nears the end).
-            float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
 
             //Draw the menu title centered on the screen
             Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 125);

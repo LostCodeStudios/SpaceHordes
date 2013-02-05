@@ -15,6 +15,7 @@ using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Dependencies.Entities;
+using SpaceHordes.Entities.Templates.Enemies;
 
 namespace SpaceHordes
 {
@@ -70,7 +71,7 @@ namespace SpaceHordes
             enemySpawnSystem = this.SystemManager.SetSystem(new EnemySpawnSystem(), ExecutionType.Update);
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new EnemyMovementSystem(), ExecutionType.Update);
-
+            playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
 
             base.BuildSystems();
         }
@@ -85,7 +86,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
             this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet)); //TEST
             this.SetEntityTemplate("Enemy", new EnemyTemplate(this, _spriteSheet)); //TEST
-
+            this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             //Test bullet
             //this.SetEntityTemplate("TestBullet", new BulletTemplate(
             //    new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["redshot1"][0]),
@@ -123,6 +124,9 @@ namespace SpaceHordes
                 Player.Refresh();
             }
 
+            Camera.TrackingBody = Player.GetComponent<Body>();
+            this.CreateEntity("Mook", 1).Refresh() ;
+            
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();
@@ -147,7 +151,7 @@ namespace SpaceHordes
         EnemySpawnSystem enemySpawnSystem;
         EnemyMovementSystem enemyMovementSystem;
         SlowSystem slowSystem;
-
+        PlayerControlSystem playerControlSystem;
         //Entities for safe keeping
         public Entity Player;
         public Entity Base;
