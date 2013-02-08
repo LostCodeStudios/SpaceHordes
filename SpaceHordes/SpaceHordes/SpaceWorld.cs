@@ -125,12 +125,14 @@ namespace SpaceHordes
             }
 
             Camera.TrackingBody = Player.GetComponent<Body>();
-            this.CreateEntity("Mook", 1).Refresh() ;
+            
             
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();
-            enemyMovementSystem.LoadContent(Base.GetComponent<ITransform>());
+
+            Entity e = CreateEntity("Mook", 1, Base.GetComponent<Body>());
+            e.Refresh();
         }
 
         #endregion

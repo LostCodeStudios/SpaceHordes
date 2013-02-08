@@ -185,6 +185,13 @@ namespace SpaceHordes
             base.Draw(gameTime);
         }
 
+
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+
+            Win32.ConsoleLibrary.FreeConsole();
+            base.OnExiting(sender, args);
+        }
         #endregion
     }
 }

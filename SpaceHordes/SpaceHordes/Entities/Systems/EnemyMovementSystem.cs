@@ -7,36 +7,34 @@ using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class EnemyMovementSystem : GroupSystem
+    public class EnemyMovementSystem : EntityProcessingSystem
     {
         public EnemyMovementSystem()
-            : base("Enemies")
+            : base(typeof(AI), typeof(ITransform), typeof(IVelocity))
         {
         }
 
-        public void LoadContent(ITransform target)
-        {
-            this.target = target;
-        }
-        ITransform target;
-        
         public override void Process(Entity e)
         {
-            Body b = e.GetComponent<Body>();
-
+            ITransform b = e.GetComponent<ITransform>();
+            IVelocity v = e.GetComponent<IVelocity>();
+            AI a = e.GetComponent<AI>();
             if (b != null)
             {
-                Vector2 Velocity = (target.Position - b.Position);
+                Vector2 Velocity = (a.Target.Position - b.Position);
                 if (Velocity != Vector2.Zero)
                 {
                     Velocity.Normalize();
-
-                    Velocity *= new Vector2(World.Delta / 1000f);
-                    b.ApplyForce(Velocity);
+                    Velocity *= new Vector2(5);
+                    v.LinearVelocity = Velocity;
+                    b.RotateTo(Velocity);
                 }
+
+
             }
         }
     }

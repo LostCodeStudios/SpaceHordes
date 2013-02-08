@@ -8,6 +8,7 @@ using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Dependencies.Physics.Factories;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -66,11 +67,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
             }
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
-            FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(source.Center.X),1f,bitch);
+            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(source.Width/2), ConvertUnits.ToSimUnits(source.Height/2), 10, 1f, bitch);
             e.AddComponent<Sprite>(new Sprite(_SpriteSheet.Texture, source, bitch, 1f, Color.White, 0.5f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.Position = pos;
-
+            e.AddComponent<AI>(new AI((args[1] as Body)));
+            
 
             return e;
         }
