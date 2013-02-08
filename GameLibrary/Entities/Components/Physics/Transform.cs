@@ -38,5 +38,11 @@ namespace GameLibrary.Entities.Components
             }
         }
         private float _Rotation;
+
+        public void RotateTo(Vector2 direction)
+        {
+            Rotation = (float)Math.Atan2(direction.Y, direction.X);
+        }
+    
     }
 }

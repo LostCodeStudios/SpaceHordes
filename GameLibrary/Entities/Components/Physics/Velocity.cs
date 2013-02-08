@@ -39,5 +39,7 @@ namespace GameLibrary.Entities.Components
             }
         }
         private float _AngularVelocity;
+
+
     }
 }

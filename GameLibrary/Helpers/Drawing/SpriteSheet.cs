@@ -22,6 +22,16 @@ namespace GameLibrary.Helpers
 
         #endregion
 
+        #region Operator
+
+        public Rectangle[] this[string key]
+        {
+            get { return Animations[key]; }
+            set { Animations[key] = value; }
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>

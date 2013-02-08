@@ -48,6 +48,12 @@ namespace GameLibrary.Entities.Components.Physics
             get;
             set;
         }
+
+
+        public void RotateTo(Vector2 direction)
+        {
+            Rotation = (float)Math.Atan2(direction.Y, direction.X);
+        }
         #endregion
 
         #region IVelocity

@@ -20,5 +20,7 @@ namespace GameLibrary.Entities.Components
         /// The rotation of a component.
         /// </summary>
         float Rotation { set;  get; }
+
+        void RotateTo(Vector2 direction);
     }
 }

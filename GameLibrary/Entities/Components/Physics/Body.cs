@@ -133,6 +133,11 @@ namespace GameLibrary.Entities.Components.Physics
                 + "),\n                (AVel=" + this.AngularVelocity
                 + "),\n                (Ent=" + this.UserData + ")]";
         }
+
+        public void RotateTo(Vector2 direction)
+        {
+            Rotation = (float)Math.Atan2(direction.Y, direction.X);
+        }
         #endregion
     }
 }

@@ -87,7 +87,7 @@ namespace GameLibrary.Dependencies.Physics
         /// <summary>
         /// The maximum number of vertices on a convex polygon.
         /// </summary>
-        public static int MaxPolygonVertices = 8;
+        public static int MaxPolygonVertices = 100;
 
         /// <summary>
         /// Farseer Physics Engine has a different way of filtering fixtures than Box2d.

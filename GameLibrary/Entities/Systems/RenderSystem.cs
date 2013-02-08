@@ -39,12 +39,14 @@ namespace GameLibrary.Entities.Systems
         {
             //Get sprite data and transform
             ITransform transform  = transformMapper.Get(e);
-            Sprite  sprite = spriteMapper.Get(e);
+            Sprite sprite = spriteMapper.Get(e);
 
 
             //Draw to sprite batch
-            spriteBatch.Draw(sprite.SpriteSheet, ConvertUnits.ToDisplayUnits(transform.Position),
-                sprite.Source,
+            spriteBatch.Draw(
+                sprite.SpriteSheet.Texture, 
+                ConvertUnits.ToDisplayUnits(transform.Position),
+                sprite.CurrentRectangle,
                 sprite.Color,
                 transform.Rotation,
                 sprite.Origin,
