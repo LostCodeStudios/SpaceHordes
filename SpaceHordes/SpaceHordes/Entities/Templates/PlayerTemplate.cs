@@ -42,11 +42,11 @@ namespace SpaceHordes.Entities.Templates
             #region Body
             //Set up initial body
             Body Body = e.AddComponent<Body>(new Body(world,e));
-            FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
-                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width),
-                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height),
+            FixtureFactory.AttachEllipse( //Add a basic bounding box (rectangle status)
+                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width /2f),
+                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height / 2f),
+                6,
                 1,
-                Vector2.Zero,
                 Body);
 
             if (locations.Values.Count == 0)
