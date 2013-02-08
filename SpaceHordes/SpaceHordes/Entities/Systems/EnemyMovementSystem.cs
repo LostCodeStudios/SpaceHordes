@@ -34,7 +34,6 @@ namespace SpaceHordes.Entities.Systems
                     b.RotateTo(Velocity);
                 }
 
-
             }
         }
     }

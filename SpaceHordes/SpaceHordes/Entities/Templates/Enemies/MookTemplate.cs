@@ -25,7 +25,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         public Entity BuildEntity(Entity e, params object[] args)
         {
             int type = (int)args[0];
-            Rectangle source = new Rectangle();
+            string spriteKey = "";
             Random rbitch = new Random();
             Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
             pos.Normalize();
@@ -35,40 +35,40 @@ namespace SpaceHordes.Entities.Templates.Enemies
             switch (type)
             {
                 case 1:
-                    source = _SpriteSheet.Animations["squidship"][0];
+                    spriteKey = "squidship";
                     break;
                 case 2:
-                    source = _SpriteSheet.Animations["brownfangship"][0];
+                    spriteKey = "brownfangship";
                     break;
                 case 3:
-                    source = _SpriteSheet.Animations["blueshipredexhaust"][0];
+                    spriteKey = "blueshipredexhaust";
                     break;
                 case 4:
-                    source = _SpriteSheet.Animations["grayshipwithtwoprongs"][0];
+                    spriteKey = "grayshipwithtwoprongs";
                     break;
                 case 5:
-                    source = _SpriteSheet.Animations["grayshipwithtwowings"][0];
+                    spriteKey = "grayshipwithtwowings";
                     break;
                 case 6:
-                    source = _SpriteSheet.Animations["brownplane"][0];
+                    spriteKey = "brownplane";
                     break;
                 case 7:
-                    source = _SpriteSheet.Animations["bluecrystalship"][0];
+                    spriteKey = "bluecrystalship";
                     break;
                 case 8:
-                    source = _SpriteSheet.Animations["brownthingwithbluelight"][0];
+                    spriteKey = "brownthingwithbluelight";
                     break;
                 case 9:
-                    source = _SpriteSheet.Animations["graytriangleship"][0];
+                    spriteKey = "graytriangleship";
                     break;
                 case 10:
-                    source = _SpriteSheet.Animations["eyeshot"][0];
+                    spriteKey = "eyeshot";
                     break;
             }
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
-            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(source.Width/2), ConvertUnits.ToSimUnits(source.Height/2), 10, 1f, bitch);
-            e.AddComponent<Sprite>(new Sprite(_SpriteSheet.Texture, source, bitch, 1f, Color.White, 0.5f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
+            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(s.Source[0].Width/2), ConvertUnits.ToSimUnits(s.Source[0].Height/2), 10, 1f, bitch);
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.Position = pos;
             e.AddComponent<AI>(new AI((args[1] as Body)));

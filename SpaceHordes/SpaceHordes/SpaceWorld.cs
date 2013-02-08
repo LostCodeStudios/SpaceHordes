@@ -85,7 +85,6 @@ namespace SpaceHordes
         {
             this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
             this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet)); //TEST
-            this.SetEntityTemplate("Enemy", new EnemyTemplate(this, _spriteSheet)); //TEST
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             //Test bullet
             //this.SetEntityTemplate("TestBullet", new BulletTemplate(
@@ -95,7 +94,7 @@ namespace SpaceHordes
 
             //Bullets
             this.SetEntityTemplate("FrostBullet", new BulletTemplate(
-                new Sprite(_spriteSheet.Texture, _spriteSheet.Animations["blueshot1"][0]),
+                new Sprite(_spriteSheet, "blueshot1"),
                 new Velocity(new Vector2(5), 0f),
                 new Bullet(12, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));

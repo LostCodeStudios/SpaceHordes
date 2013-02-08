@@ -19,7 +19,6 @@ namespace SpaceHordes.Entities.Systems
         {
             Vector2 spawn = new Vector2(ClampInverse(r.Next(-5, 5), -4, 4), ClampInverse(r.Next(-5, 5), -4, 4));
 
-            world.CreateEntity("Enemy", spawn).Refresh(); //TODO SPAWN LOCATIONS
             base.ProcessEntities(entities);
         }
 
