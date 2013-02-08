@@ -43,8 +43,8 @@ namespace SpaceHordes.Entities.Templates
             //Set up initial body
             Body Body = e.AddComponent<Body>(new Body(world,e));
             FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
-                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Width),
-                ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height),
+                ConvertUnits.ToSimUnits(spriteSheet[tag][0].Width),
+                ConvertUnits.ToSimUnits(spriteSheet[tag][0].Height),
                 1,
                 Vector2.Zero,
                 Body);
