@@ -28,18 +28,17 @@ namespace SpaceHordes.Entities.Templates
         {
             e.Group = "Structures";
             e.Tag = "Base";
+
             #region Body
             Body Body = e.AddComponent<Body>(new Body(world, e));
             {
-               FixtureFactory.AttachRectangle( //Add a basic bounding box (rectangle status)
-                ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Width),
-                ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Height),
-                1,
-                ConvertUnits.ToSimUnits(
-                    new Vector2(spriteSheet.Animations["base"][0].Width/2f,
-                        spriteSheet.Animations["base"][0].Height/2f)),
-                Body);
-                Body.Position = ConvertUnits.ToSimUnits(new Vector2(0,0));
+                FixtureFactory.AttachEllipse(//Add a basic bounding box (rectangle status)
+                    ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Width / 2f),
+                    ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Height / 2f),
+                    10,
+                    1,
+                    Body);
+                Body.Position = ConvertUnits.ToSimUnits(new Vector2(0, 0));
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
 
                 Body.SleepingAllowed = false;
@@ -51,6 +50,8 @@ namespace SpaceHordes.Entities.Templates
                 new Sprite(spriteSheet,  "base",
                     Body, 1, Color.White, 0f));
             #endregion
+
+
 
             e.AddComponent<Health>(new Health(10000));
 

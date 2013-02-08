@@ -51,20 +51,20 @@ namespace SpaceHordes.Entities.Systems
             Vector2 target = Vector2.Zero;
             if (keyState.IsKeyDown(Keys.D))
             { //Right
-                target += Vector2.UnitX;
+                target += Vector2.UnitX/4;
             }
             else if (keyState.IsKeyDown(Keys.A))
             { //Left
-                target += -Vector2.UnitX;
+                target += -Vector2.UnitX/4;
             }
 
             if (keyState.IsKeyDown(Keys.S))
             { //Down
-                target += Vector2.UnitY;
+                target += Vector2.UnitY/4;
             }
             else if (keyState.IsKeyDown(Keys.W))
             { //Up?
-                target += -Vector2.UnitY;
+                target += -Vector2.UnitY/4;
             }
 
             if (target != Vector2.Zero) //If being moved by player
