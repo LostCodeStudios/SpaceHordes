@@ -21,6 +21,7 @@ namespace SpaceHordes.Entities.Systems
         float _Velocity;
         bool WasMoving = false;
         int AnimationHeight = 30;
+        float speed = 1 / 8;
 
         public PlayerControlSystem(float velocity)
             : base("Players")

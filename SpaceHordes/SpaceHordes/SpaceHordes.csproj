@@ -117,7 +117,6 @@
     <Compile Include="Entities\Systems\BulletCollisionSystem.cs" />
     <Compile Include="Entities\Systems\BulletRemovalSystem.cs" />
     <Compile Include="Entities\Systems\AISystem.cs" />
-    <Compile Include="Entities\Systems\EnemySpawnSystem.cs" />
     <Compile Include="Entities\Systems\GunSystem.cs" />
     <Compile Include="Entities\Systems\HealthRenderSystem.cs" />
     <Compile Include="Entities\Systems\HealthSystem.cs" />
