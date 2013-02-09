@@ -11,9 +11,9 @@ using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class EnemyMovementSystem : EntityProcessingSystem
+    public class AISystem : EntityProcessingSystem
     {
-        public EnemyMovementSystem()
+        public AISystem()
             : base(typeof(AI), typeof(ITransform), typeof(IVelocity))
         {
         }
