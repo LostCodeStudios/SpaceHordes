@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class EnemySpawnSystem : IntervalEntitySystem
+    public class DirectorSystem : IntervalEntitySystem
     {
         Random r = new Random();
-        public EnemySpawnSystem()
+        public DirectorSystem()
             : base(500)
         {
         }
