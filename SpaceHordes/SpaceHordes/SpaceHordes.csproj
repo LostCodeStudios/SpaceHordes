@@ -137,6 +137,7 @@
     <Compile Include="GameStates\Screens\MainMenuScreen.cs" />
     <Compile Include="GameStates\Screens\OptionsMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PauseMenuScreen.cs" />
+    <Compile Include="ImageFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SpaceHordes.cs" />

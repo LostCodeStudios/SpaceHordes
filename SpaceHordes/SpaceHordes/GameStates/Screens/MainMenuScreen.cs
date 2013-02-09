@@ -64,12 +64,12 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Fonts/gamefont", false));
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false));
         }
 
         void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Fonts/gamefont", true));
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", true));
         }
 
         void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
@@ -89,17 +89,6 @@ namespace SpaceHordes.GameStates.Screens
         /// When the user cancels the main menu, ask if they want to exit the sample.
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
-        {
-            ScreenManager.Game.Exit();
-        }
-
-        /// <summary>
-        /// Event handler for when the user selects ok on the
-        /// "are you sure you want to exit" message box.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ConfirmExitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.Game.Exit();
         }
