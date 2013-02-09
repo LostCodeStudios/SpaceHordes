@@ -423,6 +423,21 @@ namespace SpaceHordes.GameStates.Screens
                     new Rectangle(74, 96, 11, 7)
                 });
 
+            sourceRectangles.Add("whiteshot1",
+                new Rectangle[] {
+                    new Rectangle(397, 405, 6, 3)
+                });
+
+            sourceRectangles.Add("whiteshot2",
+                new Rectangle[] {
+                    new Rectangle(404, 404, 11, 5)
+                });
+
+            sourceRectangles.Add("whiteshot3",
+                new Rectangle[] {
+                    new Rectangle(416, 403, 11, 7)
+                });
+
             sourceRectangles.Add("bluespark",
                 new Rectangle[] {
                     new Rectangle(55, 104, 11, 11),
@@ -505,7 +520,7 @@ namespace SpaceHordes.GameStates.Screens
 
             sourceRectangles.Add("miniturret",
                 new Rectangle[] {
-                    new Rectangle(409, 144, 19, 11)
+                    new Rectangle(409, 144, 15, 9)
                 });
 
             sourceRectangles.Add("minifire",
@@ -818,6 +833,52 @@ namespace SpaceHordes.GameStates.Screens
             sourceRectangles.Add("killerrightgun",
                 new Rectangle[] {
                     new Rectangle(275, 779, 40, 105)
+                });
+
+            sourceRectangles.Add("shipexhaust1",
+                new Rectangle[] {
+                    new Rectangle(1, 749, 23, 23),
+                    new Rectangle(25, 749, 23, 23),
+                    new Rectangle(49, 749, 23, 23),
+                    new Rectangle(73, 749, 23, 23)
+                });
+
+            sourceRectangles.Add("shipexaust2",
+                new Rectangle[] {
+                    new Rectangle(368, 563, 23, 22),
+                    new Rectangle(392, 563, 23, 22),
+                    new Rectangle(416, 563, 23, 22)
+                });
+
+            sourceRectangles.Add("junkrock",
+                new Rectangle[] {
+                    new Rectangle(1, 917, 141, 142)
+                });
+
+            sourceRectangles.Add("rotatinglightball",
+                new Rectangle[] {
+                    new Rectangle(143, 917, 21, 21),
+                    new Rectangle(165, 917, 21, 21),
+                    new Rectangle(187, 917, 21, 21),
+                    new Rectangle(209, 917, 21, 21)
+                });
+
+            sourceRectangles.Add("greenlaser",
+                new Rectangle[] {
+                    new Rectangle(143, 939, 71, 23),
+                    new Rectangle(143, 963, 71, 23)
+                });
+
+            sourceRectangles.Add("redlaser",
+                new Rectangle[] {
+                    new Rectangle(215, 939, 71, 23),
+                    new Rectangle(215, 963, 71, 23)
+                });
+
+            sourceRectangles.Add("bluelaser",
+                new Rectangle[] {
+                    new Rectangle(287, 939, 71, 23),
+                    new Rectangle(287, 963, 71, 23)
                 });
 
             sheet.Animations = sourceRectangles;
