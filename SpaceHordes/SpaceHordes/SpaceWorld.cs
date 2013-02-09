@@ -122,8 +122,6 @@ namespace SpaceHordes
                 Player = this.CreateEntity("Player", (PlayerIndex.One));
                 Player.Refresh();
             }
-
-            Camera.TrackingBody = Player.GetComponent<Body>();
             
             
             //Set up base.

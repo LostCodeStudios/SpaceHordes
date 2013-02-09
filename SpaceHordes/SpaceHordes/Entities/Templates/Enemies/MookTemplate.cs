@@ -68,7 +68,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f, TimeSpan.FromSeconds(0.1)));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.Position = pos;
             e.AddComponent<AI>(new AI((args[1] as Body)));

@@ -23,17 +23,17 @@ namespace SpaceHordes.Entities.Systems
         {
             Sprite s = e.GetComponent<Sprite>();
 
-            if (s.FrameDelay == 0 || s.Source.Count() == 1) //If frameTime is zero or we only have one frame, we don't have to update.
-                return;
+            //if (s.FrameDelay == 0 || s.Source.Count() == 1) //If frameTime is zero or we only have one frame, we don't have to update.
+            //    return;
 
-            //s.Elapsed += gameTime.ElapsedGameTime; //Find a way to fix this. Couldn't figure out how to get in a GameTime
-            s.Elapsed += TimeSpan.FromSeconds(.005);
-            if (s.Elapsed.TotalSeconds >= s.FrameDelay)
-            {
-                s.Elapsed = TimeSpan.Zero;
+            ////s.Elapsed += gameTime.ElapsedGameTime; //Find a way to fix this. Couldn't figure out how to get in a GameTime
+            //s.Elapsed += TimeSpan.FromSeconds(.005);
+            //if (s.Elapsed.TotalSeconds >= s.FrameDelay)
+            //{
+            //    s.Elapsed = TimeSpan.Zero;
 
-                s.FrameIndex = ++s.FrameIndex % (s.Source.Count() - 1);
-            }
+            //    s.FrameIndex = ++s.FrameIndex % (s.Source.Count() - 1);
+            //}
         }
     }
 }

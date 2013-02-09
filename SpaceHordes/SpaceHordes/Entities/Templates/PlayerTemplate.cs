@@ -63,7 +63,7 @@ namespace SpaceHordes.Entities.Templates
 
                 Sprite Sprite = e.AddComponent<Sprite>(
                 new Sprite(spriteSheet, tag,
-                    Body, 1, Color.White, 0f, TimeSpan.Zero));
+                    Body, 1, Color.White, 0f));
 
             #endregion
 
