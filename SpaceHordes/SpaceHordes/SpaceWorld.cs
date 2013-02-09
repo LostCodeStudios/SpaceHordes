@@ -72,7 +72,7 @@ namespace SpaceHordes
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new EnemyMovementSystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
-
+            animationSystem = this.SystemManager.SetSystem(new SpriteAnimationSystem(), ExecutionType.Update);
             base.BuildSystems();
         }
 
@@ -130,7 +130,7 @@ namespace SpaceHordes
             Base = this.CreateEntity("Base");
             Base.Refresh();
 
-            Entity e = CreateEntity("Mook", 1, Base.GetComponent<Body>());
+            Entity e = CreateEntity("Mook", 2, Base.GetComponent<Body>());
             e.Refresh();
         }
 
@@ -153,12 +153,13 @@ namespace SpaceHordes
         EnemyMovementSystem enemyMovementSystem;
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
+        SpriteAnimationSystem animationSystem;
         //Entities for safe keeping
         public Entity Player;
         public Entity Base;
         #endregion
 
-        private SpriteSheet _spriteSheet;
+        SpriteSheet _spriteSheet;
         #endregion
     }
 }
