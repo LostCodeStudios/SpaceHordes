@@ -147,7 +147,6 @@ namespace GameLibrary
 
         public Camera Camera;
         protected SpriteBatch SpriteBatch;
-
         //Systems
         protected SpriteRenderSystem _SpriteRenderSystem;
         protected ParticleMovementSystem _MovementSystem;
