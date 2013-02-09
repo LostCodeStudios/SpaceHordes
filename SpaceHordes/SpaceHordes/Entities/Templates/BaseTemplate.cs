@@ -35,7 +35,7 @@ namespace SpaceHordes.Entities.Templates
                 FixtureFactory.AttachEllipse(//Add a basic bounding box (rectangle status)
                     ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Width / 2f),
                     ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Height / 2f),
-                    10,
+                    20,
                     1,
                     Body);
                 Body.Position = ConvertUnits.ToSimUnits(new Vector2(0, 0));

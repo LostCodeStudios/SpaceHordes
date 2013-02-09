@@ -128,7 +128,7 @@ namespace SpaceHordes
             Base = this.CreateEntity("Base");
             Base.Refresh();
 
-            Entity e = CreateEntity("Mook", 2, Base.GetComponent<Body>());
+            Entity e = CreateEntity("Mook", 3, Base.GetComponent<Body>());
             e.Refresh();
         }
 
