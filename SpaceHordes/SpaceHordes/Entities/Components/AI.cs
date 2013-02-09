@@ -10,8 +10,10 @@ namespace SpaceHordes.Entities.Components
 {
     public enum Behavior
     {
-        Follow,
-        FollowAndGun
+        Follow,          //Follows until hits target.
+        FollowAndGun,    //Follows and shoots untill hits target
+        CareFollow,      //(Careful mode: keeps a distance) Follows until hits target.
+        CareFollowAndGun //(Careful mode: keeps a distance) Follows and shoots untill hits target
     }
 
     public class AI : Component
