@@ -43,6 +43,7 @@ namespace SpaceHordes.GameStates.Screens
 
         long score = 0;
         Vector2 scoreLocation;
+        float scoreScale;
 
         SpaceWorld World;
 
@@ -102,6 +103,7 @@ namespace SpaceHordes.GameStates.Screens
             gameFont.CharSpaceWidth = 1;
 
             scoreLocation = new Vector2(ScreenHelper.Center.X, 0);
+            scoreScale = 1f;
 
             spriteBatch = ScreenManager.SpriteBatch;
             spriteSheet = new SpriteSheet(Content, "Textures/spritesheet");
@@ -190,13 +192,14 @@ namespace SpaceHordes.GameStates.Screens
 
             spriteBatch.Begin();
             //gameFont.DrawString(spriteBatch, Vector2.Zero, "It worked.");
-            Vector2 scoreSize = gameFont.MeasureString(score.ToString());
+            Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
             gameFont.DrawString(
                 spriteBatch,
                 new Vector2(
                     scoreLocation.X - scoreSize.X / 2,
                     scoreLocation.Y),
-                score.ToString());
+                score.ToString(),
+                scoreScale);
             spriteBatch.End();
         }
 

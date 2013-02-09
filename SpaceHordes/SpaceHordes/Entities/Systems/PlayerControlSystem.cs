@@ -17,7 +17,6 @@ namespace SpaceHordes.Entities.Systems
 {
     public class PlayerControlSystem : GroupSystem
     {
-        KeyboardState keyState;
         ComponentMapper<Body> bodyMapper;
         float _Velocity;
         bool WasMoving = false;
@@ -51,24 +50,25 @@ namespace SpaceHordes.Entities.Systems
             Vector2 target = Vector2.Zero;
             if (keyState.IsKeyDown(Keys.D))
             { //Right
-                target += Vector2.UnitX/4;
+                target += Vector2.UnitX;
             }
             else if (keyState.IsKeyDown(Keys.A))
             { //Left
-                target += -Vector2.UnitX/4;
+                target += -Vector2.UnitX;
             }
 
             if (keyState.IsKeyDown(Keys.S))
             { //Down
-                target += Vector2.UnitY/4;
+                target += Vector2.UnitY;
             }
             else if (keyState.IsKeyDown(Keys.W))
             { //Up?
-                target += -Vector2.UnitY/4;
+                target += -Vector2.UnitY;
             }
 
             if (target != Vector2.Zero) //If being moved by player
             {
+                target.Normalize();
                 WasMoving = true;
                 b.LinearDamping = _Velocity * 2;
             }

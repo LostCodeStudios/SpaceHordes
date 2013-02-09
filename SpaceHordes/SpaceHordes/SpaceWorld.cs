@@ -71,7 +71,7 @@ namespace SpaceHordes
             enemySpawnSystem = this.SystemManager.SetSystem(new EnemySpawnSystem(), ExecutionType.Update);
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
-            playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
+            playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(1f), ExecutionType.Update);
             //animationSystem = this.SystemManager.SetSystem(new SpriteAnimationSystem(), ExecutionType.Update);
             base.BuildSystems();
         }
