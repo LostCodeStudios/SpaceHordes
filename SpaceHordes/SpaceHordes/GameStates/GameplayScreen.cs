@@ -29,7 +29,7 @@ namespace SpaceHordes.GameStates.Screens
         #region Fields
 
         ContentManager content;
-        SpriteFont gameFont;
+        ImageFont gameFont;
         SpriteBatch spriteBatch;
         string fontName;
 
@@ -42,6 +42,7 @@ namespace SpaceHordes.GameStates.Screens
         Vector2 mouseLoc;
 
         long score = 0;
+        Vector2 scoreLocation;
 
         SpaceWorld World;
 
@@ -80,6 +81,7 @@ namespace SpaceHordes.GameStates.Screens
 
             this.multiplayer = multiplayer;
             this.fontName = fontName;
+            gameFont = new ImageFont();
 
             pauseAction = new InputAction(
                 new Buttons[] { Buttons.Start, Buttons.Back },
@@ -95,7 +97,12 @@ namespace SpaceHordes.GameStates.Screens
             #region Screen
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
-            gameFont = content.Load<SpriteFont>(fontName);
+            gameFont.LoadContent(Content, fontName);
+            gameFont.SpaceWidth = 8;
+            gameFont.CharSpaceWidth = 1;
+
+            scoreLocation = new Vector2(ScreenHelper.Center.X, 0);
+
             spriteBatch = ScreenManager.SpriteBatch;
             spriteSheet = new SpriteSheet(Content, "Textures/spritesheet");
             SetSourceRectangles(spriteSheet);
@@ -163,6 +170,7 @@ namespace SpaceHordes.GameStates.Screens
                 World.Update(gameTime); //Update the world.
             }
 
+            score += 1;
         }
 
         public override void Draw(GameTime gameTime)
@@ -179,6 +187,17 @@ namespace SpaceHordes.GameStates.Screens
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+
+            spriteBatch.Begin();
+            //gameFont.DrawString(spriteBatch, Vector2.Zero, "It worked.");
+            Vector2 scoreSize = gameFont.MeasureString(score.ToString());
+            gameFont.DrawString(
+                spriteBatch,
+                new Vector2(
+                    scoreLocation.X - scoreSize.X / 2,
+                    scoreLocation.Y),
+                score.ToString());
+            spriteBatch.End();
         }
 
         #endregion

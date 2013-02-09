@@ -72,7 +72,7 @@ namespace SpaceHordes
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
-            animationSystem = this.SystemManager.SetSystem(new SpriteAnimationSystem(), ExecutionType.Update);
+            //animationSystem = this.SystemManager.SetSystem(new SpriteAnimationSystem(), ExecutionType.Update);
             base.BuildSystems();
         }
 
@@ -151,7 +151,7 @@ namespace SpaceHordes
         AISystem enemyMovementSystem;
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
-        SpriteAnimationSystem animationSystem;
+        //SpriteAnimationSystem animationSystem;
         //Entities for safe keeping
         public Entity Player;
         public Entity Base;
