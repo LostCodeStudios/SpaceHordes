@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GameLibrary.Helpers;
 using GameLibrary.Entities.Systems;
 using GameLibrary.Helpers.Debug;
+using SpaceHordes.Entities.Systems;
 
 namespace GameLibrary
 {
@@ -81,7 +82,9 @@ namespace GameLibrary
 #if DEBUG
             _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);
 #endif
-            _SpriteRenderSystem = this.SystemManager.SetSystem(new SpriteRenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
+            _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
+
+            _AnimationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update);
         }
 
         /// <summary>
@@ -148,7 +151,8 @@ namespace GameLibrary
         public Camera Camera;
         protected SpriteBatch SpriteBatch;
         //Systems
-        protected SpriteRenderSystem _SpriteRenderSystem;
+        protected RenderSystem _RenderSystem;
+        protected AnimationSystem _AnimationSystem;
         protected ParticleMovementSystem _MovementSystem;
         protected DebugSystem _DebugSystem;
 

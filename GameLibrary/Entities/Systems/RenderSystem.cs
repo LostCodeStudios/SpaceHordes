@@ -10,7 +10,7 @@ using GameLibrary.Entities.Components;
 
 namespace GameLibrary.Entities.Systems
 {
-    public class SpriteRenderSystem : EntityProcessingSystem
+    public class RenderSystem : EntityProcessingSystem
     {
         private ComponentMapper<ITransform> transformMapper;
         private ComponentMapper<Sprite> spriteMapper;
@@ -18,7 +18,7 @@ namespace GameLibrary.Entities.Systems
         private SpriteBatch spriteBatch;
         private Camera camera;
 
-        public SpriteRenderSystem(SpriteBatch spritebatch, Camera camera):
+        public RenderSystem(SpriteBatch spritebatch, Camera camera):
             base(typeof(Sprite), typeof(ITransform))
         {
             this.spriteBatch = spritebatch;
