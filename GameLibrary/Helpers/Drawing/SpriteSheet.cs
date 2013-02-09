@@ -63,6 +63,11 @@ namespace GameLibrary.Helpers
             texture = content.Load<Texture2D>(filename);
         }
 
+        public SpriteSheet(Texture2D spriteSheet)
+        {
+            texture = spriteSheet;
+        }
+
         #endregion
     }
 }

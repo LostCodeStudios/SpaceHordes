@@ -70,7 +70,7 @@ namespace SpaceHordes
             healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
             enemySpawnSystem = this.SystemManager.SetSystem(new EnemySpawnSystem(), ExecutionType.Update);
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
-            enemyMovementSystem = this.SystemManager.SetSystem(new EnemyMovementSystem(), ExecutionType.Update);
+            enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
             animationSystem = this.SystemManager.SetSystem(new SpriteAnimationSystem(), ExecutionType.Update);
             base.BuildSystems();
@@ -150,7 +150,7 @@ namespace SpaceHordes
         HealthRenderSystem healthRenderSystem;
         HealthSystem healthSystem;
         EnemySpawnSystem enemySpawnSystem;
-        EnemyMovementSystem enemyMovementSystem;
+        AISystem enemyMovementSystem;
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
         SpriteAnimationSystem animationSystem;
