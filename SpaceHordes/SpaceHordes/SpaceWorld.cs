@@ -154,19 +154,19 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("WhiteBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1"),
-                new Velocity(new Vector2(3), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(1, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot2"),
-                new Velocity(new Vector2(3), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot3"),
-                new Velocity(new Vector2(3), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(3, "Enemies", null
                     )));
 
@@ -182,8 +182,6 @@ namespace SpaceHordes
         /// <param name="args">{0-4} Player indices in use.</param>
         protected override void BuildEntities(ContentManager Content, params object[] args)
         {
-            CreateEntityGroup("StarField", "Stars");
-            
             //Set up player(s)
             if (args != null && args.Length > 0 && args[0] != null) //IF MULTIPLAYER
                 for (int i = 0; i < args.Length && i < 4; i++)
@@ -196,7 +194,9 @@ namespace SpaceHordes
                 Player = this.CreateEntity("Player", (PlayerIndex.One));
                 Player.Refresh();
             }
-            
+
+            CreateEntityGroup("StarField", "Stars");
+
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();

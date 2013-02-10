@@ -11,12 +11,14 @@ using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class GunSystem : EntityProcessingSystem
+    class GunSystem : IntervalEntityProcessingSystem
     {
         ComponentMapper<ITransform> transformMapper;
         ComponentMapper<Inventory> invMapper;
 
-        public GunSystem() : base(typeof(Inventory),typeof(ITransform))
+        int elapsedMilli = 0;
+
+        public GunSystem() : base(16, typeof(Inventory),typeof(ITransform))
         {
         }
 
@@ -26,6 +28,12 @@ namespace SpaceHordes.Entities.Systems
             transformMapper = new ComponentMapper<ITransform>(world);
         }
 
+        public override void Process()
+        {
+            elapsedMilli += 16;
+            base.Process();
+        }
+
         public override void Process(Entity e)
         {
             //Process guns
@@ -33,13 +41,16 @@ namespace SpaceHordes.Entities.Systems
             Gun gun = inv.CurrentGun;
             ITransform transform = transformMapper.Get(e);
 
+            gun.Elapsed += elapsedMilli;
             //Fire bullets bro
-            for (; gun.Ammunition > 0 && gun.BulletsToFire > 0; gun.Ammunition--)
+            if (gun.Elapsed > gun.Interval && gun.BulletsToFire)
             {
-                gun.BulletsToFire--;
+                    gun.BulletsToFire = false;
 
-                Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
-                bullet.Refresh();
+                    Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
+                    bullet.Refresh();
+
+                    gun.Elapsed = 0;
             }
         }
     }

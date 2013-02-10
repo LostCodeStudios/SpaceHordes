@@ -76,7 +76,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<AI>(new AI((args[1] as Body)));
             if (s.Source.Count() > 1)
                 e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 20));
-            
+
+            e.AddComponent<Health>(new Health(5));
+
             return e;
         }
 

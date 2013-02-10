@@ -13,25 +13,25 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class Gun : Component
     {
-        public Gun(int ammunition, string bulletTemplateTag)
+        public Gun(int ammunition, int interval, string bulletTemplateTag)
         {
             Ammunition = ammunition;
             BulletTemplateTag = bulletTemplateTag;
+            Interval = interval;
+            Elapsed = 0;
         }
 
         #region Properties
-        public uint BulletsToFire
+        public bool BulletsToFire
         {
             set
             {
                 if (ammo < 0)
                     _BulletsToFire = value;
-                else if (value > Ammunition)
+                else if (Ammunition > 0)
                 {
-                    _BulletsToFire = (uint)Ammunition;
-                }
-                else
                     _BulletsToFire = value;
+                }
             }
             get
             {
@@ -58,10 +58,23 @@ namespace SpaceHordes.Entities.Components
             get;
             private set;
         }
+
+        public int Interval
+        {
+            get;
+            private set;
+        }
+
+        public int Elapsed
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Fields
-        private uint _BulletsToFire = 0;
+        private bool _BulletsToFire = false;
         int ammo;
         #endregion
     }
