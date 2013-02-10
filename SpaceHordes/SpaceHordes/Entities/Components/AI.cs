@@ -21,10 +21,17 @@ namespace SpaceHordes.Entities.Components
         Body target;
         Behavior behavior;
 
+        public event Action TargetChangedEvent;
+
         public Body Target
         {
             get { return target; }
-            set { target = value; }
+            set
+            {
+                if (TargetChangedEvent != null)
+                    TargetChangedEvent();
+                target = value;
+            }
         }
 
         public Behavior Behavior

@@ -57,7 +57,8 @@ namespace SpaceHordes.Entities.Templates
             Body.SleepingAllowed = false;
             Body.FixedRotation = true;
             Body.RotateTo(Body.Position);
-            Body.CollisionGroup = -2;
+
+            Body.CollisionCategories = Category.Cat1;
             #endregion
 
             #region Sprite

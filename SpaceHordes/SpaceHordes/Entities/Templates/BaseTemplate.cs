@@ -40,6 +40,7 @@ namespace SpaceHordes.Entities.Templates
                     Body);
                 Body.Position = ConvertUnits.ToSimUnits(new Vector2(0, 0));
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
+                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
 
                 Body.SleepingAllowed = false;
             }

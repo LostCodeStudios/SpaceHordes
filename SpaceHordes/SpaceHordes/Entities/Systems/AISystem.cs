@@ -18,22 +18,34 @@ namespace SpaceHordes.Entities.Systems
         {
         }
 
+        public override void Added(Entity e)
+        {
+            e.GetComponent<AI>().TargetChangedEvent +=
+                () =>
+                {
+                    ITransform b = e.GetComponent<ITransform>();
+                    IVelocity v = e.GetComponent<IVelocity>();
+                    AI a = e.GetComponent<AI>();
+                    Vector2 Velocity = (a.Target.Position - b.Position);
+                    if (Velocity != Vector2.Zero)
+                    {
+                        Velocity.Normalize();
+                        Velocity *= new Vector2(5);
+                        v.LinearVelocity = Velocity;
+                        b.RotateTo(Velocity);
+                    }
+                };
+
+            if (e.GetComponent<AI>().Target != null)
+            {
+                e.GetComponent<AI>().Target = e.GetComponent<AI>().Target;
+            }
+            
+            base.Added(e);
+        }
+
         public override void Process(Entity e)
         {
-            ITransform b = e.GetComponent<ITransform>();
-            IVelocity v = e.GetComponent<IVelocity>();
-            AI a = e.GetComponent<AI>();
-            if (b != null)
-            {
-                Vector2 Velocity = (a.Target.Position - b.Position);
-                if (Velocity != Vector2.Zero)
-                {
-                    Velocity.Normalize();
-                    Velocity *= new Vector2(5);
-                    v.LinearVelocity = Velocity;
-                    b.RotateTo(Velocity);
-                }
-            }
         }
     }
 }
