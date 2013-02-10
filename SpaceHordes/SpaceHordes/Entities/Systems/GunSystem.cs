@@ -16,7 +16,7 @@ namespace SpaceHordes.Entities.Systems
         ComponentMapper<ITransform> transformMapper;
         ComponentMapper<Inventory> invMapper;
 
-        int elapsedMilli = 0;
+        int elapsedMilli = 16;
 
         public GunSystem() : base(16, typeof(Inventory),typeof(ITransform))
         {
@@ -30,7 +30,6 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process()
         {
-            elapsedMilli += 16;
             base.Process();
         }
 
@@ -45,12 +44,11 @@ namespace SpaceHordes.Entities.Systems
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval && gun.BulletsToFire)
             {
-                    gun.BulletsToFire = false;
+                gun.BulletsToFire = false;
+                gun.Elapsed = 0;
 
-                    Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
-                    bullet.Refresh();
-
-                    gun.Elapsed = 0;
+                Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
+                bullet.Refresh();
             }
         }
     }

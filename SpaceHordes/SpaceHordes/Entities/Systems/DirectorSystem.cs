@@ -39,8 +39,8 @@ namespace SpaceHordes.Entities.Systems
 
             int milliseconds = 500;
 
-            elapsedSeconds += milliseconds/1000;
-            elapsedMinutes += milliseconds/60000;
+            elapsedSeconds += milliseconds/10000;
+            elapsedMinutes += milliseconds/600000;
 
             difficulty = (int)(elapsedMinutes) - ((int)(playerDeaths / 2) + baseDamage);
 

@@ -14,10 +14,10 @@ namespace SpaceHordes.Entities.Components
     {
         public Inventory(uint red = 0, uint green = 0, uint blue = 0, uint yellow = 0)
         {
-            RED = new Gun((int)red, 60000, "RedBullet1");
-            GREEN = new Gun((int)green, 60000, "GreenBullet1");
-            BLUE = new Gun((int)blue, 60000, "BlueBullet1");
-            WHITE = new Gun(-1, 60000, "WhiteBullet1");
+            RED = new Gun((int)red, 600, "RedBullet1");
+            GREEN = new Gun((int)green, 600, "GreenBullet1");
+            BLUE = new Gun((int)blue, 600, "BlueBullet1");
+            WHITE = new Gun(-1, 600, "WhiteBullet1");
             CurrentGun = WHITE;
             YELLOW = yellow;
         }
