@@ -72,7 +72,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.Position = pos;
             e.AddComponent<AI>(new AI((args[1] as Body)));
-            e.AddComponent<Animation>(new Animation(33));
+            e.AddComponent<Animation>(new Animation(AnimationType.Loop));
             
             return e;
         }

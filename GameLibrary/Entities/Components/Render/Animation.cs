@@ -24,7 +24,7 @@ namespace GameLibrary.Entities.Components
         /// Default constructor for animation component
         /// </summary>
         /// <param name="rate">The rate at which the animation updates (miliseconds).</param>
-        public Animation( AnimationType type, int rate = 33)
+        public Animation( AnimationType type, int rate = 1)
         {
             FrameRate = rate;
             Type = type;
