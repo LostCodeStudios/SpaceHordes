@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameLibrary.Dependencies;
+using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
     /// <summary>
     /// Player inventory class
     /// </summary>
-    class Inventory
+    public class Inventory : Component
     {
         public Inventory(int red = 0, int green = 0, int blue = 0, int yellow = 0)
         {
@@ -17,6 +19,8 @@ namespace SpaceHordes.Entities.Components
             BLUE = blue;
             YELLOW = yellow;
         }
+
+        public bool BuildMode = false;
 
         //BULLETS\\
         public int RED;

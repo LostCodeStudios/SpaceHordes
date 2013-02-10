@@ -28,6 +28,7 @@ namespace SpaceHordes
             : base(game, new Vector2(0,0))
         {
             this._spriteSheet = spriteSheet;
+            this._font = new ImageFont();
         }
 
         #region Initialization
@@ -49,6 +50,8 @@ namespace SpaceHordes
         {
             base.LoadContent(Content, args);
            // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
+            _font.LoadContent(Content, "Textures/gamefont");
+            hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
 #if DEBUG   //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
@@ -63,15 +66,19 @@ namespace SpaceHordes
         /// </summary>
         protected override void BuildSystems()
         {
+            //Update Systems
             gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
             bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
             bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
-            //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
             enemySpawnSystem = this.SystemManager.SetSystem(new DirectorSystem(), ExecutionType.Update);
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
+
+            //Draw Systems
+            //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
+            hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
             base.BuildSystems();
         }
 
@@ -140,7 +147,7 @@ namespace SpaceHordes
         #region Fields
 
         #region Entity
-        //Systems
+        //Update Systems
         GunSystem gunSystem;
         BulletRemovalSystem bulletRemovalSystem;
         BulletCollisionSystem bulletCollisionSystem;
@@ -150,12 +157,20 @@ namespace SpaceHordes
         AISystem enemyMovementSystem;
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
+
+        //Draw Systems
+        HealthRenderSystem healthRenderSystem;
+        HUDRenderSystem hudRenderSystem;
+
         //Entities for safe keeping
         public Entity Player;
         public Entity Base;
         #endregion
 
         SpriteSheet _spriteSheet;
+        Texture2D _hud;
+        ImageFont _font;
+
         #endregion
     }
 }

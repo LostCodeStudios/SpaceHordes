@@ -113,6 +113,7 @@
     <Compile Include="Entities\Components\Bullet.cs" />
     <Compile Include="Entities\Components\Gun.cs" />
     <Compile Include="Entities\Components\Health.cs" />
+    <Compile Include="Entities\Components\Inventory.cs" />
     <Compile Include="Entities\Components\Slow.cs" />
     <Compile Include="Entities\Systems\BulletCollisionSystem.cs" />
     <Compile Include="Entities\Systems\BulletRemovalSystem.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Entities\Systems\GunSystem.cs" />
     <Compile Include="Entities\Systems\HealthRenderSystem.cs" />
     <Compile Include="Entities\Systems\HealthSystem.cs" />
+    <Compile Include="Entities\Systems\HUDRenderSystem.cs" />
     <Compile Include="Entities\Systems\PlayerControlSystem.cs" />
     <Compile Include="Entities\Systems\SlowSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
