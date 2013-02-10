@@ -22,30 +22,37 @@ namespace SpaceHordes.Entities.Systems
 
         #region Locations
 
-        static Vector2 hudDimmensions = new Vector2(96, 51);
-        static Vector2 radarDimmension = new Vector2(87, 51);
-
-        static Rectangle[] hudLocations = new Rectangle[]
-        {
-            new Rectangle(ScreenHelper.Viewport.X, ScreenHelper.Viewport.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-            new Rectangle(ScreenHelper.Viewport.Width - (int)hudDimmensions.X, ScreenHelper.Viewport.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-            new Rectangle(ScreenHelper.Viewport.X, ScreenHelper.Viewport.Height - (int)radarDimmension.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-            new Rectangle(ScreenHelper.Viewport.Width - (int)hudDimmensions.X, ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
-        };
-
-        static Rectangle radarLocation = new Rectangle((int)ScreenHelper.Center.X - (int)radarDimmension.X/2, ScreenHelper.Viewport.Height, (int)radarDimmension.X, (int)radarDimmension.Y);
-
-        static Rectangle radarSource = new Rectangle(0, 0, 87, 51);
-        static Rectangle hudSource = new Rectangle(86, 0, 96, 51);
-        static Rectangle buildMenuSource = new Rectangle(181, 0, 96, 51);
-        static Rectangle selectionSource = new Rectangle(277, 0, 25, 26);
+        Vector2 hudDimmensions;
+        Vector2 radarDimmensions;
+        Rectangle[] hudLocations;
+        Rectangle radarLocation;
+        Rectangle radarSource;
+        Rectangle hudSource;
+        Rectangle buildMenuSource;
+        Rectangle selectionSource;
 
         #endregion
 
         public HUDRenderSystem()
             : base(typeof(Inventory))
         {
+            hudDimmensions = new Vector2(96, 51);
+            radarDimmensions = new Vector2(87, 51);
 
+            hudLocations = new Rectangle[]
+            {
+                new Rectangle(ScreenHelper.Viewport.X, ScreenHelper.Viewport.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.Viewport.Width - (int)hudDimmensions.X, ScreenHelper.Viewport.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.Viewport.X, ScreenHelper.Viewport.Height - (int)radarDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.Viewport.Width - (int)hudDimmensions.X, ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
+            };
+
+            radarLocation = new Rectangle((int)ScreenHelper.Center.X - (int)radarDimmensions.X / 2, ScreenHelper.Viewport.Height - (int)radarDimmensions.Y, (int)radarDimmensions.X, (int)radarDimmensions.Y);
+
+            radarSource = new Rectangle(0, 0, 87, 51);
+            hudSource = new Rectangle(86, 0, 96, 51);
+            buildMenuSource = new Rectangle(181, 0, 96, 51);
+            selectionSource = new Rectangle(277, 0, 25, 26);
         }
 
         public void LoadContent(ImageFont font, Texture2D texture)
@@ -57,7 +64,7 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process()
         {
-            _SpriteBatch.Begin();
+            _SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             _SpriteBatch.Draw(_Hud, radarLocation, radarSource,  Color.White);
             //base.Process();
@@ -69,7 +76,7 @@ namespace SpaceHordes.Entities.Systems
         {
             Inventory i = e.GetComponent<Inventory>();
 
-            int playerIndex = int.Parse(e.Tag.Replace("Player",""));
+            int playerIndex = int.Parse(e.Tag.Replace("Player","")) - 1;
             if (!i.BuildMode)
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], hudSource, Color.White);
             else

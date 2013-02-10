@@ -10,6 +10,12 @@ namespace SpaceHordes.Entities.Systems
     public class DirectorSystem : IntervalEntitySystem
     {
         Random r = new Random();
+        int difficulty = 0;
+        TimeSpan elapsedTime;
+
+        int playerDeaths;
+        int baseDamage;
+
         public DirectorSystem()
             : base(500)
         {
@@ -17,9 +23,13 @@ namespace SpaceHordes.Entities.Systems
 
         protected override void ProcessEntities(Dictionary<int, Entity> entities)
         {
-            Vector2 spawn = new Vector2(ClampInverse(r.Next(-5, 5), -4, 4), ClampInverse(r.Next(-5, 5), -4, 4));
-
             base.ProcessEntities(entities);
+
+            int ticks = 500;
+
+            elapsedTime.Ticks += ticks;
+
+            difficulty = 1500 - (d/2 + b)
         }
 
         public static float ClampInverse(float value, float min, float max)

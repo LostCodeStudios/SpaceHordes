@@ -79,7 +79,7 @@ namespace SpaceHordes
 
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
-            hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
+            hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw);
             base.BuildSystems();
         }
 
@@ -137,6 +137,10 @@ namespace SpaceHordes
 
             Entity e = CreateEntity("Mook", 3, Base.GetComponent<Body>());
             e.Refresh();
+
+#if DEBUG
+            Camera.TrackingBody = Player.GetComponent<Body>();
+#endif
         }
 
         #endregion
