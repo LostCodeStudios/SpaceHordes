@@ -111,6 +111,7 @@
   <ItemGroup>
     <Compile Include="Entities\Components\AI.cs" />
     <Compile Include="Entities\Components\Bullet.cs" />
+    <Compile Include="Entities\Components\Crystal.cs" />
     <Compile Include="Entities\Components\Gun.cs" />
     <Compile Include="Entities\Components\Health.cs" />
     <Compile Include="Entities\Components\Inventory.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Entities\Systems\BulletCollisionSystem.cs" />
     <Compile Include="Entities\Systems\BulletRemovalSystem.cs" />
     <Compile Include="Entities\Systems\AISystem.cs" />
+    <Compile Include="Entities\Systems\CrystalCollisionSystem.cs" />
     <Compile Include="Entities\Systems\DirectorSystem.cs" />
     <Compile Include="Entities\Systems\GunSystem.cs" />
     <Compile Include="Entities\Systems\HealthRenderSystem.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="Entities\Systems\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
     <Compile Include="Entities\Templates\BulletTemplate.cs" />
+    <Compile Include="Entities\Templates\CrystalTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\MookTemplate.cs" />
     <Compile Include="Entities\Templates\ExplosionTemplate.cs" />
     <Compile Include="Entities\Templates\PlayerTemplate.cs" />
