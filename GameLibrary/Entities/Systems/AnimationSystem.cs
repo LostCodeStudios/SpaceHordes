@@ -46,6 +46,14 @@ namespace SpaceHordes.Entities.Systems
                             sprite.FrameIndex--;
                             anim.Type = AnimationType.None;
                             break;
+                        case AnimationType.Bounce:
+                            sprite.FrameIndex += anim.FrameInc;
+                            if (sprite.FrameIndex == sprite.Source.Count() - 1)
+                                anim.FrameInc = -1;
+
+                            if (sprite.FrameIndex == 0)
+                                anim.FrameInc = 1;
+                            break;
                     }
                     e.RemoveComponent<Sprite>(e.GetComponent<Sprite>());
                     e.AddComponent<Sprite>(sprite);

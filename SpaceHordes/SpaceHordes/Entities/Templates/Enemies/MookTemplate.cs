@@ -73,6 +73,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.Position = pos;
+            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
+            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
             e.AddComponent<AI>(new AI((args[1] as Body)));
             if (s.Source.Count() > 1)
                 e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 20));
