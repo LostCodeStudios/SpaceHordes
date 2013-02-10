@@ -12,6 +12,7 @@ using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -37,9 +38,14 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             Body b = bodyMapper.Get(e);
+            Inventory inv = e.GetComponent<Inventory>();
+            Gun g = inv.CurrentGun;
+
+            KeyboardState keyState = Keyboard.GetState();
+            MouseState mouseState = Mouse.GetState();
 
             #region UserMovement
-            KeyboardState keyState = Keyboard.GetState();
+
             if (WasMoving) //Stops movement
             {
                 b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);
@@ -84,6 +90,15 @@ namespace SpaceHordes.Entities.Systems
             b.ApplyLinearImpulse((target) * new Vector2(_Velocity));
             #endregion
 
+            if (mouseState.LeftButton == ButtonState.Pressed)
+            {
+                //These calculations don't really work perfectly. No clue why, needs to be fixed but this is the best I could get it
+                Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
+                Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
+                Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
+                b.RotateTo(aiming);
+                g.BulletsToFire++;
+            }
         }
     }
 }

@@ -36,16 +36,14 @@ namespace SpaceHordes.Entities.Templates
 
             #region Sprite
 
-            //Vector2 loc = new Vector2(rbitch.Next(-ScreenHelper.Viewport.Width/2, ScreenHelper.Viewport.Width/2), rbitch.Next(-ScreenHelper.Viewport.Height/2, ScreenHelper.Viewport.Height/2));
             Vector2 loc = new Vector2(rbitch.Next(0, ScreenHelper.Viewport.Width), rbitch.Next(0, ScreenHelper.Viewport.Height));
-            //loc = ConvertUnits.ToSimUnits(loc);
             if ((bool)args[0] == true)
             {
                 Sprite s = new Sprite(spriteSheet, "redstar", loc, 1f, Color.White, 0);
                 //Sprite s = e.AddComponent<Sprite>(new Sprite(spriteSheet, "redstar", loc, 1f, Color.White, 0));
                 s.FrameIndex = rbitch.Next(0, 3);
                 e.AddComponent<Sprite>(s);
-                Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 15));
+                Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 5));
             }
             else
             {

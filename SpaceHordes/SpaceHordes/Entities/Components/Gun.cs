@@ -13,7 +13,7 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class Gun : Component
     {
-        public Gun(uint ammunition, string bulletTemplateTag)
+        public Gun(int ammunition, string bulletTemplateTag)
         {
             Ammunition = ammunition;
             BulletTemplateTag = bulletTemplateTag;
@@ -24,8 +24,12 @@ namespace SpaceHordes.Entities.Components
         {
             set
             {
-                if (value > Ammunition)
-                    _BulletsToFire = Ammunition;
+                if (ammo < 0)
+                    _BulletsToFire = value;
+                else if (value > Ammunition)
+                {
+                    _BulletsToFire = (uint)Ammunition;
+                }
                 else
                     _BulletsToFire = value;
             }
@@ -34,12 +38,21 @@ namespace SpaceHordes.Entities.Components
                 return _BulletsToFire;
             }
         }
-        public uint Ammunition
+        public int Ammunition
         {
-            set;
-            get;
+            set
+            {
+                if (ammo >=0)
+                    ammo = value;
+            }
+            get
+            {
+                if (ammo >= 0)
+                    return ammo;
+                else
+                    return 1000; //if ammo = -1, infinite ammo
+            }
         }
-
         public string BulletTemplateTag
         {
             get;
@@ -49,6 +62,7 @@ namespace SpaceHordes.Entities.Components
 
         #region Fields
         private uint _BulletsToFire = 0;
+        int ammo;
         #endregion
     }
 }
