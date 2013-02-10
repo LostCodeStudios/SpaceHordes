@@ -605,7 +605,7 @@ namespace SpaceHordes.GameStates.Screens
 
             sourceRectangles.Add("grayshipwithtwowings",
                 new Rectangle[] {
-                    new Rectangle(79, 157, 21, 21)
+                    new Rectangle(106, 157, 21, 21)
                 });
 
             sourceRectangles.Add("blueshipwithbulb",

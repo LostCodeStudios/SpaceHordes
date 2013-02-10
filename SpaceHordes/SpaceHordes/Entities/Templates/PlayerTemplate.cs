@@ -56,6 +56,7 @@ namespace SpaceHordes.Entities.Templates
             Body.BodyType = BodyType.Dynamic;
             Body.SleepingAllowed = false;
             Body.FixedRotation = true;
+            Body.RotateTo(Body.Position);
             Body.CollisionGroup = -2;
             #endregion
 
@@ -90,14 +91,20 @@ namespace SpaceHordes.Entities.Templates
         private static Dictionary<PlayerIndex, Vector2> locations = new Dictionary<PlayerIndex, Vector2>();
         private static void SetStartingLocations()
         {
+            Vector2 loc = new Vector2(640, 360);
+            float distFromBase = 150f;
+
+            loc.Normalize();
+            loc *= distFromBase;
+
             locations.Add(PlayerIndex.One,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0 )));
+                ConvertUnits.ToSimUnits(new Vector2(-loc.X, -loc.Y)));
             locations.Add(PlayerIndex.Two,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0)));
+                ConvertUnits.ToSimUnits(new Vector2(loc.X, -loc.Y)));
             locations.Add(PlayerIndex.Three,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0)));
+                ConvertUnits.ToSimUnits(new Vector2(-loc.X, loc.Y)));
             locations.Add(PlayerIndex.Four,
-                ConvertUnits.ToSimUnits(new Vector2(0, 0)));
+                ConvertUnits.ToSimUnits(new Vector2(loc.X, loc.Y)));
         }
         #endregion
 

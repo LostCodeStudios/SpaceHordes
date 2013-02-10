@@ -34,34 +34,34 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             switch (type)
             {
-                case 1:
+                case 0:
                     spriteKey = "squidship";
                     break;
-                case 2:
+                case 1:
                     spriteKey = "brownfangship";
                     break;
-                case 3:
+                case 2:
                     spriteKey = "blueshipredexhaust";
                     break;
-                case 4:
+                case 3:
                     spriteKey = "grayshipwithtwoprongs";
                     break;
-                case 5:
+                case 4:
                     spriteKey = "grayshipwithtwowings";
                     break;
-                case 6:
+                case 5:
                     spriteKey = "brownplane";
                     break;
-                case 7:
+                case 6:
                     spriteKey = "bluecrystalship";
                     break;
-                case 8:
+                case 7:
                     spriteKey = "brownthingwithbluelight";
                     break;
-                case 9:
+                case 8:
                     spriteKey = "graytriangleship";
                     break;
-                case 10:
+                case 9:
                     spriteKey = "eyeshot";
                     break;
             }
@@ -72,7 +72,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.Position = pos;
             e.AddComponent<AI>(new AI((args[1] as Body)));
-            e.AddComponent<Animation>(new Animation(AnimationType.Loop));
+            if (s.Source.Count() > 1)
+                e.AddComponent<Animation>(new Animation(AnimationType.Loop, 20));
             
             return e;
         }
