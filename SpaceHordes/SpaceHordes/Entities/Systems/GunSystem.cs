@@ -8,6 +8,7 @@ using SpaceHordes.Entities.Components;
 using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework;
 using GameLibrary.Dependencies.Entities;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -47,6 +48,9 @@ namespace SpaceHordes.Entities.Systems
             {
                 gun.UpdatePower(elapsedMilli);
             }
+
+            if (e.Tag.Contains("Player") && Mouse.GetState().LeftButton == ButtonState.Released)
+                gun.BulletsToFire = false;
 
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval && gun.BulletsToFire)
