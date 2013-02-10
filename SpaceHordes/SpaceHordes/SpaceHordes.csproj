@@ -125,11 +125,14 @@
     <Compile Include="Entities\Systems\HUDRenderSystem.cs" />
     <Compile Include="Entities\Systems\PlayerControlSystem.cs" />
     <Compile Include="Entities\Systems\SlowSystem.cs" />
+    <Compile Include="Entities\Systems\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
     <Compile Include="Entities\Templates\BulletTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\MookTemplate.cs" />
     <Compile Include="Entities\Templates\ExplosionTemplate.cs" />
     <Compile Include="Entities\Templates\PlayerTemplate.cs" />
+    <Compile Include="Entities\Templates\StarFieldTemplate.cs" />
+    <Compile Include="Entities\Templates\StarTemplate.cs" />
     <Compile Include="GameStates\GameplayScreen.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />
     <Compile Include="GameStates\Screens\GameOverScreen.cs" />

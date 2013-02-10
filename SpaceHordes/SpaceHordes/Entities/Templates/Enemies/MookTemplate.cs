@@ -16,6 +16,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
     {
         SpriteSheet _SpriteSheet;
         EntityWorld _World;
+        static Random rbitch = new Random();
         public MookTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             _SpriteSheet = spriteSheet;
@@ -26,10 +27,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
         {
             int type = (int)args[0];
             string spriteKey = "";
-            Random rbitch = new Random();
+            
             Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
             pos.Normalize();
-            pos *= ScreenHelper.Viewport.Width;
+            pos *= ScreenHelper.Viewport.Width / 1.5f;
             pos = ConvertUnits.ToSimUnits(pos);
 
             switch (type)

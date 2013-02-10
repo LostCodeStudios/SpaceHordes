@@ -79,6 +79,7 @@ namespace SpaceHordes
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
+            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw);
             base.BuildSystems();
         }
 
@@ -104,8 +105,8 @@ namespace SpaceHordes
                 new Velocity(new Vector2(5), 0f),
                 new Bullet(12, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
-
-
+            this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
+            this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }
 
@@ -116,6 +117,8 @@ namespace SpaceHordes
         /// <param name="args">{0-4} Player indices in use.</param>
         protected override void BuildEntities(ContentManager Content, params object[] args)
         {
+            CreateEntityGroup("StarField", "Stars");
+            
             //Set up player(s)
             if (args != null && args.Length > 0 && args[0] != null) //IF MULTIPLAYER
                 for (int i = 0; i < args.Length && i < 4; i++)
@@ -128,7 +131,6 @@ namespace SpaceHordes
                 Player = this.CreateEntity("Player", (PlayerIndex.One));
                 Player.Refresh();
             }
-            
             
             //Set up base.
             Base = this.CreateEntity("Base");
@@ -163,6 +165,7 @@ namespace SpaceHordes
         //Draw Systems
         HealthRenderSystem healthRenderSystem;
         HUDRenderSystem hudRenderSystem;
+        StarFieldRenderSystem starFieldRenderSystem;
 
         //Entities for safe keeping
         public Entity Player;
