@@ -40,14 +40,15 @@ namespace SpaceHordes.Entities.Systems
             : base(typeof(Inventory))
         {
             hudDimmensions = new Vector2(96, 51);
-            radarDimmensions = new Vector2(87, 51);
+            float radarScale = 2.6f;
+            radarDimmensions = new Vector2(87, 51) * radarScale;
 
             hudLocations = new Rectangle[]
             {
-                new Rectangle(ScreenHelper.Viewport.X, ScreenHelper.Viewport.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-                new Rectangle(ScreenHelper.Viewport.Width - (int)hudDimmensions.X, ScreenHelper.Viewport.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-                new Rectangle(ScreenHelper.Viewport.X, ScreenHelper.Viewport.Height - (int)radarDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-                new Rectangle(ScreenHelper.Viewport.Width - (int)hudDimmensions.X, ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
+                new Rectangle((int)(ScreenHelper.Viewport.Width / 6), ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle((int)ScreenHelper.Third.X, ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle((int)(ScreenHelper.Third.X * 2 - hudDimmensions.X), ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle((int)((ScreenHelper.Viewport.Width / 6) * 5 - hudDimmensions.X), ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
             };
 
             radarLocation = new Rectangle((int)ScreenHelper.Center.X - (int)radarDimmensions.X / 2, ScreenHelper.Viewport.Height - (int)radarDimmensions.Y, (int)radarDimmensions.X, (int)radarDimmensions.Y);
@@ -90,6 +91,7 @@ namespace SpaceHordes.Entities.Systems
             Inventory i = e.GetComponent<Inventory>();
 
             int playerIndex = int.Parse(e.Tag.Replace("Player","")) - 1;
+            int playerNum = playerIndex + 1;
             if (!i.BuildMode)
             {
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], hudSource, Color.White);
@@ -100,6 +102,11 @@ namespace SpaceHordes.Entities.Systems
                 int yellow = (int)i.YELLOW;
 
                 Vector2 topLeft = new Vector2(hudLocations[playerIndex].X, hudLocations[playerIndex].Y);
+
+                string label = "P" + playerNum.ToString();
+                Vector2 labelSize = _Font.MeasureString(label);
+                Vector2 labelLoc = topLeft + new Vector2(hudDimmensions.X / 2 - labelSize.X / 2, -labelSize.Y);
+                _Font.DrawString(_SpriteBatch, labelLoc, label);
 
                 box.Location = new Point((int)(topLeft.X + boxOffsets[4].X), (int)(topLeft.Y + boxOffsets[4].Y));
                 _Font.DrawString(_SpriteBatch, box, blue.ToString());
