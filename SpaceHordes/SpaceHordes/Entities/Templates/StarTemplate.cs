@@ -45,7 +45,7 @@ namespace SpaceHordes.Entities.Templates
                 //Sprite s = e.AddComponent<Sprite>(new Sprite(spriteSheet, "redstar", loc, 1f, Color.White, 0));
                 s.FrameIndex = rbitch.Next(0, 3);
                 e.AddComponent<Sprite>(s);
-                Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Loop, 20));
+                Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 15));
             }
             else
             {

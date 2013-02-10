@@ -74,7 +74,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.Position = pos;
             e.AddComponent<AI>(new AI((args[1] as Body)));
             if (s.Source.Count() > 1)
-                e.AddComponent<Animation>(new Animation(AnimationType.Loop, 20));
+                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 20));
             
             return e;
         }
