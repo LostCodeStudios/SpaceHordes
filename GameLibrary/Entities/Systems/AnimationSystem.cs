@@ -12,10 +12,10 @@ using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class AnimationSystem : IntervalEntityProcessingSystem
+    public class AnimationSystem : EntityProcessingSystem
     {
         public AnimationSystem()
-            : base(1, typeof(Sprite), typeof(Animation))
+            : base(typeof(Animation))
         {
         }
 
@@ -47,6 +47,8 @@ namespace SpaceHordes.Entities.Systems
                             anim.Type = AnimationType.None;
                             break;
                     }
+                    e.RemoveComponent<Sprite>(e.GetComponent<Sprite>());
+                    e.AddComponent<Sprite>(sprite);
                 }
             }
         }

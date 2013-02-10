@@ -75,7 +75,6 @@ namespace SpaceHordes
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
-            animationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update);
 
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
@@ -156,12 +155,12 @@ namespace SpaceHordes
         GunSystem gunSystem;
         BulletRemovalSystem bulletRemovalSystem;
         BulletCollisionSystem bulletCollisionSystem;
+        //HealthRenderSystem healthRenderSystem;
         HealthSystem healthSystem;
         DirectorSystem enemySpawnSystem;
         AISystem enemyMovementSystem;
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
-        AnimationSystem animationSystem;
 
         //Draw Systems
         HealthRenderSystem healthRenderSystem;
