@@ -31,6 +31,9 @@ namespace SpaceHordes.Entities.Systems
         Rectangle buildMenuSource;
         Rectangle selectionSource;
 
+        Vector2[] boxOffsets;
+        Rectangle box = new Rectangle(0, 0, 21, 21);
+
         #endregion
 
         public HUDRenderSystem()
@@ -53,6 +56,16 @@ namespace SpaceHordes.Entities.Systems
             hudSource = new Rectangle(86, 0, 96, 51);
             buildMenuSource = new Rectangle(181, 0, 96, 51);
             selectionSource = new Rectangle(277, 0, 25, 26);
+
+            boxOffsets = new Vector2[8];
+            boxOffsets[0] = new Vector2(3, 3);
+            boxOffsets[1] = new Vector2(26, 3);
+            boxOffsets[2] = new Vector2(49, 3);
+            boxOffsets[3] = new Vector2(72, 3);
+            boxOffsets[4] = new Vector2(3, 26);
+            boxOffsets[5] = new Vector2(26, 26);
+            boxOffsets[6] = new Vector2(49, 26);
+            boxOffsets[7] = new Vector2(72, 26);
         }
 
         public void LoadContent(ImageFont font, Texture2D texture)
@@ -78,9 +91,32 @@ namespace SpaceHordes.Entities.Systems
 
             int playerIndex = int.Parse(e.Tag.Replace("Player","")) - 1;
             if (!i.BuildMode)
+            {
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], hudSource, Color.White);
+
+                int blue = i.BLUE.Ammunition;
+                int green = i.GREEN.Ammunition;
+                int red = i.RED.Ammunition;
+                int yellow = (int)i.YELLOW;
+
+                Vector2 topLeft = new Vector2(hudLocations[playerIndex].X, hudLocations[playerIndex].Y);
+
+                box.Location = new Point((int)(topLeft.X + boxOffsets[4].X), (int)(topLeft.Y + boxOffsets[4].Y));
+                _Font.DrawString(_SpriteBatch, box, blue.ToString());
+
+                box.Location = new Point((int)(topLeft.X + boxOffsets[5].X), (int)(topLeft.Y + boxOffsets[5].Y));
+                _Font.DrawString(_SpriteBatch, box, green.ToString());
+
+                box.Location = new Point((int)(topLeft.X + boxOffsets[6].X), (int)(topLeft.Y + boxOffsets[6].Y));
+                _Font.DrawString(_SpriteBatch, box, red.ToString());
+
+                box.Location = new Point((int)(topLeft.X + boxOffsets[7].X), (int)(topLeft.Y + boxOffsets[7].Y));
+                _Font.DrawString(_SpriteBatch, box, yellow.ToString());
+            }
             else
+            {
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], buildMenuSource, Color.White);
+            }
 
         }
     }

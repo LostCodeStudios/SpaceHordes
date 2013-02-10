@@ -165,6 +165,34 @@ namespace SpaceHordes
             }
         }
 
+        public bool DrawString(SpriteBatch spriteBatch, Rectangle bounds, string s)
+        {
+            float scale = 1f;
+            Vector2 size;
+
+            while (scale > 0)
+            {
+                size = MeasureString(s) * scale;
+
+                if (size.X <= bounds.Width && size.Y <= bounds.Height)
+                {
+                    Vector2 drawTo = new Vector2();
+
+                    drawTo.X = bounds.Width / 2 - size.X / 2;
+                    drawTo.Y = bounds.Height / 2 - size.Y / 2;
+
+                    drawTo += new Vector2(bounds.Location.X, bounds.Location.Y);
+                    DrawString(spriteBatch, drawTo, s, scale);
+
+                    return true;
+                }
+
+                scale -= 0.1f;
+            }
+
+            return false;
+        }
+
         public Vector2 MeasureString(string s)
         {
             Vector2 toReturn = new Vector2();
@@ -183,6 +211,7 @@ namespace SpaceHordes
                 }
             }
 
+            toReturn.X -= charSpacing;
             toReturn.Y = letters['A'].Height;
 
             return toReturn;
