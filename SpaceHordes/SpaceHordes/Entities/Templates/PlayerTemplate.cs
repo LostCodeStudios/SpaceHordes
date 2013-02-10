@@ -77,6 +77,12 @@ namespace SpaceHordes.Entities.Templates
             
             #endregion
 
+            #region Inventory
+
+            Inventory inventory = e.AddComponent<Inventory>(new Inventory());
+
+            #endregion
+
             return e;
         }
 
