@@ -130,9 +130,10 @@ namespace SpaceHordes.Entities.Systems
                 inv.BuildMode = !inv.BuildMode;
             }
 
+            //Demo code. Remember to delete
             if (keyState.IsKeyDown(Keys.D5) && lastState.IsKeyUp(Keys.D5))
             {
-                inv.CurrentGun.PowerUp(100000, 3);
+                inv.CurrentGun.PowerUp(10000, 3);
             }
 
             #endregion
