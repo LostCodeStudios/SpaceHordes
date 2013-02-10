@@ -80,18 +80,28 @@ namespace SpaceHordes.Entities.Systems
         {
             _SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            _SpriteBatch.Draw(_Hud, radarLocation, radarSource,  Color.White);
+            _SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
             base.Process();
 
             _SpriteBatch.End();
         }
 
-        public override void  Process(Entity e)
+        public override void Process(Entity e)
         {
             Inventory i = e.GetComponent<Inventory>();
 
-            int playerIndex = int.Parse(e.Tag.Replace("Player","")) - 1;
+            int playerIndex = int.Parse(e.Tag.Replace("Player", "")) - 1;
             int playerNum = playerIndex + 1;
+
+            Vector2 topLeft = new Vector2(hudLocations[playerIndex].X, hudLocations[playerIndex].Y);
+
+            string label = "P" + playerNum.ToString();
+            Vector2 labelSize = _Font.MeasureString(label);
+            Vector2 labelLoc = topLeft + new Vector2(hudDimmensions.X / 2 - labelSize.X / 2, -labelSize.Y);
+
+            Vector2 selectionOffset = new Vector2(-2, -3);
+
+            _Font.DrawString(_SpriteBatch, labelLoc, label);
             if (!i.BuildMode)
             {
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], hudSource, Color.White);
@@ -99,14 +109,6 @@ namespace SpaceHordes.Entities.Systems
                 int blue = i.BLUE.Ammunition;
                 int green = i.GREEN.Ammunition;
                 int red = i.RED.Ammunition;
-                int yellow = (int)i.YELLOW;
-
-                Vector2 topLeft = new Vector2(hudLocations[playerIndex].X, hudLocations[playerIndex].Y);
-
-                string label = "P" + playerNum.ToString();
-                Vector2 labelSize = _Font.MeasureString(label);
-                Vector2 labelLoc = topLeft + new Vector2(hudDimmensions.X / 2 - labelSize.X / 2, -labelSize.Y);
-                _Font.DrawString(_SpriteBatch, labelLoc, label);
 
                 box.Location = new Point((int)(topLeft.X + boxOffsets[4].X), (int)(topLeft.Y + boxOffsets[4].Y));
                 _Font.DrawString(_SpriteBatch, box, blue.ToString());
@@ -117,14 +119,26 @@ namespace SpaceHordes.Entities.Systems
                 box.Location = new Point((int)(topLeft.X + boxOffsets[6].X), (int)(topLeft.Y + boxOffsets[6].Y));
                 _Font.DrawString(_SpriteBatch, box, red.ToString());
 
-                box.Location = new Point((int)(topLeft.X + boxOffsets[7].X), (int)(topLeft.Y + boxOffsets[7].Y));
-                _Font.DrawString(_SpriteBatch, box, yellow.ToString());
+                if (i.CurrentGun == i.BLUE)
+                    _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[0] + selectionOffset, selectionSource, Color.White);
+
+                if (i.CurrentGun == i.GREEN)
+                    _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[1] + selectionOffset, selectionSource, Color.White);
+
+                if (i.CurrentGun == i.RED)
+                    _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[2] + selectionOffset, selectionSource, Color.White);
             }
             else
             {
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], buildMenuSource, Color.White);
+                _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[3] + selectionOffset, selectionSource, Color.White);
             }
 
+            int yellow = (int)i.YELLOW;
+            box.Location = new Point((int)(topLeft.X + boxOffsets[7].X), (int)(topLeft.Y + boxOffsets[7].Y));
+            _Font.DrawString(_SpriteBatch, box, yellow.ToString());
         }
     }
 }
+
+

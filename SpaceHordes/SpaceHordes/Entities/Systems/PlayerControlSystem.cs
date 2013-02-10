@@ -24,6 +24,10 @@ namespace SpaceHordes.Entities.Systems
         int AnimationHeight = 30;
         float speed = 1 / 8;
 
+        KeyboardState keyState;
+        KeyboardState lastState;
+        MouseState mouseState;
+
         public PlayerControlSystem(float velocity)
             : base("Players")
         {
@@ -35,14 +39,19 @@ namespace SpaceHordes.Entities.Systems
             bodyMapper = new ComponentMapper<Body>(world);
         }
 
+        public override void Process()
+        {
+            keyState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
+            base.Process();
+            lastState = keyState;
+        }
+
         public override void Process(Entity e)
         {
             Body b = bodyMapper.Get(e);
             Inventory inv = e.GetComponent<Inventory>();
             Gun g = inv.CurrentGun;
-
-            KeyboardState keyState = Keyboard.GetState();
-            MouseState mouseState = Mouse.GetState();
 
             #region UserMovement
 
@@ -90,15 +99,51 @@ namespace SpaceHordes.Entities.Systems
             b.ApplyLinearImpulse((target) * new Vector2(_Velocity));
             #endregion
 
+            #region Gun Swapping
+
+            if (keyState.IsKeyDown(Keys.D1) && lastState.IsKeyUp(Keys.D1))
+            {
+                if (inv.CurrentGun == inv.BLUE)
+                    inv.CurrentGun = inv.WHITE;
+                else
+                    inv.CurrentGun = inv.BLUE;
+            }
+
+            if (keyState.IsKeyDown(Keys.D2) && lastState.IsKeyUp(Keys.D2))
+            {
+                if (inv.CurrentGun == inv.GREEN)
+                    inv.CurrentGun = inv.WHITE;
+                else
+                    inv.CurrentGun = inv.GREEN;
+            }
+
+            if (keyState.IsKeyDown(Keys.D3) && lastState.IsKeyUp(Keys.D3))
+            {
+                if (inv.CurrentGun == inv.RED)
+                    inv.CurrentGun = inv.WHITE;
+                else
+                    inv.CurrentGun = inv.RED;
+            }
+
+            if (keyState.IsKeyDown(Keys.D4) && lastState.IsKeyUp(Keys.D4))
+            {
+                inv.BuildMode = !inv.BuildMode;
+            }
+
+            #endregion
+
+            #region Shooting
+
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                //These calculations don't really work perfectly. No clue why, needs to be fixed but this is the best I could get it
                 Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
                 Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
                 Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
                 b.RotateTo(-aiming);
                 g.BulletsToFire = true;
             }
+
+            #endregion
         }
     }
 }
