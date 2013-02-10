@@ -13,10 +13,11 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class Gun : Component
     {
-        public Gun(int ammunition, int interval, string bulletTemplateTag)
+        public Gun(int ammunition, int interval, int power, string bulletTemplateTag)
         {
             Ammunition = ammunition;
-            BulletTemplateTag = bulletTemplateTag;
+            DefaultTemplate = bulletTemplateTag;
+            Power = power;
             Interval = interval;
             Elapsed = 0;
         }
@@ -55,6 +56,14 @@ namespace SpaceHordes.Entities.Components
         }
         public string BulletTemplateTag
         {
+            get
+            {
+                return DefaultTemplate + Power.ToString();
+            }
+        }
+
+        public string DefaultTemplate
+        {
             get;
             private set;
         }
@@ -71,11 +80,41 @@ namespace SpaceHordes.Entities.Components
             set;
         }
 
+        public int Power
+        {
+            get;
+            set;
+        }
+
+        public int PowerUpTime
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Fields
         private bool _BulletsToFire = false;
         int ammo;
+        #endregion
+
+        #region Methods
+
+        public void PowerUp(int time, int power)
+        {
+            Power = power;
+            PowerUpTime = time;
+        }
+
+        public void UpdatePower(int elapsed)
+        {
+            PowerUpTime -= elapsed;
+
+            if (PowerUpTime <= 0)
+                Power = 1;
+        }
+
         #endregion
     }
 }

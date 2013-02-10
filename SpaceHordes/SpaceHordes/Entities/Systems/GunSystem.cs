@@ -41,6 +41,13 @@ namespace SpaceHordes.Entities.Systems
             ITransform transform = transformMapper.Get(e);
 
             gun.Elapsed += elapsedMilli;
+
+            //Update power
+            if (gun.Power > 1)
+            {
+                gun.UpdatePower(elapsedMilli);
+            }
+
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval && gun.BulletsToFire)
             {
