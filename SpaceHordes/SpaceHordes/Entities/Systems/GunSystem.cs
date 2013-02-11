@@ -58,10 +58,8 @@ namespace SpaceHordes.Entities.Systems
                 KeyboardState keyState = Keyboard.GetState();
 
                 if (padState.IsConnected)
-                {
                     if (padState.ThumbSticks.Right == Vector2.Zero)
                         gun.BulletsToFire = false;
-                }
 
                 else if (Mouse.GetState().LeftButton == ButtonState.Released)
                     gun.BulletsToFire = false;

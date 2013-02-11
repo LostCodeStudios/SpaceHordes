@@ -73,6 +73,8 @@ namespace SpaceHordes.Entities.Systems
             else
                 b.LinearDamping = 0;
 
+            //Keep in mind that shooting is also reevaluated in the GunSystem.
+
             #region Gamepad
 
             int playerIndex = int.Parse(e.Tag.Replace("Player", "")) - 1;
