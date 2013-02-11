@@ -39,6 +39,7 @@ namespace SpaceHordes.Entities.Systems
             //Process guns
             Inventory inv = invMapper.Get(e);
             Gun gun = inv.CurrentGun;
+
             ITransform transform = transformMapper.Get(e);
 
             gun.Elapsed += elapsedMilli;
@@ -49,8 +50,23 @@ namespace SpaceHordes.Entities.Systems
                 gun.UpdatePower(elapsedMilli);
             }
 
-            if (e.Tag.Contains("Player") && Mouse.GetState().LeftButton == ButtonState.Released)
-                gun.BulletsToFire = false;
+            if (e.Tag.Contains("Player"))
+            {
+                int index = int.Parse(e.Tag.Replace("Player", "")) - 1;
+                PlayerIndex playerIndex = (PlayerIndex)index;
+                GamePadState padState = GamePad.GetState(playerIndex);
+                KeyboardState keyState = Keyboard.GetState();
+
+                if (padState.IsConnected)
+                {
+                    if (padState.ThumbSticks.Right == Vector2.Zero)
+                        gun.BulletsToFire = false;
+                }
+
+                else if (Mouse.GetState().LeftButton == ButtonState.Released)
+                        gun.BulletsToFire = false;
+            }
+            
 
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval && gun.BulletsToFire)
