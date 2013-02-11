@@ -60,7 +60,7 @@ namespace GameLibrary.Entities.Systems
         /// <param name="entities"></param>
         protected override void ProcessEntities(Dictionary<int, Entity> entities) 
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.View);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, camera.View);
             base.ProcessEntities(entities);
             spriteBatch.End();
         }

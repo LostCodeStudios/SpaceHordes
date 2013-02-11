@@ -18,12 +18,12 @@ namespace SpaceHordes.Entities.Templates
     {
         private World world;
         private SpriteSheet spriteSheet;
+        private Entity junkRock;
         public BaseTemplate(World world, SpriteSheet spriteSheet)
         {
             this.world = world;
             this.spriteSheet = spriteSheet;
         }
-
         public Entity BuildEntity(Entity e, params object[] args)
         {
             e.Group = "Structures";
@@ -49,12 +49,17 @@ namespace SpaceHordes.Entities.Templates
             #region Sprite
             Sprite Sprite = e.AddComponent<Sprite>(
                 new Sprite(spriteSheet,  "base",
-                    Body, 1, Color.White, 0f));
+                    Body, 1, Color.White, 0.2f));
             #endregion
 
 
 
             e.AddComponent<Health>(new Health(10000));
+
+            junkRock = world.CreateEntity();
+            junkRock.AddComponent<Sprite>(new Sprite(spriteSheet, "junkrock", new Vector2(spriteSheet["junkrock"][0].Center.X) , 1f, Color.White, 0f));
+            junkRock.AddComponent<ITransform>(new Transform(Body.Position, 0f));
+            junkRock.Refresh();
 
             return e;
         }
