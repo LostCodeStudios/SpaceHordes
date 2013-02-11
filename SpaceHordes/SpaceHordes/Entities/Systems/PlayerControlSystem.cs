@@ -95,25 +95,25 @@ namespace SpaceHordes.Entities.Systems
                     if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
                     {
                         if (inv.CurrentGun == inv.BLUE)
-                            inv.CurrentGun = inv.WHITE;
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
-                            inv.CurrentGun = inv.BLUE;
+                            inv.ChangeGun(e, GunType.BLUE);
                     }
 
                     if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
                     {
                         if (inv.CurrentGun == inv.GREEN)
-                            inv.CurrentGun = inv.WHITE;
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
-                            inv.CurrentGun = inv.GREEN;
+                            inv.ChangeGun(e, GunType.GREEN);
                     }
 
                     if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
                     {
                         if (inv.CurrentGun == inv.RED)
-                            inv.CurrentGun = inv.WHITE;
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
-                            inv.CurrentGun = inv.RED;
+                            inv.ChangeGun(e, GunType.RED);
                     }
                 }
 
@@ -176,25 +176,25 @@ namespace SpaceHordes.Entities.Systems
                     if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
                     {
                         if (inv.CurrentGun == inv.BLUE)
-                            inv.CurrentGun = inv.WHITE;
+                            inv.ChangeGun(e,GunType.WHITE);
                         else
-                            inv.CurrentGun = inv.BLUE;
+                            inv.ChangeGun(e, GunType.BLUE);
                     }
 
                     if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
                     {
                         if (inv.CurrentGun == inv.GREEN)
-                            inv.CurrentGun = inv.WHITE;
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
-                            inv.CurrentGun = inv.GREEN;
+                            inv.ChangeGun(e, GunType.GREEN);
                     }
 
                     if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
                     {
                         if (inv.CurrentGun == inv.RED)
-                            inv.CurrentGun = inv.WHITE;
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
-                            inv.CurrentGun = inv.RED;
+                            inv.ChangeGun(e, GunType.RED);
                     }
                 }
 

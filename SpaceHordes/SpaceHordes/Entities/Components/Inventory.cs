@@ -7,6 +7,15 @@ using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
+    public enum GunType
+    {
+        RED,
+        GREEN,
+        BLUE,
+        WHITE,
+        YELLOW
+    }
+
     /// <summary>
     /// Player inventory class
     /// </summary>
@@ -18,7 +27,7 @@ namespace SpaceHordes.Entities.Components
             GREEN = new Gun((int)green, 600, 1, "GreenBullet");
             BLUE = new Gun((int)blue, 600, 1, "BlueBullet");
             WHITE = new Gun(-1, 600, 1, "WhiteBullet");
-            CurrentGun = WHITE;
+            _CurrentGunType = GunType.WHITE;
             YELLOW = yellow;
         }
 
@@ -28,8 +37,46 @@ namespace SpaceHordes.Entities.Components
         public Gun GREEN;
         public Gun BLUE;
         public Gun WHITE;
-        public Gun CurrentGun;
-
         public uint YELLOW;
+
+        private GunType _CurrentGunType;
+        public Gun CurrentGun
+        {
+            get
+            {
+                switch (_CurrentGunType)
+                {
+                    case GunType.BLUE:
+                        return BLUE;
+                        break;
+                    case GunType.RED:
+                        return RED;
+                        break;
+                    case GunType.GREEN:
+                        return GREEN;
+                        break;
+                    case GunType.WHITE:
+                        return WHITE;
+                        break;
+                    case GunType.YELLOW: //YELLOW CODE'
+                        return null;
+                        break;
+                    default:
+                        return WHITE;
+                        break;
+                }
+            }
+        }
+
+        public void ChangeGun(Entity e, GunType gun)
+        {
+            if(e.GetComponent<Gun>() != null)
+            {
+                CurrentGun.Ammunition = e.GetComponent<Gun>().Ammunition;
+                e.RemoveComponent<Gun>(e.GetComponent<Gun>());
+            }
+            _CurrentGunType = gun;
+            e.AddComponent<Gun>(CurrentGun);
+        }
     }
 }
