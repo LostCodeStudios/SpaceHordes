@@ -25,7 +25,7 @@ namespace SpaceHordes.Entities.Systems
         Vector2 hudDimmensions;
         Vector2 radarDimmensions;
         Rectangle[] hudLocations;
-        Rectangle radarLocation;
+        public Rectangle radarLocation;
         Rectangle radarSource;
         Rectangle hudSource;
         Rectangle buildMenuSource;

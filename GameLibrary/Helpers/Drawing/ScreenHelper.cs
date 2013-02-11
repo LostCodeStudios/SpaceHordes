@@ -33,6 +33,12 @@ namespace GameLibrary.Helpers
             get;
         }
 
+        public static SpriteSheet SpriteSheet
+        {
+            set;
+            get;
+        }
+
         public static KeyboardState input;
         /// <summary>
         /// The game's viewport.

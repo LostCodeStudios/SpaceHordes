@@ -126,6 +126,7 @@
     <Compile Include="Entities\Systems\HealthSystem.cs" />
     <Compile Include="Entities\Systems\HUDRenderSystem.cs" />
     <Compile Include="Entities\Systems\PlayerControlSystem.cs" />
+    <Compile Include="Entities\Systems\RadarRenderSystem.cs" />
     <Compile Include="Entities\Systems\SlowSystem.cs" />
     <Compile Include="Entities\Systems\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
