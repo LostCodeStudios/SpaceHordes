@@ -54,7 +54,7 @@ namespace SpaceHordes.Entities.Systems
             base.Process();
 
             lastKeyState = keyState;
-            lastPadState = padState;
+            lastPadState = (GamePadState[])padState.Clone();
         }
 
         public override void Process(Entity e)
@@ -144,7 +144,7 @@ namespace SpaceHordes.Entities.Systems
 
             #region Keyboard
 
-            #if WINDOWS
+#if WINDOWS
             else
             {
                 #region Movement
@@ -176,7 +176,7 @@ namespace SpaceHordes.Entities.Systems
                     if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
                     {
                         if (inv.CurrentGun == inv.BLUE)
-                            inv.ChangeGun(e,GunType.WHITE);
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
                             inv.ChangeGun(e, GunType.BLUE);
                     }
@@ -222,7 +222,7 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion
             }
-            #endif
+#endif
 
             #endregion
 

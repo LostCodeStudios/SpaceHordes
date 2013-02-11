@@ -19,7 +19,8 @@ namespace SpaceHordes.Entities.Systems
 
         int elapsedMilli = 16;
 
-        public GunSystem() : base(16, typeof(Inventory),typeof(ITransform))
+        public GunSystem()
+            : base(16, typeof(Inventory), typeof(ITransform))
         {
         }
 
@@ -64,12 +65,12 @@ namespace SpaceHordes.Entities.Systems
                 }
 
                 else if (Mouse.GetState().LeftButton == ButtonState.Released)
-                        gun.BulletsToFire = false;
+                    gun.BulletsToFire = false;
             }
-            
+
 
             //Fire bullets bro
-            if (gun.Elapsed > gun.Interval && gun.BulletsToFire && gun.Ammunition >0)
+            if (gun.Elapsed > gun.Interval && gun.BulletsToFire && gun.Ammunition > 0)
             {
                 gun.BulletsToFire = false;
                 gun.Elapsed = 0;

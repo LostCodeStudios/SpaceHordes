@@ -39,6 +39,8 @@ namespace SpaceHordes.Entities.Systems
         public HUDRenderSystem()
             : base(typeof(Inventory))
         {
+            #region HUD Specifications
+
             hudDimmensions = new Vector2(96, 51);
             float radarScale = 2.6f;
             radarDimmensions = new Vector2(87, 51) * radarScale;
@@ -56,7 +58,7 @@ namespace SpaceHordes.Entities.Systems
             radarSource = new Rectangle(0, 0, 87, 51);
             hudSource = new Rectangle(86, 0, 96, 51);
             buildMenuSource = new Rectangle(181, 0, 96, 51);
-            selectionSource = new Rectangle(277, 0, 25, 26);
+            selectionSource = new Rectangle(277, 0, 26, 26);
 
             boxOffsets = new Vector2[8];
             boxOffsets[0] = new Vector2(3, 3);
@@ -67,6 +69,8 @@ namespace SpaceHordes.Entities.Systems
             boxOffsets[5] = new Vector2(26, 26);
             boxOffsets[6] = new Vector2(49, 26);
             boxOffsets[7] = new Vector2(72, 26);
+
+            #endregion
         }
 
         public void LoadContent(ImageFont font, Texture2D texture)

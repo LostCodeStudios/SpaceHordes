@@ -176,12 +176,11 @@ namespace SpaceHordes
 
                 if (size.X <= bounds.Width && size.Y <= bounds.Height)
                 {
-                    Vector2 drawTo = new Vector2();
+                    Vector2 drawTo = new Vector2(bounds.Location.X, bounds.Location.Y);
 
-                    drawTo.X = bounds.Width / 2 - size.X / 2;
-                    drawTo.Y = bounds.Height / 2 - size.Y / 2;
+                    drawTo.X += bounds.Width / 2 - size.X / 2;
+                    drawTo.Y += bounds.Height / 2 - size.Y / 2;
 
-                    drawTo += new Vector2(bounds.Location.X, bounds.Location.Y);
                     DrawString(spriteBatch, drawTo, s, scale);
 
                     return true;
