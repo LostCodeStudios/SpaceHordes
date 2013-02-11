@@ -64,7 +64,7 @@ namespace SpaceHordes.Entities.Systems
                 }
 
                 else if (Mouse.GetState().LeftButton == ButtonState.Released)
-                        gun.BulletsToFire = false;
+                    gun.BulletsToFire = false;
             }
             
 

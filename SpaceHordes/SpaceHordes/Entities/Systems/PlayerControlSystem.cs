@@ -54,7 +54,7 @@ namespace SpaceHordes.Entities.Systems
             base.Process();
 
             lastKeyState = keyState;
-            lastPadState = padState;
+            lastPadState = (GamePadState[])padState.Clone();
         }
 
         public override void Process(Entity e)
