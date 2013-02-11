@@ -73,8 +73,6 @@ namespace SpaceHordes.Entities.Systems
             else
                 b.LinearDamping = 0;
 
-            //Keep in mind that shooting is also reevaluated in the GunSystem.
-
             #region Gamepad
 
             int playerIndex = int.Parse(e.Tag.Replace("Player", "")) - 1;
@@ -146,7 +144,7 @@ namespace SpaceHordes.Entities.Systems
 
             #region Keyboard
 
-            #if WINDOWS
+#if WINDOWS
             else
             {
                 #region Movement
@@ -178,7 +176,7 @@ namespace SpaceHordes.Entities.Systems
                     if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
                     {
                         if (inv.CurrentGun == inv.BLUE)
-                            inv.ChangeGun(e,GunType.WHITE);
+                            inv.ChangeGun(e, GunType.WHITE);
                         else
                             inv.ChangeGun(e, GunType.BLUE);
                     }
@@ -224,7 +222,7 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion
             }
-            #endif
+#endif
 
             #endregion
 
