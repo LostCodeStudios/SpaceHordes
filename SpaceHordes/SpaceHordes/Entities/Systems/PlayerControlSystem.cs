@@ -25,7 +25,11 @@ namespace SpaceHordes.Entities.Systems
         float speed = 1 / 8;
 
         KeyboardState keyState;
-        KeyboardState lastState;
+        KeyboardState lastKeyState;
+
+        GamePadState[] padState = new GamePadState[4];
+        GamePadState[] lastPadState = new GamePadState[4];
+
         MouseState mouseState;
 
         public PlayerControlSystem(float velocity)
@@ -43,8 +47,14 @@ namespace SpaceHordes.Entities.Systems
         {
             keyState = Keyboard.GetState();
             mouseState = Mouse.GetState();
+
+            for (int i = 0; i < 4; i++)
+                padState[i] = GamePad.GetState((PlayerIndex)i);
+
             base.Process();
-            lastState = keyState;
+
+            lastKeyState = keyState;
+            lastPadState = padState;
         }
 
         public override void Process(Entity e)
@@ -53,7 +63,7 @@ namespace SpaceHordes.Entities.Systems
             Inventory inv = e.GetComponent<Inventory>();
             Gun g = inv.CurrentGun;
 
-            #region UserMovement
+            Vector2 target = Vector2.Zero;
 
             if (WasMoving) //Stops movement
             {
@@ -63,24 +73,158 @@ namespace SpaceHordes.Entities.Systems
             else
                 b.LinearDamping = 0;
 
-            Vector2 target = Vector2.Zero;
-            if (keyState.IsKeyDown(Keys.D))
-            { //Right
-                target += Vector2.UnitX;
-            }
-            else if (keyState.IsKeyDown(Keys.A))
-            { //Left
-                target += -Vector2.UnitX;
+            #region Gamepad
+
+            int playerIndex = int.Parse(e.Tag.Replace("Player", "")) - 1;
+            PlayerIndex index = (PlayerIndex)playerIndex;
+            GamePadState pad = padState[playerIndex];
+            GamePadState lastPad = lastPadState[playerIndex];
+
+            if (GamePad.GetState(index).IsConnected)
+            {
+                #region Movement
+
+                target = new Vector2(pad.ThumbSticks.Left.X, -pad.ThumbSticks.Left.Y);
+
+                #endregion
+
+                #region Gun Swapping
+
+                if (!inv.BuildMode)
+                {
+                    if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
+                    {
+                        if (inv.CurrentGun == inv.BLUE)
+                            inv.CurrentGun = inv.WHITE;
+                        else
+                            inv.CurrentGun = inv.BLUE;
+                    }
+
+                    if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
+                    {
+                        if (inv.CurrentGun == inv.GREEN)
+                            inv.CurrentGun = inv.WHITE;
+                        else
+                            inv.CurrentGun = inv.GREEN;
+                    }
+
+                    if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
+                    {
+                        if (inv.CurrentGun == inv.RED)
+                            inv.CurrentGun = inv.WHITE;
+                        else
+                            inv.CurrentGun = inv.RED;
+                    }
+                }
+
+                #endregion
+
+                #region Building
+
+                if (pad.IsButtonDown(Buttons.Y) && lastPad.IsButtonUp(Buttons.Y))
+                {
+                    inv.BuildMode = !inv.BuildMode;
+                }
+
+                #endregion
+
+                #region Shooting
+
+                if (pad.ThumbSticks.Right != Vector2.Zero)
+                {
+                    Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
+                    b.RotateTo(aiming);
+                    g.BulletsToFire = true;
+                }
+
+                #endregion
             }
 
-            if (keyState.IsKeyDown(Keys.S))
-            { //Down
-                target += Vector2.UnitY;
+            #endregion
+
+            #region Keyboard
+
+            #if WINDOWS
+            else
+            {
+                #region Movement
+
+                if (keyState.IsKeyDown(Keys.D))
+                { //Right
+                    target += Vector2.UnitX;
+                }
+                else if (keyState.IsKeyDown(Keys.A))
+                { //Left
+                    target += -Vector2.UnitX;
+                }
+
+                if (keyState.IsKeyDown(Keys.S))
+                { //Down
+                    target += Vector2.UnitY;
+                }
+                else if (keyState.IsKeyDown(Keys.W))
+                { //Up?
+                    target += -Vector2.UnitY;
+                }
+
+                #endregion
+
+                #region Gun Swapping
+
+                if (!inv.BuildMode)
+                {
+                    if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
+                    {
+                        if (inv.CurrentGun == inv.BLUE)
+                            inv.CurrentGun = inv.WHITE;
+                        else
+                            inv.CurrentGun = inv.BLUE;
+                    }
+
+                    if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
+                    {
+                        if (inv.CurrentGun == inv.GREEN)
+                            inv.CurrentGun = inv.WHITE;
+                        else
+                            inv.CurrentGun = inv.GREEN;
+                    }
+
+                    if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
+                    {
+                        if (inv.CurrentGun == inv.RED)
+                            inv.CurrentGun = inv.WHITE;
+                        else
+                            inv.CurrentGun = inv.RED;
+                    }
+                }
+
+                #endregion
+
+                #region Building
+
+                if (keyState.IsKeyDown(Keys.D4) && lastKeyState.IsKeyUp(Keys.D4))
+                {
+                    inv.BuildMode = !inv.BuildMode;
+                }
+
+                #endregion
+
+                #region Shooting
+
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
+                    Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
+                    Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
+                    b.RotateTo(-aiming);
+                    g.BulletsToFire = true;
+                }
+
+                #endregion
             }
-            else if (keyState.IsKeyDown(Keys.W))
-            { //Up?
-                target += -Vector2.UnitY;
-            }
+            #endif
+
+            #endregion
 
             if (target != Vector2.Zero) //If being moved by player
             {
@@ -91,65 +235,10 @@ namespace SpaceHordes.Entities.Systems
 
             //Rotation
             if (b.LinearVelocity != Vector2.Zero)
-                //b.Rotation = MathHelper.SmoothStep(b.Rotation, (float)Math.Atan2(b.LinearVelocity.Y, b.LinearVelocity.X) + (float)Math.PI/2f, 0.1f);
                 b.Rotation = (float)Math.Atan2(b.LinearVelocity.Y, b.LinearVelocity.X) + 0;// (float)Math.PI / 2f;
-
 
             //update position
             b.ApplyLinearImpulse((target) * new Vector2(_Velocity));
-            #endregion
-
-            #region Gun Swapping
-
-            if (keyState.IsKeyDown(Keys.D1) && lastState.IsKeyUp(Keys.D1))
-            {
-                if (inv.CurrentGun == inv.BLUE)
-                    inv.CurrentGun = inv.WHITE;
-                else
-                    inv.CurrentGun = inv.BLUE;
-            }
-
-            if (keyState.IsKeyDown(Keys.D2) && lastState.IsKeyUp(Keys.D2))
-            {
-                if (inv.CurrentGun == inv.GREEN)
-                    inv.CurrentGun = inv.WHITE;
-                else
-                    inv.CurrentGun = inv.GREEN;
-            }
-
-            if (keyState.IsKeyDown(Keys.D3) && lastState.IsKeyUp(Keys.D3))
-            {
-                if (inv.CurrentGun == inv.RED)
-                    inv.CurrentGun = inv.WHITE;
-                else
-                    inv.CurrentGun = inv.RED;
-            }
-
-            if (keyState.IsKeyDown(Keys.D4) && lastState.IsKeyUp(Keys.D4))
-            {
-                inv.BuildMode = !inv.BuildMode;
-            }
-
-            //Demo code. Remember to delete
-            if (keyState.IsKeyDown(Keys.D5) && lastState.IsKeyUp(Keys.D5))
-            {
-                inv.CurrentGun.PowerUp(10000, 3);
-            }
-
-            #endregion
-
-            #region Shooting
-
-            if (mouseState.LeftButton == ButtonState.Pressed)
-            {
-                Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
-                Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
-                Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
-                b.RotateTo(-aiming);
-                g.BulletsToFire = true;
-            }
-
-            #endregion
         }
     }
 }

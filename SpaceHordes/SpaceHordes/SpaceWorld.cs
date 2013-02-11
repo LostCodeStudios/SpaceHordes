@@ -281,7 +281,7 @@ namespace SpaceHordes
         {
             //Set up player(s)
             if (args != null && args.Length > 0 && args[0] != null) //IF MULTIPLAYER
-                for (int i = 0; i < 4 && i < 4; i++)
+                for (int i = 0; i < args.Length && i < 4; i++)
                 {
                     Player = this.CreateEntity("Player", (PlayerIndex)i);
                     Player.Refresh();
