@@ -54,9 +54,9 @@ namespace SpaceHordes.Entities.Systems
                 gun.UpdatePower(elapsedMilli);
             }
 
-            if (e.Tag.Contains("Player"))
+            if (e.Tag.Contains("P") && e.HasComponent<Inventory>())
             {
-                int index = int.Parse(e.Tag.Replace("Player", "")) - 1;
+                int index = int.Parse(e.Tag.Replace("P", "")) - 1;
                 PlayerIndex playerIndex = (PlayerIndex)index;
                 GamePadState padState = GamePad.GetState(playerIndex);
                 KeyboardState keyState = Keyboard.GetState();
