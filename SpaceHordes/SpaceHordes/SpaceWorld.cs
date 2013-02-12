@@ -61,7 +61,9 @@ namespace SpaceHordes
                  new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
                  new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
+
 #endif
+            radarRenderSystem.LoadContent(Content);
         }
 
         #endregion
@@ -88,7 +90,10 @@ namespace SpaceHordes
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
             starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw);
-            this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(hudRenderSystem.radarLocation,new Rectangle(0,0,10,10)), ExecutionType.Draw,2);
+            radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(hudRenderSystem.radarLocation,
+                new Rectangle(-ScreenHelper.Viewport.Width*2, -ScreenHelper.Viewport.Height*2,
+                    ScreenHelper.Viewport.Width*2, ScreenHelper.Viewport.Height*2))
+                    , ExecutionType.Draw, 2);
             base.BuildSystems();
         }
 
@@ -271,7 +276,7 @@ namespace SpaceHordes
 
         #endregion
 
-        #region BuildEntities
+        #region Entities
 
         /// <summary>
         /// Builds all of the entities in the SpaceWorld.
@@ -332,6 +337,7 @@ namespace SpaceHordes
         HealthRenderSystem healthRenderSystem;
         HUDRenderSystem hudRenderSystem;
         StarFieldRenderSystem starFieldRenderSystem;
+        RadarRenderSystem radarRenderSystem;
 
         //Entities for safe keeping
         public Entity Player;

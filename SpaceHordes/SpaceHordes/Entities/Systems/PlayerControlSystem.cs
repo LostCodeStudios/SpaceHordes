@@ -21,8 +21,6 @@ namespace SpaceHordes.Entities.Systems
         ComponentMapper<Body> bodyMapper;
         float _Velocity;
         bool WasMoving = false;
-        int AnimationHeight = 30;
-        float speed = 1 / 8;
 
         KeyboardState keyState;
         KeyboardState lastKeyState;
