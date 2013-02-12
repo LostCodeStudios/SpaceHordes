@@ -71,7 +71,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
-
+            bitch.Mass++;
 
             Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
             pos.Normalize();
@@ -81,10 +81,13 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #endregion
 
+            #region Animation
+            if (s.Source.Count() > 1)
+                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
+            #endregion
+
             #region AI/Health
             e.AddComponent<AI>(new AI((args[1] as Body)));
-            if (s.Source.Count() > 1)
-                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 20));
 
             e.AddComponent<Health>(new Health(1));
 
