@@ -16,7 +16,8 @@ namespace GameLibrary.Entities.Components
         ReverseLoop, //Loops the sprite decrementally
         Increment, //Increments the sprites frame once and then sets its animation state to none.
         Decrement, //Decrements the sprites frame once and then sets its animation state to none.
-        Bounce //Animate back and forth through frames
+        Bounce, //Animate back and forth through frames
+        Once //Animates once and stops
     }
 
     public class Animation : Component

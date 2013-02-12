@@ -129,6 +129,7 @@
     <Compile Include="Helpers\Debug\DebugView.cs" />
     <Compile Include="Helpers\Drawing\LineBatch.cs" />
     <Compile Include="Helpers\Drawing\PrimitiveBatch.cs" />
+    <Compile Include="Helpers\Drawing\RectangleF.cs" />
     <Compile Include="Helpers\Drawing\ScreenHelper.cs" />
     <Compile Include="Helpers\Input\IHandlesInput.cs" />
     <Compile Include="Helpers\Input\InputAction.cs" />

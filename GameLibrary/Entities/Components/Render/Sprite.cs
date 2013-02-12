@@ -113,6 +113,17 @@ namespace GameLibrary.Entities.Components
         {
         }
 
+        /// <summary>
+        /// Nat is a bitch
+        /// </summary>
+        /// <param name="_SpriteSheet"></param>
+        /// <param name="spriteKey"></param>
+        /// <param name="layer"></param>
+        public Sprite(SpriteSheet _SpriteSheet, string spriteKey, int layer)
+            : this(_SpriteSheet, spriteKey, new Vector2(_SpriteSheet[spriteKey][0].Width / 2f, _SpriteSheet[spriteKey][0].Height / 2f, 1f, Color.White, layer)
+        {
+        }
+
 
 
         #endregion
@@ -126,6 +137,9 @@ namespace GameLibrary.Entities.Components
         public Rectangle[] Source;
 
         private int _Index;
+        private SpriteSheet _SpriteSheet;
+        private string spriteKey;
+        private int p;
         #endregion
 
         #region Properties

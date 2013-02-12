@@ -54,6 +54,12 @@ namespace SpaceHordes.Entities.Systems
                             if (sprite.FrameIndex == 0)
                                 anim.FrameInc = 1;
                             break;
+                        case AnimationType.Once:
+                            if (sprite.FrameIndex < sprite.Source.Count() - 1)
+                                sprite.FrameIndex++;
+                            else
+                                anim.Type = AnimationType.None;
+                            break;
                     }
                     e.RemoveComponent<Sprite>(e.GetComponent<Sprite>());
                     e.AddComponent<Sprite>(sprite);
