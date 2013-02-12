@@ -9,6 +9,7 @@ using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework;
 using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework.Input;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -16,6 +17,8 @@ namespace SpaceHordes.Entities.Systems
     {
         ComponentMapper<ITransform> transformMapper;
         ComponentMapper<Inventory> invMapper;
+
+        static Random r = new Random();
 
         int elapsedMilli = 16;
 
@@ -77,6 +80,9 @@ namespace SpaceHordes.Entities.Systems
                 gun.Ammunition--;
                 Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
                 bullet.Refresh();
+
+                int shot = r.Next(1, 3);
+                SoundManager.Play("Shot" + shot.ToString());
             }
         }
     }

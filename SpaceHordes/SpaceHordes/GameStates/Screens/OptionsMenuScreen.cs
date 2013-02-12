@@ -3,6 +3,7 @@ using System.IO;
 
 using Microsoft.Xna.Framework;
 using GameLibrary.GameStates.Screens;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -16,7 +17,7 @@ namespace SpaceHordes.GameStates.Screens
         #region Fields
 
         //TODO: Add MenuEntries for options.
-        MenuEntry sound  = new MenuEntry("//Sound: On");
+        MenuEntry sound  = new MenuEntry("Sound: On");
         MenuEntry music = new MenuEntry("Music: On");
 
         #endregion
@@ -77,7 +78,7 @@ namespace SpaceHordes.GameStates.Screens
                 ReadSettings(out sound, out music);
 
                 WriteSettings(value, music);
-                //Sound.Enabled = value;
+                SoundManager.Enabled = value;
             }
         }
 
@@ -154,7 +155,7 @@ namespace SpaceHordes.GameStates.Screens
 
         private void updateMenuEntryText()
         {
-            this.sound.Text = "//Sound: ";
+            this.sound.Text = "Sound: ";
 
             switch (SoundOn)
             {

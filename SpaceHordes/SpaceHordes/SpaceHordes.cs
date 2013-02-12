@@ -121,6 +121,7 @@ namespace SpaceHordes
 
             ScreenHelper.SpriteSheet = new SpriteSheet(Content.Load<Texture2D>("Textures/spritesheet"));
             SetSourceRectangles(ScreenHelper.SpriteSheet);
+            SetSoundEffects();
         }
 
         /// <summary>
@@ -783,6 +784,20 @@ namespace SpaceHordes
                 });
 
             sheet.Animations = sourceRectangles;
+        }
+
+        #endregion
+
+        #region Sound Effects
+
+        void SetSoundEffects()
+        {
+            SoundManager.Add("Explosion1", Content.Load<SoundEffect>("Sounds/Explosion1"));
+            SoundManager.Add("Explosion2", Content.Load<SoundEffect>("Sounds/Explosion2"));
+            SoundManager.Add("Explosion3", Content.Load<SoundEffect>("Sounds/Explosion3"));
+            SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
+            SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
+            SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
         }
 
         #endregion
