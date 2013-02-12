@@ -73,7 +73,7 @@ namespace SpaceHordes.Entities.Systems
 
             #region Gamepad
 
-            int playerIndex = int.Parse(e.Tag.Replace("Player", "")) - 1;
+            int playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
             PlayerIndex index = (PlayerIndex)playerIndex;
             GamePadState pad = padState[playerIndex];
             GamePadState lastPad = lastPadState[playerIndex];

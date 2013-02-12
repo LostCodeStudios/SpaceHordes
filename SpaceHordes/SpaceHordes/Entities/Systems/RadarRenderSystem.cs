@@ -4,6 +4,7 @@ using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceHordes.Entities.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,8 +51,18 @@ namespace SpaceHordes.Entities.Systems
 
 
                     //DRAW
-                    DrawCircle(position, 0.5f*b.Mass, Color.Green);
+                    Color drawColor = Color.White;
+                    if(e.HasComponent<Crystal>())
+                        drawColor = e.GetComponent<Crystal>().Color;
+                    DrawSolidCircle(position, 0.5f*b.Mass, Vector2.Zero, drawColor);
+
+                    //PLAYER ID
+                    if (e.Group != null && e.Group == "Players")
+                        DrawString(e.Tag, position, Color.Tan);
+
+#if DEBUG
                     DrawString(position.ToString(), position, Color.Red);
+#endif
                 }
             }
             
@@ -68,14 +79,12 @@ namespace SpaceHordes.Entities.Systems
 
         public void LoadContent(ContentManager Content)
         {
-#if DEBUG
-            _DebugFont = Content.Load<SpriteFont>("Fonts/debugfont");
-#endif
+            _RadarFont = Content.Load<SpriteFont>("Fonts/debugfont");
         }
 
         #region Drawing
         SpriteBatch _SpriteBatch;
-        SpriteFont _DebugFont;
+        SpriteFont _RadarFont;
 
         PrimitiveBatch _PrimBatch;
         Matrix _Projection;
@@ -104,11 +113,51 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
+        public void DrawSolidCircle(Vector2 center, float radius, Vector2 axis, Color color)
+        {
+            if (!_PrimBatch.IsReady())
+            {
+                throw new InvalidOperationException("BeginCustomDraw must be called before drawing anything.");
+            }
+            const double increment = Math.PI * 2.0 / 32;
+            double theta = 0.0;
+
+            Color colorFill = color * 0.5f;
+
+            Vector2 v0 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
+            theta += increment;
+
+            for (int i = 1; i < 32 - 1; i++)
+            {
+                Vector2 v1 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
+                Vector2 v2 = center +
+                             radius *
+                             new Vector2((float)Math.Cos(theta + increment), (float)Math.Sin(theta + increment));
+
+                _PrimBatch.AddVertex(v0, colorFill, PrimitiveType.TriangleList);
+                _PrimBatch.AddVertex(v1, colorFill, PrimitiveType.TriangleList);
+                _PrimBatch.AddVertex(v2, colorFill, PrimitiveType.TriangleList);
+
+                theta += increment;
+            }
+            DrawCircle(center, radius, color);
+
+            DrawSegment(center, center + axis * radius, color);
+        }
+
+        public void DrawSegment(Vector2 start, Vector2 end, Color color)
+        {
+            if (!_PrimBatch.IsReady())
+            {
+                throw new InvalidOperationException("BeginCustomDraw must be called before drawing anything.");
+            }
+            _PrimBatch.AddVertex(start, color, PrimitiveType.LineList);
+            _PrimBatch.AddVertex(end, color, PrimitiveType.LineList);
+        }
+
         public void DrawString(string text, Vector2 position, Color color)
         {
-#if DEBUG
-            _SpriteBatch.DrawString(_DebugFont, text, position, color, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
-#endif
+            _SpriteBatch.DrawString(_RadarFont, text, position, color, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
         }
 
         #endregion

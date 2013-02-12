@@ -36,7 +36,7 @@ namespace SpaceHordes.Entities.Templates
         {
             e.Group = "Players";
             string tag = "Player" + ((int)((PlayerIndex)args[0])+1);
-            e.Tag = tag;
+            e.Tag = "P" + ((int)((PlayerIndex)args[0]) + 1);
             
 
             #region Body
@@ -57,7 +57,7 @@ namespace SpaceHordes.Entities.Templates
             Body.SleepingAllowed = false;
             Body.FixedRotation = true;
             Body.RotateTo(Body.Position);
-            Body.Mass += 2;
+            Body.Mass+= 2;
 
             Body.CollisionCategories = Category.Cat1;
             #endregion

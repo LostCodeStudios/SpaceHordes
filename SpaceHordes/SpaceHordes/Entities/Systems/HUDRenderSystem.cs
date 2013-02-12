@@ -94,7 +94,7 @@ namespace SpaceHordes.Entities.Systems
         {
             Inventory i = e.GetComponent<Inventory>();
 
-            int playerIndex = int.Parse(e.Tag.Replace("Player", "")) - 1;
+            int playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
             int playerNum = playerIndex + 1;
 
             Vector2 topLeft = new Vector2(hudLocations[playerIndex].X, hudLocations[playerIndex].Y);
