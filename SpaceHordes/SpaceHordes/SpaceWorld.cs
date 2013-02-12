@@ -117,7 +117,7 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("RedCrystal1", new CrystalTemplate(
                 new Sprite(_spriteSheet, "redcrystal"),
-                new Velocity(new Vector2(5), 0f),
+                new Velocity(new Vector2(0), 0f),
                 new Crystal(Color.Red, 1, "Players")));
 
             #endregion
