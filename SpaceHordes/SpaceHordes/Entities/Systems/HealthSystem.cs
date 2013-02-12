@@ -30,7 +30,7 @@ namespace SpaceHordes.Entities.Systems
             if (!health.IsAlive)
             {
                 Vector2 pos = e.GetComponent<ITransform>().Position;
-                World.CreateEntity("Explosion", 5, pos).Refresh();
+                World.CreateEntity("Explosion", 4, pos).Refresh();
                 e.Delete();
             }
         }
