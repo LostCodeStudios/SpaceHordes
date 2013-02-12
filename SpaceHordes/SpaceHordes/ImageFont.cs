@@ -172,7 +172,7 @@ namespace SpaceHordes
 
             while (scale > 0)
             {
-                size = MeasureString(s) * scale;
+                size = MeasureString(s, scale);
 
                 if (size.X <= bounds.Width && size.Y <= bounds.Height)
                 {
@@ -192,7 +192,7 @@ namespace SpaceHordes
             return false;
         }
 
-        public Vector2 MeasureString(string s)
+        public Vector2 MeasureString(string s, float scale)
         {
             Vector2 toReturn = new Vector2();
 
@@ -202,18 +202,23 @@ namespace SpaceHordes
             {
                 if (c != ' ')
                 {
-                    toReturn.X += letters[c].Width + charSpacing;
+                    toReturn.X += (letters[c].Width + charSpacing) * scale;
                 }
                 else
                 {
-                    toReturn.X += spaceWidth;
+                    toReturn.X += spaceWidth * scale;
                 }
             }
 
-            toReturn.X -= charSpacing;
-            toReturn.Y = letters['A'].Height;
+            toReturn.X -= charSpacing * scale;
+            toReturn.Y = letters['A'].Height * scale;
 
             return toReturn;
+        }
+
+        public Vector2 MeasureString(string s)
+        {
+            return MeasureString(s, 1f);
         }
     }
 }

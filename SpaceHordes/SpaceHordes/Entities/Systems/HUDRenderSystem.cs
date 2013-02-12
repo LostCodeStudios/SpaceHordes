@@ -138,6 +138,8 @@ namespace SpaceHordes.Entities.Systems
                 _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[3] + selectionOffset, selectionSource, Color.White);
             }
 
+            _Font.DrawString(_SpriteBatch, new Rectangle(0, 0, ScreenHelper.Viewport.Width, 8), "YUP");
+
             int yellow = (int)i.YELLOW;
             box.Location = new Point((int)(topLeft.X + boxOffsets[7].X), (int)(topLeft.Y + boxOffsets[7].Y));
             _Font.DrawString(_SpriteBatch, box, yellow.ToString());

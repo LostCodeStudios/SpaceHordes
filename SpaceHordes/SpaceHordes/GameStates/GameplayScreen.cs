@@ -191,13 +191,13 @@ namespace SpaceHordes.GameStates.Screens
             spriteBatch.Begin();
             //gameFont.DrawString(spriteBatch, Vector2.Zero, "It worked.");
             Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
-            gameFont.DrawString(
-                spriteBatch,
-                new Vector2(
-                    scoreLocation.X - scoreSize.X / 2,
-                    scoreLocation.Y),
-                score.ToString(),
-                scoreScale);
+            //gameFont.DrawString(
+            //    spriteBatch,
+            //    new Vector2(
+            //        scoreLocation.X - scoreSize.X / 2,
+            //        scoreLocation.Y),
+            //    score.ToString(),
+            //    scoreScale);
             spriteBatch.End();
         }
 
