@@ -33,7 +33,7 @@ namespace SpaceHordes
 
         #region Initialization
 
-        #region Content
+        #region Content/Init
 
         /// <summary>
         /// Initializes the spaceworld

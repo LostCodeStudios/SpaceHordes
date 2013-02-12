@@ -55,7 +55,14 @@ namespace SpaceHordes.Entities.Systems
                     if(e.HasComponent<Crystal>())
                         drawColor = e.GetComponent<Crystal>().Color;
                     DrawSolidCircle(position, 0.5f*b.Mass, Vector2.Zero, drawColor);
+
+                    //PLAYER ID
+                    if (e.Group != null && e.Group == "Players")
+                        DrawString(e.Tag, position, Color.Tan);
+
+#if DEBUG
                     DrawString(position.ToString(), position, Color.Red);
+#endif
                 }
             }
             
@@ -72,14 +79,12 @@ namespace SpaceHordes.Entities.Systems
 
         public void LoadContent(ContentManager Content)
         {
-#if DEBUG
-            _DebugFont = Content.Load<SpriteFont>("Fonts/debugfont");
-#endif
+            _RadarFont = Content.Load<SpriteFont>("Fonts/debugfont");
         }
 
         #region Drawing
         SpriteBatch _SpriteBatch;
-        SpriteFont _DebugFont;
+        SpriteFont _RadarFont;
 
         PrimitiveBatch _PrimBatch;
         Matrix _Projection;
@@ -152,9 +157,7 @@ namespace SpaceHordes.Entities.Systems
 
         public void DrawString(string text, Vector2 position, Color color)
         {
-#if DEBUG
-            _SpriteBatch.DrawString(_DebugFont, text, position, color, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
-#endif
+            _SpriteBatch.DrawString(_RadarFont, text, position, color, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
         }
 
         #endregion
