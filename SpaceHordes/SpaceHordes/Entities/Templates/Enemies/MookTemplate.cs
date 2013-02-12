@@ -9,6 +9,8 @@ using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Dependencies.Physics.Factories;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -104,7 +106,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             if (colorchance > 80)
                 crystalColor = Color.Gray;
             e.AddComponent<Crystal>(new Crystal(crystalColor, rbitch.Next(2), "ASD"));
-           
+          
+            
 
             #endregion
 
