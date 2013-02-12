@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameLibrary.Helpers;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Helpers.Drawing;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -32,7 +33,7 @@ namespace SpaceHordes.Entities.Systems
         Rectangle selectionSource;
 
         Vector2[] boxOffsets;
-        Rectangle box = new Rectangle(0, 0, 21, 21);
+        RectangleF box = new RectangleF(0, 0, 21, 21);
 
         #endregion
 
@@ -114,13 +115,16 @@ namespace SpaceHordes.Entities.Systems
                 int green = i.GREEN.Ammunition;
                 int red = i.RED.Ammunition;
 
-                box.Location = new Point((int)(topLeft.X + boxOffsets[4].X), (int)(topLeft.Y + boxOffsets[4].Y));
+                box.X = topLeft.X + boxOffsets[4].X;
+                box.Y = topLeft.Y + boxOffsets[4].Y;
                 _Font.DrawString(_SpriteBatch, box, blue.ToString());
 
-                box.Location = new Point((int)(topLeft.X + boxOffsets[5].X), (int)(topLeft.Y + boxOffsets[5].Y));
+                box.X = topLeft.X + boxOffsets[5].X;
+                box.Y = topLeft.Y + boxOffsets[5].Y;
                 _Font.DrawString(_SpriteBatch, box, green.ToString());
 
-                box.Location = new Point((int)(topLeft.X + boxOffsets[6].X), (int)(topLeft.Y + boxOffsets[6].Y));
+                box.X = topLeft.X + boxOffsets[6].X;
+                box.Y = topLeft.Y + boxOffsets[6].Y;
                 _Font.DrawString(_SpriteBatch, box, red.ToString());
 
                 if (i.CurrentGun == i.BLUE)
@@ -138,10 +142,9 @@ namespace SpaceHordes.Entities.Systems
                 _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[3] + selectionOffset, selectionSource, Color.White);
             }
 
-            _Font.DrawString(_SpriteBatch, new Rectangle(0, 0, ScreenHelper.Viewport.Width, 8), "YUP");
-
             int yellow = (int)i.YELLOW;
-            box.Location = new Point((int)(topLeft.X + boxOffsets[7].X), (int)(topLeft.Y + boxOffsets[7].Y));
+            box.X = topLeft.X + boxOffsets[7].X;
+            box.Y = topLeft.Y + boxOffsets[7].Y;
             _Font.DrawString(_SpriteBatch, box, yellow.ToString());
         }
     }

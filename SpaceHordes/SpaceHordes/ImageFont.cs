@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using GameLibrary.Helpers.Drawing;
 
 namespace SpaceHordes
 {
@@ -20,8 +21,8 @@ namespace SpaceHordes
             set { spaceWidth = Math.Max(value, 1); }
         }
 
-        int charSpacing = 0;
-        public int CharSpaceWidth
+        float charSpacing = 0;
+        public float CharSpaceWidth
         {
             get { return charSpacing; }
             set { charSpacing = Math.Max(value, 0); }
@@ -165,7 +166,7 @@ namespace SpaceHordes
             }
         }
 
-        public bool DrawString(SpriteBatch spriteBatch, Rectangle bounds, string s)
+        public bool DrawString(SpriteBatch spriteBatch, RectangleF bounds, string s)
         {
             float scale = 1f;
             Vector2 size;
@@ -176,7 +177,7 @@ namespace SpaceHordes
 
                 if (size.X <= bounds.Width && size.Y <= bounds.Height)
                 {
-                    Vector2 drawTo = new Vector2(bounds.Location.X, bounds.Location.Y);
+                    Vector2 drawTo = new Vector2(bounds.X, bounds.Y);
 
                     drawTo.X += bounds.Width / 2 - size.X / 2;
                     drawTo.Y += bounds.Height / 2 - size.Y / 2;

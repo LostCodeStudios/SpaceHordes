@@ -85,6 +85,7 @@ namespace SpaceHordes
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
             crystalSystem = this.SystemManager.SetSystem(new CrystalCollisionSystem(), ExecutionType.Update);
+            explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
 
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
@@ -270,6 +271,7 @@ namespace SpaceHordes
             #endregion
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
+            this.SetEntityTemplate("Explosion", new ExplosionTemplate(_spriteSheet));
             this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }
@@ -332,6 +334,7 @@ namespace SpaceHordes
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
         CrystalCollisionSystem crystalSystem;
+        ExplosionSystem explosionSystem;
 
         //Draw Systems
         HealthRenderSystem healthRenderSystem;
