@@ -121,6 +121,7 @@
     <Compile Include="Entities\Systems\AISystem.cs" />
     <Compile Include="Entities\Systems\CrystalCollisionSystem.cs" />
     <Compile Include="Entities\Systems\DirectorSystem.cs" />
+    <Compile Include="Entities\Systems\ExplosionSystem.cs" />
     <Compile Include="Entities\Systems\GunSystem.cs" />
     <Compile Include="Entities\Systems\HealthRenderSystem.cs" />
     <Compile Include="Entities\Systems\HealthSystem.cs" />
