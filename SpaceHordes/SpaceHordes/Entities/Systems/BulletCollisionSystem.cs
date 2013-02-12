@@ -44,18 +44,18 @@ namespace SpaceHordes.Entities.Systems
                             { //Do damage
                                 (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth -= bullet.Damage;
                                 e.Delete(); //Remove bullet
-                            }
 
-                            if (bullet.OnBulletHit != null)
-                            { //Do bullet effects here........... Maybe a call back?{
-                                bullet.OnBulletHit(fix.Body.UserData as Entity);
-                            }
+                                if (bullet.OnBulletHit != null)
+                                { //Do bullet effects here........... Maybe a call back?{
+                                    bullet.OnBulletHit(fix.Body.UserData as Entity);
+                                }
 
-                            if ((fix.Body.UserData as Entity).HasComponent<Crystal>())
-                            {
-                                Crystal cr = (fix.Body.UserData as Entity).GetComponent<Crystal>();
-                                world.CreateEntity("RedCrystal1", new Transform(fix.Body.Position, 0f)).Refresh();
-                                
+                                if ((fix.Body.UserData as Entity).HasComponent<Crystal>())
+                                {
+                                    Crystal cr = (fix.Body.UserData as Entity).GetComponent<Crystal>();
+                                    world.CreateEntity("RedCrystal1", new Transform(fix.Body.Position, 0f)).Refresh();
+
+                                }
                             }
                         }
                         return 0;
