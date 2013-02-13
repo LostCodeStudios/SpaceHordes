@@ -91,10 +91,10 @@ namespace SpaceHordes
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
             starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw);
-            radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(hudRenderSystem.radarLocation,
+            radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(hudRenderSystem.RadarScreenLocation,
                 new Rectangle(-ScreenHelper.Viewport.Width*2, -ScreenHelper.Viewport.Height*2,
-                    ScreenHelper.Viewport.Width*2, ScreenHelper.Viewport.Height*2))
-                    , ExecutionType.Draw, 2);
+                    ScreenHelper.Viewport.Width*2, ScreenHelper.Viewport.Height*2)),
+                    ExecutionType.Draw, 2);
             base.BuildSystems();
         }
 
@@ -126,71 +126,71 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("BlueBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1"),
-                new Velocity(new Vector2(5), 0f),
+                new Velocity(new Vector2(15), 0f),
                 new Bullet(1, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BlueBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot2"),
-                new Velocity(new Vector2(5), 0f),
+                new Velocity(new Vector2(15), 0f),
                 new Bullet(2, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3"),
-                new Velocity(new Vector2(5), 0f),
+                new Velocity(new Vector2(15), 0f),
                 new Bullet(3, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
 
             this.SetEntityTemplate("GreenBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot1"),
-                new Velocity(new Vector2(6), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("GreenBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot2"),
-                new Velocity(new Vector2(6), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(4, "Enemies", null
                     )));
 
             this.SetEntityTemplate("GreenBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot3"),
-                new Velocity(new Vector2(6), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(6, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot1"),
-                new Velocity(new Vector2(6), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(4, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot2"),
-                new Velocity(new Vector2(6), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(8, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot3"),
-                new Velocity(new Vector2(6), 0f),
+                new Velocity(new Vector2(40), 0f),
                 new Bullet(12, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1"),
-                new Velocity(new Vector2(40), 0f),
+                new Velocity(new Vector2(12), 0f),
                 new Bullet(1, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot2"),
-                new Velocity(new Vector2(40), 0f),
+                new Velocity(new Vector2(12), 0f),
                 new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot3"),
-                new Velocity(new Vector2(40), 0f),
+                new Velocity(new Vector2(12), 0f),
                 new Bullet(3, "Enemies", null
                     )));
 

@@ -77,7 +77,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
             pos.Normalize();
-            pos *= ScreenHelper.Viewport.Width / 1.5f;
+            pos *= ScreenHelper.Viewport.Width;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
 
