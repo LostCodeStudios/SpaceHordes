@@ -126,13 +126,12 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion
 
-                #region Shooting
+                #region Aiming
 
                 if (pad.ThumbSticks.Right != Vector2.Zero)
                 {
                     Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
                     b.RotateTo(aiming);
-                    g.BulletsToFire = true;
                 }
 
                 #endregion
@@ -207,16 +206,12 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion
 
-                #region Shooting
+                #region Aiming
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
-                {
-                    Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
-                    Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
-                    Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
-                    b.RotateTo(-aiming);
-                    g.BulletsToFire = true;
-                }
+                Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
+                Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
+                Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
+                b.RotateTo(-aiming);
 
                 #endregion
             }
@@ -233,7 +228,11 @@ namespace SpaceHordes.Entities.Systems
 
             //Rotation
             if (b.LinearVelocity != Vector2.Zero)
-                b.Rotation = (float)Math.Atan2(b.LinearVelocity.Y, b.LinearVelocity.X) + 0;// (float)Math.PI / 2f;
+            {
+                if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
+                    b.RotateTo(b.LinearVelocity);
+                WasMoving = true;
+            }
 
             //update position
             b.ApplyLinearImpulse((target) * new Vector2(_Velocity));

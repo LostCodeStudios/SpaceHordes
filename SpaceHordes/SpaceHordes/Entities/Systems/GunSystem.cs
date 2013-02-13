@@ -54,8 +54,10 @@ namespace SpaceHordes.Entities.Systems
                 gun.UpdatePower(elapsedMilli);
             }
 
-            if (e.Tag.Contains("P") && e.HasComponent<Inventory>())
+            if (e.Group.Equals("Players"))
             {
+                gun.BulletsToFire = false;
+
                 int index = int.Parse(e.Tag.Replace("P", "")) - 1;
                 PlayerIndex playerIndex = (PlayerIndex)index;
                 GamePadState padState = GamePad.GetState(playerIndex);
@@ -63,12 +65,12 @@ namespace SpaceHordes.Entities.Systems
 
                 if (padState.IsConnected)
                 {
-                    if (padState.ThumbSticks.Right == Vector2.Zero)
-                        gun.BulletsToFire = false;
+                    if (padState.IsButtonDown(Buttons.RightTrigger))
+                        gun.BulletsToFire = true;
                 }
 
-                else if (Mouse.GetState().LeftButton == ButtonState.Released)
-                    gun.BulletsToFire = false;
+                else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    gun.BulletsToFire = true;
             }
 
 

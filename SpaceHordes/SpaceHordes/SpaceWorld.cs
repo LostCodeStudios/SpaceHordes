@@ -126,17 +126,17 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("BlueBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1"),
-                new Velocity(new Vector2(12), 0f),
+                new Velocity(new Vector2(15), 0f),
                 new Bullet(1, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BlueBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot2"),
-                new Velocity(new Vector2(12), 0f),
+                new Velocity(new Vector2(15), 0f),
                 new Bullet(2, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3"),
-                new Velocity(new Vector2(12), 0f),
+                new Velocity(new Vector2(15), 0f),
                 new Bullet(3, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
 
@@ -178,19 +178,19 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("WhiteBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1"),
-                new Velocity(new Vector2(10), 0f),
+                new Velocity(new Vector2(12), 0f),
                 new Bullet(1, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot2"),
-                new Velocity(new Vector2(10), 0f),
+                new Velocity(new Vector2(12), 0f),
                 new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot3"),
-                new Velocity(new Vector2(10), 0f),
+                new Velocity(new Vector2(12), 0f),
                 new Bullet(3, "Enemies", null
                     )));
 
