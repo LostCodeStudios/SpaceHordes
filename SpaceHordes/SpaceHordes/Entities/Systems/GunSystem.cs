@@ -81,6 +81,10 @@ namespace SpaceHordes.Entities.Systems
                 gun.Elapsed = 0;
                 gun.Ammunition--;
                 Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
+                Bullet bb = bullet.GetComponent<Bullet>();
+                bb.Firer = e;
+                bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
+                bullet.AddComponent<Bullet>(bb);
                 bullet.Refresh();
 
                 int shot = r.Next(1, 3);

@@ -32,6 +32,7 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
+            
         }
     }
 }

@@ -42,7 +42,8 @@ namespace SpaceHordes.Entities.Systems
                             if ((fix.Body.UserData as Entity).HasComponent<Health>()
                                 && (fix.Body.UserData as Entity).Group == bullet.DamageGroup)
                             { //Do damage
-                                (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth -= bullet.Damage;
+                                (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
+                                    (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
                                 e.Delete(); //Remove bullet
 
                                 if (bullet.OnBulletHit != null)

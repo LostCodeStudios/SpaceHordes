@@ -10,7 +10,7 @@ namespace SpaceHordes.Entities.Components
     {
         public Health(double MaxHealth)
         {
-            this.CurrentHealth = MaxHealth;
+            _Health = MaxHealth;
             this.MaxHealth = MaxHealth;
         }
 
@@ -19,18 +19,19 @@ namespace SpaceHordes.Entities.Components
         /// </summary>
         public double CurrentHealth
         {
-            set
-            {
-                if(value <= 0 && OnDeath != null)
-                    OnDeath();
-                _Health = value;
-            }
             get
             {
                 return _Health;
             }
         }
         private double _Health;
+
+        public void SetHealth(Entity setter, double health)
+        {
+            if (health <= 0 && OnDeath != null)
+                OnDeath(setter);
+            _Health = health;
+        }
 
         /// <summary>
         /// Gets or sets the max health of the entity.
@@ -57,6 +58,6 @@ namespace SpaceHordes.Entities.Components
             return "HP: " + CurrentHealth + "/" + MaxHealth;
         }
 
-        public event Action OnDeath;
+        public event Action<Entity> OnDeath;
     }
 }

@@ -46,6 +46,8 @@ namespace SpaceHordes.Entities.Components
         public BulletHitEvent OnBulletHit;
 
         public int collisionChecked {set;get;}
+
+        public Entity Firer;
         
     }
 

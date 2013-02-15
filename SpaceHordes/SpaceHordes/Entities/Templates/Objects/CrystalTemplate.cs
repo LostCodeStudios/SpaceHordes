@@ -47,6 +47,8 @@ namespace SpaceHordes.Entities.Templates.Objects
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source));
             Body b = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width/2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height/2), 4, 1f, b);
+            e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>()));
+            
             b.Position = pos;
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));

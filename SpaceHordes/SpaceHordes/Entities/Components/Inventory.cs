@@ -97,7 +97,8 @@ namespace SpaceHordes.Entities.Components
 
         public void GiveCrystals(Crystal crystal)
         {
-            GiveCrystals(crystal.Color, crystal.Amount);
+            if(crystal != null)
+                GiveCrystals(crystal.Color, crystal.Amount);
         }
     }
 }

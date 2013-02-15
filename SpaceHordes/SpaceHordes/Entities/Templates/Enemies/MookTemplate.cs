@@ -108,7 +108,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
             e.AddComponent<Health>(new Health(1)).OnDeath +=
-                () => _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount);
+                ent => _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
 
             #endregion
 
