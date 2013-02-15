@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameLibrary.Helpers.Drawing;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes
 {
@@ -35,31 +36,36 @@ namespace SpaceHordes
 
         public void LoadContent(ContentManager content, string filename, Color boundingColor)
         {
-            texture = content.Load<Texture2D>(filename);
+            #region Getting Colors
 
-            Color[] data = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(data);
+            Texture2D tex = content.Load<Texture2D>(filename);
+
+            Color[] data = new Color[tex.Width * tex.Height];
+            tex.GetData<Color>(data);
 
             //Get the data in 2D array form
-            Color[,] colors = new Color[texture.Width, texture.Height];
+            Color[,] colors = new Color[tex.Width, tex.Height];
 
             int z = 0;
 
-            for (int y = 0; y < texture.Height; y++)
+            for (int y = 0; y < tex.Height; y++)
             {
-                for (int x = 0; x < texture.Width; x++, z++)
+                for (int x = 0; x < tex.Width; x++, z++)
                 {
                     colors[x, y] = data[z];
                 }
             }
 
-            //Now get the rectangles
+            #endregion
+
+            #region Getting Rectangles
+
             int y1 = 1;
             int x1 = 1;
             int rectCount = 0;
             int lastXBound = 0;
             int nextXBound = 0;
-            int height = texture.Height - 2;
+            int height = tex.Height - 2;
 
             Rectangle[] rects = new Rectangle[41];
             while (rectCount < rects.Count())
@@ -76,6 +82,23 @@ namespace SpaceHordes
                 lastXBound = nextXBound;
                 x1++;
             }
+
+            #endregion
+
+            #region Removing Source Rectangles
+
+            for (int j = 0; j < data.Count(); j++)
+            {
+                if (data[j] == boundingColor)
+                {
+                    data[j] = new Color(255, 0, 255, 0);
+                }
+            }
+
+            texture = new Texture2D(ScreenHelper.GraphicsDevice, tex.Width, tex.Height);
+            texture.SetData<Color>(data);
+
+            #endregion
 
             #region Adding chars
             int charNext = 65;
