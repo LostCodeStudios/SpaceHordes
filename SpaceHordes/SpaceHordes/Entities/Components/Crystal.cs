@@ -13,13 +13,10 @@ namespace SpaceHordes.Entities.Components
 
         public int Amount;
 
-        public string AmmoGroup;
-
-        public Crystal(Color color, int amount, string ammoGroup)
+        public Crystal(Color color, int amount)
         {
             Color = color;
             Amount = amount;
-            AmmoGroup = ammoGroup;
         }
     }
 }

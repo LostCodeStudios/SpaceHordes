@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}</ProjectGuid>
@@ -124,7 +124,7 @@
     <Compile Include="Entities\Systems\BulletCollisionSystem.cs" />
     <Compile Include="Entities\Systems\BulletRemovalSystem.cs" />
     <Compile Include="Entities\Systems\AISystem.cs" />
-    <Compile Include="Entities\Systems\CrystalCollisionSystem.cs" />
+    <Compile Include="Entities\Systems\CrystalMovementSystem.cs" />
     <Compile Include="Entities\Systems\DirectorSystem.cs" />
     <Compile Include="Entities\Systems\ExplosionSystem.cs" />
     <Compile Include="Entities\Systems\GunSystem.cs" />
@@ -137,9 +137,9 @@
     <Compile Include="Entities\Systems\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\Objects\BaseTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\BulletTemplate.cs" />
-    <Compile Include="Entities\Templates\Objects\CrystalTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\MookTemplate.cs" />
     <Compile Include="Entities\Templates\Events\ExplosionTemplate.cs" />
+    <Compile Include="Entities\Templates\Objects\CrystalTemplate.cs" />
     <Compile Include="Entities\Templates\PlayerTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\StarFieldTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\StarTemplate.cs" />

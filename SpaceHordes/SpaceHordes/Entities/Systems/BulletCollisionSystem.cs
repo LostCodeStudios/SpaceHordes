@@ -49,13 +49,6 @@ namespace SpaceHordes.Entities.Systems
                                 { //Do bullet effects here........... Maybe a call back?{
                                     bullet.OnBulletHit(fix.Body.UserData as Entity);
                                 }
-
-                                if ((fix.Body.UserData as Entity).HasComponent<Crystal>())
-                                {
-                                    Crystal cr = (fix.Body.UserData as Entity).GetComponent<Crystal>();
-                                    world.CreateEntity("RedCrystal1", new Transform(fix.Body.Position, 0f)).Refresh();
-
-                                }
                             }
                         }
                         return 0;

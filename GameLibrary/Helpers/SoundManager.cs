@@ -2,76 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 
 namespace GameLibrary.Helpers
 {
-    public class SoundManager
+    public static class SoundManager
     {
-        #region Fields
+        static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
 
-        Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
-        public bool Enabled;
+        public static bool Enabled = true;
 
-        #endregion
-
-        #region Initialization
-
-        public SoundManager()
-        {
-            Enabled = true;
-        }
-
-        #endregion
-
-        #region Public Methods
-
-        /// <summary>
-        /// Adds a given sound effect.
-        /// </summary>
-        /// <param name="key">The name by which the effect will be referenced.</param>
-        /// <param name="value">The SoundEffect.</param>
-        public void Add(string key, SoundEffect value)
-        {
-            try
-            {
-                sounds.Add(key, value);
-            }
-
-            catch (ArgumentException)
-            {
-            }
-        }
-
-        public void Remove(string key)
-        {
-            try
-            {
-                sounds.Remove(key);
-            }
-
-            catch (ArgumentNullException)
-            {
-            }
-        }
-
-        public void Play(string key)
+        public static void Play(string soundKey)
         {
             if (Enabled)
-            {
-                try
-                {
-                    sounds[key].Play();
-                }
-
-                catch (ArgumentNullException)
-                {
-                }
-            }
+                sounds[soundKey].Play();
         }
 
-        #endregion
+        public static void Add(string soundKey, SoundEffect sound)
+        {
+            sounds.Add(soundKey, sound);
+        }
+
+        public static void Remove(string soundKey)
+        {
+            sounds.Remove(soundKey);
+        }
     }
 }

@@ -88,13 +88,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
             #endregion
 
-            #region AI/Health
-            e.AddComponent<AI>(new AI((args[1] as Body)));
-
-            e.AddComponent<Health>(new Health(1));
-
-            #endregion
-
             #region Crystal
 
             Color crystalColor = Color.Green;
@@ -105,11 +98,21 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 crystalColor = Color.Red;
             if (colorchance > 80)
                 crystalColor = Color.Gray;
-            e.AddComponent<Crystal>(new Crystal(crystalColor, rbitch.Next(2), "ASD"));
+            e.AddComponent<Crystal>(new Crystal(crystalColor, rbitch.Next(2)));
           
             
 
             #endregion
+
+            #region AI/Health
+            e.AddComponent<AI>(new AI((args[1] as Body)));
+
+            e.AddComponent<Health>(new Health(1)).OnDeath +=
+                () => _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount);
+
+            #endregion
+
+          
 
             e.Group = "Enemies";
             return e;

@@ -129,7 +129,6 @@
     <Compile Include="Helpers\Debug\DebugView.cs" />
     <Compile Include="Helpers\Drawing\LineBatch.cs" />
     <Compile Include="Helpers\Drawing\PrimitiveBatch.cs" />
-    <Compile Include="Helpers\Drawing\RectangleF.cs" />
     <Compile Include="Helpers\Drawing\ScreenHelper.cs" />
     <Compile Include="Helpers\Input\IHandlesInput.cs" />
     <Compile Include="Helpers\Input\InputAction.cs" />
@@ -239,7 +238,6 @@
     <Compile Include="Dependencies\Physics\Factories\LinkFactory.cs" />
     <Compile Include="Dependencies\Physics\Settings.cs" />
     <Compile Include="Helpers\ScriptRuntime.cs" />
-    <Compile Include="Helpers\SoundManager.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\Win32.Functions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,65 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameLibrary.Dependencies.Entities;
-using GameLibrary.Entities.Components;
-using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
+using GameLibrary.Helpers;
+using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Dependencies.Physics.Factories;
+using SpaceHordes.Entities.Components;
 
-namespace SpaceHordes.Entities.Templates
+namespace SpaceHordes.Entities.Templates.Objects
 {
     public class CrystalTemplate : IEntityTemplate
     {
-        public CrystalTemplate(Sprite defaultSprite, IVelocity defaultVelocity, Crystal defaultCrystal)
+        EntityWorld _World;
+        SpriteSheet _SpriteSheet;
+        public CrystalTemplate(EntityWorld World, SpriteSheet spriteSheet)
         {
-            _DefaultSprite = defaultSprite;
-            _DefaultVelocity = defaultVelocity;
-            _DefaultCrystal = defaultCrystal;
+            this._World = World;
+            this._SpriteSheet = spriteSheet;
         }
 
-        Sprite _DefaultSprite;
-        IVelocity _DefaultVelocity;
-        Crystal _DefaultCrystal;
-
         /// <summary>
-        /// Builds a crystal entity. 
+        /// Builds the crystal at a specified position and a color.
         /// </summary>
-        /// <param name="e">The entity to build.</param>
-        /// <param name="args">[0] = ITransform; [1] = IVelocity; [2] = Sprite; [3] = crystal </param>
+        /// <param name="e"></param>
+        /// <param name="args">[0] = position; [1] = color; [2] ammount</param>
         /// <returns></returns>
         public Entity BuildEntity(Entity e, params object[] args)
         {
+            Vector2 pos = (Vector2)args[0];
+            Color color = (Color)args[1];
+            string source = "redcrystal";
+            if (color == Color.Red)
+                source = "redcrystal";
+            if (color == Color.Blue)
+                source = "bluecrystal";
+            if (color == Color.Yellow)
+                source = "yellowcrystal";
+            if (color == Color.Green)
+                source = "greencrystal";
+            if (color == Color.Gray)
+                source = "graycrystal";
+
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source));
+            Body b = e.AddComponent<Body>(new Body(_World, e));
+            FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width/2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height/2), 4, 1f, b);
+            b.Position = pos;
+            b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+            e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));
             e.Group = "Crystals";
-
-            IVelocity velocity = _DefaultVelocity;
-            Sprite sprite = _DefaultSprite;
-            ITransform transform = new Transform(Vector2.Zero, 0.0f);
-            Crystal crystal = _DefaultCrystal;
-
-            //Check arguments.
-            if (args != null)
-            {
-                if (args.Length > 0)
-                    transform = (args[0] as ITransform);
-                if (args.Length > 1)
-                    velocity = (args[1] as IVelocity);
-                if (args.Length > 2)
-                    sprite = (Sprite)args[2];
-                if (args.Length > 3)
-                    crystal = (Crystal)args[3];
-            }
-
-
-            //Make the velocity proportional to the default velocity and the target rotation
-            e.AddComponent<Particle>(new Particle(e, transform.Position, transform.Rotation,
-                 velocity.LinearVelocity * new Vector2((float)Math.Cos(transform.Rotation),
-                     (float)Math.Sin(transform.Rotation)),
-                    velocity.AngularVelocity));
-            e.AddComponent<Sprite>(sprite);
-            e.AddComponent<Crystal>(crystal);
-
+            e.Refresh();
             return e;
         }
-
     }
 }

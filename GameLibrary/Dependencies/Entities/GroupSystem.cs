@@ -27,5 +27,12 @@ namespace GameLibrary.Dependencies.Entities
                 Process(e);
             }
         }
+
+        public override void OnChange(Entity e)
+        {
+            if (e.Group != null && e.Group == group)
+                Add(e);
+            base.OnChange(e);
+        }
     }
 }

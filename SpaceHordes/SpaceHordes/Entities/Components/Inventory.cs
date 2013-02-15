@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GameLibrary.Dependencies;
 using GameLibrary.Dependencies.Entities;
+using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -12,8 +13,7 @@ namespace SpaceHordes.Entities.Components
         RED,
         GREEN,
         BLUE,
-        WHITE,
-        YELLOW
+        WHITE
     }
 
     /// <summary>
@@ -44,27 +44,28 @@ namespace SpaceHordes.Entities.Components
         {
             get
             {
+                Gun returnValue;
+
                 switch (_CurrentGunType)
                 {
                     case GunType.BLUE:
-                        return BLUE;
+                        returnValue =  BLUE;
                         break;
                     case GunType.RED:
-                        return RED;
+                        returnValue = RED;
                         break;
                     case GunType.GREEN:
-                        return GREEN;
+                        returnValue = GREEN;
                         break;
                     case GunType.WHITE:
-                        return WHITE;
-                        break;
-                    case GunType.YELLOW: //YELLOW CODE'
-                        return null;
+                        returnValue =  WHITE;
                         break;
                     default:
-                        return WHITE;
+                        returnValue = null;
                         break;
                 }
+
+                return returnValue;
             }
         }
 
@@ -77,6 +78,26 @@ namespace SpaceHordes.Entities.Components
             }
             _CurrentGunType = gun;
             e.AddComponent<Gun>(CurrentGun);
+        }
+
+        public void GiveCrystals(Color color, int amount)
+        {
+            if (color == Color.Red)
+                RED.Ammunition += amount;
+
+            if (color == Color.Green)
+                GREEN.Ammunition += amount;
+
+            if (color == Color.Blue)
+                BLUE.Ammunition += amount;
+
+            if (color == Color.Yellow)
+                YELLOW += (uint)amount;
+        }
+
+        public void GiveCrystals(Crystal crystal)
+        {
+            GiveCrystals(crystal.Color, crystal.Amount);
         }
     }
 }

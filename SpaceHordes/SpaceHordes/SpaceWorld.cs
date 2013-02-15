@@ -16,6 +16,7 @@ using SpaceHordes.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Dependencies.Entities;
 using SpaceHordes.Entities.Templates.Enemies;
+using SpaceHordes.Entities.Templates.Objects;
 
 namespace SpaceHordes
 {
@@ -84,8 +85,8 @@ namespace SpaceHordes
             slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
-            crystalSystem = this.SystemManager.SetSystem(new CrystalCollisionSystem(), ExecutionType.Update);
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
+            this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
 
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
@@ -115,10 +116,7 @@ namespace SpaceHordes
 
             #region Crystals
 
-            this.SetEntityTemplate("RedCrystal1", new CrystalTemplate(
-                new Sprite(_spriteSheet, "redcrystal"),
-                new Velocity(new Vector2(0), 0f),
-                new Crystal(Color.Red, 1, "Players")));
+            this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
 
             #endregion
 
@@ -306,7 +304,6 @@ namespace SpaceHordes
             Base = this.CreateEntity("Base");
             Base.Refresh();
             enemySpawnSystem.LoadContent(Base);
-            this.CreateEntity("RedCrystal1", new Transform(Vector2.UnitX, 0f));
 #if DEBUG
             //Camera.TrackingBody = Player.GetComponent<Body>();
 #endif
@@ -333,7 +330,6 @@ namespace SpaceHordes
         AISystem enemyMovementSystem;
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
-        CrystalCollisionSystem crystalSystem;
         ExplosionSystem explosionSystem;
 
         //Draw Systems
