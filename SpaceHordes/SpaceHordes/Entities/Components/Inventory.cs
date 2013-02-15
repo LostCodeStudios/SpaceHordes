@@ -93,11 +93,14 @@ namespace SpaceHordes.Entities.Components
 
             if (color == Color.Yellow)
                 YELLOW += (uint)amount;
+
+            if (color == Color.Gray)
+                CurrentGun.PowerUp(5000, amount);
         }
 
         public void GiveCrystals(Crystal crystal)
         {
-            if(crystal != null)
+            if (crystal != null)
                 GiveCrystals(crystal.Color, crystal.Amount);
         }
     }

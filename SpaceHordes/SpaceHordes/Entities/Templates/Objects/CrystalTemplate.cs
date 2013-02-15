@@ -26,7 +26,7 @@ namespace SpaceHordes.Entities.Templates.Objects
         /// Builds the crystal at a specified position and a color.
         /// </summary>
         /// <param name="e"></param>
-        /// <param name="args">[0] = position; [1] = color; [2] ammount</param>
+        /// <param name="args">[0] = position; [1] = color; [2] amount</param>
         /// <returns></returns>
         public Entity BuildEntity(Entity e, params object[] args)
         {
