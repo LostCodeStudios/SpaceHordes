@@ -798,6 +798,7 @@ namespace SpaceHordes
             SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
+            SoundManager.Add("SCREAM", Content.Load<SoundEffect>("Sounds/SCREAM"));
         }
 
         #endregion

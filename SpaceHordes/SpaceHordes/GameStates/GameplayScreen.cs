@@ -126,6 +126,8 @@ namespace SpaceHordes.GameStates.Screens
             World.LoadContent(content, players);
 
             ScreenManager.Game.ResetElapsedTime();
+
+            SoundManager.Play("SCREAM");
         }
 
         public override void Deactivate()
