@@ -269,7 +269,7 @@ namespace SpaceHordes
             #endregion
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
-            this.SetEntityTemplate("Explosion", new ExplosionTemplate(_spriteSheet));
+            this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }

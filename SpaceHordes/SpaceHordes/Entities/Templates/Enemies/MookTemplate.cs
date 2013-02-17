@@ -121,7 +121,16 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
             e.AddComponent<Health>(new Health(1)).OnDeath +=
-                ent => _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                ent =>
+                {
+                    Vector2 poss = e.GetComponent<ITransform>().Position;
+                    _World.CreateEntity("Explosion", 0.5f, poss, ent).Refresh();
+                    e.Delete();
+
+                    int splodeSound = rbitch.Next(1, 5);
+                    SoundManager.Play("Explosion" + splodeSound.ToString());
+                    _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                };
 
             #endregion
 

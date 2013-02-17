@@ -117,6 +117,7 @@
     <Compile Include="Entities\Components\AI.cs" />
     <Compile Include="Entities\Components\Bullet.cs" />
     <Compile Include="Entities\Components\Crystal.cs" />
+    <Compile Include="Entities\Components\Explosive.cs" />
     <Compile Include="Entities\Components\Gun.cs" />
     <Compile Include="Entities\Components\Health.cs" />
     <Compile Include="Entities\Components\Inventory.cs" />

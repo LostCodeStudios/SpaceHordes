@@ -27,17 +27,6 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-            Health health = healthMapper.Get(e);
-
-            if (!health.IsAlive)
-            {
-                Vector2 pos = e.GetComponent<ITransform>().Position;
-                World.CreateEntity("Explosion", 4, pos).Refresh();
-                e.Delete();
-
-                int splodeSound = r.Next(1, 5);
-                SoundManager.Play("Explosion" + splodeSound.ToString());
-            }
         }
     }
 }

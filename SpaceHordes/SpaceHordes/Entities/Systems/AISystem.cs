@@ -46,7 +46,7 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-            if (e.Group == "Crystals")
+            if (e.Group == "Crystals" && e.GetComponent<AI>().Target != null)
             {
                 Vector2 distance = e.GetComponent<AI>().Target.Position - e.GetComponent<Body>().Position;
                 distance.Normalize();
