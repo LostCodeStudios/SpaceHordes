@@ -57,9 +57,9 @@ namespace SpaceHordes.Entities.Systems
                 huntersToSpawn = (int)(difficulty / 5);
                 destroyersToSpawn = (int)(difficulty / 10);
 
+                int type = r.Next(9);
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
-                    int type = r.Next(9);
                     World.CreateEntity("Mook", type, Base.GetComponent<Body>()).Refresh();
                 }
 
