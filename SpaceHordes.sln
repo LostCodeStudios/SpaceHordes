@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordes", "SpaceHordes\SpaceHordes\SpaceHordes.csproj", "{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordesContent", "SpaceHordes\SpaceHordesContent\SpaceHordesContent.contentproj", "{71BABA76-B31F-40FB-B17B-C5AF74460BAA}"
@@ -19,8 +19,8 @@ Global
 		Release|Xbox 360 = Release|Xbox 360
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Mixed Platforms.ActiveCfg = Release|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Mixed Platforms.Build.0 = Release|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Windows Phone.ActiveCfg = Debug|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Windows Phone.Build.0 = Debug|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|x86.ActiveCfg = Debug|x86
@@ -43,8 +43,8 @@ Global
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Windows Phone.ActiveCfg = Release|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|x86.ActiveCfg = Release|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Xbox 360.ActiveCfg = Release|x86
-		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|Mixed Platforms.ActiveCfg = Release|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|Mixed Platforms.Build.0 = Release|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|Windows Phone.ActiveCfg = Debug|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|x86.ActiveCfg = Debug|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|x86.Build.0 = Debug|x86
