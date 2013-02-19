@@ -19,6 +19,7 @@ namespace SpaceHordes.GameStates.Screens
         //TODO: Add MenuEntries for options.
         MenuEntry sound  = new MenuEntry("Sound: On");
         MenuEntry music = new MenuEntry("Music: On");
+        MenuEntry fullScreen = new MenuEntry("Full Screen: Off");
 
         #endregion
 
@@ -64,8 +65,9 @@ namespace SpaceHordes.GameStates.Screens
             {
                 bool sound;
                 bool music;
+                bool fullscreen;
 
-                ReadSettings(out sound, out music);
+                ReadSettings(out sound, out music, out fullscreen);
 
                 return sound;
             }
@@ -74,10 +76,11 @@ namespace SpaceHordes.GameStates.Screens
             {
                 bool sound;
                 bool music;
+                bool fullscreen;
 
-                ReadSettings(out sound, out music);
+                ReadSettings(out sound, out music, out fullscreen);
 
-                WriteSettings(value, music);
+                WriteSettings(value, music, fullscreen);
                 SoundManager.Enabled = value;
             }
         }
@@ -88,8 +91,9 @@ namespace SpaceHordes.GameStates.Screens
             {
                 bool sound;
                 bool music;
+                bool fullscreen;
 
-                ReadSettings(out sound, out music);
+                ReadSettings(out sound, out music, out fullscreen);
 
                 return music;
             }
@@ -98,10 +102,36 @@ namespace SpaceHordes.GameStates.Screens
             {
                 bool sound;
                 bool music;
+                bool fullscreen;
 
-                ReadSettings(out sound, out music);
+                ReadSettings(out sound, out music, out fullscreen);
 
-                WriteSettings(sound, value);
+                WriteSettings(sound, value, fullscreen);
+            }
+        }
+
+        public static bool FullScreen
+        {
+            get
+            {
+                bool sound;
+                bool music;
+                bool fullscreen;
+
+                ReadSettings(out sound, out music, out fullscreen);
+
+                return fullscreen;
+            }
+
+            set
+            {
+                bool sound;
+                bool music;
+                bool fullscreen;
+
+                ReadSettings(out sound, out music, out fullscreen);
+
+                WriteSettings(sound, music, value);
             }
         }
 
@@ -115,19 +145,23 @@ namespace SpaceHordes.GameStates.Screens
         {
             this.sound.Selected += sound_selected;
             this.music.Selected += music_selected;
+            this.fullScreen.Selected += fullScreen_selected;
 
             bool sound;
             bool music;
+            bool fullscreen;
 
-            ReadSettings(out sound, out music);
+            ReadSettings(out sound, out music, out fullscreen);
 
             SoundOn = sound;
             MusicOn = music;
+            FullScreen = fullscreen;
 
             updateMenuEntryText();
 
             MenuEntries.Add(this.sound);
             MenuEntries.Add(this.music);
+            MenuEntries.Add(this.fullScreen);
         }
 
         #endregion
@@ -145,6 +179,13 @@ namespace SpaceHordes.GameStates.Screens
         void music_selected(object sender, EventArgs e)
         {
             MusicOn = !MusicOn;
+
+            updateMenuEntryText();
+        }
+
+        void fullScreen_selected(object sender, EventArgs e)
+        {
+            FullScreen = !FullScreen;
 
             updateMenuEntryText();
         }
@@ -180,6 +221,19 @@ namespace SpaceHordes.GameStates.Screens
                     this.music.Text += "Off";
                     break;
             }
+
+            this.fullScreen.Text = "Full Screen: ";
+
+            switch (FullScreen)
+            {
+                case true:
+                    this.fullScreen.Text += "On";
+                    break;
+
+                case false:
+                    this.fullScreen.Text += "Off";
+                    break;
+            }
         }
         #endregion
 
@@ -190,7 +244,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         /// <param name="sound"></param>
         /// <param name="music"></param>
-        public static void ReadSettings(out bool sound, out bool music)
+        public static void ReadSettings(out bool sound, out bool music, out bool fullscreen)
         {
             if (!File.Exists(FilePath))
             {
@@ -199,7 +253,7 @@ namespace SpaceHordes.GameStates.Screens
 
             using (TextReader tr = new StreamReader(FilePath))
             {
-                while (tr.ReadLine() != "[//Sound]")
+                while (tr.ReadLine() != "[Sound]")
                 {
                 }
 
@@ -236,14 +290,33 @@ namespace SpaceHordes.GameStates.Screens
                         music = true;
                         break;
                 }
+
+                while (tr.ReadLine() != "[FullScreen]")
+                {
+                }
+
+                switch (tr.ReadLine())
+                {
+                    case "On":
+                        fullscreen = true;
+                        break;
+
+                    case "Off":
+                        fullscreen = false;
+                        break;
+
+                    default:
+                        fullscreen = false;
+                        break;
+                }
             }
         }
 
-        public static void WriteSettings(bool sound, bool music)
+        public static void WriteSettings(bool sound, bool music, bool fullscreen)
         {
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine("[//Sound]");
+                writer.WriteLine("[Sound]");
 
                 switch (sound)
                 {
@@ -259,6 +332,19 @@ namespace SpaceHordes.GameStates.Screens
                 writer.WriteLine("[Music]");
 
                 switch (music)
+                {
+                    case true:
+                        writer.WriteLine("On");
+                        break;
+
+                    case false:
+                        writer.WriteLine("Off");
+                        break;
+                }
+
+                writer.WriteLine("[FullScreen]");
+
+                switch (fullscreen)
                 {
                     case true:
                         writer.WriteLine("On");
@@ -284,7 +370,7 @@ namespace SpaceHordes.GameStates.Screens
                 }
             }
 
-            WriteSettings(true, true);
+            WriteSettings(true, true, false);
         }
 
         #endregion

@@ -75,7 +75,11 @@ namespace SpaceHordes
             graphics.PreferMultiSampling = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
-            graphics.IsFullScreen = true;
+            bool sound;
+            bool music;
+            bool fullscreen;
+            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
+            graphics.IsFullScreen = fullscreen;
 
             IsFixedTimeStep = true;
             graphics.ApplyChanges();
@@ -251,7 +255,9 @@ namespace SpaceHordes
 
             sourceRectangles.Add("Player1",
                 new Rectangle[] {
-                    new Rectangle(2, 81, 23, 11)
+                    new Rectangle(137, 309, 28, 23),
+                    new Rectangle(166, 309, 28, 23),
+                    new Rectangle(195, 309, 28, 23)
                 });
 
             sourceRectangles.Add("Player2",
@@ -576,13 +582,6 @@ namespace SpaceHordes
             sourceRectangles.Add("swastika2",
                 new Rectangle[] {
                     new Rectangle(185, 261, 47, 47)
-                });
-
-            sourceRectangles.Add("blueshipredexhaust",
-                new Rectangle[] {
-                    new Rectangle(137, 309, 28, 23),
-                    new Rectangle(166, 309, 28, 23),
-                    new Rectangle(195, 309, 28, 23)
                 });
 
             sourceRectangles.Add("massivebluemissile",
