@@ -40,7 +40,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     spriteKey = "brownfangship";
                     break;
                 case 2:
-                    spriteKey = "blueshipredexhaust";
+                    spriteKey = "brownfangship"; //TODO: Was blueshipwithredexhaust
                     break;
                 case 3:
                     spriteKey = "grayshipwithtwoprongs";

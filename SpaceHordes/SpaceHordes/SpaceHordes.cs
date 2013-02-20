@@ -73,11 +73,11 @@ namespace SpaceHordes
 
             Window.Title = "Space Hordes";
             graphics.PreferMultiSampling = true;
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             bool sound;
             bool music;
-            bool fullscreen;
+            bool fullscreen = false;
             OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
             graphics.IsFullScreen = fullscreen;
 
@@ -574,7 +574,7 @@ namespace SpaceHordes
                     new Rectangle(209, 238, 26, 22)
                 });
 
-            sourceRectangles.Add("swastika",
+            sourceRectangles.Add("swastika", //WHAT TJE FUIUCK
                 new Rectangle[] {
                     new Rectangle(137, 261, 47, 47)
                 });

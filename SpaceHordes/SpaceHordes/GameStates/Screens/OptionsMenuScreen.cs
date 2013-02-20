@@ -253,7 +253,7 @@ namespace SpaceHordes.GameStates.Screens
 
             using (TextReader tr = new StreamReader(FilePath))
             {
-                while (tr.ReadLine() != "[Sound]")
+                while (tr.ReadLine() != "[//Sound]")
                 {
                 }
 
@@ -316,7 +316,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
-                writer.WriteLine("[Sound]");
+                writer.WriteLine("[//Sound]");
 
                 switch (sound)
                 {
