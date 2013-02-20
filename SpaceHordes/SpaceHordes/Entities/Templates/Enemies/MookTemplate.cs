@@ -73,6 +73,14 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
+            bitch.OnCollision +=
+                (f1, f2, c) =>
+                {
+                    if (f2.Body.UserData != null && f2.Body.UserData is Entity)
+                        if ((f2.Body.UserData as Entity).Group != "Crystals")
+                            (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                    return true;
+                };
             bitch.Mass++;
 
             Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
@@ -120,7 +128,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
-            e.AddComponent<Health>(new Health(1)).OnDeath +=
+            e.AddComponent<Health>(new Health(3)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;

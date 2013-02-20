@@ -128,6 +128,15 @@ namespace GameLibrary.Entities.Components
 
         #endregion
 
+        #region Methods
+
+        public void ApplySpriteEffect(int ticks, Sprite newSprite)
+        {
+
+        }
+
+        #endregion
+
         #region Fields
         public float Layer;
         public Color Color;

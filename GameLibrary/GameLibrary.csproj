@@ -109,11 +109,13 @@
     <Compile Include="Entities\Components\Physics\IVelocity.cs" />
     <Compile Include="Entities\Components\Physics\Transform.cs" />
     <Compile Include="Entities\Components\Physics\Velocity.cs" />
+    <Compile Include="Entities\Components\Render\SpriteEffect.cs" />
     <Compile Include="Entities\Systems\DebugSystem.cs" />
     <Compile Include="Entities\Systems\DebugRenderSystem.cs" />
     <Compile Include="Entities\Systems\ParticalMovementSystem.cs" />
     <Compile Include="Entities\Systems\RenderSystem.cs" />
     <Compile Include="Entities\Systems\AnimationSystem.cs" />
+    <Compile Include="Entities\Systems\SpriteEffectSystem.cs" />
     <Compile Include="GameStates\GameScreen.cs" />
     <Compile Include="GameStates\ScreenManager.cs" />
     <Compile Include="GameStates\Screens\MenuEntry.cs" />

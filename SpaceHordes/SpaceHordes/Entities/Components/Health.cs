@@ -14,6 +14,23 @@ namespace SpaceHordes.Entities.Components
             this.MaxHealth = MaxHealth;
         }
 
+        public void SetHealth(Entity setter, double health)
+        {
+            if (health < CurrentHealth && OnDamage != null)
+            {
+                OnDamage(setter);
+            }
+
+            _Health = health;
+            if (health <= 0 && OnDeath != null && !_DeathEvent)
+            {
+                OnDeath(setter);
+                _DeathEvent = true;
+            }
+        }
+
+
+        #region Properties
         /// <summary>
         /// Gets or sets the current health of an entity
         /// </summary>
@@ -25,13 +42,6 @@ namespace SpaceHordes.Entities.Components
             }
         }
         private double _Health;
-
-        public void SetHealth(Entity setter, double health)
-        {
-            if (health <= 0 && OnDeath != null)
-                OnDeath(setter);
-            _Health = health;
-        }
 
         /// <summary>
         /// Gets or sets the max health of the entity.
@@ -53,11 +63,14 @@ namespace SpaceHordes.Entities.Components
             }
         }
 
-        public override string ToString()
-        {
-            return "HP: " + CurrentHealth + "/" + MaxHealth;
-        }
+        #endregion
 
+        #region EVENTS
         public event Action<Entity> OnDeath;
+        public event Action<Entity> OnDamage;
+
+        private bool _DeathEvent = false;
+
+        #endregion
     }
 }

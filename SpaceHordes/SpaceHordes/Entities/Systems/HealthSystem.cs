@@ -7,10 +7,11 @@ using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
+using GameLibrary.Entities.Components.Render;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class HealthSystem : EntityProcessingSystem
+    public class HealthSystem : EntityProcessingSystem
     {
         ComponentMapper<Health> healthMapper;
         static Random r = new Random();
@@ -18,6 +19,24 @@ namespace SpaceHordes.Entities.Systems
         public HealthSystem()
             : base(typeof(Health))
         {
+        }
+
+        public override void Added(Entity e)
+        {
+            if (e.HasComponent<Sprite>()) //Change color to red when hit
+                e.GetComponent<Health>().OnDamage +=
+                    (setter) =>
+                    {
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Red;
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(4, s));
+                        e.Refresh();
+
+                        Console.WriteLine(e.Id + " damaged by: " + setter.Id);
+                        if (e.Tag != null && e.Tag == "Base")
+                            Console.Write("Base damaged by:" + setter.Id);
+                    };
+            base.Added(e);
         }
 
         public override void Initialize()

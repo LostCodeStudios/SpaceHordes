@@ -41,7 +41,6 @@ namespace GameLibrary.Entities.Systems
             ITransform transform  = transformMapper.Get(e);
             Sprite sprite = spriteMapper.Get(e);
 
-
             //Draw to sprite batch
             spriteBatch.Draw(
                 sprite.SpriteSheet.Texture, 

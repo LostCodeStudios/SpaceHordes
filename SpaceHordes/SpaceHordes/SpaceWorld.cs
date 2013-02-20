@@ -87,7 +87,7 @@ namespace SpaceHordes
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
-
+            this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f,10), ExecutionType.Update);
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);

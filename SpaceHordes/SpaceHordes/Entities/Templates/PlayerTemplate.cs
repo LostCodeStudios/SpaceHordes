@@ -60,21 +60,13 @@ namespace SpaceHordes.Entities.Templates
             Body.Mass+= 2;
 
             Body.CollisionCategories = Category.Cat1;
-            #endregion
-
-            
+            #endregion      
 
             #region Sprite
 
                 Sprite Sprite = e.AddComponent<Sprite>(
                     new Sprite(spriteSheet, tag,
                         Body, 1, Color.White, 0.5f));
-
-            #endregion
-
-            #region Gun
-            //Gun Gun = e.AddComponent<Gun>(new Gun(1000000, "GreenBullet1"));
-            
 
             #endregion
 

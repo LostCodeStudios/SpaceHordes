@@ -56,11 +56,6 @@ namespace SpaceHordes.Entities.Templates
 
             e.AddComponent<Health>(new Health(10000));
 
-            junkRock = world.CreateEntity();
-            junkRock.AddComponent<Sprite>(new Sprite(spriteSheet, "junkrock", new Vector2(spriteSheet["junkrock"][0].Center.X) , 1f, Color.White, 0f));
-            junkRock.AddComponent<ITransform>(new Transform(Body.Position, 0f));
-            junkRock.Refresh();
-
             return e;
         }
     }

@@ -141,7 +141,7 @@ namespace SpaceHordes.Entities.Components
                     else
                         ps = shapes[i].Shape as PolygonShape;
 
-                    if ((shapes[i].Body.BodyType == BodyType.Dynamic) && ps != null)
+                    if (ps != null)
                     {
                         Vector2 toCentroid = shapes[i].Body.GetWorldPoint(Vector2.Zero) - pos; //TODO: FIX
                         float angleToCentroid = (float)Math.Atan2(toCentroid.Y, toCentroid.X);
@@ -249,7 +249,7 @@ namespace SpaceHordes.Entities.Components
                     }, p1, p2);
 
                     //draws radius points
-                    if ((hitClosest) && (shape.Body.BodyType == BodyType.Dynamic))
+                    if ((hitClosest))
                     {
                         if ((data.Count() > 0) && (data.Last().body == shape.Body) && (!rayMissed))
                         {
@@ -342,6 +342,7 @@ namespace SpaceHordes.Entities.Components
 
                 for (int i = 0; i < data.Count(); ++i)
                 {
+                    Vector2 vectImp = Vector2.Zero;
                     const int min_rays = 5; // for small arcs -- how many rays per shape/body/segment
                     const float max_angle = MathHelper.Pi / 15; // max angle between rays (used when segment is large)
                     const float edge_ratio = 1.0f / 40.0f; // ratio of arc length to angle from edges to first ray tested
@@ -401,11 +402,12 @@ namespace SpaceHordes.Entities.Components
                                 * maxForce * 180.0f / MathHelper.Pi * (1.0f - Math.Min(1.0f, minlambda));
 
                             // We Apply the impulse!!!
-                            Vector2 vectImp = Vector2.Dot(impulse * new Vector2((float)Math.Cos(j),
+                             vectImp = Vector2.Dot(impulse * new Vector2((float)Math.Cos(j),
                                 (float)Math.Sin(j)), -ro.Normal) * new Vector2((float)Math.Cos(j),
                                     (float)Math.Sin(j));
 
-                            data[i].body.ApplyLinearImpulse(vectImp, hitpoint);
+                                data[i].body.ApplyLinearImpulse(vectImp, hitpoint);
+
 
                             // We gather the fixtures for returning them
                             Vector2 val = Vector2.Zero;
@@ -433,8 +435,18 @@ namespace SpaceHordes.Entities.Components
                             }
 
                             ++jj;
+
                         }
                     }
+                    //Apply damage
+                    if (data[i].body.UserData != null && data[i].body.UserData is Entity)
+                    {
+                        Entity e = data[i].body.UserData as Entity;
+                        Console.WriteLine(e.Id + " hit by explosion");
+                        if (e.HasComponent<Health>() && e.GetComponent<Health>().IsAlive)
+                            e.GetComponent<Health>().SetHealth(setter, e.GetComponent<Health>().CurrentHealth - vectImp.Length());
+                    }
+                
                 }
             }
 
