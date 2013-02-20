@@ -386,7 +386,7 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             //Draw the menu title centered on the screen
-            Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 125);
+            Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, (float)graphics.Viewport.Height * 0.17361111f);
             Vector2 titleOrigin = titleFont.MeasureString(titleText) / 2;
             Color titleColor = new Color(100, 77, 45) * TransitionAlpha;
             float titleScale = 1f;
