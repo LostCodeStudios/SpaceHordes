@@ -84,7 +84,6 @@ namespace GameLibrary
             //Render System
             _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
             _AnimationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update);
-            _SpriteEffectSystem = this.SystemManager.SetSystem(new SpriteEffectSystem(), ExecutionType.Update);
 
 #if DEBUG
             _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);
@@ -157,7 +156,6 @@ namespace GameLibrary
         //Systems
         protected RenderSystem _RenderSystem;
         protected AnimationSystem _AnimationSystem;
-        protected SpriteEffectSystem _SpriteEffectSystem;
         protected ParticleMovementSystem _MovementSystem;
         protected DebugSystem _DebugSystem;
 

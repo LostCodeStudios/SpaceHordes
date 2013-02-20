@@ -7,7 +7,6 @@ using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
-using GameLibrary.Entities.Components.Render;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -29,7 +28,6 @@ namespace SpaceHordes.Entities.Systems
                     {
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Red;
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(4, s));
                         e.Refresh();
 
                         Console.WriteLine(e.Id + " damaged by: " + setter.Id);

@@ -76,7 +76,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.OnCollision +=
                 (f1, f2, c) =>
                 {
-                    if (f2.Body.UserData != null && f2.Body.UserData is Entity)
+                    if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
                         if ((f2.Body.UserData as Entity).Group != "Crystals")
                             (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
                     return true;
@@ -128,7 +128,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
-            e.AddComponent<Health>(new Health(3)).OnDeath +=
+            e.AddComponent<Health>(new Health(1)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
