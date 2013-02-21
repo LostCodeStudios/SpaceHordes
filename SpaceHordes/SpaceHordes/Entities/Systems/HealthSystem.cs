@@ -26,10 +26,6 @@ namespace SpaceHordes.Entities.Systems
                 e.GetComponent<Health>().OnDamage +=
                     (setter) =>
                     {
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Red;
-                        e.Refresh();
-
                         Console.WriteLine(e.Id + " damaged by: " + setter.Id);
                         if (e.Tag != null && e.Tag == "Base")
                             Console.Write("Base damaged by:" + setter.Id);
