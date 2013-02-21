@@ -5,6 +5,7 @@ using System.Text;
 using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -23,6 +24,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         (f2.Body.UserData as Entity).GetComponent<Inventory>().GiveCrystals((f1.Body.UserData as Entity).GetComponent<Crystal>());
                         (f1.Body.UserData as Entity).Delete();
+                        SoundManager.Play("Pickup1");
                     }
                     return true;
                 };

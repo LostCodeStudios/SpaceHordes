@@ -2,6 +2,7 @@
 
 using GameLibrary.Input;
 using GameLibrary.GameStates.Screens;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -52,7 +53,7 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
-            //Sound.Enabled = OptionsMenuScreen.SoundOn;
+            SoundManager.Enabled = OptionsMenuScreen.SoundOn;
         }
 
         #endregion

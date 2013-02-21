@@ -71,7 +71,9 @@ namespace SpaceHordes.Entities.Templates
             #endregion
 
             #region Health
-            
+
+            e.AddComponent<Health>(new Health(1));
+
             #endregion
 
             #region Inventory

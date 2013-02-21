@@ -73,11 +73,11 @@ namespace SpaceHordes
 
             Window.Title = "Space Hordes";
             graphics.PreferMultiSampling = true;
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
             bool sound;
             bool music;
-            bool fullscreen = false;
+            bool fullscreen;
             OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
             graphics.IsFullScreen = fullscreen;
 
@@ -799,6 +799,7 @@ namespace SpaceHordes
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
             SoundManager.Add("SCREAM", Content.Load<SoundEffect>("Sounds/SCREAM"));
+            SoundManager.Add("Pickup1", Content.Load<SoundEffect>("Sounds/pickup"));
         }
 
         #endregion
