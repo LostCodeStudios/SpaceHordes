@@ -88,6 +88,7 @@ namespace SpaceHordes
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f,10), ExecutionType.Update);
+            damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update);
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
@@ -138,40 +139,43 @@ namespace SpaceHordes
                 new Bullet(3, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
                     )));
 
-            this.SetEntityTemplate("GreenBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot1"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(2, "Enemies", null
-                    )));
-
-            this.SetEntityTemplate("GreenBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot2"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(4, "Enemies", null
-                    )));
-
-            this.SetEntityTemplate("GreenBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot3"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(6, "Enemies", null
-                    )));
-
             this.SetEntityTemplate("RedBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot1"),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(4, "Enemies", null
+                new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot2"),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(8, "Enemies", null
+                new Bullet(4, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot3"),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(12, "Enemies", null
+                new Bullet(6, "Enemies", null
+                    )));
+
+            this.SetEntityTemplate("GreenBullet1", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot1"),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(4, "Enemies",
+                    e => e.AddComponent<Damage>(new Damage(1, 3, 500))
+                    )));
+
+            this.SetEntityTemplate("GreenBullet2", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot2"),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(8, "Enemies",
+                    e => e.AddComponent<Damage>(new Damage(2, 5, 500))
+                    )));
+
+            this.SetEntityTemplate("GreenBullet3", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot3"),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(12, "Enemies",
+                    e => e.AddComponent<Damage>(new Damage(3, 10, 500))
                     )));
 
             this.SetEntityTemplate("WhiteBullet1", new BulletTemplate(
@@ -331,6 +335,7 @@ namespace SpaceHordes
         SlowSystem slowSystem;
         PlayerControlSystem playerControlSystem;
         ExplosionSystem explosionSystem;
+        DamageSystem damageSystem;
 
         //Draw Systems
         HealthRenderSystem healthRenderSystem;

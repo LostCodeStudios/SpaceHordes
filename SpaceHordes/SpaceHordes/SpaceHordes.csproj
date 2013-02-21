@@ -117,6 +117,7 @@
     <Compile Include="Entities\Components\AI.cs" />
     <Compile Include="Entities\Components\Bullet.cs" />
     <Compile Include="Entities\Components\Crystal.cs" />
+    <Compile Include="Entities\Components\Damage.cs" />
     <Compile Include="Entities\Components\Explosive.cs" />
     <Compile Include="Entities\Components\Gun.cs" />
     <Compile Include="Entities\Components\Health.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="Entities\Systems\BulletRemovalSystem.cs" />
     <Compile Include="Entities\Systems\AISystem.cs" />
     <Compile Include="Entities\Systems\CrystalMovementSystem.cs" />
+    <Compile Include="Entities\Systems\DamageSystem.cs" />
     <Compile Include="Entities\Systems\DirectorSystem.cs" />
     <Compile Include="Entities\Systems\ExplosionSystem.cs" />
     <Compile Include="Entities\Systems\GunSystem.cs" />

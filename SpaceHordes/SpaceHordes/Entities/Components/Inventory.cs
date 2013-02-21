@@ -23,8 +23,8 @@ namespace SpaceHordes.Entities.Components
     {
         public Inventory(uint red = 0, uint green = 0, uint blue = 0, uint yellow = 0)
         {
-            RED = new Gun((int)red, 600, 1, "RedBullet");
-            GREEN = new Gun((int)green, 100, 1, "GreenBullet");
+            RED = new Gun((int)red, 100, 1, "RedBullet");
+            GREEN = new Gun((int)green, 600, 1, "GreenBullet");
             BLUE = new Gun((int)blue, 300, 1, "BlueBullet");
             WHITE = new Gun(-1, 200, 1, "WhiteBullet");
             _CurrentGunType = GunType.WHITE;
