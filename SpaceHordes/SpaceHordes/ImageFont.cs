@@ -91,7 +91,7 @@ namespace SpaceHordes
             {
                 if (data[j] == boundingColor)
                 {
-                    data[j] = new Color(255, 0, 255, 0);
+                    data[j] = new Color(0, 0, 0, 0);
                 }
             }
 
