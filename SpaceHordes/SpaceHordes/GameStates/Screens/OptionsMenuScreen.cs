@@ -19,7 +19,10 @@ namespace SpaceHordes.GameStates.Screens
         //TODO: Add MenuEntries for options.
         MenuEntry sound  = new MenuEntry("Sound: On");
         MenuEntry music = new MenuEntry("Music: On");
+
+        #if WINDOWS
         MenuEntry fullScreen = new MenuEntry("Full Screen: Off");
+        #endif
 
         #endregion
 
@@ -110,6 +113,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
+        #if WINDOWS
         public static bool FullScreen
         {
             get
@@ -134,6 +138,7 @@ namespace SpaceHordes.GameStates.Screens
                 WriteSettings(sound, music, value);
             }
         }
+        #endif
 
         #endregion
 
@@ -145,7 +150,10 @@ namespace SpaceHordes.GameStates.Screens
         {
             this.sound.Selected += sound_selected;
             this.music.Selected += music_selected;
+
+            #if WINDOWS
             this.fullScreen.Selected += fullScreen_selected;
+            #endif
 
             bool sound;
             bool music;
@@ -161,7 +169,9 @@ namespace SpaceHordes.GameStates.Screens
 
             MenuEntries.Add(this.sound);
             MenuEntries.Add(this.music);
+#if WINDOWS
             MenuEntries.Add(this.fullScreen);
+#endif
         }
 
         #endregion
@@ -183,12 +193,14 @@ namespace SpaceHordes.GameStates.Screens
             updateMenuEntryText();
         }
 
+        #if WINDOWS
         void fullScreen_selected(object sender, EventArgs e)
         {
             FullScreen = !FullScreen;
 
             updateMenuEntryText();
         }
+        #endif
 
         #endregion
 
@@ -222,6 +234,7 @@ namespace SpaceHordes.GameStates.Screens
                     break;
             }
 
+            #if WINDOWS
             this.fullScreen.Text = "Full Screen: ";
 
             switch (FullScreen)
@@ -234,6 +247,7 @@ namespace SpaceHordes.GameStates.Screens
                     this.fullScreen.Text += "Off";
                     break;
             }
+            #endif
         }
         #endregion
 
@@ -291,6 +305,7 @@ namespace SpaceHordes.GameStates.Screens
                         break;
                 }
 
+                #if WINDOWS
                 while (tr.ReadLine() != "[FullScreen]")
                 {
                 }
@@ -309,6 +324,11 @@ namespace SpaceHordes.GameStates.Screens
                         fullscreen = false;
                         break;
                 }
+                #endif
+
+                #if XBOX
+                fullscreen = true;
+                #endif
             }
         }
 
