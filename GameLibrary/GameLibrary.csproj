@@ -238,6 +238,7 @@
     <Compile Include="Dependencies\Physics\Factories\JointFactory.cs" />
     <Compile Include="Dependencies\Physics\Factories\LinkFactory.cs" />
     <Compile Include="Dependencies\Physics\Settings.cs" />
+    <Compile Include="Helpers\MusicManager.cs" />
     <Compile Include="Helpers\ScriptRuntime.cs" />
     <Compile Include="Helpers\SoundManager.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />

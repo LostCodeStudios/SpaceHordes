@@ -19,6 +19,7 @@ namespace SpaceHordes.Entities.Components
             if (health < CurrentHealth && OnDamage != null)
             {
                 OnDamage(setter);
+                Tick = 10;
             }
 
             _Health = health;
@@ -70,7 +71,7 @@ namespace SpaceHordes.Entities.Components
         public event Action<Entity> OnDamage;
 
         private bool _DeathEvent = false;
-
+        public int Tick = 0;
         #endregion
     }
 }

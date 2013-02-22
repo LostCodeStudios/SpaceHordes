@@ -84,7 +84,6 @@ namespace SpaceHordes.GameStates.Screens
                 ReadSettings(out sound, out music, out fullscreen);
 
                 WriteSettings(value, music, fullscreen);
-                SoundManager.Enabled = value;
             }
         }
 

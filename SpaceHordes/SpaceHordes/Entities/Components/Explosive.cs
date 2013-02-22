@@ -442,7 +442,6 @@ namespace SpaceHordes.Entities.Components
                     if (data[i].body.UserData != null && data[i].body.UserData is Entity)
                     {
                         Entity e = data[i].body.UserData as Entity;
-                        Console.WriteLine(e.Id + " hit by explosion");
                         if (e.HasComponent<Health>() && e.GetComponent<Health>().IsAlive && e!=setter)
                             e.GetComponent<Health>().SetHealth(setter, e.GetComponent<Health>().CurrentHealth - vectImp.Length());
                     }

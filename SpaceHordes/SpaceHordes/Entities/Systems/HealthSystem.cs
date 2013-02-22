@@ -26,9 +26,13 @@ namespace SpaceHordes.Entities.Systems
                 e.GetComponent<Health>().OnDamage +=
                     (setter) =>
                     {
-                        Console.WriteLine(e.Id + " damaged by: " + setter.Id);
-                        if (e.Tag != null && e.Tag == "Base")
-                            Console.Write("Base damaged by:" + setter.Id);
+                        Sprite s = e.GetComponent<Sprite>();
+                        if (s.Color != Color.Red)
+                        {
+                            e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
+                            s.Color = Color.Red;
+                            e.AddComponent<Sprite>(s);
+                        }
                     };
             base.Added(e);
         }
@@ -40,6 +44,16 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
+            Health h = healthMapper.Get(e);
+            h.Tick--;
+            if (h.Tick <= 0)
+            {
+                Sprite s = e.GetComponent<Sprite>();
+                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
+                    s.Color = Color.White;
+                    e.AddComponent<Sprite>(s);
+            }
+
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Helpers
 {
@@ -10,12 +11,20 @@ namespace GameLibrary.Helpers
     {
         static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
 
-        public static bool Enabled = true;
+        static float volume;
+        public static float Volume
+        {
+            get { return volume; }
+            set
+            {
+                volume = MathHelper.Clamp(value, 0f, 1f);
+            }
+        }
 
         public static void Play(string soundKey)
         {
-            if (Enabled)
-                sounds[soundKey].Play();
+            if (sounds.ContainsKey(soundKey) && Volume > 0f)
+                sounds[soundKey].Play(Volume, 0f, 0f);
         }
 
         public static void Add(string soundKey, SoundEffect sound)
