@@ -77,7 +77,8 @@ namespace SpaceHordes
         protected override void BuildSystems()
         {
             //Update Systems
-            gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
+           gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
+            damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update);
             bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
             bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
             healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
@@ -88,7 +89,7 @@ namespace SpaceHordes
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f,10), ExecutionType.Update);
-            damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update);
+            
             //Draw Systems
             //healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
@@ -161,21 +162,33 @@ namespace SpaceHordes
                 new Sprite(_spriteSheet, "greenshot1"),
                 new Velocity(new Vector2(40), 0f),
                 new Bullet(4, "Enemies",
-                    e => e.AddComponent<Damage>(new Damage(1, 3, 500))
+                    e =>
+                    {
+                        e.AddComponent<Damage>(new Damage(1, 3, 500));
+                        e.Refresh();
+                    }
                     )));
 
             this.SetEntityTemplate("GreenBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot2"),
                 new Velocity(new Vector2(40), 0f),
                 new Bullet(8, "Enemies",
-                    e => e.AddComponent<Damage>(new Damage(2, 5, 500))
+                    e =>
+                    {
+                        e.AddComponent<Damage>(new Damage(2, 5, 500));
+                        e.Refresh();
+                    }
                     )));
 
             this.SetEntityTemplate("GreenBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot3"),
                 new Velocity(new Vector2(40), 0f),
                 new Bullet(12, "Enemies",
-                    e => e.AddComponent<Damage>(new Damage(3, 10, 500))
+                    e =>
+                    {
+                        e.AddComponent<Damage>(new Damage(3, 10, 500));
+                        e.Refresh();
+                    }
                     )));
 
             this.SetEntityTemplate("WhiteBullet1", new BulletTemplate(

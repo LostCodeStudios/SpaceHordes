@@ -7,11 +7,21 @@ using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class DamageSystem : IntervalEntityProcessingSystem
+    public class DamageSystem : EntityProcessingSystem
     {
         public DamageSystem()
-            : base(250, typeof(Damage), typeof(Health))
+            : base(typeof(Damage))
         {
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+        }
+
+        public override void Process()
+        {
+            base.Process();
         }
 
         public override void Process(Entity e)
@@ -22,9 +32,11 @@ namespace SpaceHordes.Entities.Systems
             if (d.Uses == 0)
             {
                 e.RemoveComponent<Damage>(d);
+                e.Refresh();
+                return;
             }
 
-            d.Elapsed += 250;
+            d.Elapsed += 33;
             if (d.Elapsed > d.Interval)
             {
                 d.Elapsed = 0;

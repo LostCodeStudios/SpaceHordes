@@ -72,7 +72,7 @@ namespace GameLibrary.Dependencies.Physics
         /// <summary>
         /// Maximum number of sub-steps per contact in continuous physics simulation.
         /// </summary>
-        public const int MaxSubSteps = 8;
+        public const int MaxSubSteps = 16;
 
         /// <summary>
         /// Enable/Disable warmstarting
