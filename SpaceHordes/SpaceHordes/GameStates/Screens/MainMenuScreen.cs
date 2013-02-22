@@ -52,8 +52,6 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(highScoresMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
-
-            SoundManager.Enabled = OptionsMenuScreen.SoundOn;
         }
 
         #endregion
