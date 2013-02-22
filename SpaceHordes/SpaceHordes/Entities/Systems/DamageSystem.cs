@@ -14,6 +14,11 @@ namespace SpaceHordes.Entities.Systems
         {
         }
 
+        public override void Process()
+        {
+            base.Process();
+        }
+
         public override void Process(Entity e)
         {
             Damage d = e.GetComponent<Damage>();
@@ -22,6 +27,7 @@ namespace SpaceHordes.Entities.Systems
             if (d.Uses == 0)
             {
                 e.RemoveComponent<Damage>(d);
+                return;
             }
 
             d.Elapsed += 250;
