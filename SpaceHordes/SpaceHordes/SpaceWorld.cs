@@ -25,8 +25,8 @@ namespace SpaceHordes
     /// </summary>
     public class SpaceWorld : World
     {
-        public SpaceWorld(Game game,SpriteSheet spriteSheet)
-            : base(game, new Vector2(0,0))
+        public SpaceWorld(Game game, SpriteSheet spriteSheet)
+            : base(game, new Vector2(0, 0))
         {
             this._spriteSheet = spriteSheet;
             this._font = new ImageFont();
@@ -53,7 +53,7 @@ namespace SpaceHordes
         public override void LoadContent(ContentManager Content, params object[] args)
         {
             base.LoadContent(Content, args);
-           // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
+            // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
             _font.LoadContent(Content, "Textures/gamefont");
             hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
 #if DEBUG   //Debug render system
@@ -77,7 +77,7 @@ namespace SpaceHordes
         protected override void BuildSystems()
         {
             //Update Systems
-           gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
+            gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
             damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update);
             bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
             bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
@@ -88,15 +88,15 @@ namespace SpaceHordes
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
-            this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f,10), ExecutionType.Update);
-            
+            this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
+
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
             starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw);
             radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(hudRenderSystem.RadarScreenLocation,
-                new Rectangle(-ScreenHelper.Viewport.Width*2, -ScreenHelper.Viewport.Height*2,
-                    ScreenHelper.Viewport.Width*2, ScreenHelper.Viewport.Height*2)),
+                new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
+                    ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
                     ExecutionType.Draw, 2);
             base.BuildSystems();
         }

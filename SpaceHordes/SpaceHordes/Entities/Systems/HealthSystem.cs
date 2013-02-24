@@ -48,7 +48,10 @@ namespace SpaceHordes.Entities.Systems
         {
             Health h = healthMapper.Get(e);
             if (!h.IsAlive)
+            {
+                h.SetHealth(e, 0);
                 e.Delete();
+            }
         }
     }
 }
