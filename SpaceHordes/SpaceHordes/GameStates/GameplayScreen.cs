@@ -126,6 +126,11 @@ namespace SpaceHordes.GameStates.Screens
             World.LoadContent(content, players);
 
             ScreenManager.Game.ResetElapsedTime();
+            World.Base.GetComponent<Health>().OnDeath +=
+                (x) =>
+                {
+                    GameOver();
+                };
 
             MusicManager.PlaySong("Bootleg");
         }
