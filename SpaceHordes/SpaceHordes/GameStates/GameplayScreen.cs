@@ -132,7 +132,7 @@ namespace SpaceHordes.GameStates.Screens
                     GameOver();
                 };
 
-            SoundManager.Play("SCREAM");
+            MusicManager.PlaySong("Bootleg");
         }
 
         public override void Deactivate()
@@ -227,18 +227,12 @@ namespace SpaceHordes.GameStates.Screens
 
             bool gamePadDisconnected = !gamePadState.IsConnected &&
                 input.GamePadWasConnected[playerIndex];
-#if XBOX
-            
-            World.Player.GetComponent<Body>("Body").LinearVelocity = new Vector2(input.CurrentGamePad, y);
-
-#endif
 
 #if WINDOWS || XBOX
 
             PlayerIndex playerI;
             if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
                 GameOver();
-
 
 
             if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
