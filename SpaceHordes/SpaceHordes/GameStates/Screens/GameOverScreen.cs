@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using GameLibrary.Input;
 using GameLibrary.GameStates;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -79,21 +80,21 @@ namespace SpaceHordes.GameStates.Screens
             titleFont = ScreenManager.TitleFont;
             textFont = ScreenManager.Font;
 
-            Rectangle titleSafe = ScreenManager.GraphicsDevice.Viewport.TitleSafeArea;
+            Rectangle viewport = new Rectangle(0, 0, ScreenHelper.Viewport.Width, ScreenHelper.Viewport.Height);
 
             titleLocation = new Vector2(
-                titleSafe.Center.X - titleFont.MeasureString(text).X / 2, titleSafe.Top + 50);
+                viewport.Center.X, viewport.Height * 0.1736111111111111f);
             subtitleLocation = new Vector2(
-                titleSafe.Center.X - textFont.MeasureString(text2).X / 2, titleLocation.Y + titleFont.MeasureString(text).Y);
+                viewport.Center.X - textFont.MeasureString(text2).X / 2, titleLocation.Y + titleFont.MeasureString(text).Y);
 
             screenLocations[0] = new Vector2(
-                titleSafe.Left + titleSafe.Width / 4, titleSafe.Top + titleSafe.Height / 4);
+                viewport.Left + viewport.Width / 4, viewport.Top + viewport.Height / 4);
             screenLocations[1] = new Vector2(
-                titleSafe.Right - titleSafe.Width / 4, titleSafe.Top + titleSafe.Height / 4);
+                viewport.Right - viewport.Width / 4, viewport.Top + viewport.Height / 4);
             screenLocations[2] = new Vector2(
-                titleSafe.Left + titleSafe.Width / 4, titleSafe.Bottom - titleSafe.Height / 4);
+                viewport.Left + viewport.Width / 4, viewport.Bottom - viewport.Height / 4);
             screenLocations[3] = new Vector2(
-                titleSafe.Right - titleSafe.Width / 4, titleSafe.Bottom - titleSafe.Height / 4);
+                viewport.Right - viewport.Width / 4, viewport.Bottom - viewport.Height / 4);
 
             if (HighScoreScreen.IsHighScore(players.Length, score))
             {
@@ -166,11 +167,13 @@ namespace SpaceHordes.GameStates.Screens
 
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
             Vector2 titlePosition = titleLocation;
+            Vector2 titleOrigin = titleFont.MeasureString(text) / 2;
             titlePosition.Y -= transitionOffset * 100;
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(titleFont, text, titlePosition, titleColor);
+            spriteBatch.DrawString(titleFont, text, titlePosition, titleColor, 0,
+                titleOrigin, 1f, SpriteEffects.None, 0);
 
             spriteBatch.DrawString(textFont, text2, subtitleLocation, Color.White);
 

@@ -3,6 +3,7 @@
 using GameLibrary;
 using GameLibrary.Input;
 using GameLibrary.GameStates.Screens;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -49,17 +50,15 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.AddScreen(mainMenu, ControllingPlayer);
         }
 
-        /// <summary>
-        /// Event handler for when the user selects ok on the "are you sure
-        /// you want to quit" message box. This uses the loading screen to
-        /// transition from the game back to the main menu screen.
-        /// </summary>
-        void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
+        protected override void OnCancel(PlayerIndex playerIndex)
         {
-            LoadingScreen.Load(ScreenManager, false, null,
-                new BackgroundScreen("Textures/Hiscore"), new MainMenuScreen("Space Hordes"));
+            base.OnCancel(playerIndex);
+
+            MusicManager.Resume();
         }
 
         #endregion
+
+
     }
 }

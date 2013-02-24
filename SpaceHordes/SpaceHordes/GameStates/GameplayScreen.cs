@@ -232,6 +232,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
             {
+                MusicManager.Pause();
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
 
@@ -250,6 +251,7 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), ControllingPlayer);
             ScreenManager.AddScreen(new GameOverScreen(new PlayerIndex[] { (PlayerIndex)ControllingPlayer }, score), ControllingPlayer);
             ExitScreen();
+            MusicManager.Stop();
         }
 
         #endregion
