@@ -78,7 +78,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 {
                     if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
                         if ((f2.Body.UserData as Entity).Group != "Crystals")
+                        {
+                            (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
+                                (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
+                                - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
                             (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                        }
                     return true;
                 };
             bitch.Mass++;
@@ -128,12 +133,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
-            e.AddComponent<Health>(new Health(10)).OnDeath +=
+            e.AddComponent<Health>(new Health(1)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
                     _World.CreateEntity("Explosion", 0.5f, poss, ent).Refresh();
-                    e.Delete();
 
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());

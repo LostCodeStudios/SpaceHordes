@@ -109,6 +109,8 @@
     <Compile Include="Entities\Components\Physics\IVelocity.cs" />
     <Compile Include="Entities\Components\Physics\Transform.cs" />
     <Compile Include="Entities\Components\Physics\Velocity.cs" />
+    <Compile Include="Entities\Components\Render\SpriteEffect.cs" />
+    <Compile Include="Entities\Systems\SpriteEffectSystem.cs" />
     <Compile Include="Entities\Systems\DebugSystem.cs" />
     <Compile Include="Entities\Systems\DebugRenderSystem.cs" />
     <Compile Include="Entities\Systems\ParticalMovementSystem.cs" />
