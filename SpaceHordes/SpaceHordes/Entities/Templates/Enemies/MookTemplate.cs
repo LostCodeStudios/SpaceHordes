@@ -103,7 +103,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region Crystal
 
-            Color crystalColor = Color.Green;
+            Color crystalColor = Color.Red;
             int colorchance = rbitch.Next(100);
             int amount = 3;
             if (colorchance > 50)
@@ -113,7 +113,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             }
             if (colorchance > 70)
             {
-                crystalColor = Color.Red;
+                crystalColor = Color.Green;
                 amount = 1;
             }
             if (colorchance > 80)

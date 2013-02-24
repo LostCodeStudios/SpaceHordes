@@ -75,8 +75,8 @@ namespace SpaceHordes
             graphics.PreferMultiSampling = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
-            bool sound;
-            bool music;
+            int sound;
+            int music;
             bool fullscreen;
             OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
             graphics.IsFullScreen = fullscreen;
