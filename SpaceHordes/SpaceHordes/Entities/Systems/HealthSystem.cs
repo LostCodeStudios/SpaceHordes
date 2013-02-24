@@ -7,6 +7,7 @@ using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
+using GameLibrary.Entities.Components.Render;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -26,12 +27,13 @@ namespace SpaceHordes.Entities.Systems
                 e.GetComponent<Health>().OnDamage +=
                     (setter) =>
                     {
-                        Sprite s = e.GetComponent<Sprite>();
-                        if (s.Color != Color.Red)
+                        if (!e.HasComponent<SpriteEffect>())
                         {
-                            e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
+                            Sprite s = e.GetComponent<Sprite>();
                             s.Color = Color.Red;
-                            e.AddComponent<Sprite>(s);
+
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 10));
+                            e.Refresh();
                         }
                     };
             base.Added(e);
@@ -45,15 +47,8 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             Health h = healthMapper.Get(e);
-            h.Tick--;
-            if (h.Tick <= 0)
-            {
-                Sprite s = e.GetComponent<Sprite>();
-                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
-                    s.Color = Color.White;
-                    e.AddComponent<Sprite>(s);
-            }
-
+            if (!h.IsAlive)
+                e.Delete();
         }
     }
 }

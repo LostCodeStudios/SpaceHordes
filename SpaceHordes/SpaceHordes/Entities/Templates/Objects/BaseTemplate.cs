@@ -54,7 +54,7 @@ namespace SpaceHordes.Entities.Templates
 
 
 
-            e.AddComponent<Health>(new Health(10000));
+            e.AddComponent<Health>(new Health(100));
 
             return e;
         }

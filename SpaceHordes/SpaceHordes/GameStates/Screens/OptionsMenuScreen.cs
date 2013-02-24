@@ -83,7 +83,7 @@ namespace SpaceHordes.GameStates.Screens
 
                 ReadSettings(out sound, out music, out fullscreen);
 
-                WriteSettings(value, music, fullscreen);
+                WriteSettings(value, music, fullscreen);    
             }
         }
 
