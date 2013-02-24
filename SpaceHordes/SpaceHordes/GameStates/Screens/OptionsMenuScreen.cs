@@ -252,13 +252,14 @@ namespace SpaceHordes.GameStates.Screens
                 }
 
                 sound = int.Parse(tr.ReadLine());
+                SoundManager.Volume = sound;
 
                 while (tr.ReadLine() != "[Music]")
                 {
                 }
 
                 music = int.Parse(tr.ReadLine());
-
+                MusicManager.Volume = music;
                 #if WINDOWS
                 while (tr.ReadLine() != "[FullScreen]")
                 {
