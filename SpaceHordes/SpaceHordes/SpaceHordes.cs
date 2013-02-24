@@ -75,11 +75,16 @@ namespace SpaceHordes
             graphics.PreferMultiSampling = true;
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
+
             int sound;
             int music;
             bool fullscreen;
             OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
+
+            OptionsMenuScreen.SoundVolume = sound;
+            OptionsMenuScreen.MusicVolume = music;
             graphics.IsFullScreen = fullscreen;
+
 
             IsFixedTimeStep = true;
             graphics.ApplyChanges();
@@ -127,6 +132,7 @@ namespace SpaceHordes
             ScreenHelper.SpriteSheet = new SpriteSheet(Content.Load<Texture2D>("Textures/spritesheet"));
             SetSourceRectangles(ScreenHelper.SpriteSheet);
             SetSoundEffects();
+            SetSongs();
         }
 
         /// <summary>
@@ -798,8 +804,22 @@ namespace SpaceHordes
             SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
-            SoundManager.Add("SCREAM", Content.Load<SoundEffect>("Sounds/SCREAM"));
             SoundManager.Add("Pickup1", Content.Load<SoundEffect>("Sounds/pickup"));
+        }
+
+        #endregion
+
+        #region Music
+
+        void SetSongs()
+        {
+            MusicManager.AddSong("Bootleg", Content.Load<Song>("Music/Bootleg"));
+            MusicManager.AddSong("Unending", Content.Load<Song>("Music/Unending"));
+            MusicManager.AddSong("Cephalopod", Content.Load<Song>("Music/Cephalopod"));
+            MusicManager.AddSong("Ropocalypse", Content.Load<Song>("Music/Ropocalypse 2"));
+            MusicManager.AddSong("SpaceLoop", Content.Load<Song>("Music/Space Fighter Loop"));
+            MusicManager.AddSong("KickShock", Content.Load<Song>("Music/Kick Shock"));
+            MusicManager.AddSong("Heartbeat", Content.Load<Song>("Music/In a Heartbeat"));
         }
 
         #endregion
