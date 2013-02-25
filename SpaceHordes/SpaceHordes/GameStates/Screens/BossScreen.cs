@@ -34,17 +34,17 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("smasher", "The Smasher"),
             new BossInfo("greenbossship", "Big Green"),
             new BossInfo("clawbossthing", "Clawdia"),
-            new BossInfo("minikillerhead", "Mini Killer"),
-            new BossInfo("eye", "The Eye"),
+            new BossInfo("minikillerhead", "Mini Destroyer"),
+            new BossInfo("eye", "Barley"),
             new BossInfo("brain", "Father Brain"),
-            new BossInfo("blimp", "Blimpy"),
             new BossInfo("bigredblobboss", "Big Red"),
-            new BossInfo("giantgraybossship", "The Mother Ship"),
-            new BossInfo("birdbody", "Big Blue"),
+            new BossInfo("blimp", "Lead Zeppelin"),
+            new BossInfo("giantgraybossship", "Big Blue"),
+            new BossInfo("birdbody", "The Harbinger"),
             new BossInfo("redgunship", "The Gunner"),
             new BossInfo("flamer", "The Flamer"),
             new BossInfo("massivebluemissile", "The Jabber-W0K"),
-            new BossInfo("killerhead", "The Killer")
+            new BossInfo("killerhead", "The Destroyer")
         };
 
         ContentManager content;
@@ -201,25 +201,85 @@ namespace SpaceHordes.GameStates.Screens
             spriteLoc -= (new Vector2(source.Width/2, source.Height/2) * scale);
             Rectangle destination;
 
-            if (currentKey.Equals("birdbody"))
+            Color color = current ? Color.White : Color.Black;
+            destination = new Rectangle((int)spriteLoc.X, (int)spriteLoc.Y, (int)(source.Width * scale), (int)(source.Height * scale));
+
+            Rectangle[] extraSource = new Rectangle[10]; // = Rectangle.Empty;
+            Rectangle[] extra = new Rectangle[10]; // = Rectangle.Empty;
+            if (currentKey.Equals("smasher"))
+            {
+                //special draw handling
+                extraSource[0] = spriteSheet["smasherball"][0];
+                extra[0] = new Rectangle(destination.X - destination.Width, destination.Y, (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
+            }
+
+            else if (currentKey.Equals("birdbody"))
             {
                 //bird contains two sprites so needs special draw handling
+                extraSource[0] = spriteSheet["birdhead"][2];
+                extra[0] = new Rectangle(destination.X + (int)(73 * scale), destination.Y + (int)(51 * scale), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
             }
 
             else if (currentKey.Equals("minikillerhead"))
             {
+                extraSource[0] = spriteSheet["minikillereyes"][5];
+                extra[0] = new Rectangle(destination.X + (int)(36 * scale), destination.Y + (int)(43 * scale), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
+            }
+
+            else if (currentKey.Equals("flamer"))
+            {
+                scale = 3f;
+            }
+            
+            else if (currentKey.Equals("blimp"))
+            {
+                scale = 4.5f;
+            }
+
+            else if (currentKey.Equals("giantgraybossship"))
+            {
+                scale = 4.5f;
             }
 
             else if (currentKey.Equals("killerhead"))
             {
                 //likewise here
+                extraSource[0] = spriteSheet["killerleftgun"][0];
+                extraSource[1] = spriteSheet["killerrightgun"][0];
+
+                extra[0] = new Rectangle(destination.X - (int)(25 * scale), destination.Y + (int)(19 * scale), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
+                extra[1] = new Rectangle(destination.X + (int)(118 * scale), destination.Y + (int)(18 * scale), (int)(extraSource[1].Width * scale), (int)(extraSource[1].Height * scale));
             }
 
-            else
+            if (scale != 5f)
             {
-                Color color = current ? Color.White : Color.Black;
-                destination = new Rectangle((int)spriteLoc.X, (int)spriteLoc.Y, (int)(source.Width * scale), (int)(source.Height * scale));
-                spriteBatch.Draw(spriteSheet.Texture, destination, source, color);
+                spriteLoc = ScreenHelper.Center;
+                spriteLoc -= (new Vector2(source.Width / 2, source.Height / 2) * scale);
+                destination.X = (int)(spriteLoc.X);
+                destination.Y = (int)(spriteLoc.Y);
+
+                destination.Width = (int)(source.Width * scale);
+                destination.Height = (int)(source.Height * scale);
+
+                for (int x = 0; x < extra.Count(); x++)
+                {
+
+                    if (extra[x] != Rectangle.Empty)
+                    {
+                        extra[x].Width = (int)(extraSource[x].Width * scale);
+                        extra[x].Height = (int)(extraSource[x].Height * scale);
+                    }
+                }
+            }
+
+            spriteBatch.Draw(spriteSheet.Texture, destination, source, color);
+
+            for (int x = 0; x < extra.Count(); x++)
+            {
+                if (extra[x] != Rectangle.Empty)
+                {
+                    spriteBatch.Draw(spriteSheet.Texture, extra[x], extraSource[x], color);
+                }
             }
 
             string text = current ? bosses[index].BossName : "?????";
