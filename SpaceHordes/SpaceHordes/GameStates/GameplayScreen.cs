@@ -132,7 +132,7 @@ namespace SpaceHordes.GameStates.Screens
                     GameOver();
                 };
 
-            MusicManager.PlaySong("Bootleg");
+            MusicManager.PlaySong("Unending");
         }
 
         public override void Deactivate()
