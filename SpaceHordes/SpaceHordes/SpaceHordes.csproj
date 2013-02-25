@@ -149,6 +149,7 @@
     <Compile Include="Entities\Templates\Objects\StarTemplate.cs" />
     <Compile Include="GameStates\GameplayScreen.cs" />
     <Compile Include="GameStates\Screens\BackgroundScreen.cs" />
+    <Compile Include="GameStates\Screens\BossScreen.cs" />
     <Compile Include="GameStates\Screens\GameOverScreen.cs" />
     <Compile Include="GameStates\Screens\HighScoreScreen.cs" />
     <Compile Include="GameStates\Screens\InitialEntryChar.cs" />

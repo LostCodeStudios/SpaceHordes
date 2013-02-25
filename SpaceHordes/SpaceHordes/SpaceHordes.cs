@@ -551,8 +551,8 @@ namespace SpaceHordes
 
             sourceRectangles.Add("blimp",
                 new Rectangle[] {
-                    new Rectangle(249, 160, 93, 170),
-                    new Rectangle(347, 160, 93, 170)
+                    new Rectangle(249, 160, 93, 130),
+                    new Rectangle(347, 160, 93, 130)
                 });
 
             sourceRectangles.Add("bigredblobboss",

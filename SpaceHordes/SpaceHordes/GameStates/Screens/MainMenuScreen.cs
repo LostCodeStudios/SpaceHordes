@@ -30,6 +30,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
             MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
+            MenuEntry bossEntry = new MenuEntry("Bosses");
 
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
@@ -41,6 +42,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
+            bossEntry.Selected += BossMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
@@ -50,6 +52,7 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(playMultiplayerMenuEntry);
 #endif
             MenuEntries.Add(highScoresMenuEntry);
+            MenuEntries.Add(bossEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
@@ -74,6 +77,11 @@ namespace SpaceHordes.GameStates.Screens
         void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
+        }
+
+        void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new BossScreen("Textures/GameMenu", ScreenHelper.SpriteSheet), e.PlayerIndex);
         }
 
         /// <summary>
