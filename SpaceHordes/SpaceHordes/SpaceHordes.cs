@@ -551,8 +551,8 @@ namespace SpaceHordes
 
             sourceRectangles.Add("blimp",
                 new Rectangle[] {
-                    new Rectangle(249, 160, 93, 130),
-                    new Rectangle(347, 160, 93, 130)
+                    new Rectangle(249, 160, 97, 130),
+                    new Rectangle(347, 160, 97, 130)
                 });
 
             sourceRectangles.Add("bigredblobboss",
@@ -786,7 +786,7 @@ namespace SpaceHordes
 
             sourceRectangles.Add("flamer",
                 new Rectangle[] {
-                    new Rectangle(358, 929, 60, 186)
+                    new Rectangle(358, 930, 60, 186)
                 });
 
             sheet.Animations = sourceRectangles;

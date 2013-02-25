@@ -224,9 +224,9 @@ namespace SpaceHordes.GameStates.Screens
 
             string text = current ? bosses[index].BossName : "?????";
             Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width/2, ScreenHelper.Viewport.Height * 0.80f);
-            Vector2 size = ScreenManager.Font.MeasureString(bosses[index].BossName);
+            Vector2 size = ScreenManager.Font.MeasureString(text);
             Vector2 origin = size / 2;
-            spriteBatch.DrawString(ScreenManager.Font, bosses[index].BossName, textDest, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(ScreenManager.Font, text, textDest, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
