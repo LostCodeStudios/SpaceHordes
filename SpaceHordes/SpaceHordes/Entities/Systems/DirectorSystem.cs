@@ -5,6 +5,7 @@ using System.Text;
 using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities.Components.Physics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -49,7 +50,17 @@ namespace SpaceHordes.Entities.Systems
 
             difficulty = (int)(elapsedMinutes - (playerDeaths / 2 + baseDamage));
 
-            //Spawn mooks per second equal to Difficulty
+            #region Scoring
+
+            Score s = Base.GetComponent<Score>();
+
+            ScoreSystem.GivePoints(10 * difficulty);
+
+            #endregion
+
+            #region Spawning
+
+            //Every 5 seconds spawn
             if (elapsedSeconds % 5 == 0)
             {
                 mooksToSpawn = 3 * difficulty;
@@ -75,6 +86,8 @@ namespace SpaceHordes.Entities.Systems
                 {
                 }
             }
+
+            #endregion
         }
 
         public static float ClampInverse(float value, float min, float max)

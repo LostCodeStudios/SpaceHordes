@@ -52,7 +52,7 @@ namespace SpaceHordes.Entities.Templates
                     Body, 1, Color.White, 0.2f));
             #endregion
 
-
+            e.AddComponent<Score>(new Score());
 
             e.AddComponent<Health>(new Health(10));
 

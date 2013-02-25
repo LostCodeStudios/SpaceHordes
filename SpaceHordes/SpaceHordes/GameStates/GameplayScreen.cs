@@ -131,6 +131,11 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     GameOver();
                 };
+            World.Base.GetComponent<Score>().OnChange +=
+                () =>
+                {
+                    score = World.Base.GetComponent<Score>().Value;
+                };
 
             MusicManager.PlaySong("Unending");
         }
@@ -176,8 +181,6 @@ namespace SpaceHordes.GameStates.Screens
             {
                 World.Update(gameTime); //Update the world.
             }
-
-            score += 1;
         }
 
         public override void Draw(GameTime gameTime)
@@ -198,13 +201,13 @@ namespace SpaceHordes.GameStates.Screens
             spriteBatch.Begin();
             //gameFont.DrawString(spriteBatch, Vector2.Zero, "It worked.");
             Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
-            //gameFont.DrawString(
-            //    spriteBatch,
-            //    new Vector2(
-            //        scoreLocation.X - scoreSize.X / 2,
-            //        scoreLocation.Y),
-            //    score.ToString(),
-            //    scoreScale);
+            gameFont.DrawString(
+                spriteBatch,
+                new Vector2(
+                    scoreLocation.X - scoreSize.X / 2,
+                    scoreLocation.Y),
+                score.ToString(),
+                scoreScale);
             spriteBatch.End();
         }
 

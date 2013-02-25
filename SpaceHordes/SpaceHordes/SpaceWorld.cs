@@ -56,6 +56,7 @@ namespace SpaceHordes
             // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
             _font.LoadContent(Content, "Textures/gamefont");
             hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
+            scoreSystem.LoadContent(Base);
 #if DEBUG   //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
@@ -89,6 +90,7 @@ namespace SpaceHordes
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
+            scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(), ExecutionType.Update);
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 3);
@@ -349,6 +351,7 @@ namespace SpaceHordes
         PlayerControlSystem playerControlSystem;
         ExplosionSystem explosionSystem;
         DamageSystem damageSystem;
+        ScoreSystem scoreSystem;
 
         //Draw Systems
         HealthRenderSystem healthRenderSystem;

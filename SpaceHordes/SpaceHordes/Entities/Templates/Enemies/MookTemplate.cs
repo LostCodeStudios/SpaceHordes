@@ -11,6 +11,7 @@ using GameLibrary.Dependencies.Physics.Factories;
 using SpaceHordes.Entities.Components;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
+using SpaceHordes.Entities.Systems;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -144,11 +145,13 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
                     if(ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+
+                    ScoreSystem.GivePoints(1);
                 };
 
             #endregion
 
-          
+            
 
             e.Group = "Enemies";
             return e;

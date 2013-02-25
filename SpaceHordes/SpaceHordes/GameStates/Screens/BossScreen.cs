@@ -238,7 +238,7 @@ namespace SpaceHordes.GameStates.Screens
 
             else if (currentKey.Equals("giantgraybossship"))
             {
-                scale = 4.5f;
+                scale = 4f;
             }
 
             else if (currentKey.Equals("killerhead"))
@@ -397,6 +397,19 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             WriteData(data);
+        }
+
+        public static void BossKilled(string bossName)
+        {
+            int index;
+
+            for (index = 0; index < ClearedBosses.Count(); index++)
+            {
+                if (bosses[index].BossName == bossName)
+                    break;
+            }
+
+            ClearedBosses[index] = true;
         }
 
         #endregion
