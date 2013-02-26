@@ -1,4 +1,3 @@
-
 #if WINDOWS_PHONE || XBOX
 
 //TODO: FIX
@@ -9,7 +8,6 @@ using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
-    
     public class HashSet<T> : ICollection<T>
     {
         private Dictionary<T, short> _dict;
@@ -75,7 +73,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             get { return false; }
         }
 
-        #endregion
+#endregion ICollection<T> Members
     }
 }
 #endif

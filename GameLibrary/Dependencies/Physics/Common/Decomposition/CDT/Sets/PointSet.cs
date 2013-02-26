@@ -29,8 +29,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
 using Poly2Tri.Triangulation.Delaunay;
+using System.Collections.Generic;
 
 namespace Poly2Tri.Triangulation.Sets
 {
@@ -44,6 +44,7 @@ namespace Poly2Tri.Triangulation.Sets
         #region Triangulatable Members
 
         public IList<TriangulationPoint> Points { get; private set; }
+
         public IList<DelaunayTriangle> Triangles { get; private set; }
 
         public virtual TriangulationMode TriangulationMode
@@ -79,6 +80,6 @@ namespace Poly2Tri.Triangulation.Sets
             tcx.Points.AddRange(Points);
         }
 
-        #endregion
+        #endregion Triangulatable Members
     }
 }

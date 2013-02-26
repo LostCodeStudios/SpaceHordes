@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {

@@ -1,36 +1,36 @@
 /*
 * Farseer Physics Engine based on Box2D.XNA port:
 * Copyright (c) 2010 Ian Qvist
-* 
+*
 * Box2D.XNA port of Box2D:
 * Copyright (c) 2009 Brandon Furtwangler, Nathan Furtwangler
 *
 * Original source Box2D:
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com 
-* 
-* This software is provided 'as-is', without any express or implied 
-* warranty.  In no event will the authors be held liable for any damages 
-* arising from the use of this software. 
-* Permission is granted to anyone to use this software for any purpose, 
-* including commercial applications, and to alter it and redistribute it 
-* freely, subject to the following restrictions: 
-* 1. The origin of this software must not be misrepresented; you must not 
-* claim that you wrote the original software. If you use this software 
-* in a product, an acknowledgment in the product documentation would be 
-* appreciated but is not required. 
-* 2. Altered source versions must be plainly marked as such, and must not be 
-* misrepresented as being the original software. 
-* 3. This notice may not be removed or altered from any source distribution. 
+* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics
 {
@@ -164,12 +164,12 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
 
         /// <summary>
         /// Defaults to 0
-        /// 
+        ///
         /// If Settings.UseFPECollisionCategories is set to false:
         /// Collision groups allow a certain group of objects to never collide (negative)
         /// or always collide (positive). Zero means no collision group. Non-zero group
         /// filtering always wins against the mask bits.
-        /// 
+        ///
         /// If Settings.UseFPECollisionCategories is set to true:
         /// If 2 fixtures are in the same collision group, they will not collide.
         /// </summary>
@@ -188,7 +188,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
 
         /// <summary>
         /// Defaults to Category.All
-        /// 
+        ///
         /// The collision mask bits. This states the categories that this
         /// fixture would accept for collision.
         /// Use Settings.UseFPECollisionCategories to change the behavior.
@@ -209,10 +209,10 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
 
         /// <summary>
         /// The collision categories this fixture is a part of.
-        /// 
+        ///
         /// If Settings.UseFPECollisionCategories is set to false:
         /// Defaults to Category.Cat1
-        /// 
+        ///
         /// If Settings.UseFPECollisionCategories is set to true:
         /// Defaults to Category.All
         /// </summary>
@@ -314,7 +314,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
             }
         }
 
-        #endregion
+        #endregion IDisposable Members
 
         /// <summary>
         /// Restores collisions between this fixture and the provided fixture.

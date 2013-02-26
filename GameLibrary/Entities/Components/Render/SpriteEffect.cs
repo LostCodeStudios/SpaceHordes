@@ -1,8 +1,4 @@
 ﻿using GameLibrary.Dependencies.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GameLibrary.Entities.Components.Render
 {
@@ -19,7 +15,6 @@ namespace GameLibrary.Entities.Components.Render
             this.Elapsed = tick;
         }
 
-
         #region Fields
 
         public Sprite OldSprite;
@@ -27,6 +22,6 @@ namespace GameLibrary.Entities.Components.Render
 
         internal int Elapsed;
 
-        #endregion
+        #endregion Fields
     }
 }

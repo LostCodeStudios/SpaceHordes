@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GameLibrary.Dependencies.Entities
 {
     public class SimpleTrigger : Trigger
     {
-        Func<BlackBoard, TriggerState, bool> Condition;
-        Action<TriggerState> onFire;
+        private Func<BlackBoard, TriggerState, bool> Condition;
+        private Action<TriggerState> onFire;
+
         public SimpleTrigger(String Name, Func<BlackBoard, TriggerState, bool> Condition, Action<TriggerState> onFire = null)
         {
             this.WorldPropertiesMonitored.Add(Name);

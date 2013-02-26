@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using SpaceHordes.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
-using GameLibrary.Entities.Components;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class BulletCollisionSystem : EntityProcessingSystem
+    internal class BulletCollisionSystem : EntityProcessingSystem
     {
-        ComponentMapper<Bullet> bulletMapper;
-        ComponentMapper<Particle> particleMapper;
-        public BulletCollisionSystem() : base(typeof(Bullet), typeof(Particle))
+        private ComponentMapper<Bullet> bulletMapper;
+        private ComponentMapper<Particle> particleMapper;
+
+        public BulletCollisionSystem()
+            : base(typeof(Bullet), typeof(Particle))
         {
         }
 
@@ -25,14 +22,13 @@ namespace SpaceHordes.Entities.Systems
             particleMapper = new ComponentMapper<Particle>(world);
         }
 
-
         public override void Process(Entity e)
         {
             Particle particle = particleMapper.Get(e);
             Bullet bullet = bulletMapper.Get(e);
 
             //Check collision with physical world.
-            if(bullet.collisionChecked <3)
+            if (bullet.collisionChecked < 3)
                 world.RayCast(
                     delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
                     {
@@ -54,7 +50,6 @@ namespace SpaceHordes.Entities.Systems
                         }
                         return 0;
                     }, particle.Position, particle.Position + particle.LinearVelocity * (new Microsoft.Xna.Framework.Vector2(world.Delta / 1000f)));
-
         }
     }
 }

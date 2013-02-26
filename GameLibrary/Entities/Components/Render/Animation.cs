@@ -1,8 +1,4 @@
 ﻿using GameLibrary.Dependencies.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GameLibrary.Entities.Components
 {
@@ -26,7 +22,7 @@ namespace GameLibrary.Entities.Components
         /// Default constructor for animation component
         /// </summary>
         /// <param name="rate">The rate at which the animation updates (miliseconds).</param>
-        public Animation( AnimationType type, int rate = 1)
+        public Animation(AnimationType type, int rate = 1)
         {
             FrameRate = rate;
             Type = type;
@@ -51,12 +47,13 @@ namespace GameLibrary.Entities.Components
         /// </summary>
         public AnimationType Type { set; get; }
 
-        #endregion
+        #endregion Properties
 
         #region Fields
 
         internal int _Tick;
         private int frameInc = 1;
-        #endregion
+
+        #endregion Fields
     }
 }

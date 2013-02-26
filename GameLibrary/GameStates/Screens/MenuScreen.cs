@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using GameLibrary.Input;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.GameStates.Screens
 {
@@ -17,18 +15,18 @@ namespace GameLibrary.GameStates.Screens
     {
         #region Fields
 
-        List<MenuEntry> menuEntries = new List<MenuEntry>();
-        int selectedEntry = 0;
-        string menuTitle;
+        private List<MenuEntry> menuEntries = new List<MenuEntry>();
+        private int selectedEntry = 0;
+        private string menuTitle;
 
-        #if XBOX || WINDOWS
-        InputAction menuUp;
-        InputAction menuDown;
-        InputAction menuSelect;
-        InputAction menuCancel;
-        #endif
+#if XBOX || WINDOWS
+        private InputAction menuUp;
+        private InputAction menuDown;
+        private InputAction menuSelect;
+        private InputAction menuCancel;
+#endif
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -41,7 +39,7 @@ namespace GameLibrary.GameStates.Screens
             get { return menuEntries; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Initialization
 
@@ -55,7 +53,7 @@ namespace GameLibrary.GameStates.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
-            #if XBOX || WINDOWS
+#if XBOX || WINDOWS
 
             //Define the input actions
             menuUp = new InputAction(
@@ -78,10 +76,10 @@ namespace GameLibrary.GameStates.Screens
                 new Keys[] { Keys.Escape },
                 true);
 
-            #endif
+#endif
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Handle Input
 
@@ -91,7 +89,7 @@ namespace GameLibrary.GameStates.Screens
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            #if WINDOWS
+#if WINDOWS
 
             foreach (MenuEntry entry in MenuEntries)
             {
@@ -101,13 +99,13 @@ namespace GameLibrary.GameStates.Screens
                 }
                 if (input.LeftButtonDownIn(entry.ClickRectangle))
                 {
-                    OnSelectEntry(selectedEntry, PlayerIndex.One );
+                    OnSelectEntry(selectedEntry, PlayerIndex.One);
                 }
             }
 
-            #endif
+#endif
 
-            #if XBOX || WINDOWS
+#if XBOX || WINDOWS
 
             PlayerIndex playerIndex;
 
@@ -138,7 +136,7 @@ namespace GameLibrary.GameStates.Screens
                 OnCancel(playerIndex);
             }
 
-            #endif
+#endif
         }
 
         /// <summary>
@@ -146,7 +144,7 @@ namespace GameLibrary.GameStates.Screens
         /// </summary>
         protected virtual void OnSelectEntry(int entryIndex, PlayerIndex playerIndex)
         {
-                menuEntries[entryIndex].OnSelectEntry(playerIndex);
+            menuEntries[entryIndex].OnSelectEntry(playerIndex);
         }
 
         /// <summary>
@@ -165,7 +163,7 @@ namespace GameLibrary.GameStates.Screens
             OnCancel(e.PlayerIndex);
         }
 
-        #endregion
+        #endregion Handle Input
 
         #region Update & Draw
 
@@ -263,6 +261,6 @@ namespace GameLibrary.GameStates.Screens
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
     }
 }

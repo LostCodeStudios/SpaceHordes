@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision;
+﻿using GameLibrary.Dependencies.Physics.Collision;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
@@ -42,7 +42,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         ///with the point of crossing.
         ///
         ///Grazing lines should not return true.
-        /// 
+        ///
         /// </summary>
         /// <param name="a0"></param>
         /// <param name="a1"></param>
@@ -123,7 +123,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         /// both to true means you are doing a line-segment to line-segment
         /// intersection. Setting one of them to true means you are doing a
         /// line to line-segment intersection test, and so on.
-        /// Note: If two line segments are coincident, then 
+        /// Note: If two line segments are coincident, then
         /// no intersection is detected (there are actually
         /// infinite intersection points).
         /// Author: Jeremy Bell
@@ -134,7 +134,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         /// <param name="point4">The second point of the second line segment.</param>
         /// <param name="point">This is set to the intersection
         /// point if an intersection is detected.</param>
-        /// <param name="firstIsSegment">Set this to true to require that the 
+        /// <param name="firstIsSegment">Set this to true to require that the
         /// intersection point be on the first line segment.</param>
         /// <param name="secondIsSegment">Set this to true to require that the
         /// intersection point be on the second line segment.</param>
@@ -202,7 +202,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         /// both to true means you are doing a line-segment to line-segment
         /// intersection. Setting one of them to true means you are doing a
         /// line to line-segment intersection test, and so on.
-        /// Note: If two line segments are coincident, then 
+        /// Note: If two line segments are coincident, then
         /// no intersection is detected (there are actually
         /// infinite intersection points).
         /// Author: Jeremy Bell
@@ -213,7 +213,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         /// <param name="point4">The second point of the second line segment.</param>
         /// <param name="intersectionPoint">This is set to the intersection
         /// point if an intersection is detected.</param>
-        /// <param name="firstIsSegment">Set this to true to require that the 
+        /// <param name="firstIsSegment">Set this to true to require that the
         /// intersection point be on the first line segment.</param>
         /// <param name="secondIsSegment">Set this to true to require that the
         /// intersection point be on the second line segment.</param>
@@ -228,8 +228,8 @@ namespace GameLibrary.Dependencies.Physics.Common
 
         /// <summary>
         /// This method detects if two line segments intersect,
-        /// and, if so, the point of intersection. 
-        /// Note: If two line segments are coincident, then 
+        /// and, if so, the point of intersection.
+        /// Note: If two line segments are coincident, then
         /// no intersection is detected (there are actually
         /// infinite intersection points).
         /// </summary>
@@ -248,8 +248,8 @@ namespace GameLibrary.Dependencies.Physics.Common
 
         /// <summary>
         /// This method detects if two line segments intersect,
-        /// and, if so, the point of intersection. 
-        /// Note: If two line segments are coincident, then 
+        /// and, if so, the point of intersection.
+        /// Note: If two line segments are coincident, then
         /// no intersection is detected (there are actually
         /// infinite intersection points).
         /// </summary>
@@ -293,7 +293,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         }
 
         /// <summary>
-        /// Get all intersections between a line segment and an AABB. 
+        /// Get all intersections between a line segment and an AABB.
         /// </summary>
         /// <param name="point1">The first point of the line segment to test</param>
         /// <param name="point2">The second point of the line segment to test.</param>

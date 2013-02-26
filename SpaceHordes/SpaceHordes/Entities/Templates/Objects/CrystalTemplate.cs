@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework;
-using GameLibrary.Helpers;
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Dependencies.Physics.Factories;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
-using GameLibrary.Dependencies.Physics.Factories;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates.Objects
 {
     public class CrystalTemplate : IEntityTemplate
     {
-        EntityWorld _World;
-        SpriteSheet _SpriteSheet;
+        private EntityWorld _World;
+        private SpriteSheet _SpriteSheet;
+
         public CrystalTemplate(EntityWorld World, SpriteSheet spriteSheet)
         {
             this._World = World;
@@ -46,9 +43,9 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source));
             Body b = e.AddComponent<Body>(new Body(_World, e));
-            FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width/2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height/2), 4, 1f, b);
+            FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>()));
-            
+
             b.Position = pos;
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));

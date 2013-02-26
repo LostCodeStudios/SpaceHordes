@@ -1,12 +1,13 @@
-﻿using System;
-using GameLibrary.Dependencies.Physics.Dynamics;
+﻿using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameLibrary.Dependencies.Physics.Collision
 {
     public interface IBroadPhase
     {
         int ProxyCount { get; }
+
         void UpdatePairs(BroadphaseDelegate callback);
 
         bool TestOverlap(int proxyIdA, int proxyIdB);

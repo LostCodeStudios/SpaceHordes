@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Helpers;
-using GameLibrary.Dependencies.Physics.Dynamics;
+using System;
 
 namespace GameLibrary.Helpers
 {
@@ -34,6 +30,7 @@ namespace GameLibrary.Helpers
         }
 
         #region Functioning Loop
+
         /// <summary>
         /// Moves the camera forward one timestep.
         /// </summary>
@@ -95,10 +92,12 @@ namespace GameLibrary.Helpers
 
             SetView();
         }
-        #endregion
+
+        #endregion Functioning Loop
 
         #region Methods
-                public void MoveCamera(Vector2 amount)
+
+        public void MoveCamera(Vector2 amount)
         {
             _currentPosition += amount;
             if (_minPosition != _maxPosition)
@@ -173,9 +172,11 @@ namespace GameLibrary.Helpers
                          matZoom *
                          Matrix.CreateTranslation(translateCenter);
         }
-        #endregion
+
+        #endregion Methods
 
         #region Fields
+
         private const float _minZoom = 0.02f;
         private const float _maxZoom = 20f;
         private static GraphicsDevice _graphics;
@@ -199,9 +200,11 @@ namespace GameLibrary.Helpers
         private PhysicsBody _trackingBody;
         private Vector2 _translateCenter;
         private Matrix _view;
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         //Matrix.CreateOrthographicOffCenter(0f, GraphicsDevice.Viewport.Width / ConvertUnits.ToDisplayUnits(1f),
         //                                          GraphicsDevice.Viewport.Height / ConvertUnits.ToDisplayUnits(1f), 0f, 0f,
         //                                          1f);
@@ -238,7 +241,7 @@ namespace GameLibrary.Helpers
 
         /// <summary>
         /// The furthest up, and the furthest left the camera can go.
-        /// if this value equals maxPosition, then no clamping will be 
+        /// if this value equals maxPosition, then no clamping will be
         /// applied (unless you override that function).
         /// </summary>
         public Vector2 MinPosition
@@ -249,7 +252,7 @@ namespace GameLibrary.Helpers
 
         /// <summary>
         /// the furthest down, and the furthest right the camera will go.
-        /// if this value equals minPosition, then no clamping will be 
+        /// if this value equals minPosition, then no clamping will be
         /// applied (unless you override that function).
         /// </summary>
         public Vector2 MaxPosition
@@ -308,7 +311,7 @@ namespace GameLibrary.Helpers
         }
 
         /// <summary>
-        /// the body that this camera is currently tracking. 
+        /// the body that this camera is currently tracking.
         /// Null if not tracking any.
         /// </summary>
         public PhysicsBody TrackingBody
@@ -364,9 +367,11 @@ namespace GameLibrary.Helpers
                 EnableRotationTracking = value;
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Helpers
+
         public Vector2 ConvertScreenToWorld(Vector2 location)
         {
             Vector3 t = new Vector3(location, 0);
@@ -389,10 +394,7 @@ namespace GameLibrary.Helpers
         {
             return _currentPosition.ToString();
         }
-        #endregion
-       
 
-
-       
+        #endregion Helpers
     }
 }

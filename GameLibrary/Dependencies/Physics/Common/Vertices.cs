@@ -1,13 +1,14 @@
-﻿using System;
+﻿using GameLibrary.Dependencies.Physics.Collision;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using GameLibrary.Dependencies.Physics.Collision;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
 #if !(XBOX360)
+
     [DebuggerDisplay("Count = {Count} Vertices = {ToString()}")]
 #endif
     public class Vertices : List<Vector2>
@@ -452,7 +453,6 @@ namespace GameLibrary.Dependencies.Physics.Common
                     }
                 }
 
-
                 Vector2 centroid = vertices.GetCentroid();
                 Vector2 n1 = normals[iminus];
                 Vector2 n2 = normals[i];
@@ -479,24 +479,31 @@ namespace GameLibrary.Dependencies.Physics.Common
                         Debug.WriteLine(string.Format("must have between 3 and {0} vertices.\n",
                                                       Settings.MaxPolygonVertices));
                         break;
+
                     case 1:
                         Debug.WriteLine("must be convex.\n");
                         break;
+
                     case 2:
                         Debug.WriteLine("must be simple (cannot intersect itself).\n");
                         break;
+
                     case 3:
                         Debug.WriteLine("area is too small.\n");
                         break;
+
                     case 4:
                         Debug.WriteLine("sides are too close to parallel.\n");
                         break;
+
                     case 5:
                         Debug.WriteLine("polygon is too thin.\n");
                         break;
+
                     case 6:
                         Debug.WriteLine("core shape generation would move edge past centroid (too thin).\n");
                         break;
+
                     default:
                         Debug.WriteLine("don't know why.\n");
                         break;
@@ -509,7 +516,7 @@ namespace GameLibrary.Dependencies.Physics.Common
 
         /// <summary>
         /// Trace the edge of a non-simple polygon and return a simple polygon.
-        /// 
+        ///
         /// Method:
         /// Start at vertex with minimum y (pick maximum x one if there are two).
         /// We aim our "lastDir" vector at (1.0, 0)
@@ -527,6 +534,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         public Vertices TraceEdge(Vertices verts)
         {
             PolyNode[] nodes = new PolyNode[verts.Count * verts.Count];
+
             //overkill, but sufficient (order of mag. is right)
             int nNodes = 0;
 
@@ -569,6 +577,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                                 if (crosses)
                                 {
                                     dirty = true;
+
                                     //Destroy and re-hook connections at crossing point
                                     PolyNode connj = nodes[i].Connected[j];
                                     PolyNode connl = nodes[k].Connected[l];
@@ -619,6 +628,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                             foundDupe = true;
                             PolyNode inode = nodes[i];
                             PolyNode jnode = nodes[j];
+
                             //Move all of j's connections to i, and orphan j
                             int njConn = jnode.NConnected;
                             for (int k = 0; k < njConn; ++k)
@@ -661,6 +671,7 @@ namespace GameLibrary.Dependencies.Physics.Common
 
             Vector2 origDir = new Vector2(1.0f, 0.0f);
             Vector2[] resultVecs = new Vector2[4 * nNodes];
+
             // nodes may be visited more than once, unfortunately - change to growable array!
             int nResultVecs = 0;
             PolyNode currentNode = nodes[minYIndex];
@@ -701,6 +712,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                     }
                     return vertices;
                 }
+
                 // There was a problem, so jump out of the loop and use whatever garDictionarye we've generated so far
             }
 
@@ -905,6 +917,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                 {
                     return 0;
                 }
+
                 // Test edge for intersection with ray from point
                 if (p1.Y <= point.Y)
                 {
@@ -925,9 +938,9 @@ namespace GameLibrary.Dependencies.Physics.Common
         }
 
         /// <summary>
-        /// Compute the sum of the angles made between the test point and each pair of points making up the polygon. 
-        /// If this sum is 2pi then the point is an interior point, if 0 then the point is an exterior point. 
-        /// ref: http://ozviz.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/  - Solution 2 
+        /// Compute the sum of the angles made between the test point and each pair of points making up the polygon.
+        /// If this sum is 2pi then the point is an interior point, if 0 then the point is an exterior point.
+        /// ref: http://ozviz.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/  - Solution 2
         /// </summary>
         public bool PointInPolygonAngle(ref Vector2 point)
         {

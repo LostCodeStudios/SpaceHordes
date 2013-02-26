@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using GameLibrary.Input;
 using Microsoft.Xna.Framework;
-
-using GameLibrary.Input;
+using System;
 
 namespace GameLibrary.GameStates
 {
@@ -28,18 +23,18 @@ namespace GameLibrary.GameStates
     {
         #region Fields
 
-        bool isPopup = false;
-        TimeSpan transitionOnTime = TimeSpan.Zero;
-        TimeSpan transitionOffTime = TimeSpan.Zero;
-        float transitionPosition = 1;
-        ScreenState screenState = ScreenState.TransitionOn;
-        bool isExiting = false;
-        bool otherScreenHasFocus;
-        ScreenManager screenManager;
-        PlayerIndex? controllingPlayer;
-        bool isSerializable = true;
+        private bool isPopup = false;
+        private TimeSpan transitionOnTime = TimeSpan.Zero;
+        private TimeSpan transitionOffTime = TimeSpan.Zero;
+        private float transitionPosition = 1;
+        private ScreenState screenState = ScreenState.TransitionOn;
+        private bool isExiting = false;
+        private bool otherScreenHasFocus;
+        private ScreenManager screenManager;
+        private PlayerIndex? controllingPlayer;
+        private bool isSerializable = true;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -71,7 +66,7 @@ namespace GameLibrary.GameStates
         }
 
         /// <summary>
-        /// The current position of the screen transition, ranging 
+        /// The current position of the screen transition, ranging
         /// from zero (fully active, no transition) to one (transitioned
         /// fully off to nothing).
         /// </summary>
@@ -154,11 +149,11 @@ namespace GameLibrary.GameStates
             protected set { isSerializable = value; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
-        bool UpdateTransition(GameTime gameTime, TimeSpan time, int direction)
+        private bool UpdateTransition(GameTime gameTime, TimeSpan time, int direction)
         {
             //How much to move by?
             float transitionDelta;
@@ -200,7 +195,7 @@ namespace GameLibrary.GameStates
             }
         }
 
-        #endregion
+        #endregion Methods
 
         #region Virtual Methods
 
@@ -208,19 +203,25 @@ namespace GameLibrary.GameStates
         /// Activates the screen. Called when the screen is added to
         /// the screen manager or if the game resumes from being paused.
         /// </summary>
-        public virtual void Activate() { }
+        public virtual void Activate()
+        {
+        }
 
         /// <summary>
         /// Deactivates the screen. Called when the game is being
         /// deactivated due to pausing.
         /// </summary>
-        public virtual void Deactivate() { }
+        public virtual void Deactivate()
+        {
+        }
 
         /// <summary>
         /// Unload content for the screen. Called when the screen is
         /// removed from the screen manager.
         /// </summary>
-        public virtual void Unload() { }
+        public virtual void Unload()
+        {
+        }
 
         /// <summary>
         /// Allows the screen to handle user input. Only called when
@@ -228,7 +229,9 @@ namespace GameLibrary.GameStates
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="input"></param>
-        public virtual void HandleInput(GameTime gameTime, InputState input) { }
+        public virtual void HandleInput(GameTime gameTime, InputState input)
+        {
+        }
 
         /// <summary>
         /// Allows the screen to run logic. Called regardless of the
@@ -287,8 +290,10 @@ namespace GameLibrary.GameStates
         /// Called when the screen should draw itself.
         /// </summary>
         /// <param name="gameTime"></param>
-        public virtual void Draw(GameTime gameTime) { }
+        public virtual void Draw(GameTime gameTime)
+        {
+        }
 
-        #endregion
+        #endregion Virtual Methods
     }
 }

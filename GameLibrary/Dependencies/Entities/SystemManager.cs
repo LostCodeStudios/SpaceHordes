@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace GameLibrary.Dependencies.Entities
 {
     public enum ExecutionType
@@ -11,23 +11,26 @@ namespace GameLibrary.Dependencies.Entities
         Draw,
         Update
     }
-    
-    public sealed class SystemManager {
+
+    public sealed class SystemManager
+    {
         private EntityWorld world;
         private Dictionary<Type, List<EntitySystem>> systems = new Dictionary<Type, List<EntitySystem>>();
 
         private Dictionary<int, Bag<EntitySystem>> Updatelayers = new Dictionary<int, Bag<EntitySystem>>();
         private Dictionary<int, Bag<EntitySystem>> Drawlayers = new Dictionary<int, Bag<EntitySystem>>();
         private Bag<EntitySystem> mergedBag = new Bag<EntitySystem>();
-        
-        internal SystemManager(EntityWorld world) {
+
+        internal SystemManager(EntityWorld world)
+        {
             this.world = world;
         }
-        
-        public T SetSystem<T>(T system,ExecutionType execType , int layer = 0) where T : EntitySystem {
+
+        public T SetSystem<T>(T system, ExecutionType execType, int layer = 0) where T : EntitySystem
+        {
             system.World = world;
-                        
-            if(systems.ContainsKey(typeof(T)))
+
+            if (systems.ContainsKey(typeof(T)))
             {
                 systems[typeof(T)].Add((EntitySystem)system);
             }
@@ -37,9 +40,8 @@ namespace GameLibrary.Dependencies.Entities
                 systems[typeof(T)].Add((EntitySystem)system);
             }
 
-            
-            if(execType == ExecutionType.Draw) {
-
+            if (execType == ExecutionType.Draw)
+            {
                 if (!Drawlayers.ContainsKey(layer))
                     Drawlayers[layer] = new Bag<EntitySystem>();
 
@@ -48,69 +50,76 @@ namespace GameLibrary.Dependencies.Entities
                 {
                     drawBag = Drawlayers[layer] = new Bag<EntitySystem>();
                 }
-                if(!drawBag.Contains((EntitySystem)system))
+                if (!drawBag.Contains((EntitySystem)system))
                     drawBag.Add((EntitySystem)system);
                 Drawlayers = (from d in Drawlayers orderby d.Key ascending select d).ToDictionary(pair => pair.Key, pair => pair.Value);
-            } else if(execType == ExecutionType.Update) {
-
+            }
+            else if (execType == ExecutionType.Update)
+            {
                 if (!Updatelayers.ContainsKey(layer))
-                    Updatelayers[layer] = new Bag<EntitySystem>();                
+                    Updatelayers[layer] = new Bag<EntitySystem>();
 
                 Bag<EntitySystem> updateBag = Updatelayers[layer];
                 if (updateBag == null)
                 {
                     updateBag = Updatelayers[layer] = new Bag<EntitySystem>();
                 }
-                if(!updateBag.Contains((EntitySystem)system))
+                if (!updateBag.Contains((EntitySystem)system))
                     updateBag.Add((EntitySystem)system);
                 Updatelayers = (from d in Updatelayers orderby d.Key ascending select d).ToDictionary(pair => pair.Key, pair => pair.Value);
             }
-            if(!mergedBag.Contains((EntitySystem)system))
-                    mergedBag.Add((EntitySystem)system);
+            if (!mergedBag.Contains((EntitySystem)system))
+                mergedBag.Add((EntitySystem)system);
             system.SystemBit = SystemBitManager.GetBitFor(system);
-            
+
             return (T)system;
         }
-        
-        public List<EntitySystem> GetSystem<T>() where T : EntitySystem {
+
+        public List<EntitySystem> GetSystem<T>() where T : EntitySystem
+        {
             List<EntitySystem> system;
 
             systems.TryGetValue(typeof(T), out system);
 
             return system;
         }
-        
-        public Bag<EntitySystem> Systems {
-            get { return mergedBag;}
+
+        public Bag<EntitySystem> Systems
+        {
+            get { return mergedBag; }
         }
-        
+
         /**
          * After adding all systems to the world, you must initialize them all.
          */
-        public void InitializeAll() {
-           for (int i = 0, j = mergedBag.Size; i < j; i++) {
-              mergedBag.Get(i).Initialize();
-           }
+
+        public void InitializeAll()
+        {
+            for (int i = 0, j = mergedBag.Size; i < j; i++)
+            {
+                mergedBag.Get(i).Initialize();
+            }
         }
 
-
-        void UpdatebagSync(Bag<EntitySystem> temp) 
+        private void UpdatebagSync(Bag<EntitySystem> temp)
         {
             for (int i = 0, j = temp.Size; i < j; i++)
             {
                 temp.Get(i).Process();
-            }             
+            }
         }
-        
-        public void UpdateSynchronous(ExecutionType execType )
-        {            
-            if(execType == ExecutionType.Draw) {
 
-                foreach (int item in Drawlayers.Keys)                
+        public void UpdateSynchronous(ExecutionType execType)
+        {
+            if (execType == ExecutionType.Draw)
+            {
+                foreach (int item in Drawlayers.Keys)
                 {
                     UpdatebagSync(Drawlayers[item]);
-                }                 
-            } else if(execType == ExecutionType.Update) {
+                }
+            }
+            else if (execType == ExecutionType.Update)
+            {
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
                 foreach (int item in Updatelayers.Keys)
@@ -119,13 +128,13 @@ namespace GameLibrary.Dependencies.Entities
                 }
                 watch.Stop();
                 world.EntitySystemUpdateTime = watch.ElapsedTicks;
-            }    
+            }
         }
 
-        TaskFactory factory = new TaskFactory(TaskScheduler.Default);
-        List<Task> tasks = new List<Task>();
+        private TaskFactory factory = new TaskFactory(TaskScheduler.Default);
+        private List<Task> tasks = new List<Task>();
 
-        void UpdatebagASSync(Bag<EntitySystem> temp)
+        private void UpdatebagASSync(Bag<EntitySystem> temp)
         {
             tasks.Clear();
             for (int i = 0, j = temp.Size; i < j; i++)
@@ -137,11 +146,11 @@ namespace GameLibrary.Dependencies.Entities
                         es.Process();
                     }
                 ));
-
             }
             Task.WaitAll(tasks.ToArray());
         }
-        public void UpdateAsynchronous(ExecutionType execType )
+
+        public void UpdateAsynchronous(ExecutionType execType)
         {
             if (execType == ExecutionType.Draw)
             {
@@ -156,11 +165,11 @@ namespace GameLibrary.Dependencies.Entities
                 {
                     UpdatebagASSync(Updatelayers[item]);
                 }
-            }    
-            
+            }
         }
 
 #if DEBUG
+
         public override string ToString()
         {
             string times = "";
@@ -168,6 +177,7 @@ namespace GameLibrary.Dependencies.Entities
                 times += "             [" + Type.GetTypeFromHandle(Type.GetTypeHandle(Systems[i])) + ": " + Systems[i].UpdateTime.ToString() + "]\n";
             return times;
         }
+
 #endif
     }
 }

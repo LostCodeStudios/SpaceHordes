@@ -10,7 +10,7 @@ namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
         /// Find the convex hull of a point cloud using "Gift-wrap" algorithm - start
         /// with an extremal point, and walk around the outside edge by testing
         /// angles.
-        /// 
+        ///
         /// Runs in O(N*S) time where S is number of sides of resulting polygon.
         /// Worst case: point cloud is all vertices of convex polygon: O(N^2).
         /// There may be faster algorithms to do this, should you need one -
@@ -19,7 +19,7 @@ namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
         /// Returns null if number of vertices passed is less than 3.
         /// Results should be passed through convex decomposition afterwards
         /// to ensure that each shape has few enough points to be used in Box2d.
-        /// 
+        ///
         /// Warning: May be buggy with colinear points on hull.
         /// </summary>
         /// <param name="vertices">The vertices.</param>
@@ -87,6 +87,7 @@ namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
             for (int i = 0; i < numEdges; i++)
             {
                 returnVal.Add(vertices[edgeList[i]]);
+
                 //Debug.WriteLine(string.Format("{0}, {1}", vertices[edgeList[i]].X, vertices[edgeList[i]].Y));
             }
 

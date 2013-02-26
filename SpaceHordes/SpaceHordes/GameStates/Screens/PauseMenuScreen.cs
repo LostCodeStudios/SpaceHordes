@@ -1,9 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-
-using GameLibrary;
-using GameLibrary.Input;
-using GameLibrary.GameStates.Screens;
+﻿using GameLibrary.GameStates.Screens;
 using GameLibrary.Helpers;
+using GameLibrary.Input;
+using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -11,7 +9,7 @@ namespace SpaceHordes.GameStates.Screens
     /// The pause menu comes up over the top of the game,
     /// giving the player options to resume or quit.
     /// </summary>
-    class PauseMenuScreen : MenuScreen
+    internal class PauseMenuScreen : MenuScreen
     {
         #region Initialization
 
@@ -34,14 +32,14 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(quitGameMenuEntry);
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Handle Input
 
         /// <summary>
         /// Event handler for when the Quit Game menu entry is selected.
         /// </summary>
-        void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        private void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             BackgroundScreen background = new BackgroundScreen("Textures/hiscore");
             MainMenuScreen mainMenu = new MainMenuScreen("Space Hordes");
@@ -57,8 +55,6 @@ namespace SpaceHordes.GameStates.Screens
             MusicManager.Resume();
         }
 
-        #endregion
-
-
+        #endregion Handle Input
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
     // User contribution from Sickbattery aka David Reschke :).
 
     #region ToDo: Create a new file for each ...
+
     /// <summary>
     /// The detection type affects the resulting polygon data.
     /// </summary>
@@ -67,10 +68,11 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
         }
     }
-    #endregion
+
+    #endregion ToDo: Create a new file for each ...
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed class TextureConverter
     {
@@ -100,6 +102,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         private Matrix _transform = Matrix.Identity;
 
         #region Properties
+
         /// <summary>
         /// Get or set the polygon detection type.
         /// </summary>
@@ -176,9 +179,11 @@ namespace GameLibrary.Dependencies.Physics.Common
                 }
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Constructors
+
         public TextureConverter()
         {
             Initialize(null, null, null, null, null, null, null, null);
@@ -203,9 +208,11 @@ namespace GameLibrary.Dependencies.Physics.Common
             Initialize(data, width, alphaTolerance, hullTolerance, holeDetection,
                 multipartDetection, pixelOffsetOptimization, transform);
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Initialization
+
         private void Initialize(uint[] data, int? width, byte? alphaTolerance,
             float? hullTolerance, bool? holeDetection, bool? multipartDetection,
             bool? pixelOffsetOptimization, Matrix? transform)
@@ -249,10 +256,11 @@ namespace GameLibrary.Dependencies.Physics.Common
             else
                 Transform = Matrix.Identity;
         }
-        #endregion
+
+        #endregion Initialization
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="data"></param>
         /// <param name="width"></param>
@@ -366,8 +374,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                 throw new Exception(
                     "'_width' has an invalid value. You have to use SetTextureData(uint[] data, int width) before calling this method.");
 
-            #endregion
-
+            #endregion Check TextureConverter setup.
 
             List<DetectedVertices> detectedPolygons = new List<DetectedVertices>();
 
@@ -400,7 +407,6 @@ namespace GameLibrary.Dependencies.Physics.Common
                     break;
 
                 searchOn = false;
-
 
                 if (polygon.Count > 2)
                 {
@@ -465,7 +471,6 @@ namespace GameLibrary.Dependencies.Physics.Common
             if (detectedPolygons == null || (detectedPolygons != null && detectedPolygons.Count == 0))
                 throw new Exception("Couldn't detect any vertices.");
 
-
             // Post processing.
             if (PolygonDetectionType == VerticesDetectionType.Separated) // Only when VerticesDetectionType.Separated? -> Recheck.
                 ApplyTriangulationCompatibleWinding(ref detectedPolygons);
@@ -475,7 +480,6 @@ namespace GameLibrary.Dependencies.Physics.Common
 
             if (_transform != Matrix.Identity)
                 ApplyTransform(ref detectedPolygons);
-
 
             return detectedPolygons;
         }
@@ -496,7 +500,6 @@ namespace GameLibrary.Dependencies.Physics.Common
 
         private void ApplyPixelOffsetOptimization(ref List<DetectedVertices> detectedPolygons)
         {
-
         }
 
         private void ApplyTransform(ref List<DetectedVertices> detectedPolygons)
@@ -506,8 +509,10 @@ namespace GameLibrary.Dependencies.Physics.Common
         }
 
         #region Data[] functions
+
         private int _tempIsSolidX;
         private int _tempIsSolidY;
+
         public bool IsSolid(ref Vector2 v)
         {
             _tempIsSolidX = (int)v.X;
@@ -515,6 +520,7 @@ namespace GameLibrary.Dependencies.Physics.Common
 
             if (_tempIsSolidX >= 0 && _tempIsSolidX < _width && _tempIsSolidY >= 0 && _tempIsSolidY < _height)
                 return (_data[_tempIsSolidX + _tempIsSolidY * _width] >= _alphaTolerance);
+
             //return ((_data[_tempIsSolidX + _tempIsSolidY * _width] & 0xFF000000) >= _alphaTolerance);
 
             return false;
@@ -524,6 +530,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         {
             if (x >= 0 && x < _width && y >= 0 && y < _height)
                 return (_data[x + y * _width] >= _alphaTolerance);
+
             //return ((_data[x + y * _width] & 0xFF000000) >= _alphaTolerance);
 
             return false;
@@ -533,6 +540,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         {
             if (index >= 0 && index < _dataLength)
                 return (_data[index] >= _alphaTolerance);
+
             //return ((_data[index] & 0xFF000000) >= _alphaTolerance);
 
             return false;
@@ -542,7 +550,8 @@ namespace GameLibrary.Dependencies.Physics.Common
         {
             return (coord.X >= 0f && coord.X < _width && coord.Y >= 0f && coord.Y < _height);
         }
-        #endregion
+
+        #endregion Data[] functions
 
         /// <summary>
         /// Function to search for an entrance point of a hole in a polygon. It searches the polygon from top to bottom between the polygon edges.
@@ -557,7 +566,6 @@ namespace GameLibrary.Dependencies.Physics.Common
 
             if (polygon.Count < 3)
                 throw new ArgumentException("'polygon.MainPolygon.Count' can't be less then 3.");
-
 
             List<float> xCoords;
             Vector2? entrance;
@@ -592,7 +600,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                     // get x-coord of every polygon edge which crosses y
                     xCoords = SearchCrossingEdges(polygon, y);
 
-                    // We need an even number of crossing edges. 
+                    // We need an even number of crossing edges.
                     // It's always a pair of start and end edge: nothing | polygon | hole | polygon | nothing ...
                     // If it's not then don't bother, it's probably a peak ...
                     // ...which should be filtered out by SearchCrossingEdges() anyway.
@@ -614,10 +622,10 @@ namespace GameLibrary.Dependencies.Physics.Common
                                 // In that case the polygon edge doesn't lie on the texture's solid pixel, because of the hull tolearance.
                                 // If the edge lies before the first solid pixel then we need to skip our transparent pixel finds.
 
-                                // The algorithm starts to search for a relevant transparent pixel (which indicates a possible hole) 
+                                // The algorithm starts to search for a relevant transparent pixel (which indicates a possible hole)
                                 // after it has found a solid pixel.
 
-                                // After we've found a solid and a transparent pixel (a hole's left edge) 
+                                // After we've found a solid and a transparent pixel (a hole's left edge)
                                 // we search for a solid pixel again (a hole's right edge).
                                 // When found the distance of that coodrinate has to be greater then the hull tolerance.
 
@@ -695,7 +703,6 @@ namespace GameLibrary.Dependencies.Physics.Common
 
             if (polygon.Count < 3)
                 throw new ArgumentException("'polygon.Count' can't be less then 3.");
-
 
             Vector2 edgeVertex2 = polygon[polygon.Count - 1];
             Vector2 edgeVertex1;
@@ -855,7 +862,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             if (polygon.Count > 2)
             {
                 // There is a gap between the last and the first vertex in the vertex list.
-                // We will bridge that by setting the last vertex (vertex2) to the last 
+                // We will bridge that by setting the last vertex (vertex2) to the last
                 // vertex in the list.
                 vertex2 = polygon[polygon.Count - 1];
 
@@ -881,7 +888,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                                 nextVertex = polygon[(i + 1) % polygon.Count];
                                 nextSlope = vertex1 - nextVertex;
 
-                                // Ignore peaks. 
+                                // Ignore peaks.
                                 // If thwo edges are aligned like this: /\ and the y coordinate lies on the top,
                                 // then we get the same x coord twice and we don't need that.
                                 if (slope.Y > 0)
@@ -992,7 +999,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="entrance"></param>
         /// <param name="last"></param>
@@ -1045,7 +1052,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                 }
             }
 
-            #endregion
+            #endregion Entrance check
 
             if (entranceFound)
             {
@@ -1105,7 +1112,6 @@ namespace GameLibrary.Dependencies.Physics.Common
                         if (endOfHullArea.Contains(entrance))
                             endOfHullArea.Remove(entrance);
                     }
-
                 } while (true);
             }
 

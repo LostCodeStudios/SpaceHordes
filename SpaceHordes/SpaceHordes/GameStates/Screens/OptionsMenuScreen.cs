@@ -1,29 +1,29 @@
-﻿using System;
-using System.IO;
-using GameLibrary.GameStates.Screens;
+﻿using GameLibrary.GameStates.Screens;
 using GameLibrary.Helpers;
-using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 
 namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
     /// The options screen is brought up over the top of the
-    /// main menu screen, and gives the user a chance to 
+    /// main menu screen, and gives the user a chance to
     /// configure the game in various hopefully useful ways.
     /// </summary>
-    class OptionsMenuScreen : MenuScreen
+    internal class OptionsMenuScreen : MenuScreen
     {
         #region Fields
 
         //TODO: Add MenuEntries for options.
-        MenuEntry sound  = new MenuEntry("Sound Volume: 10");
-        MenuEntry music = new MenuEntry("Music Volume: 10");
+        private MenuEntry sound = new MenuEntry("Sound Volume: 10");
 
-        #if WINDOWS
-        MenuEntry fullScreen = new MenuEntry("Full Screen: Off");
-        #endif
+        private MenuEntry music = new MenuEntry("Music Volume: 10");
 
-        #endregion
+#if WINDOWS
+        private MenuEntry fullScreen = new MenuEntry("Full Screen: Off");
+#endif
+
+        #endregion Fields
 
         #region Static Properties
 
@@ -83,7 +83,7 @@ namespace SpaceHordes.GameStates.Screens
                 ReadSettings(out sound, out music, out fullscreen);
 
                 WriteSettings(value % 11, music, fullscreen);
-                SoundManager.Volume = (float)(value % 11)/(10f);
+                SoundManager.Volume = (float)(value % 11) / (10f);
             }
         }
 
@@ -109,11 +109,12 @@ namespace SpaceHordes.GameStates.Screens
                 ReadSettings(out sound, out music, out fullscreen);
 
                 WriteSettings(sound, value % 11, fullscreen);
-                MusicManager.Volume = (float)(value % 11)/(10f);
+                MusicManager.Volume = (float)(value % 11) / (10f);
             }
         }
 
-        #if WINDOWS
+#if WINDOWS
+
         public static bool FullScreen
         {
             get
@@ -138,9 +139,10 @@ namespace SpaceHordes.GameStates.Screens
                 WriteSettings(sound, music, value);
             }
         }
-        #endif
 
-        #endregion
+#endif
+
+        #endregion Static Properties
 
         #region Initialization
 
@@ -151,9 +153,9 @@ namespace SpaceHordes.GameStates.Screens
             this.sound.Selected += sound_selected;
             this.music.Selected += music_selected;
 
-            #if WINDOWS
+#if WINDOWS
             this.fullScreen.Selected += fullScreen_selected;
-            #endif
+#endif
 
             int sound;
             int music;
@@ -174,35 +176,37 @@ namespace SpaceHordes.GameStates.Screens
 #endif
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Events
 
         //TODO: Add events for each MenuEntry.
-        void sound_selected(object sender, EventArgs e)
+        private void sound_selected(object sender, EventArgs e)
         {
             SoundVolume++;
-            
+
             updateMenuEntryText();
         }
 
-        void music_selected(object sender, EventArgs e)
+        private void music_selected(object sender, EventArgs e)
         {
             MusicVolume++;
 
             updateMenuEntryText();
         }
 
-        #if WINDOWS
-        void fullScreen_selected(object sender, EventArgs e)
+#if WINDOWS
+
+        private void fullScreen_selected(object sender, EventArgs e)
         {
             FullScreen = !FullScreen;
 
             updateMenuEntryText();
         }
-        #endif
 
-        #endregion
+#endif
+
+        #endregion Events
 
         #region Helpers
 
@@ -214,7 +218,7 @@ namespace SpaceHordes.GameStates.Screens
             this.music.Text = "Music Volume: ";
             this.music.Text += MusicVolume.ToString();
 
-            #if WINDOWS
+#if WINDOWS
             this.fullScreen.Text = "Full Screen: ";
 
             switch (FullScreen)
@@ -227,9 +231,10 @@ namespace SpaceHordes.GameStates.Screens
                     this.fullScreen.Text += "Off";
                     break;
             }
-            #endif
+#endif
         }
-        #endregion
+
+        #endregion Helpers
 
         #region Static Methods
 
@@ -260,7 +265,7 @@ namespace SpaceHordes.GameStates.Screens
 
                 music = int.Parse(tr.ReadLine());
                 MusicManager.Volume = music;
-                #if WINDOWS
+#if WINDOWS
                 while (tr.ReadLine() != "[FullScreen]")
                 {
                 }
@@ -279,11 +284,11 @@ namespace SpaceHordes.GameStates.Screens
                         fullscreen = false;
                         break;
                 }
-                #endif
+#endif
 
-                #if XBOX
+#if XBOX
                 fullscreen = true;
-                #endif
+#endif
             }
         }
 
@@ -328,6 +333,6 @@ namespace SpaceHordes.GameStates.Screens
             WriteSettings(10, 10, true);
         }
 
-        #endregion
+        #endregion Static Methods
     }
 }

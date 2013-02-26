@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace GameLibrary.Entities.Components
 {
@@ -13,6 +10,7 @@ namespace GameLibrary.Entities.Components
             _Position = position;
             _Rotation = rotation;
         }
+
         public Microsoft.Xna.Framework.Vector2 Position
         {
             get
@@ -24,6 +22,7 @@ namespace GameLibrary.Entities.Components
                 _Position = value;
             }
         }
+
         private Vector2 _Position;
 
         public float Rotation
@@ -37,12 +36,12 @@ namespace GameLibrary.Entities.Components
                 _Rotation = value;
             }
         }
+
         private float _Rotation;
 
         public void RotateTo(Vector2 direction)
         {
             Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
-    
     }
 }

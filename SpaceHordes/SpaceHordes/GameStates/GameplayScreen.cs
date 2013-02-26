@@ -1,23 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Collections;
-using System.Collections.Generic;
-
+﻿using GameLibrary.GameStates;
+using GameLibrary.Helpers;
+using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using GameLibrary.Input;
-using GameLibrary.Helpers;
-using GameLibrary.GameStates;
-using GameLibrary.Entities.Systems;
-using GameLibrary.Entities;
-using SpaceHordes.Entities.Templates;
-using GameLibrary.Entities.Components;
 using SpaceHordes.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
-
+using System;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -28,27 +17,26 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        ContentManager content;
-        ImageFont gameFont;
-        SpriteBatch spriteBatch;
-        string fontName;
+        private ContentManager content;
+        private ImageFont gameFont;
+        private SpriteBatch spriteBatch;
+        private string fontName;
 
-        float pauseAlpha;
-        SpriteSheet spriteSheet;
-        InputAction pauseAction;
+        private float pauseAlpha;
+        private SpriteSheet spriteSheet;
+        private InputAction pauseAction;
 
-        bool multiplayer;
+        private bool multiplayer;
 
-        Vector2 mouseLoc;
+        private Vector2 mouseLoc;
 
-        long score = 0;
-        Vector2 scoreLocation;
-        float scoreScale;
+        private long score = 0;
+        private Vector2 scoreLocation;
+        private float scoreScale;
 
-        SpaceWorld World;
+        private SpaceWorld World;
 
-
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -68,7 +56,7 @@ namespace SpaceHordes.GameStates.Screens
             get { return spriteSheet; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Initialization
 
@@ -89,13 +77,14 @@ namespace SpaceHordes.GameStates.Screens
                 new Keys[] { Keys.Escape },
                 true);
         }
-        
+
         /// <summary>
         /// Load graphics content for the game.
         /// </summary>
         public override void Activate()
         {
             #region Screen
+
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             gameFont.LoadContent(Content, fontName);
@@ -116,10 +105,11 @@ namespace SpaceHordes.GameStates.Screens
                         players[x] = (PlayerIndex)x;
                     }
                 }
-
             }
             ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
-            #endregion
+
+            #endregion Screen
+
             //World
             World = new SpaceWorld(ScreenManager.Game, ScreenHelper.SpriteSheet);
             World.Initialize();
@@ -148,20 +138,20 @@ namespace SpaceHordes.GameStates.Screens
             content.Unload();
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update & Draw
 
         /// <summary>
-        /// Updates the state of the game. This method 
+        /// Updates the state of the game. This method
         /// checks the GameScreen.IsActive property, so the
-        /// game will stop updating when the pause menu is 
+        /// game will stop updating when the pause menu is
         /// active, or if you tab away to a different
         /// application.
         /// </summary>
         public override void Update(
             GameTime gameTime,
-            bool otherScreenHasFocus, 
+            bool otherScreenHasFocus,
             bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -182,7 +172,6 @@ namespace SpaceHordes.GameStates.Screens
 
         public override void Draw(GameTime gameTime)
         {
-
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
@@ -196,8 +185,10 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             spriteBatch.Begin();
+
             //gameFont.DrawString(spriteBatch, Vector2.Zero, "It worked.");
             Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
+
             //gameFont.DrawString(
             //    spriteBatch,
             //    new Vector2(
@@ -208,7 +199,7 @@ namespace SpaceHordes.GameStates.Screens
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
 
         #region Input
 
@@ -234,7 +225,6 @@ namespace SpaceHordes.GameStates.Screens
             if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
                 GameOver();
 
-
             if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
             {
                 MusicManager.Pause();
@@ -243,11 +233,10 @@ namespace SpaceHordes.GameStates.Screens
 
 #endif
 
-
             mouseLoc = input.MouseLocation;
         }
 
-        #endregion
+        #endregion Input
 
         #region Methods
 
@@ -259,6 +248,6 @@ namespace SpaceHordes.GameStates.Screens
             MusicManager.Stop();
         }
 
-        #endregion
+        #endregion Methods
     }
 }

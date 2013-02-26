@@ -1,37 +1,37 @@
 ﻿/*
 * Farseer Physics Engine based on Box2D.XNA port:
 * Copyright (c) 2010 Ian Qvist
-* 
+*
 * Box2D.XNA port of Box2D:
 * Copyright (c) 2009 Brandon Furtwangler, Nathan Furtwangler
 *
 * Original source Box2D:
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com 
-* 
-* This software is provided 'as-is', without any express or implied 
-* warranty.  In no event will the authors be held liable for any damages 
-* arising from the use of this software. 
-* Permission is granted to anyone to use this software for any purpose, 
-* including commercial applications, and to alter it and redistribute it 
-* freely, subject to the following restrictions: 
-* 1. The origin of this software must not be misrepresented; you must not 
-* claim that you wrote the original software. If you use this software 
-* in a product, an acknowledgment in the product documentation would be 
-* appreciated but is not required. 
-* 2. Altered source versions must be plainly marked as such, and must not be 
-* misrepresented as being the original software. 
-* 3. This notice may not be removed or altered from any source distribution. 
+* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Controllers;
 using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
 using GameLibrary.Dependencies.Physics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics
 {
@@ -319,7 +319,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
         public List<PhysicsBody> BodyList { get; private set; }
 
         /// <summary>
-        /// Get the world joint list. 
+        /// Get the world joint list.
         /// </summary>
         /// <value>The joint list.</value>
         public List<PhysicsJoint> JointList { get; private set; }
@@ -605,60 +605,60 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
 
         private void ProcessRemovedBodies()
         {
-            lock(this)
-            if (_bodyRemoveList.Count > 0)
-            {
-                
-                var iter = _bodyRemoveList.GetEnumerator();
-                lock(_bodyRemoveList)
-                while(iter.MoveNext())
+            lock (this)
+                if (_bodyRemoveList.Count > 0)
                 {
-                    PhysicsBody body = iter.Current;
-                    Debug.Assert(BodyList.Count > 0);
+                    var iter = _bodyRemoveList.GetEnumerator();
+                    lock (_bodyRemoveList)
+                        while (iter.MoveNext())
+                        {
+                            PhysicsBody body = iter.Current;
+                            Debug.Assert(BodyList.Count > 0);
 
-                    // You tried to remove a body that is not contained in the BodyList.
-                    // Are you removing the body more than once?
-                    if (!BodyList.Contains(body))
-                        break;
-                    // Delete the attached joints.
-                    JointEdge je = body.JointList;
-                    while (je != null)
-                    {
-                        JointEdge je0 = je;
-                        je = je.Next;
+                            // You tried to remove a body that is not contained in the BodyList.
+                            // Are you removing the body more than once?
+                            if (!BodyList.Contains(body))
+                                break;
 
-                        RemoveJoint(je0.Joint, false);
-                    }
-                    body.JointList = null;
+                            // Delete the attached joints.
+                            JointEdge je = body.JointList;
+                            while (je != null)
+                            {
+                                JointEdge je0 = je;
+                                je = je.Next;
 
-                    // Delete the attached contacts.
-                    ContactEdge ce = body.ContactList;
-                    while (ce != null)
-                    {
-                        ContactEdge ce0 = ce;
-                        ce = ce.Next;
-                        ContactManager.Destroy(ce0.Contact);
-                    }
-                    body.ContactList = null;
+                                RemoveJoint(je0.Joint, false);
+                            }
+                            body.JointList = null;
 
-                    // Delete the attached fixtures. This destroys broad-phase proxies.
-                    for (int i = 0; i < body.FixtureList.Count; i++)
-                    {
-                        body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
-                        body.FixtureList[i].Destroy();
-                    }
+                            // Delete the attached contacts.
+                            ContactEdge ce = body.ContactList;
+                            while (ce != null)
+                            {
+                                ContactEdge ce0 = ce;
+                                ce = ce.Next;
+                                ContactManager.Destroy(ce0.Contact);
+                            }
+                            body.ContactList = null;
 
-                    body.FixtureList = null;
+                            // Delete the attached fixtures. This destroys broad-phase proxies.
+                            for (int i = 0; i < body.FixtureList.Count; i++)
+                            {
+                                body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
+                                body.FixtureList[i].Destroy();
+                            }
 
-                    // Remove world body list.
-                    BodyList.Remove(body);
+                            body.FixtureList = null;
 
-                    if (BodyRemoved != null)
-                        BodyRemoved(body);
+                            // Remove world body list.
+                            BodyList.Remove(body);
+
+                            if (BodyRemoved != null)
+                                BodyRemoved(body);
+                        }
+
+                    _bodyRemoveList.Clear();
                 }
-
-                _bodyRemoveList.Clear();
-            }
         }
 
         /// <summary>
@@ -679,6 +679,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
             if (Settings.EnableDiagnostics)
                 AddRemoveTime = _watch.ElapsedTicks;
 #endif
+
             //If there is no change in time, no need to calculate anything.
             if (dt == 0 || !Enabled)
             {
@@ -722,6 +723,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
             if (Settings.EnableDiagnostics)
                 ContactsUpdateTime = _watch.ElapsedTicks - (AddRemoveTime + ControllersUpdateTime);
 #endif
+
             // Integrate velocities, solve velocity raints, and integrate positions.
             Solve(ref step);
 
@@ -757,6 +759,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
             if (Settings.EnableDiagnostics)
             {
                 _watch.Stop();
+
                 //AddRemoveTime = 1000 * AddRemoveTime / Stopwatch.Frequency;
 
                 PhysicsUpdateTime = _watch.ElapsedTicks;
@@ -783,7 +786,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
         /// <summary>
         /// Query the world for all fixtures that potentially overlap the
         /// provided AABB.
-        /// 
+        ///
         /// Inside the callback:
         /// Return true: Continues the query
         /// Return false: Terminate the query
@@ -803,7 +806,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
         /// Ray-cast the world for all fixtures in the path of the ray. Your callback
         /// controls whether you get the closest point, any point, or n-points.
         /// The ray-cast ignores shapes that contain the starting point.
-        /// 
+        ///
         /// Inside the callback:
         /// return -1: ignore this fixture and continue
         /// return 0: terminate the ray cast
@@ -1305,6 +1308,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
                 subStep.dt = (1.0f - minAlpha) * step.dt;
                 subStep.inv_dt = 1.0f / subStep.dt;
                 subStep.dtRatio = 1.0f;
+
                 //subStep.positionIterations = 20;
                 //subStep.velocityIterations = step.velocityIterations;
                 //subStep.warmStarting = false;

@@ -1,20 +1,18 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameLibrary.Input
 {
     /// <summary>
     /// Defines an action that is designated by some set of buttons and/or keys.
-    /// 
+    ///
     /// The way actions work is you define a set of buttons and keys that trigger
-    /// the action. You can then evaluate the action against and InputState which 
-    /// will test to see if any of the buttons or keys are pressed by the player. 
+    /// the action. You can then evaluate the action against and InputState which
+    /// will test to see if any of the buttons or keys are pressed by the player.
     /// You can also set a flag that indicates if the action only occurs once when
     /// the buttons/keys are first pressed or whether the action should occur each
     /// frame.
-    /// 
+    ///
     /// Using this InputAction class means that you can configure new actions based
     /// on keys without having to directly modify the InputState type. This means
     /// more customization without having to change the core classes of the Game
@@ -32,9 +30,10 @@ namespace GameLibrary.Input
         // simplify the evaluate method by allowing us to map the appropriate
         // delegates and invoke them, rather than having two separate code paths.
         private delegate bool ButtonPress(Buttons button, PlayerIndex? controllingPlayer, out PlayerIndex player);
+
         private delegate bool KeyPress(Keys key, PlayerIndex? controllingPlayer, out PlayerIndex player);
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -57,7 +56,7 @@ namespace GameLibrary.Input
             this.newPressOnly = newPressOnly;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Methods
 
@@ -103,6 +102,6 @@ namespace GameLibrary.Input
             return false;
         }
 
-        #endregion
+        #endregion Methods
     }
 }

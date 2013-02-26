@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
-using SpaceHordes.Entities.Components;
 using GameLibrary.Helpers;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class CrystalMovementSystem : GroupSystem
     {
-        public CrystalMovementSystem() : base("Crystals")
+        public CrystalMovementSystem()
+            : base("Crystals")
         {
         }
 
@@ -28,13 +25,12 @@ namespace SpaceHordes.Entities.Systems
                     }
                     return true;
                 };
-            
+
             base.Added(e);
         }
 
         public override void Process(Entity e)
         {
-            
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Common.PolygonManipulation;
+﻿using GameLibrary.Dependencies.Physics.Common.PolygonManipulation;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 {
@@ -22,6 +22,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         {
             Vertices p = new Vertices();
             while (j < i) j += vertices.Count;
+
             //p.reserve(j - i + 1);
             for (; i <= j; ++i)
             {

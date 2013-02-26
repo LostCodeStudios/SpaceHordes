@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using SpaceHordes.Entities.Components;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using GameLibrary.Helpers;
 using GameLibrary.Entities.Components.Render;
+using Microsoft.Xna.Framework;
+using SpaceHordes.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class HealthSystem : EntityProcessingSystem
     {
-        ComponentMapper<Health> healthMapper;
-        static Random r = new Random();
+        private ComponentMapper<Health> healthMapper;
+        private static Random r = new Random();
 
         public HealthSystem()
             : base(typeof(Health))

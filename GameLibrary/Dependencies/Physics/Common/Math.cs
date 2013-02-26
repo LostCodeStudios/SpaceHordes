@@ -1,32 +1,32 @@
 ﻿/*
 * Farseer Physics Engine based on Box2D.XNA port:
 * Copyright (c) 2010 Ian Qvist
-* 
+*
 * Box2D.XNA port of Box2D:
 * Copyright (c) 2009 Brandon Furtwangler, Nathan Furtwangler
 *
 * Original source Box2D:
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com 
-* 
-* This software is provided 'as-is', without any express or implied 
-* warranty.  In no event will the authors be held liable for any damages 
-* arising from the use of this software. 
-* Permission is granted to anyone to use this software for any purpose, 
-* including commercial applications, and to alter it and redistribute it 
-* freely, subject to the following restrictions: 
-* 1. The origin of this software must not be misrepresented; you must not 
-* claim that you wrote the original software. If you use this software 
-* in a product, an acknowledgment in the product documentation would be 
-* appreciated but is not required. 
-* 2. Altered source versions must be plainly marked as such, and must not be 
-* misrepresented as being the original software. 
-* 3. This notice may not be removed or altered from any source distribution. 
+* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
 */
 
+using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
@@ -208,7 +208,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         /// <summary>
         /// Returns a positive number if c is to the left of the line going from a to b.
         /// </summary>
-        /// <returns>Positive number if point is left, negative if point is right, 
+        /// <returns>Positive number if point is left, negative if point is right,
         /// and 0 if points are collinear.</returns>
         public static float Area(Vector2 a, Vector2 b, Vector2 c)
         {
@@ -218,7 +218,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         /// <summary>
         /// Returns a positive number if c is to the left of the line going from a to b.
         /// </summary>
-        /// <returns>Positive number if point is left, negative if point is right, 
+        /// <returns>Positive number if point is left, negative if point is right,
         /// and 0 if points are collinear.</returns>
         public static float Area(ref Vector2 a, ref Vector2 b, ref Vector2 c)
         {
@@ -286,11 +286,12 @@ namespace GameLibrary.Dependencies.Physics.Common
         {
             [FieldOffset(0)]
             public float x;
+
             [FieldOffset(0)]
             public int i;
         }
 
-        #endregion
+        #endregion Nested type: FloatConverter
     }
 
     /// <summary>

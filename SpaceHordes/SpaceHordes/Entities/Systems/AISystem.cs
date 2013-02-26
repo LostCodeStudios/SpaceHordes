@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
@@ -40,7 +35,7 @@ namespace SpaceHordes.Entities.Systems
             {
                 e.GetComponent<AI>().Target = e.GetComponent<AI>().Target;
             }
-            
+
             base.Added(e);
         }
 

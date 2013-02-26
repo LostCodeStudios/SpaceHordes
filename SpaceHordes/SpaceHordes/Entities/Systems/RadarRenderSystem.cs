@@ -6,18 +6,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceHordes.Entities.Components;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class RadarRenderSystem : EntityProcessingSystem
+    internal class RadarRenderSystem : EntityProcessingSystem
     {
-        Rectangle _RadarBounds;
-        Vector2 _RadarCenter;
-        Rectangle _ScanBounds;
-
+        private Rectangle _RadarBounds;
+        private Vector2 _RadarCenter;
+        private Rectangle _ScanBounds;
 
         public RadarRenderSystem(Rectangle radarBounds, Rectangle scanBounds)
             : base(typeof(Body))
@@ -30,16 +26,14 @@ namespace SpaceHordes.Entities.Systems
                 0f, 0f, 1);
             _View = Matrix.Identity;
 
-
             _PrimBatch = new PrimitiveBatch(ScreenHelper.GraphicsDevice);
             _SpriteBatch = new SpriteBatch(ScreenHelper.GraphicsDevice);
-
         }
 
         public override void Process(Entity e)
         {
             Body b = e.GetComponent<Body>(); //Sim => Display => %[Scan] => *<width,height> + <x,y>
-            if(b!= null)
+            if (b != null)
             {
                 Vector2 position = ConvertUnits.ToDisplayUnits(b.Position) - ScreenHelper.Center - ScreenHelper.Center;
                 if (_ScanBounds.Contains((int)position.X, (int)position.Y))
@@ -49,12 +43,11 @@ namespace SpaceHordes.Entities.Systems
                     position *= new Vector2(_RadarBounds.Width, _RadarBounds.Height);
                     position += new Vector2(_RadarBounds.X, _RadarBounds.Y);
 
-
                     //DRAW
                     Color drawColor = Color.White;
-                    if(e.HasComponent<Crystal>())
+                    if (e.HasComponent<Crystal>())
                         drawColor = e.GetComponent<Crystal>().Color;
-                    DrawSolidCircle(position, 0.5f*b.Mass, Vector2.Zero, drawColor);
+                    DrawSolidCircle(position, 0.5f * b.Mass, Vector2.Zero, drawColor);
 
                     //PLAYER ID
                     if (e.Group != null && e.Group == "Players")
@@ -65,7 +58,6 @@ namespace SpaceHordes.Entities.Systems
 #endif
                 }
             }
-            
         }
 
         public override void Process()
@@ -83,12 +75,13 @@ namespace SpaceHordes.Entities.Systems
         }
 
         #region Drawing
-        SpriteBatch _SpriteBatch;
-        SpriteFont _RadarFont;
 
-        PrimitiveBatch _PrimBatch;
-        Matrix _Projection;
-        Matrix _View;
+        private SpriteBatch _SpriteBatch;
+        private SpriteFont _RadarFont;
+
+        private PrimitiveBatch _PrimBatch;
+        private Matrix _Projection;
+        private Matrix _View;
 
         public void DrawCircle(Vector2 center, float radius, Color color)
         {
@@ -160,7 +153,6 @@ namespace SpaceHordes.Entities.Systems
             _SpriteBatch.DrawString(_RadarFont, text, position, color, 0f, Vector2.Zero, 0.75f, SpriteEffects.None, 0f);
         }
 
-        #endregion
-
+        #endregion Drawing
     }
 }

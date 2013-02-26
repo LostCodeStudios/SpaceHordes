@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision;
+﻿using GameLibrary.Dependencies.Physics.Collision;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
@@ -219,6 +219,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         if (bj == bp.End()) bj = bp.Begin();
                         u.GeomP.Length++;
                     }
+
                     //u.p.simplify(float.Epsilon,float.Epsilon);
                     //
                     ax = x + 1;
@@ -249,6 +250,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                     p.GeomP = u.GeomP;
 
                     x = (int)((bi.Next().Elem().X - domain.LowerBound.X) / cellWidth) + 1;
+
                     //x++; this was already commented out!
                 }
             }
@@ -265,7 +267,7 @@ namespace GameLibrary.Dependencies.Physics.Common
 
         #region Private Methods
 
-        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         /** Linearly interpolate between (x0 to x1) given a value at these coordinates (v0 and v1)
             such as to approximate value(return) = 0
@@ -286,7 +288,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             return x0 + t * (x1 - x0);
         }
 
-        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+        //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         /** Recursive linear interpolation for use in marching squares **/
 
@@ -391,6 +393,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         poly.Length++;
                     }
                 }
+
                 //poly.simplify(float.Epsilon,float.Epsilon);
             }
             return key;
@@ -421,8 +424,10 @@ namespace GameLibrary.Dependencies.Physics.Common
                         b = bi.Next().Elem();
 
                         Vector2 u = a - a0;
+
                         //vec_new(u); vec_sub(a.p.p, a0.p.p, u);
                         Vector2 v = b - a;
+
                         //vec_new(v); vec_sub(b.p.p, a.p.p, v);
                         float dot = VecCross(u, v);
                         if (dot * dot < Settings.Epsilon)
@@ -457,8 +462,10 @@ namespace GameLibrary.Dependencies.Physics.Common
                     Vector2 a2 = ai.Elem();
                     Vector2 a00 = preb.Elem();
                     Vector2 uu = a1 - a00;
+
                     //vec_new(u); vec_sub(a1.p, a0.p, u);
                     Vector2 vv = a2 - a1;
+
                     //vec_new(v); vec_sub(a2.p, a1.p, v);
                     float dot1 = VecCross(uu, vv);
                     if (dot1 * dot1 < Settings.Epsilon)
@@ -474,7 +481,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
         }
 
-        #endregion
+        #endregion Private Methods
 
         #region CxFastList from nape physics
 
@@ -487,6 +494,7 @@ namespace GameLibrary.Dependencies.Physics.Common
         {
             // first node in the list
             private CxFastListNode<T> _head;
+
             private int _count;
 
             /// <summary>
@@ -569,6 +577,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                                     return true;
                                 }
                             }
+
                             // cache the current as the previous for the next go around
                             prev = head;
                             head = head._next;
@@ -579,10 +588,10 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
 
             /// <summary>
-            /// pop element from head of list (O(1)) Note: this does not return the object popped! 
-            /// There is good reason to this, and it regards the Alloc list variants which guarantee 
-            /// objects are released to the object pool. You do not want to retrieve an element 
-            /// through pop or else that object may suddenly be used by another piece of code which 
+            /// pop element from head of list (O(1)) Note: this does not return the object popped!
+            /// There is good reason to this, and it regards the Alloc list variants which guarantee
+            /// objects are released to the object pool. You do not want to retrieve an element
+            /// through pop or else that object may suddenly be used by another piece of code which
             /// retrieves it from the object pool.
             /// </summary>
             public CxFastListNode<T> Pop()
@@ -610,7 +619,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
 
             /// <summary>
-            /// removes the element pointed to by 'node' with 'prev' being the previous iterator, 
+            /// removes the element pointed to by 'node' with 'prev' being the previous iterator,
             /// returning an iterator to the element following that of 'node' (O(1))
             /// </summary>
             public CxFastListNode<T> Erase(CxFastListNode<T> prev, CxFastListNode<T> node)
@@ -678,7 +687,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                 return (Find(value) != null);
             }
 
-            // Non CxFastList Methods 
+            // Non CxFastList Methods
             public CxFastListNode<T> Find(T value)
             {
                 // start at head
@@ -730,7 +739,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
         }
 
-        #endregion
+        #endregion Nested type: CxFastList
 
         #region Nested type: CxFastListNode
 
@@ -755,9 +764,9 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
         }
 
-        #endregion
+        #endregion Nested type: CxFastListNode
 
-        #endregion
+        #endregion CxFastList from nape physics
 
         #region Internal Stuff
 
@@ -775,7 +784,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
         }
 
-        #endregion
+        #endregion Nested type: GeomPoly
 
         #region Nested type: GeomPolyVal
 
@@ -793,8 +802,8 @@ namespace GameLibrary.Dependencies.Physics.Common
             }
         }
 
-        #endregion
+        #endregion Nested type: GeomPolyVal
 
-        #endregion
+        #endregion Internal Stuff
     }
 }

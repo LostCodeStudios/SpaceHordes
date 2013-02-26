@@ -1,9 +1,8 @@
-﻿using System;
-
+﻿using GameLibrary.GameStates;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.GameStates;
+using System;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -11,11 +10,11 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        ContentManager content;
-        Texture2D backgroundTexture;
-        string filename;
+        private ContentManager content;
+        private Texture2D backgroundTexture;
+        private string filename;
 
-        #endregion
+        #endregion Fields
 
         #region Initialization
 
@@ -48,17 +47,18 @@ namespace SpaceHordes.GameStates.Screens
             content.Unload();
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update & Draw
 
         /// <summary>
         /// Updates the background screen.
         /// </summary>
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus, 
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus,
             bool coveredByOtherScreen)
         {
-            base.Update(gameTime, otherScreenHasFocus, false); 
+            base.Update(gameTime, otherScreenHasFocus, false);
+
             //pass in false so the background won't transition off even when covered
         }
 
@@ -79,6 +79,6 @@ namespace SpaceHordes.GameStates.Screens
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
     }
 }

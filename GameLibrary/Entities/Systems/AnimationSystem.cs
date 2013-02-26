@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary;
-using GameLibrary.Entities.Systems;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
-
-
+using System.Linq;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -35,17 +27,21 @@ namespace SpaceHordes.Entities.Systems
                         case AnimationType.Loop:
                             sprite.FrameIndex++;
                             break;
+
                         case AnimationType.ReverseLoop:
                             sprite.FrameIndex--;
                             break;
+
                         case AnimationType.Increment:
                             sprite.FrameIndex++;
                             anim.Type = AnimationType.None;
                             break;
+
                         case AnimationType.Decrement:
                             sprite.FrameIndex--;
                             anim.Type = AnimationType.None;
                             break;
+
                         case AnimationType.Bounce:
                             sprite.FrameIndex += anim.FrameInc;
                             if (sprite.FrameIndex == sprite.Source.Count() - 1)
@@ -54,6 +50,7 @@ namespace SpaceHordes.Entities.Systems
                             if (sprite.FrameIndex == 0)
                                 anim.FrameInc = 1;
                             break;
+
                         case AnimationType.Once:
                             if (sprite.FrameIndex < sprite.Source.Count() - 1)
                                 sprite.FrameIndex++;

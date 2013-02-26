@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GameLibrary.Dependencies.Entities
 {
@@ -40,6 +38,7 @@ namespace GameLibrary.Dependencies.Entities
         }
 
         internal bool fired = false;
+
         internal void Fire(TriggerState TriggerState)
         {
             fired = true;
@@ -64,7 +63,6 @@ namespace GameLibrary.Dependencies.Entities
         {
         }
     }
-
 
     public enum TriggerState : long
     {

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-
-using GameLibrary.Input;
-using GameLibrary.GameStates;
+﻿using GameLibrary.GameStates;
 using GameLibrary.Helpers;
+using GameLibrary.Input;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -21,28 +18,28 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        const string defaultTitle = "High Scores";
-        string titleText;
+        private const string defaultTitle = "High Scores";
+        private string titleText;
 
-        const int maxScores = 10;
-        string[] initials = new string[maxScores];
-        long[] scores = new long[maxScores];
+        private const int maxScores = 10;
+        private string[] initials = new string[maxScores];
+        private long[] scores = new long[maxScores];
 
-        int selectedScore;
-        int players;
+        private int selectedScore;
+        private int players;
 
-        InputAction menuCancel;
-        InputAction left;
-        InputAction right;
+        private InputAction menuCancel;
+        private InputAction left;
+        private InputAction right;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
         public int Players
         {
             get { return players; }
-            set 
+            set
             {
                 players = value;
                 if (players < 1)
@@ -61,7 +58,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Static Properties
 
@@ -72,13 +69,13 @@ namespace SpaceHordes.GameStates.Screens
         {
             get
             {
-                #if WINDOWS
+#if WINDOWS
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
-                #endif
+#endif
 
-                #if XBOX
+#if XBOX
                 return "";
-                #endif
+#endif
             }
         }
 
@@ -87,15 +84,15 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         public static string FilePath
         {
-            get 
-            { 
-                #if WINDOWS
+            get
+            {
+#if WINDOWS
                 return FolderPath + @"\scores.txt";
-                #endif
+#endif
 
-                #if XBOX
+#if XBOX
                 return "";
-                #endif
+#endif
             }
         }
 
@@ -243,7 +240,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Static Properties
 
         #region Initialization
 
@@ -285,10 +282,11 @@ namespace SpaceHordes.GameStates.Screens
             ReadScores(players, out initials, out scores);
 #endif
 #if XBOX
+
             //
 #endif
         }
-        
+
         /// <summary>
         /// Makes a high score screen with a specific score highlighted.
         /// </summary>
@@ -306,7 +304,7 @@ namespace SpaceHordes.GameStates.Screens
         {
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Input
 
@@ -316,7 +314,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (menuCancel.Evaluate(input, ControllingPlayer, out index))
             {
-                ExitScreen(); 
+                ExitScreen();
             }
 
             if (left.Evaluate(input, ControllingPlayer, out index))
@@ -330,7 +328,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Input
 
         #region Update & Draw
 
@@ -350,7 +348,7 @@ namespace SpaceHordes.GameStates.Screens
 
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
 
-            Vector2 nameLocation = 
+            Vector2 nameLocation =
                 new Vector2(ScreenHelper.Viewport.Width / 4.266666667f, ScreenHelper.Viewport.Height / 4f);
 
             if (ScreenState == ScreenState.TransitionOn)
@@ -358,7 +356,7 @@ namespace SpaceHordes.GameStates.Screens
             else
                 nameLocation.X -= transitionOffset * 512;
 
-            Vector2 scoreLocation = 
+            Vector2 scoreLocation =
                 new Vector2(ScreenHelper.Viewport.Width / 1.30612244f, ScreenHelper.Viewport.Height / 4f);
 
             if (ScreenState == ScreenState.TransitionOn)
@@ -399,7 +397,7 @@ namespace SpaceHordes.GameStates.Screens
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
 
         #region Static Methods
 
@@ -547,21 +545,24 @@ namespace SpaceHordes.GameStates.Screens
                             initials = FirstInitials1;
                             scores = FirstScores1;
                             break;
+
                         case 2:
                             initials = FirstInitials2;
                             scores = FirstScores2;
                             break;
+
                         case 3:
                             initials = FirstInitials3;
                             scores = FirstScores3;
                             break;
+
                         case 4:
                             initials = FirstInitials4;
                             scores = FirstScores4;
                             break;
                     }
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -598,7 +599,7 @@ namespace SpaceHordes.GameStates.Screens
 
             for (int i = scores.Length - 1; i > place; i--)
                 scores[i] = scores[i - 1];
-            
+
             scores[place] = score;
             initials[place] = names;
 
@@ -622,6 +623,6 @@ namespace SpaceHordes.GameStates.Screens
             return (score > scores[9]);
         }
 
-        #endregion
+        #endregion Static Methods
     }
 }

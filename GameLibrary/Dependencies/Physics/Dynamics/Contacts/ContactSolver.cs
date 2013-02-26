@@ -1,34 +1,34 @@
 /*
 * Farseer Physics Engine based on Box2D.XNA port:
 * Copyright (c) 2010 Ian Qvist
-* 
+*
 * Box2D.XNA port of Box2D:
 * Copyright (c) 2009 Brandon Furtwangler, Nathan Furtwangler
 *
 * Original source Box2D:
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com 
-* 
-* This software is provided 'as-is', without any express or implied 
-* warranty.  In no event will the authors be held liable for any damages 
-* arising from the use of this software. 
-* Permission is granted to anyone to use this software for any purpose, 
-* including commercial applications, and to alter it and redistribute it 
-* freely, subject to the following restrictions: 
-* 1. The origin of this software must not be misrepresented; you must not 
-* claim that you wrote the original software. If you use this software 
-* in a product, an acknowledgment in the product documentation would be 
-* appreciated but is not required. 
-* 2. Altered source versions must be plainly marked as such, and must not be 
-* misrepresented as being the original software. 
-* 3. This notice may not be removed or altered from any source distribution. 
+* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Diagnostics;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using Microsoft.Xna.Framework;
+using System;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
 {
@@ -384,14 +384,14 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                     // implies that we must have in any solution either vn_i = 0 or x_i = 0. So for the 2D contact problem the cases
                     // vn1 = 0 and vn2 = 0, x1 = 0 and x2 = 0, x1 = 0 and vn2 = 0, x2 = 0 and vn1 = 0 need to be tested. The first valid
                     // solution that satisfies the problem is chosen.
-                    // 
+                    //
                     // In order to account of the accumulated impulse 'a' (because of the iterative nature of the solver which only requires
                     // that the accumulated impulse is clamped and not the incremental impulse) we change the impulse variable (x_i).
                     //
                     // Substitute:
-                    // 
+                    //
                     // x = x' - a
-                    // 
+                    //
                     // Plug into above equation:
                     //
                     // vn = A * x + b
@@ -463,8 +463,8 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                             cp1.NormalImpulse = xx;
                             cp2.NormalImpulse = xy;
 
-#if B2_DEBUG_SOLVER 
-                            
+#if B2_DEBUG_SOLVER
+
                             float k_errorTol = 1e-3f;
 
                             // Postconditions
@@ -484,7 +484,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                         //
                         // Case 2: vn1 = 0 and x2 = 0
                         //
-                        //   0 = a11 * x1' + a12 * 0 + b1' 
+                        //   0 = a11 * x1' + a12 * 0 + b1'
                         // vn2 = a21 * x1' + a22 * 0 + b2'
                         //
                         xx = -cp1.NormalMass * bx;
@@ -520,7 +520,8 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                             cp1.NormalImpulse = xx;
                             cp2.NormalImpulse = xy;
 
-#if B2_DEBUG_SOLVER 
+#if B2_DEBUG_SOLVER
+
     // Postconditions
                             dv1 = vB + MathUtils.Cross(wB, cp1.rB) - vA - MathUtils.Cross(wA, cp1.rA);
 
@@ -532,11 +533,10 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                             break;
                         }
 
-
                         //
                         // Case 3: vn2 = 0 and x1 = 0
                         //
-                        // vn1 = a11 * 0 + a12 * x2' + b1' 
+                        // vn1 = a11 * 0 + a12 * x2' + b1'
                         //   0 = a21 * 0 + a22 * x2' + b2'
                         //
                         xx = 0.0f;
@@ -572,7 +572,8 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                             cp1.NormalImpulse = xx;
                             cp2.NormalImpulse = xy;
 
-#if B2_DEBUG_SOLVER 
+#if B2_DEBUG_SOLVER
+
     // Postconditions
                             dv2 = vB + MathUtils.Cross(wB, cp2.rB) - vA - MathUtils.Cross(wA, cp2.rA);
 
@@ -586,7 +587,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
 
                         //
                         // Case 4: x1 = 0 and x2 = 0
-                        // 
+                        //
                         // vn1 = b1
                         // vn2 = b2;
                         xx = 0.0f;
@@ -784,6 +785,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                         normal = -normal;
                     }
                     break;
+
                 default:
                     point = Vector2.Zero;
                     separation = 0.0f;

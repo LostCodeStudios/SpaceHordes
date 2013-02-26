@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using GameLibrary.GameStates;
+using GameLibrary.GameStates.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.GameStates;
-using GameLibrary.GameStates.Screens;
 
 namespace SpaceHordes.GameStates.Screens
 {
-    class InitialEntryChar : MenuEntry
+    internal class InitialEntryChar : MenuEntry
     {
         /// <summary>
         /// Draws the menu entry using the InitialEntryFont
@@ -34,7 +29,6 @@ namespace SpaceHordes.GameStates.Screens
 
             spriteBatch.DrawString(font, text, position, color, 0,
                 origin, Scale, SpriteEffects.None, 0);
-
         }
 
         public InitialEntryChar(string text)

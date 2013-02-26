@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using GameLibrary.Dependencies.Physics.Collision;
+using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Dependencies.Physics.Dynamics;
-using GameLibrary.Dependencies.Physics.Collision;
-using GameLibrary.Dependencies.Physics.Factories;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
@@ -340,18 +340,23 @@ namespace GameLibrary.Dependencies.Physics.Common
                     case Decomposer.Bayazit:
                         decompPolys = Decomposition.BayazitDecomposer.ConvexPartition(p);
                         break;
+
                     case Decomposer.CDT:
                         decompPolys = Decomposition.CDTDecomposer.ConvexPartition(p);
                         break;
+
                     case Decomposer.Earclip:
                         decompPolys = Decomposition.EarclipDecomposer.ConvexPartition(p);
                         break;
+
                     case Decomposer.Flipcode:
                         decompPolys = Decomposition.FlipcodeDecomposer.ConvexPartition(p);
                         break;
+
                     case Decomposer.Seidel:
                         decompPolys = Decomposition.SeidelDecomposer.ConvexPartition(p, 0.001f);
                         break;
+
                     default:
                         break;
                 }

@@ -64,6 +64,6 @@ namespace Poly2Tri.Triangulation.Delaunay.Sweep
             }
         }
 
-        #endregion
+        #endregion IComparer<TriangulationPoint> Members
     }
 }

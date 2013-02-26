@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
+
 namespace GameLibrary.Dependencies.Entities
 {
-    public abstract class DelayedEntityProcessingSystem : DelayedEntitySystem {
-
-        
+    public abstract class DelayedEntityProcessingSystem : DelayedEntitySystem
+    {
         /// <summary>
         /// Create a new DelayedEntityProcessingSystem. It requires at least one component.
         /// </summary>
         /// <param name="requiredType">The required component type.</param>
         /// <param name="otherTypes">Other component types.</param>
-        public DelayedEntityProcessingSystem(Type requiredType,params Type[] otherTypes) : base(GetMergedTypes(requiredType, otherTypes)){
+        public DelayedEntityProcessingSystem(Type requiredType, params Type[] otherTypes)
+            : base(GetMergedTypes(requiredType, otherTypes))
+        {
         }
 
         /// <summary>
@@ -19,7 +21,6 @@ namespace GameLibrary.Dependencies.Entities
         /// <param name="e"></param>
         /// <param name="accumulatedDelta">The entity to process.</param>
         public abstract void Process(Entity e, int accumulatedDelta);
-
 
         /// <summary>
         /// Process all entities with the delayed Entity processing system
@@ -30,10 +31,8 @@ namespace GameLibrary.Dependencies.Entities
         {
             foreach (Entity item in entities.Values)
             {
-               Process(item, accumulatedDelta);
-            }            
-            
+                Process(item, accumulatedDelta);
+            }
         }
-    }    
+    }
 }
-

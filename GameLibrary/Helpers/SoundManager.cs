@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Helpers
 {
     public static class SoundManager
     {
-        static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
+        private static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect>();
 
-        static float volume;
+        private static float volume;
+
         public static float Volume
         {
             get { return volume; }

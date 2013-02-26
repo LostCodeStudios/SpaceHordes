@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Entities;
-using GameLibrary;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Physics.Dynamics;
-using SpaceHordes.Entities.Components;
-using GameLibrary.Helpers;
-using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using Microsoft.Xna.Framework;
+using SpaceHordes.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Templates
 {
-    class BulletTemplate : IEntityTemplate
+    internal class BulletTemplate : IEntityTemplate
     {
         /// <summary>
         /// Builds a bullet type using a default velocity and sprite
@@ -31,17 +24,17 @@ namespace SpaceHordes.Entities.Templates
         /// <summary>
         /// Creates a bullet template with a default sprite
         /// </summary>
-        public BulletTemplate(Sprite defaultSprite) : this(defaultSprite, new Velocity(Vector2.One, 0.0f), new Bullet(1))
+        public BulletTemplate(Sprite defaultSprite)
+            : this(defaultSprite, new Velocity(Vector2.One, 0.0f), new Bullet(1))
         {
         }
-         
-        Sprite   _DefaultSprite;
-        IVelocity _DefaultVelocity;
-        Bullet _DefaultBullet;
 
+        private Sprite _DefaultSprite;
+        private IVelocity _DefaultVelocity;
+        private Bullet _DefaultBullet;
 
         /// <summary>
-        /// Builds a bullet entity. 
+        /// Builds a bullet entity.
         /// </summary>
         /// <param name="e">The entity to build.</param>
         /// <param name="args">[0] = ITransform; [1] = IVelocity; [2] = Sprite; [3] = Bullet </param>
@@ -69,7 +62,6 @@ namespace SpaceHordes.Entities.Templates
                     bullet = (Bullet)args[3];
             }
 
-
             //Make the velocity proportional to the default velocity and the target rotation
             e.AddComponent<Particle>(new Particle(e, transform.Position, transform.Rotation,
                  velocity.LinearVelocity * new Vector2((float)Math.Cos(transform.Rotation),
@@ -80,6 +72,5 @@ namespace SpaceHordes.Entities.Templates
 
             return e;
         }
-
     }
 }

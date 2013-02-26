@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Dynamics;
+﻿using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Controllers
 {
@@ -32,8 +32,11 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         }
 
         public float MinRadius { get; set; }
+
         public float MaxRadius { get; set; }
+
         public float Strength { get; set; }
+
         public GravityType GravityType { get; set; }
 
         public override void Update(float dt)
@@ -66,6 +69,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
                         case GravityType.DistanceSquared:
                             f = Strength / r2 / (float)Math.Sqrt(r2) * body1.Mass * body2.Mass * d;
                             break;
+
                         case GravityType.Linear:
                             f = Strength / r2 * body1.Mass * body2.Mass * d;
                             break;
@@ -94,6 +98,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
                         case GravityType.DistanceSquared:
                             f = Strength / r2 / (float)Math.Sqrt(r2) * body1.Mass * d;
                             break;
+
                         case GravityType.Linear:
                             f = Strength / r2 * body1.Mass * d;
                             break;

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using SpaceHordes.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -44,6 +41,7 @@ namespace SpaceHordes.Entities.Systems
 
                 h.SetHealth(e, h.CurrentHealth - d.Amount);
                 Console.WriteLine(e.Id.ToString() + " takes " + d.Amount + " continuous damage");
+
                 //TODO: Add green sprite effect
             }
         }

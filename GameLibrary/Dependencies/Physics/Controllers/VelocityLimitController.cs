@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GameLibrary.Dependencies.Physics.Dynamics;
+using System;
 using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Dynamics;
 
 namespace GameLibrary.Dependencies.Physics.Controllers
 {

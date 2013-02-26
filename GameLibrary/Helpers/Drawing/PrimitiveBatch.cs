@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace GameLibrary.Helpers
 {
@@ -24,7 +24,6 @@ namespace GameLibrary.Helpers
         private int _lineVertsCount;
         private VertexPositionColor[] _triangleVertices;
         private int _triangleVertsCount;
-
 
         /// <summary>
         /// the constructor creates a new PrimitiveBatch and sets up all of the internals
@@ -60,7 +59,7 @@ namespace GameLibrary.Helpers
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
 
         public void SetProjection(ref Matrix projection)
         {
@@ -77,7 +76,6 @@ namespace GameLibrary.Helpers
                 _isDisposed = true;
             }
         }
-
 
         /// <summary>
         /// Begin is called to tell the PrimitiveBatch what kind of primitives will be
@@ -141,7 +139,6 @@ namespace GameLibrary.Helpers
             }
         }
 
-
         /// <summary>
         /// End is called once all the primitives have been drawn using AddVertex.
         /// it will call Flush to actually submit the draw call to the graphics card, and
@@ -170,6 +167,7 @@ namespace GameLibrary.Helpers
             if (_triangleVertsCount >= 3)
             {
                 int primitiveCount = _triangleVertsCount / 3;
+
                 // submit the draw call to the graphics card
                 _device.SamplerStates[0] = SamplerState.AnisotropicClamp;
                 _device.DrawUserPrimitives(PrimitiveType.TriangleList, _triangleVertices, 0, primitiveCount);
@@ -186,6 +184,7 @@ namespace GameLibrary.Helpers
             if (_lineVertsCount >= 2)
             {
                 int primitiveCount = _lineVertsCount / 2;
+
                 // submit the draw call to the graphics card
                 _device.SamplerStates[0] = SamplerState.AnisotropicClamp;
                 _device.DrawUserPrimitives(PrimitiveType.LineList, _lineVertices, 0, primitiveCount);

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
 {
@@ -57,7 +57,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
         /// <summary>
         /// Ramer-Douglas-Peucker polygon simplification algorithm. This is the general recursive version that does not use the
         /// speed-up technique by using the Melkman convex hull.
-        /// 
+        ///
         /// If you pass in 0, it will remove all collinear points
         /// </summary>
         /// <returns>The simplified polygon</returns>
@@ -125,7 +125,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             /*(1)               AC dot AB
                         r =   ---------
                               ||AB||^2
-             
+
                         r has the following meaning:
                         r=0 Point = A
                         r=1 Point = B
@@ -140,7 +140,6 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
 
             if (r <= 0.0) return DistancePointPoint(p, A);
             if (r >= 1.0) return DistancePointPoint(p, B);
-
 
             /*(2)
                             (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay)

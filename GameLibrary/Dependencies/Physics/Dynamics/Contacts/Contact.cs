@@ -1,35 +1,35 @@
 /*
 * Farseer Physics Engine based on Box2D.XNA port:
 * Copyright (c) 2010 Ian Qvist
-* 
+*
 * Box2D.XNA port of Box2D:
 * Copyright (c) 2009 Brandon Furtwangler, Nathan Furtwangler
 *
 * Original source Box2D:
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com 
-* 
-* This software is provided 'as-is', without any express or implied 
-* warranty.  In no event will the authors be held liable for any damages 
-* arising from the use of this software. 
-* Permission is granted to anyone to use this software for any purpose, 
-* including commercial applications, and to alter it and redistribute it 
-* freely, subject to the following restrictions: 
-* 1. The origin of this software must not be misrepresented; you must not 
-* claim that you wrote the original software. If you use this software 
-* in a product, an acknowledgment in the product documentation would be 
-* appreciated but is not required. 
-* 2. Altered source versions must be plainly marked as such, and must not be 
-* misrepresented as being the original software. 
-* 3. This notice may not be removed or altered from any source distribution. 
+* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
 {
@@ -119,9 +119,11 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                                                            {
                                                                ContactType.EdgeAndCircle,
                                                                ContactType.NotSupported,
+
                                                                // 1,1 is invalid (no ContactType.Edge)
                                                                ContactType.EdgeAndPolygon,
                                                                ContactType.NotSupported,
+
                                                                // 1,3 is invalid (no ContactType.EdgeAndLoop)
                                                            },
                                                            {
@@ -133,9 +135,11 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                                                            {
                                                                ContactType.LoopAndCircle,
                                                                ContactType.NotSupported,
+
                                                                // 3,1 is invalid (no ContactType.EdgeAndLoop)
                                                                ContactType.LoopAndPolygon,
                                                                ContactType.NotSupported,
+
                                                                // 3,3 is invalid (no ContactType.Loop)
                                                            },
                                                        };
@@ -148,6 +152,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
 
         // Nodes for connecting bodies.
         internal ContactEdge NodeA = new ContactEdge();
+
         internal ContactEdge NodeB = new ContactEdge();
         public float TOI;
         internal int TOICount;
@@ -384,7 +389,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
         }
 
         /// <summary>
-        /// Evaluate this contact with your own manifold and transforms.   
+        /// Evaluate this contact with your own manifold and transforms.
         /// </summary>
         /// <param name="manifold">The manifold.</param>
         /// <param name="transformA">The first transform.</param>
@@ -398,33 +403,39 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
                                                         (PolygonShape)FixtureA.Shape, ref transformA,
                                                         (PolygonShape)FixtureB.Shape, ref transformB);
                     break;
+
                 case ContactType.PolygonAndCircle:
                     Collision.Collision.CollidePolygonAndCircle(ref manifold,
                                                                 (PolygonShape)FixtureA.Shape, ref transformA,
                                                                 (CircleShape)FixtureB.Shape, ref transformB);
                     break;
+
                 case ContactType.EdgeAndCircle:
                     Collision.Collision.CollideEdgeAndCircle(ref manifold,
                                                              (EdgeShape)FixtureA.Shape, ref transformA,
                                                              (CircleShape)FixtureB.Shape, ref transformB);
                     break;
+
                 case ContactType.EdgeAndPolygon:
                     Collision.Collision.CollideEdgeAndPolygon(ref manifold,
                                                               (EdgeShape)FixtureA.Shape, ref transformA,
                                                               (PolygonShape)FixtureB.Shape, ref transformB);
                     break;
+
                 case ContactType.LoopAndCircle:
                     LoopShape loop = (LoopShape)FixtureA.Shape;
                     loop.GetChildEdge(ref _edge, ChildIndexA);
                     Collision.Collision.CollideEdgeAndCircle(ref manifold, _edge, ref transformA,
                                                              (CircleShape)FixtureB.Shape, ref transformB);
                     break;
+
                 case ContactType.LoopAndPolygon:
                     LoopShape loop2 = (LoopShape)FixtureA.Shape;
                     loop2.GetChildEdge(ref _edge, ChildIndexA);
                     Collision.Collision.CollideEdgeAndPolygon(ref manifold, _edge, ref transformA,
                                                               (PolygonShape)FixtureB.Shape, ref transformB);
                     break;
+
                 case ContactType.Circle:
                     Collision.Collision.CollideCircles(ref manifold,
                                                        (CircleShape)FixtureA.Shape, ref transformA,
@@ -497,6 +508,6 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Contacts
             LoopAndCircle,
         }
 
-        #endregion
+        #endregion Nested type: ContactType
     }
 }

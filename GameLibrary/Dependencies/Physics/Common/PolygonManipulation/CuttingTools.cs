@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
+﻿using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Dependencies.Physics.Factories;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
 {
@@ -48,6 +48,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             for (int i = 0; i < vertices.Count; i++)
             {
                 int n;
+
                 //Find out if this vertex is on the old or new shape.
                 if (Vector2.Dot(MathUtils.Cross(localExitPoint - localEntryPoint, 1), vertices[i] - localEntryPoint) > Settings.Epsilon)
                     n = 0;

@@ -1,13 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-
-using GameLibrary.Input;
-using GameLibrary.GameStates.Screens;
+﻿using GameLibrary.GameStates.Screens;
 using GameLibrary.Helpers;
+using GameLibrary.Input;
+using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.GameStates.Screens
 {
     /// <summary>
-    /// The main menu screen is the first thing displayed when 
+    /// The main menu screen is the first thing displayed when
     /// </summary>
     public class MainMenuScreen : MenuScreen
     {
@@ -57,29 +56,29 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(exitMenuEntry);
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Events
 
         /// <summary>
         /// Event handler for when the Play Game menu entry is selected.
         /// </summary>
-        void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        private void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false));
         }
 
-        void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        private void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", true));
         }
 
-        void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
         }
 
-        void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        private void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new BossScreen("Textures/GameMenu", ScreenHelper.SpriteSheet), e.PlayerIndex);
         }
@@ -87,7 +86,7 @@ namespace SpaceHordes.GameStates.Screens
         /// <summary>
         /// Event handler for when the Options menu entry is selected.
         /// </summary>
-        void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        private void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
         }
@@ -100,6 +99,6 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.Game.Exit();
         }
 
-        #endregion
+        #endregion Events
     }
 }

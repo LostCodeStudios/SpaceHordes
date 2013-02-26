@@ -1,28 +1,29 @@
-﻿using System;
+﻿using GameLibrary.Helpers;
+using GameLibrary.Helpers.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using GameLibrary.Helpers.Drawing;
-using GameLibrary.Helpers;
 
 namespace SpaceHordes
 {
     public class ImageFont
     {
-        Texture2D texture;
-        Dictionary<char, Rectangle> letters = new Dictionary<char, Rectangle>();
+        private Texture2D texture;
+        private Dictionary<char, Rectangle> letters = new Dictionary<char, Rectangle>();
 
-        int spaceWidth = 1;
+        private int spaceWidth = 1;
+
         public int SpaceWidth
         {
             get { return spaceWidth; }
             set { spaceWidth = Math.Max(value, 1); }
         }
 
-        float charSpacing = 0;
+        private float charSpacing = 0;
+
         public float CharSpaceWidth
         {
             get { return charSpacing; }
@@ -56,7 +57,7 @@ namespace SpaceHordes
                 }
             }
 
-            #endregion
+            #endregion Getting Colors
 
             #region Getting Rectangles
 
@@ -83,7 +84,7 @@ namespace SpaceHordes
                 x1++;
             }
 
-            #endregion
+            #endregion Getting Rectangles
 
             #region Removing Source Rectangles
 
@@ -98,9 +99,10 @@ namespace SpaceHordes
             texture = new Texture2D(ScreenHelper.GraphicsDevice, tex.Width, tex.Height);
             texture.SetData<Color>(data);
 
-            #endregion
+            #endregion Removing Source Rectangles
 
             #region Adding chars
+
             int charNext = 65;
             int i = 0;
             while (charNext <= 90)
@@ -121,7 +123,8 @@ namespace SpaceHordes
             letters.Add('!', rects[i++]);
             letters.Add('?', rects[i++]);
             letters.Add('.', rects[i]);
-            #endregion
+
+            #endregion Adding chars
         }
 
         public void LoadContent(ContentManager content, string filename)
@@ -133,9 +136,9 @@ namespace SpaceHordes
         {
             Rectangle source = letters[c];
             spriteBatch.Draw(
-                texture, 
-                new Rectangle((int)position.X, (int)position.Y, source.Width, source.Height), 
-                source, 
+                texture,
+                new Rectangle((int)position.X, (int)position.Y, source.Width, source.Height),
+                source,
                 Color.White);
         }
 

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Helpers;
+using GameLibrary.Helpers.Debug;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Helpers;
-using GameLibrary.Helpers.Debug;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Entities.Systems
 {
@@ -16,13 +14,15 @@ namespace GameLibrary.Entities.Systems
     /// </summary>
     public class DebugSystem : IntervalEntitySystem, IDisposable
     {
-        public DebugSystem(World world) : base(33)
+        public DebugSystem(World world)
+            : base(33)
         {
             this._Camera = world.Camera;
             this.Console = new DebugConsole(world);
         }
 
         #region Initialization
+
         /// <summary>
         /// Initializes the system
         /// </summary>
@@ -48,9 +48,11 @@ namespace GameLibrary.Entities.Systems
             Console.Stop();
             base.Dispose();
         }
-        #endregion
+
+        #endregion Initialization
 
         #region Functioning Loop
+
         public override void Process()
         {
             Matrix projection = _Camera.SimProjection;
@@ -58,16 +60,18 @@ namespace GameLibrary.Entities.Systems
             View.RenderDebugData(ref projection, ref view);
         }
 
-        #endregion
+        #endregion Functioning Loop
 
         #region Fields
+
         /// <summary>
         /// The DebugConsole which the DebugConsoleSystem is writing too
         /// </summary>
         public DebugConsole Console;
 
         public DebugView View;
-        Camera _Camera;
-        #endregion
+        private Camera _Camera;
+
+        #endregion Fields
     }
 }

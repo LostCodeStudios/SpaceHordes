@@ -1,32 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using SpaceHordes.Entities.Components;
-using Microsoft.Xna.Framework.Graphics;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
-using GameLibrary.Entities.Components.Physics;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class HealthRenderSystem : EntityProcessingSystem
+    internal class HealthRenderSystem : EntityProcessingSystem
     {
-        SpriteBatch _SpriteBatch;
-        SpriteFont _SpriteFont;
-        Texture2D _BarTexture;
+        private SpriteBatch _SpriteBatch;
+        private SpriteFont _SpriteFont;
+        private Texture2D _BarTexture;
 
-        ComponentMapper<Health> healthMapper;
-        ComponentMapper<Body> bodyMapper;
+        private ComponentMapper<Health> healthMapper;
+        private ComponentMapper<Body> bodyMapper;
+
         public HealthRenderSystem(SpriteBatch spriteBatch)
             : base(typeof(Health), typeof(Body))
         {
             this._SpriteBatch = spriteBatch;
             _BarTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
             _BarTexture.SetData(CreateTextureData());
-            
         }
 
         private Color[] CreateTextureData()
@@ -43,6 +39,7 @@ namespace SpaceHordes.Entities.Systems
 
             return Colors;
         }
+
         public void LoadContent(SpriteFont spriteFont)
         {
             this._SpriteFont = spriteFont;
@@ -65,6 +62,7 @@ namespace SpaceHordes.Entities.Systems
             {
                 float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
                 float Height = e.GetComponent<Sprite>().CurrentRectangle.Height + 10;
+
                 //Draw backing
                 _SpriteBatch.Draw(_BarTexture,
                     new Rectangle(
@@ -78,7 +76,6 @@ namespace SpaceHordes.Entities.Systems
                         Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2,
                         (int)((health.CurrentHealth / health.MaxHealth) * Width),
                             2), Color.Red);
-            
             }
         }
 

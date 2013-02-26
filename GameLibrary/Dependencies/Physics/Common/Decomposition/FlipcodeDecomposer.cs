@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 {
@@ -39,7 +39,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         }
 
         /// <summary>
-        /// Cut a the contour and add a triangle into V to describe the 
+        /// Cut a the contour and add a triangle into V to describe the
         /// location of the cut
         /// </summary>
         /// <param name="contour">The list of points defining the polygon</param>
@@ -109,7 +109,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 
             for (int v = nv - 1; nv > 2; )
             {
-                // If we loop, it is probably a non-simple polygon 
+                // If we loop, it is probably a non-simple polygon
                 if (0 >= (count--))
                 {
                     // Triangulate: ERROR - probable bad polygon!
@@ -119,13 +119,13 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                 // Three consecutive vertices in current polygon, <u,v,w>
                 int u = v;
                 if (nv <= u)
-                    u = 0; // Previous 
+                    u = 0; // Previous
                 v = u + 1;
                 if (nv <= v)
-                    v = 0; // New v   
+                    v = 0; // New v
                 int w = v + 1;
                 if (nv <= w)
-                    w = 0; // Next 
+                    w = 0; // Next
 
                 _tmpA = contour[V[u]];
                 _tmpB = contour[V[v]];
@@ -142,7 +142,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                     triangle.Add(_tmpC);
                     result.Add(triangle);
 
-                    // Remove v from remaining polygon 
+                    // Remove v from remaining polygon
                     for (s = v, t = v + 1; t < nv; s++, t++)
                     {
                         V[s] = V[t];

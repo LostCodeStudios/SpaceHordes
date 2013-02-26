@@ -1,31 +1,31 @@
 /*
 * Farseer Physics Engine based on Box2D.XNA port:
 * Copyright (c) 2010 Ian Qvist
-* 
+*
 * Box2D.XNA port of Box2D:
 * Copyright (c) 2009 Brandon Furtwangler, Nathan Furtwangler
 *
 * Original source Box2D:
-* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com 
-* 
-* This software is provided 'as-is', without any express or implied 
-* warranty.  In no event will the authors be held liable for any damages 
-* arising from the use of this software. 
-* Permission is granted to anyone to use this software for any purpose, 
-* including commercial applications, and to alter it and redistribute it 
-* freely, subject to the following restrictions: 
-* 1. The origin of this software must not be misrepresented; you must not 
-* claim that you wrote the original software. If you use this software 
-* in a product, an acknowledgment in the product documentation would be 
-* appreciated but is not required. 
-* 2. Altered source versions must be plainly marked as such, and must not be 
-* misrepresented as being the original software. 
-* 3. This notice may not be removed or altered from any source distribution. 
+* Copyright (c) 2006-2009 Erin Catto http://www.gphysics.com
+*
+* This software is provided 'as-is', without any express or implied
+* warranty.  In no event will the authors be held liable for any damages
+* arising from the use of this software.
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+* 1. The origin of this software must not be misrepresented; you must not
+* claim that you wrote the original software. If you use this software
+* in a product, an acknowledgment in the product documentation would be
+* appreciated but is not required.
+* 2. Altered source versions must be plainly marked as such, and must not be
+* misrepresented as being the original software.
+* 3. This notice may not be removed or altered from any source distribution.
 */
 
-using System.Diagnostics;
 using GameLibrary.Dependencies.Physics.Common;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
 {
@@ -100,18 +100,21 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
                     LocalAnchor1 = _revolute1.LocalAnchorB;
                     coordinate1 = _revolute1.JointAngle;
                     break;
+
                 case JointType.Prismatic:
                     BodyA = jointA.BodyB;
                     _prismatic1 = (PrismaticJoint)jointA;
                     LocalAnchor1 = _prismatic1.LocalAnchorB;
                     coordinate1 = _prismatic1.JointTranslation;
                     break;
+
                 case JointType.FixedRevolute:
                     BodyA = jointA.BodyA;
                     _fixedRevolute1 = (FixedRevoluteJoint)jointA;
                     LocalAnchor1 = _fixedRevolute1.LocalAnchorA;
                     coordinate1 = _fixedRevolute1.JointAngle;
                     break;
+
                 case JointType.FixedPrismatic:
                     BodyA = jointA.BodyA;
                     _fixedPrismatic1 = (FixedPrismaticJoint)jointA;
@@ -128,18 +131,21 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
                     LocalAnchor2 = _revolute2.LocalAnchorB;
                     coordinate2 = _revolute2.JointAngle;
                     break;
+
                 case JointType.Prismatic:
                     BodyB = jointB.BodyB;
                     _prismatic2 = (PrismaticJoint)jointB;
                     LocalAnchor2 = _prismatic2.LocalAnchorB;
                     coordinate2 = _prismatic2.JointTranslation;
                     break;
+
                 case JointType.FixedRevolute:
                     BodyB = jointB.BodyA;
                     _fixedRevolute2 = (FixedRevoluteJoint)jointB;
                     LocalAnchor2 = _fixedRevolute2.LocalAnchorA;
                     coordinate2 = _fixedRevolute2.JointAngle;
                     break;
+
                 case JointType.FixedPrismatic:
                     BodyB = jointB.BodyA;
                     _fixedPrismatic2 = (FixedPrismaticJoint)jointB;
@@ -178,6 +184,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
         public PhysicsJoint JointB { get; set; }
 
         public Vector2 LocalAnchor1 { get; private set; }
+
         public Vector2 LocalAnchor2 { get; private set; }
 
         public override Vector2 GetReactionForce(float inv_dt)
@@ -220,8 +227,8 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
 
                 Transform xf1 /*, xfg1*/;
                 b1.GetTransform(out xf1);
-                //g1.GetTransform(out xfg1);
 
+                //g1.GetTransform(out xfg1);
 
                 Vector2 r = MathUtils.Multiply(ref xf1.R, LocalAnchor1 - b1.LocalCenter);
                 float crug = MathUtils.Cross(r, ug);
@@ -244,6 +251,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
                     ug = _fixedPrismatic2.LocalXAxis1; // MathUtils.Multiply(ref xfg1.R, _prismatic1.LocalXAxis1);
 
                 Transform /*xfg1,*/ xf2;
+
                 //g1.GetTransform(out xfg1);
                 b2.GetTransform(out xf2);
 

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
+﻿using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Common.Decomposition;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Dependencies.Physics.Dynamics.Joints;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Factories
 {
@@ -22,7 +22,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             Slider
         }
 
-        #endregion
+        #endregion LinkType enum
 
         //Contributed by Matthew Bettcher
 
@@ -67,6 +67,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             List<Vector2> verts = path.GetVertices(subdivisions);
 
             List<Vertices> decomposedVerts = EarclipDecomposer.ConvexPartition(new Vertices(verts));
+
             //List<Vertices> decomposedVerts = BayazitDecomposer.ConvexPartition(new Vertices(verts));
 
             foreach (Vertices item in decomposedVerts)
@@ -116,7 +117,6 @@ namespace GameLibrary.Dependencies.Physics.Factories
         {
             return EvenlyDistributeShapesAlongPath(world, path, shapes, type, copies, null);
         }
-
 
         /// <summary>
         /// Duplicates the given Body along the given path for approximatly the given copies.

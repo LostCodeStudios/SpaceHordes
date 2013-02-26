@@ -1,10 +1,6 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Render;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GameLibrary.Entities.Systems
 {
@@ -13,8 +9,9 @@ namespace GameLibrary.Entities.Systems
     /// </summary>
     public class SpriteEffectSystem : EntityProcessingSystem
     {
-        ComponentMapper<SpriteEffect> seMapper;
-        ComponentMapper<Sprite> sMapper;
+        private ComponentMapper<SpriteEffect> seMapper;
+        private ComponentMapper<Sprite> sMapper;
+
         public SpriteEffectSystem()
             : base(typeof(SpriteEffect))
         {
@@ -25,7 +22,6 @@ namespace GameLibrary.Entities.Systems
             seMapper = new ComponentMapper<SpriteEffect>(world);
             sMapper = new ComponentMapper<Sprite>(world);
         }
-
 
         /// <summary>
         /// Adds the sprite effect to the entity.
@@ -41,7 +37,6 @@ namespace GameLibrary.Entities.Systems
                 e.Refresh();
             }
         }
-
 
         /// <summary>
         /// Proccesses sprite effects.
@@ -64,6 +59,5 @@ namespace GameLibrary.Entities.Systems
                 }
             }
         }
-
     }
 }

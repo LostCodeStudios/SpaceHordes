@@ -56,7 +56,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return fixedRevoluteJoint;
         }
 
-        #endregion
+        #endregion Revolute Joint
 
         #region Weld Joint
 
@@ -97,7 +97,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return weldJoint;
         }
 
-        #endregion
+        #endregion Weld Joint
 
         #region Prismatic Joint
 
@@ -141,7 +141,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return joint;
         }
 
-        #endregion
+        #endregion Prismatic Joint
 
         #region Line Joint
 
@@ -175,7 +175,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return joint;
         }
 
-        #endregion
+        #endregion Line Joint
 
         #region Angle Joint
 
@@ -208,7 +208,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return angleJoint;
         }
 
-        #endregion
+        #endregion Angle Joint
 
         #region Distance Joint
 
@@ -228,7 +228,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return distanceJoint;
         }
 
-        #endregion
+        #endregion Distance Joint
 
         #region Friction Joint
 
@@ -247,7 +247,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return frictionJoint;
         }
 
-        #endregion
+        #endregion Friction Joint
 
         #region Gear Joint
 
@@ -258,7 +258,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return gearJoint;
         }
 
-        #endregion
+        #endregion Gear Joint
 
         #region Pulley Joint
 
@@ -271,7 +271,7 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return pulleyJoint;
         }
 
-        #endregion
+        #endregion Pulley Joint
 
         #region Slider Joint
 
@@ -283,6 +283,6 @@ namespace GameLibrary.Dependencies.Physics.Factories
             return sliderJoint;
         }
 
-        #endregion
+        #endregion Slider Joint
     }
 }

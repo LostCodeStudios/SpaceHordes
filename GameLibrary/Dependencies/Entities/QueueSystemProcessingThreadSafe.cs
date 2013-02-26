@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace GameLibrary.Dependencies.Entities
 {
-
-    class QueueManager
+    internal class QueueManager
     {
         public QueueManager()
         {
@@ -27,7 +24,7 @@ namespace GameLibrary.Dependencies.Entities
         }
 
         public int refCount = 0;
-        static object lockobj = new object();
+        private static object lockobj = new object();
         public Queue<Entity> queue = new Queue<Entity>();
         public int EntitiesToProcessEachFrame = 50;
     }
@@ -62,7 +59,7 @@ namespace GameLibrary.Dependencies.Entities
 
         public readonly Type Id;
 
-        static Dictionary<Type, QueueManager> queuesManager = new Dictionary<Type, QueueManager>();
+        private static Dictionary<Type, QueueManager> queuesManager = new Dictionary<Type, QueueManager>();
 
         public static void SetQueueProcessingLimit(int limit, Type EntitySystemType)
         {
@@ -70,7 +67,6 @@ namespace GameLibrary.Dependencies.Entities
             QueueManager.AcquireLock();
             QueueManager.EntitiesToProcessEachFrame = limit;
             QueueManager.ReleaseLock();
-
         }
 
         public static int GetQueueProcessingLimit(Type EntitySystemType)
@@ -81,7 +77,6 @@ namespace GameLibrary.Dependencies.Entities
             QueueManager.ReleaseLock();
             return val;
         }
-
 
         public static void AddToQueue(Entity ent, Type EntitySystemType)
         {

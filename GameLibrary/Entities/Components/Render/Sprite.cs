@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Dependencies.Physics.Dynamics;
-using GameLibrary.Helpers;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace GameLibrary.Entities.Components
 {
@@ -38,7 +34,6 @@ namespace GameLibrary.Entities.Components
             this._Index = 0;
         }
 
-
         /// <summary>
         /// Creates a sprite with a spritesheet and abody.
         /// </summary>
@@ -58,14 +53,15 @@ namespace GameLibrary.Entities.Components
         /// </summary>
         /// <param name="spriteSheet"></param>
         /// <param name="spriteKey"></param>
-        public Sprite(SpriteSheet spriteSheet, string spriteKey) : this(
-            spriteSheet, 
-            spriteKey, 
-            new Vector2(
-                spriteSheet[spriteKey][0].Width/2f, spriteSheet[spriteKey][0].Height/2f),
-            1,
-            Color.White,
-            0f)
+        public Sprite(SpriteSheet spriteSheet, string spriteKey)
+            : this(
+                spriteSheet,
+                spriteKey,
+                new Vector2(
+                spriteSheet[spriteKey][0].Width / 2f, spriteSheet[spriteKey][0].Height / 2f),
+                1,
+                Color.White,
+                0f)
         {
         }
 
@@ -124,20 +120,18 @@ namespace GameLibrary.Entities.Components
         {
         }
 
-
-
-        #endregion
+        #endregion Constructor
 
         #region Methods
 
         public void ApplySpriteEffect(int ticks, Sprite newSprite)
         {
-
         }
 
-        #endregion
+        #endregion Methods
 
         #region Fields
+
         public float Layer;
         public Color Color;
         public float Scale;
@@ -146,7 +140,8 @@ namespace GameLibrary.Entities.Components
         public Rectangle[] Source;
 
         private int _Index;
-        #endregion
+
+        #endregion Fields
 
         #region Properties
 
@@ -173,6 +168,6 @@ namespace GameLibrary.Entities.Components
             get { return Source[FrameIndex]; }
         }
 
-        #endregion
+        #endregion Properties
     }
 }

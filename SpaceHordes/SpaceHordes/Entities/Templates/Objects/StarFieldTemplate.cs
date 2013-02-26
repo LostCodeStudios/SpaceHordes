@@ -1,16 +1,13 @@
-﻿using System;
+﻿using GameLibrary.Dependencies.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Templates
 {
     public class StarFieldTemplate : IEntityGroupTemplate
     {
-        List<Entity> stars = new List<Entity>();
-        static int starNum = 100;
-        static int nebNum = 3;
+        private List<Entity> stars = new List<Entity>();
+        private static int starNum = 100;
+        private static int nebNum = 3;
 
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {

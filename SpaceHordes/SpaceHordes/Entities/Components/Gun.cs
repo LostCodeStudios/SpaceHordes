@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Entities;
-using SpaceHordes.Entities.Templates;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -23,6 +17,7 @@ namespace SpaceHordes.Entities.Components
         }
 
         #region Properties
+
         public bool BulletsToFire
         {
             set
@@ -39,11 +34,12 @@ namespace SpaceHordes.Entities.Components
                 return _BulletsToFire;
             }
         }
+
         public int Ammunition
         {
             set
             {
-                if (ammo >=0)
+                if (ammo >= 0)
                     ammo = value;
             }
             get
@@ -54,6 +50,7 @@ namespace SpaceHordes.Entities.Components
                     return 1000; //if ammo = -1, infinite ammo
             }
         }
+
         public string BulletTemplateTag
         {
             get
@@ -92,12 +89,14 @@ namespace SpaceHordes.Entities.Components
             set;
         }
 
-        #endregion
+        #endregion Properties
 
         #region Fields
+
         private bool _BulletsToFire = false;
-        int ammo;
-        #endregion
+        private int ammo;
+
+        #endregion Fields
 
         #region Methods
 
@@ -115,6 +114,6 @@ namespace SpaceHordes.Entities.Components
                 Power = 1;
         }
 
-        #endregion
+        #endregion Methods
     }
 }

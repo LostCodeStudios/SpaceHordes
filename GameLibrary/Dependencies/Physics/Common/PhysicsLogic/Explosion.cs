@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GameLibrary.Dependencies.Physics.Common.PhysicsLogic
 {
@@ -16,7 +16,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PhysicsLogic
     }
 
     /// <summary>
-    /// This is a comprarer used for 
+    /// This is a comprarer used for
     /// detecting angle difference between rays
     /// </summary>
     internal class RayDataComparer : IComparer<float>
@@ -33,7 +33,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PhysicsLogic
             return 0;
         }
 
-        #endregion
+        #endregion IComparer<float> Members
     }
 
     /* Methodology:
@@ -204,6 +204,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PhysicsLogic
                         float diff = (newAngle - angleToCentroid);
 
                         diff = (diff - MathHelper.Pi) % (2 * MathHelper.Pi);
+
                         // the minus pi is important. It means cutoff for going other direction is at 180 deg where it needs to be
 
                         if (diff < 0.0f)
@@ -213,6 +214,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PhysicsLogic
 
                         if (Math.Abs(diff) > MathHelper.Pi)
                             throw new ArgumentException("OMG!");
+
                         // Something's wrong, point not in shape but exists angle diff > 180
 
                         if (diff > max)

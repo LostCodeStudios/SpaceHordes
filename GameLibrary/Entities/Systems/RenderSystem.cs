@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Helpers;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Entities.Systems
 {
@@ -18,7 +15,7 @@ namespace GameLibrary.Entities.Systems
         private SpriteBatch spriteBatch;
         private Camera camera;
 
-        public RenderSystem(SpriteBatch spritebatch, Camera camera):
+        public RenderSystem(SpriteBatch spritebatch, Camera camera) :
             base(typeof(Sprite), typeof(ITransform))
         {
             this.spriteBatch = spritebatch;
@@ -38,7 +35,7 @@ namespace GameLibrary.Entities.Systems
         public override void Process(Entity e)
         {
             //Get sprite data and transform
-            ITransform transform  = transformMapper.Get(e);
+            ITransform transform = transformMapper.Get(e);
             Sprite sprite = spriteMapper.Get(e);
 
             if (sprite.Source == null)
@@ -47,6 +44,7 @@ namespace GameLibrary.Entities.Systems
                 e.Delete();
             }
             else
+
                 //Draw to sprite batch
                 spriteBatch.Draw(
                     sprite.SpriteSheet.Texture,
@@ -63,7 +61,7 @@ namespace GameLibrary.Entities.Systems
         /// Starts/Ends spriteBatch
         /// </summary>
         /// <param name="entities"></param>
-        protected override void ProcessEntities(Dictionary<int, Entity> entities) 
+        protected override void ProcessEntities(Dictionary<int, Entity> entities)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, camera.View);
             base.ProcessEntities(entities);

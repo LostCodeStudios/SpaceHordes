@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
+using System;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -30,8 +27,8 @@ namespace SpaceHordes.Entities.Components
             }
         }
 
-
         #region Properties
+
         /// <summary>
         /// Gets or sets the current health of an entity
         /// </summary>
@@ -42,6 +39,7 @@ namespace SpaceHordes.Entities.Components
                 return _Health;
             }
         }
+
         private double _Health;
 
         /// <summary>
@@ -64,14 +62,17 @@ namespace SpaceHordes.Entities.Components
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region EVENTS
+
         public event Action<Entity> OnDeath;
+
         public event Action<Entity> OnDamage;
 
         private bool _DeathEvent = false;
         public int Tick = 0;
-        #endregion
+
+        #endregion EVENTS
     }
 }

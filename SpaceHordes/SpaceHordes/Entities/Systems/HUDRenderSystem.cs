@@ -1,42 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using GameLibrary;
-using GameLibrary.Dependencies;
-using GameLibrary.Entities;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Helpers;
-using SpaceHordes.Entities.Components;
 using GameLibrary.Helpers.Drawing;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class HUDRenderSystem : EntityProcessingSystem
     {
-        SpriteBatch _SpriteBatch;
-        ImageFont _Font;
-        Texture2D _Hud;
+        private SpriteBatch _SpriteBatch;
+        private ImageFont _Font;
+        private Texture2D _Hud;
 
         #region Locations
 
-        Vector2 hudDimmensions;
-        Vector2 radarDimmensions;
-        Rectangle[] hudLocations;
-        Rectangle radarLocation;
+        private Vector2 hudDimmensions;
+        private Vector2 radarDimmensions;
+        private Rectangle[] hudLocations;
+        private Rectangle radarLocation;
         public Rectangle RadarScreenLocation;
-        Rectangle radarSource;
-        Rectangle hudSource;
-        Rectangle buildMenuSource;
-        Rectangle selectionSource;
+        private Rectangle radarSource;
+        private Rectangle hudSource;
+        private Rectangle buildMenuSource;
+        private Rectangle selectionSource;
 
-        Vector2[] boxOffsets;
-        RectangleF box = new RectangleF(0, 0, 21, 21);
+        private Vector2[] boxOffsets;
+        private RectangleF box = new RectangleF(0, 0, 21, 21);
 
-        #endregion
+        #endregion Locations
 
         public HUDRenderSystem()
             : base(typeof(Inventory))
@@ -77,7 +69,7 @@ namespace SpaceHordes.Entities.Systems
             boxOffsets[6] = new Vector2(49, 26);
             boxOffsets[7] = new Vector2(72, 26);
 
-            #endregion
+            #endregion HUD Specifications
         }
 
         public void LoadContent(ImageFont font, Texture2D texture)
@@ -155,5 +147,3 @@ namespace SpaceHordes.Entities.Systems
         }
     }
 }
-
-

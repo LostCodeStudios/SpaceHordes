@@ -1,6 +1,6 @@
-﻿using System;
-using GameLibrary.Dependencies.Physics.Dynamics;
+﻿using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameLibrary.Dependencies.Physics.Controllers
 {
@@ -9,7 +9,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         #region DecayModes enum
 
         /// <summary>
-        /// Modes for Decay. Actual Decay must be implemented in inheriting 
+        /// Modes for Decay. Actual Decay must be implemented in inheriting
         /// classes
         /// </summary>
         public enum DecayModes
@@ -21,7 +21,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
             Curve
         }
 
-        #endregion
+        #endregion DecayModes enum
 
         #region ForceTypes enum
 
@@ -36,16 +36,16 @@ namespace GameLibrary.Dependencies.Physics.Controllers
             Area
         }
 
-        #endregion
+        #endregion ForceTypes enum
 
         #region TimingModes enum
 
         /// <summary>
         /// Timing Modes
         /// Switched: Standard on/off mode using the baseclass enabled property
-        /// Triggered: When the Trigger() method is called the force is active 
+        /// Triggered: When the Trigger() method is called the force is active
         /// for a specified Impulse Length
-        /// Curve: Still to be defined. The basic idea is having a Trigger 
+        /// Curve: Still to be defined. The basic idea is having a Trigger
         /// combined with a curve for the strength
         /// </summary>
         public enum TimingModes
@@ -55,7 +55,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
             Curve
         }
 
-        #endregion
+        #endregion TimingModes enum
 
         /// <summary>
         /// Curve to be used for Decay in Curve mode
@@ -68,15 +68,15 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         public ForceTypes ForceType;
 
         /// <summary>
-        /// Provided for reuse to provide Variation functionality in 
+        /// Provided for reuse to provide Variation functionality in
         /// inheriting classes
         /// </summary>
         protected Random Randomize;
 
         /// <summary>
-        /// Curve used by Curve Mode as an animated multiplier for the force 
+        /// Curve used by Curve Mode as an animated multiplier for the force
         /// strength.
-        /// Only positions between 0 and 1 are considered as that range is 
+        /// Only positions between 0 and 1 are considered as that range is
         /// stretched to have ImpulseLength.
         /// </summary>
         public Curve StrengthCurve;
@@ -123,9 +123,11 @@ namespace GameLibrary.Dependencies.Physics.Controllers
                 case TimingModes.Switched:
                     Enabled = true;
                     break;
+
                 case TimingModes.Triggered:
                     Enabled = false;
                     break;
+
                 case TimingModes.Curve:
                     Enabled = false;
                     break;
@@ -150,7 +152,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         public float MaximumSpeed { get; set; }
 
         /// <summary>
-        /// Maximum Force to be applied. As opposed to Maximum Speed this is 
+        /// Maximum Force to be applied. As opposed to Maximum Speed this is
         /// independent of the velocity of
         /// the affected body
         /// </summary>
@@ -162,7 +164,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         public TimingModes TimingMode { get; set; }
 
         /// <summary>
-        /// Time of the current impulse. Incremented in update till 
+        /// Time of the current impulse. Incremented in update till
         /// ImpulseLength is reached
         /// </summary>
         public float ImpulseTime { get; private set; }
@@ -173,7 +175,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         public float ImpulseLength { get; set; }
 
         /// <summary>
-        /// Indicating if we are currently during an Impulse 
+        /// Indicating if we are currently during an Impulse
         /// (Triggered and Curve Mode)
         /// </summary>
         public bool Triggered { get; private set; }
@@ -200,12 +202,12 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         public float DecayEnd { get; set; }
 
         /// <summary>
-        /// Calculate the Decay for a given body. Meant to ease force 
-        /// development and stick to the DRY principle and provide unified and 
+        /// Calculate the Decay for a given body. Meant to ease force
+        /// development and stick to the DRY principle and provide unified and
         /// predictable decay math.
         /// </summary>
         /// <param name="body">The body to calculate decay for</param>
-        /// <returns>A multiplier to multiply the force with to add decay 
+        /// <returns>A multiplier to multiply the force with to add decay
         /// support in inheriting classes</returns>
         protected float GetDecayMultiplier(PhysicsBody body)
         {
@@ -313,7 +315,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         }
 
         /// <summary>
-        /// Apply the force supplying strength (wich is modified in Update() 
+        /// Apply the force supplying strength (wich is modified in Update()
         /// according to the TimingMode
         /// </summary>
         /// <param name="dt"></param>

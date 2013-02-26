@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Entities;
 
 namespace GameLibrary.Entities.Components
 {
@@ -16,10 +12,11 @@ namespace GameLibrary.Entities.Components
         /// The Position of a component
         /// </summary>
         Vector2 Position { set; get; }
+
         /// <summary>
         /// The rotation of a component.
         /// </summary>
-        float Rotation { set;  get; }
+        float Rotation { set; get; }
 
         void RotateTo(Vector2 direction);
     }
