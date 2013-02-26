@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.GameStates;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
+﻿using GameLibrary.GameStates;
 using GameLibrary.Helpers;
 using GameLibrary.Input;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -29,7 +28,7 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        static BossInfo[] bosses = new BossInfo[]
+        private static BossInfo[] bosses = new BossInfo[]
         {
             new BossInfo("smasher", "The Smasher"),
             new BossInfo("greenbossship", "Big Green"),
@@ -47,19 +46,19 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("killerhead", "The Destroyer")
         };
 
-        ContentManager content;
-        SpriteSheet spriteSheet;
-        Texture2D backgroundTexture;
-        string filename;
+        private ContentManager content;
+        private SpriteSheet spriteSheet;
+        private Texture2D backgroundTexture;
+        private string filename;
 
-        int index = 0;
-        string currentKey;
+        private int index = 0;
+        private string currentKey;
 
-        InputAction next;
-        InputAction previous;
-        InputAction cancel;
+        private InputAction next;
+        private InputAction previous;
+        private InputAction cancel;
 
-        #endregion
+        #endregion Fields
 
         #region Static Properties
 
@@ -106,9 +105,10 @@ namespace SpaceHordes.GameStates.Screens
                 WriteData(clearedBosses);
             }
         }
-        static bool[] clearedBosses;
 
-        #endregion
+        private static bool[] clearedBosses;
+
+        #endregion Static Properties
 
         #region Initialization
 
@@ -174,7 +174,7 @@ namespace SpaceHordes.GameStates.Screens
             content.Unload();
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update & Draw
 
@@ -198,7 +198,7 @@ namespace SpaceHordes.GameStates.Screens
             Rectangle source = spriteSheet[currentKey][0];
             Vector2 spriteLoc = ScreenHelper.Center;
 
-            spriteLoc -= (new Vector2(source.Width/2, source.Height/2) * scale);
+            spriteLoc -= (new Vector2(source.Width / 2, source.Height / 2) * scale);
             Rectangle destination;
 
             Color color = current ? Color.White : Color.Black;
@@ -230,7 +230,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 scale = 3f;
             }
-            
+
             else if (currentKey.Equals("blimp"))
             {
                 scale = 4.5f;
@@ -263,7 +263,6 @@ namespace SpaceHordes.GameStates.Screens
 
                 for (int x = 0; x < extra.Count(); x++)
                 {
-
                     if (extra[x] != Rectangle.Empty)
                     {
                         extra[x].Width = (int)(extraSource[x].Width * scale);
@@ -283,14 +282,14 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             string text = current ? bosses[index].BossName : "?????";
-            Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width/2, ScreenHelper.Viewport.Height * 0.80f);
+            Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width / 2, ScreenHelper.Viewport.Height * 0.80f);
             Vector2 size = ScreenManager.Font.MeasureString(text);
             Vector2 origin = size / 2;
             spriteBatch.DrawString(ScreenManager.Font, text, textDest, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
 
         #region Handle Input
 
@@ -320,7 +319,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Handle Input
 
         #region Static Methods
 
@@ -341,9 +340,11 @@ namespace SpaceHordes.GameStates.Screens
                             case "True":
                                 data.Add(true);
                                 break;
+
                             case "False":
                                 data.Add(false);
                                 break;
+
                             default:
                                 data.Add(false);
                                 break;
@@ -412,6 +413,6 @@ namespace SpaceHordes.GameStates.Screens
             ClearedBosses[index] = true;
         }
 
-        #endregion
+        #endregion Static Methods
     }
 }

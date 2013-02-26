@@ -1,33 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class DirectorSystem : IntervalEntitySystem
     {
-        Random r = new Random();
+        private Random r = new Random();
 
-        Entity Base;
+        private Entity Base;
 
-        int difficulty = 0;
+        private int difficulty = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
-        float elapsedSeconds;
-        float elapsedMinutes;
+        private float elapsedSeconds;
 
-        int playerDeaths = 0;
-        int baseDamage = 0;
+        private float elapsedMinutes;
 
-        int mooksToSpawn = 0;
-        int gunnersToSpawn = 0;
-        int huntersToSpawn = 0;
-        int destroyersToSpawn = 0;
+        private int playerDeaths = 0;
+        private int baseDamage = 0;
+
+        private int mooksToSpawn = 0;
+        private int gunnersToSpawn = 0;
+        private int huntersToSpawn = 0;
+        private int destroyersToSpawn = 0;
 
         public DirectorSystem()
             : base(500)
@@ -46,7 +45,7 @@ namespace SpaceHordes.Entities.Systems
             base.ProcessEntities(entities);
 
             elapsedSeconds += .5f;
-            elapsedMinutes += .5f/60f;
+            elapsedMinutes += .5f / 60f;
 
             difficulty = (int)(elapsedMinutes - (playerDeaths / 2 + baseDamage));
 
@@ -56,7 +55,7 @@ namespace SpaceHordes.Entities.Systems
 
             ScoreSystem.GivePoints(10 * difficulty);
 
-            #endregion
+            #endregion Scoring
 
             #region Spawning
 
@@ -87,7 +86,7 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
-            #endregion
+            #endregion Spawning
         }
 
         public static float ClampInverse(float value, float min, float max)
