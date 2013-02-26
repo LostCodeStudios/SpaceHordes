@@ -81,7 +81,7 @@ namespace SpaceHordes.GameStates.Screens
             titleLocation = new Vector2(
                 viewport.Center.X, viewport.Height * 0.1736111111111111f);
             subtitleLocation = new Vector2(
-                viewport.Center.X - textFont.MeasureString(text2).X / 2, titleLocation.Y + titleFont.MeasureString(text).Y);
+                viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y);
 
             screenLocations[0] = new Vector2(
                 viewport.Left + viewport.Width / 4, viewport.Top + viewport.Height / 4);
@@ -162,16 +162,22 @@ namespace SpaceHordes.GameStates.Screens
             Color titleColor = new Color(100, 77, 45) * TransitionAlpha;
 
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
+
             Vector2 titlePosition = titleLocation;
             Vector2 titleOrigin = titleFont.MeasureString(text) / 2;
             titlePosition.Y -= transitionOffset * 100;
+
+            Vector2 subtitlePosition = subtitleLocation;
+            Vector2 subtitleOrigin = textFont.MeasureString(text2) / 2;
+            subtitlePosition.Y -= transitionOffset * 100;
 
             spriteBatch.Begin();
 
             spriteBatch.DrawString(titleFont, text, titlePosition, titleColor, 0,
                 titleOrigin, 1f, SpriteEffects.None, 0);
 
-            spriteBatch.DrawString(textFont, text2, subtitleLocation, Color.White);
+            spriteBatch.DrawString(textFont, text2, subtitleLocation, Color.White,
+                0, subtitleOrigin, 1f, SpriteEffects.None, 0);
 
             foreach (InitialEntryScreen screen in initialEntryScreens)
             {

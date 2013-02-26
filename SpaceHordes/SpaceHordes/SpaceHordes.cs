@@ -1,40 +1,49 @@
-using GameLibrary.GameStates;
-using GameLibrary.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Storage;
+
+using GameLibrary;
+using GameLibrary.Input;
+using GameLibrary.GameStates;
+using GameLibrary.GameStates.Screens;
 using SpaceHordes.GameStates.Screens;
-using System;
-using System.Collections.Generic;
+using GameLibrary.Helpers;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
 
         #region Functioning Loop
 
-        #endregion Functioning Loop
+        #endregion
 
         #region Fields
 
-        #endregion Fields
+        #endregion
 
         #region Properties
 
-        #endregion Properties
+        #endregion
 
         #region Methods
 
-        #endregion Methods
-
+        #endregion
+ 
         #region Helpers
 
-        #endregion Helpers
+        #endregion
 
- * *
+ * * 
  */
+
 
 namespace SpaceHordes
 {
@@ -45,15 +54,15 @@ namespace SpaceHordes
     {
         #region Fields
 
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
 
-        private ScreenManager screenManager;
+        ScreenManager screenManager;
 
-        private IAsyncResult result;
-        private bool needStorageDevice = true;
+        IAsyncResult result;
+        bool needStorageDevice = true;
 
-        #endregion Fields
+        #endregion
 
         #region Initalization
 
@@ -64,14 +73,8 @@ namespace SpaceHordes
 
             Window.Title = "Space Hordes";
             graphics.PreferMultiSampling = true;
-
-#if DEBUG
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
-#else
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-#endif
 
             int sound;
             int music;
@@ -81,6 +84,7 @@ namespace SpaceHordes
             OptionsMenuScreen.SoundVolume = sound;
             OptionsMenuScreen.MusicVolume = music;
             graphics.IsFullScreen = fullscreen;
+
 
             IsFixedTimeStep = true;
             graphics.ApplyChanges();
@@ -96,9 +100,11 @@ namespace SpaceHordes
         /// </summary>
         protected override void Initialize()
         {
-#if WINDOWS
+
+
+            #if WINDOWS
             this.IsMouseVisible = true;
-#endif
+            #endif
 
             screenManager = new ScreenManager(this);
             ScreenHelper.Initialize(GraphicsDevice);
@@ -138,7 +144,7 @@ namespace SpaceHordes
             // TODO: Unload any non ContentManager content here
         }
 
-        #endregion Initalization
+        #endregion
 
         #region Update & Draw
 
@@ -153,8 +159,8 @@ namespace SpaceHordes
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            
 #if XBOX
-
             //UPDATE
             // Set the request flag
             if ((!Guide.IsVisible) && (needStorageDevice == false))
@@ -173,7 +179,6 @@ namespace SpaceHordes
                 {
                     screenManager.StorageDevice = device;
                 }
-
                 // Reset the request flag
                 needStorageDevice = false;
             }
@@ -195,17 +200,18 @@ namespace SpaceHordes
             base.Draw(gameTime);
         }
 
+
         protected override void OnExiting(object sender, EventArgs args)
         {
+
             Win32.ConsoleLibrary.FreeConsole();
             base.OnExiting(sender, args);
         }
-
-        #endregion Update & Draw
+        #endregion
 
         #region Source Rectangles
 
-        private void SetSourceRectangles(SpriteSheet sheet)
+        void SetSourceRectangles(SpriteSheet sheet)
         {
             Dictionary<string, Rectangle[]> sourceRectangles = new Dictionary<string, Rectangle[]>();
 
@@ -501,6 +507,7 @@ namespace SpaceHordes
                     new Rectangle(55, 157, 23, 17)
                 });
 
+
             sourceRectangles.Add("grayshipwithtwoprongs",
                 new Rectangle[] {
                     new Rectangle(79, 157, 26, 16)
@@ -635,12 +642,12 @@ namespace SpaceHordes
                 });
 
             sourceRectangles.Add("birdbody",
-                new Rectangle[] {
+                new Rectangle[] { 
                     new Rectangle(2, 492, 183, 82)
                 });
 
             sourceRectangles.Add("birdhead",
-                new Rectangle[] {
+                new Rectangle[] { 
                     new Rectangle(2, 576, 35, 50),
                     new Rectangle(39, 576, 35, 50),
                     new Rectangle(77, 576, 35, 50)
@@ -785,11 +792,11 @@ namespace SpaceHordes
             sheet.Animations = sourceRectangles;
         }
 
-        #endregion Source Rectangles
+        #endregion
 
         #region Sound Effects
 
-        private void SetSoundEffects()
+        void SetSoundEffects()
         {
             SoundManager.Add("Explosion1", Content.Load<SoundEffect>("Sounds/Explosion1"));
             SoundManager.Add("Explosion2", Content.Load<SoundEffect>("Sounds/Explosion2"));
@@ -800,11 +807,11 @@ namespace SpaceHordes
             SoundManager.Add("Pickup1", Content.Load<SoundEffect>("Sounds/pickup"));
         }
 
-        #endregion Sound Effects
+        #endregion
 
         #region Music
 
-        private void SetSongs()
+        void SetSongs()
         {
             MusicManager.AddSong("Bootleg", Content.Load<Song>("Music/Bootleg"));
             MusicManager.AddSong("Unending", Content.Load<Song>("Music/Unending"));
@@ -815,6 +822,6 @@ namespace SpaceHordes
             MusicManager.AddSong("Heartbeat", Content.Load<Song>("Music/In a Heartbeat"));
         }
 
-        #endregion Music
+        #endregion
     }
 }

@@ -1,31 +1,33 @@
-﻿using GameLibrary.Dependencies.Entities;
-using GameLibrary.Entities.Components.Physics;
-using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GameLibrary.Dependencies.Entities;
+using Microsoft.Xna.Framework;
+using GameLibrary.Entities.Components.Physics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class DirectorSystem : IntervalEntitySystem
     {
-        private Random r = new Random();
+        Random r = new Random();
 
-        private Entity Base;
+        Entity Base;
 
-        private int difficulty = 0;
+        int difficulty = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
-        private float elapsedSeconds;
+        float elapsedSeconds;
+        float elapsedMinutes;
 
-        private float elapsedMinutes;
+        int playerDeaths = 0;
+        int baseDamage = 0;
 
-        private int playerDeaths = 0;
-        private int baseDamage = 0;
-
-        private int mooksToSpawn = 0;
-        private int gunnersToSpawn = 0;
-        private int huntersToSpawn = 0;
-        private int destroyersToSpawn = 0;
+        int mooksToSpawn = 0;
+        int gunnersToSpawn = 0;
+        int huntersToSpawn = 0;
+        int destroyersToSpawn = 0;
 
         public DirectorSystem()
             : base(500)
@@ -44,11 +46,21 @@ namespace SpaceHordes.Entities.Systems
             base.ProcessEntities(entities);
 
             elapsedSeconds += .5f;
-            elapsedMinutes += .5f / 60f;
+            elapsedMinutes += .5f/60f;
 
             difficulty = (int)(elapsedMinutes - (playerDeaths / 2 + baseDamage));
 
-            //Spawn mooks per second equal to Difficulty
+            #region Scoring
+
+            Score s = Base.GetComponent<Score>();
+
+            ScoreSystem.GivePoints(10 * difficulty);
+
+            #endregion
+
+            #region Spawning
+
+            //Every 5 seconds spawn
             if (elapsedSeconds % 5 == 0)
             {
                 mooksToSpawn = 3 * difficulty;
@@ -74,6 +86,8 @@ namespace SpaceHordes.Entities.Systems
                 {
                 }
             }
+
+            #endregion
         }
 
         public static float ClampInverse(float value, float min, float max)

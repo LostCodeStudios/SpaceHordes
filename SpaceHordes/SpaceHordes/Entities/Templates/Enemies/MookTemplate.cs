@@ -1,21 +1,25 @@
-﻿using GameLibrary.Dependencies.Entities;
-using GameLibrary.Dependencies.Physics.Factories;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GameLibrary.Dependencies.Entities;
+using Microsoft.Xna.Framework;
+using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
-using GameLibrary.Helpers;
-using Microsoft.Xna.Framework;
+using GameLibrary.Dependencies.Physics.Factories;
 using SpaceHordes.Entities.Components;
-using System;
-using System.Linq;
+using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
+using SpaceHordes.Entities.Systems;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
     public class MookTemplate : IEntityTemplate
     {
-        private SpriteSheet _SpriteSheet;
-        private EntityWorld _World;
-        private static Random rbitch = new Random();
-
+        SpriteSheet _SpriteSheet;
+        EntityWorld _World;
+        static Random rbitch = new Random();
         public MookTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             _SpriteSheet = spriteSheet;
@@ -25,57 +29,45 @@ namespace SpaceHordes.Entities.Templates.Enemies
         public Entity BuildEntity(Entity e, params object[] args)
         {
             int type = (int)args[0];
-
+           
             #region Sprite
-
             string spriteKey = "";
             switch (type)
             {
                 case 0:
                     spriteKey = "squidship";
                     break;
-
                 case 1:
                     spriteKey = "brownfangship";
                     break;
-
                 case 2:
                     spriteKey = "brownfangship"; //TODO: Was blueshipwithredexhaust
                     break;
-
                 case 3:
                     spriteKey = "grayshipwithtwoprongs";
                     break;
-
                 case 4:
                     spriteKey = "grayshipwithtwowings";
                     break;
-
                 case 5:
                     spriteKey = "brownplane";
                     break;
-
                 case 6:
                     spriteKey = "bluecrystalship";
                     break;
-
                 case 7:
                     spriteKey = "brownthingwithbluelight";
                     break;
-
                 case 8:
                     spriteKey = "graytriangleship";
                     break;
-
                 case 9:
                     spriteKey = "eyeshot";
                     break;
             }
-
-            #endregion Sprite
+            #endregion
 
             #region Body
-
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
@@ -103,14 +95,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
 
-            #endregion Body
+            #endregion
 
             #region Animation
-
             if (s.Source.Count() > 1)
                 e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
-
-            #endregion Animation
+            #endregion
 
             #region Crystal
 
@@ -137,12 +127,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 crystalColor = Color.Gray;
                 amount = 2;
             }
-            e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
+            e.AddComponent<Crystal>(new Crystal(crystalColor, amount));      
 
-            #endregion Crystal
+            #endregion
 
             #region AI/Health
-
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
             e.AddComponent<Health>(new Health(1)).OnDeath +=
@@ -154,14 +143,19 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                    if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
+                    if(ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+
+                    ScoreSystem.GivePoints(1);
                 };
 
-            #endregion AI/Health
+            #endregion
+
+            
 
             e.Group = "Enemies";
             return e;
         }
+
     }
 }
