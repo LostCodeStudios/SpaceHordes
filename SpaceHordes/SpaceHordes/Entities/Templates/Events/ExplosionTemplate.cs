@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameLibrary;
 using GameLibrary.Dependencies.Entities;
-using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
-using GameLibrary;
-using GameLibrary.Entities.Components.Physics;
 using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates
 {
     public class ExplosionTemplate : Explosive, IEntityTemplate
     {
-        SpriteSheet _SpriteSheet;
-        World _World;
-        public ExplosionTemplate(World world, SpriteSheet sheet) : base(world)
+        private SpriteSheet _SpriteSheet;
+        private World _World;
+
+        public ExplosionTemplate(World world, SpriteSheet sheet)
+            : base(world)
         {
             _SpriteSheet = sheet;
             this._World = world;

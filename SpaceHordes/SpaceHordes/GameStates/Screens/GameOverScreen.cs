@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using GameLibrary.GameStates;
+using GameLibrary.Helpers;
+using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
-using GameLibrary.Input;
-using GameLibrary.GameStates;
-using GameLibrary.Helpers;
+using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -17,29 +13,29 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        string text = "";
-        string text2 = "";
+        private string text = "";
+        private string text2 = "";
 
-        PlayerIndex[] players;
-        long score;
+        private PlayerIndex[] players;
+        private long score;
 
-        InitialEntryScreen[] initialEntryScreens = new InitialEntryScreen[4];
+        private InitialEntryScreen[] initialEntryScreens = new InitialEntryScreen[4];
 
-        Vector2 titleLocation;
-        Vector2 subtitleLocation;
-        Vector2[] screenLocations = new Vector2[4];
+        private Vector2 titleLocation;
+        private Vector2 subtitleLocation;
+        private Vector2[] screenLocations = new Vector2[4];
 
-        SpriteFont titleFont;
-        SpriteFont textFont;
+        private SpriteFont titleFont;
+        private SpriteFont textFont;
 
-        List<string> initials = new List<string>();
+        private List<string> initials = new List<string>();
 
-        bool awaitCancel = false;
-        bool expired = false;
+        private bool awaitCancel = false;
+        private bool expired = false;
 
-        InputAction cancel;
+        private InputAction cancel;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -48,7 +44,7 @@ namespace SpaceHordes.GameStates.Screens
             get { return initials; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Initialization
 
@@ -107,7 +103,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update & Draw
 
@@ -192,7 +188,7 @@ namespace SpaceHordes.GameStates.Screens
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
 
         #region Input
 
@@ -218,6 +214,6 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Input
     }
 }

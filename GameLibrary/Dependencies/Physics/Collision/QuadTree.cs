@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision;
+﻿using GameLibrary.Dependencies.Physics.Collision;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 public class Element<T>
 {
@@ -73,6 +73,7 @@ public class QuadTree<T>
                 SubTrees[3] = new QuadTree<T>(Span.Q4, MaxBucket, MaxDepth - 1);
 
                 List<Element<T>> remNodes = new List<Element<T>>();
+
                 //nodes that are not fully contained by any quadrant
 
                 foreach (Element<T> n in Nodes)
@@ -82,15 +83,19 @@ public class QuadTree<T>
                         case 1: //quadrant 1
                             SubTrees[0].AddNode(n);
                             break;
+
                         case 2:
                             SubTrees[1].AddNode(n);
                             break;
+
                         case 3:
                             SubTrees[2].AddNode(n);
                             break;
+
                         case 4:
                             SubTrees[3].AddNode(n);
                             break;
+
                         default:
                             n.Parent = this;
                             remNodes.Add(n);
@@ -104,6 +109,7 @@ public class QuadTree<T>
             {
                 node.Parent = this;
                 Nodes.Add(node);
+
                 //if bin is not yet full or max depth has been reached, just add the node without subdividing
             }
         }
@@ -117,15 +123,19 @@ public class QuadTree<T>
                 case 1: //quadrant 1
                     SubTrees[0].AddNode(node);
                     break;
+
                 case 2:
                     SubTrees[1].AddNode(node);
                     break;
+
                 case 3:
                     SubTrees[2].AddNode(node);
                     break;
+
                 case 4:
                     SubTrees[3].AddNode(node);
                     break;
+
                 default:
                     node.Parent = this;
                     Nodes.Add(node);
@@ -164,6 +174,7 @@ public class QuadTree<T>
         {
             float d = Vector2.Dot(verts[i], norm) - dPos;
             if (Math.Sign(d) != Math.Sign(d0))
+
                 //return true if the ray splits the vertices (ie: sign of dot products with normal are not all same)
                 return true;
         }

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 {
@@ -99,6 +99,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 
         // Used to track which side of the line we are on
         private bool _positive;
+
         private int _size;
         private Point _tail;
 
@@ -157,6 +158,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         {
             // Establish the proper sign
             _positive = AngleSign();
+
             // create monotone polygon - for dubug purposes
             GenMonoPoly();
 
@@ -166,6 +168,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
             while (p.Neq(_tail))
             {
                 float a = Angle(p);
+
                 // If the point is almost colinear with it's neighbor, remove it!
                 if (a >= PiSlop || a <= -PiSlop || a == 0.0)
                     Remove(p);
@@ -394,6 +397,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 
         // Top segment that spans multiple trapezoids
         private Edge _cross;
+
         private float _margin;
 
         public TrapezoidalMap()
@@ -577,6 +581,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
     {
         // Pointers to next and previous points in Monontone Mountain
         public Point Next, Prev;
+
         public float X, Y;
 
         public Point(float x, float y)
@@ -636,6 +641,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
     {
         // Pointers used for building trapezoidal map
         public Trapezoid Above;
+
         public float B;
         public Trapezoid Below;
 
@@ -644,6 +650,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 
         // Montone mountain points
         public HashSet<Point> MPoints;
+
         public Point P;
         public Point Q;
         public float Slope;
@@ -696,6 +703,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 
         // Neighbor pointers
         public Trapezoid LowerLeft;
+
         public Trapezoid LowerRight;
 
         public Point RightPoint;
@@ -820,8 +828,10 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         public override Sink Locate(Edge edge)
         {
             if (edge.P.X >= _point.X)
+
                 // Move to the right in the graph
                 return RightChild.Locate(edge);
+
             // Move to the left in the graph
             return LeftChild.Locate(edge);
         }
@@ -840,15 +850,18 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         public override Sink Locate(Edge edge)
         {
             if (_edge.IsAbove(edge.P))
+
                 // Move down the graph
                 return RightChild.Locate(edge);
 
             if (_edge.IsBelow(edge.P))
+
                 // Move up the graph
                 return LeftChild.Locate(edge);
 
             // s and segment share the same endpoint, p
             if (edge.Slope < _edge.Slope)
+
                 // Move down the graph
                 return RightChild.Locate(edge);
 
@@ -861,10 +874,12 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
     {
         // Trapezoid decomposition list
         public List<Trapezoid> Trapezoids;
+
         public List<List<Point>> Triangles;
 
         // Initialize trapezoidal map and query structure
         private Trapezoid _boundingBox;
+
         private List<Edge> _edgeList;
         private QueryGraph _queryGraph;
         private float _sheer = 0.001f;
@@ -921,6 +936,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                         tList = _trapezoidalMap.Case4(t, edge);
                         _queryGraph.Case4(t.Sink, edge, tList);
                     }
+
                     // Add new trapezoids to map
                     foreach (Trapezoid y in tList)
                     {
@@ -963,7 +979,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                     // linear time, although I don't see a way around using traditional methods
                     // when using a randomized incremental algorithm
 
-                    // Insertion sort is one of the fastest algorithms for sorting arrays containing 
+                    // Insertion sort is one of the fastest algorithms for sorting arrays containing
                     // fewer than ten elements, or for lists that are already mostly sorted.
 
                     List<Point> points = new List<Point>(edge.MPoints);
@@ -1028,7 +1044,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
             }
 
             // Randomized triangulation improves performance
-            // See Seidel's paper, or O'Rourke's book, p. 57 
+            // See Seidel's paper, or O'Rourke's book, p. 57
             Shuffle(edges);
             return edges;
         }

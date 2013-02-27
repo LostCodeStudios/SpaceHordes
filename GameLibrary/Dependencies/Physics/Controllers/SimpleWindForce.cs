@@ -27,7 +27,6 @@ namespace GameLibrary.Dependencies.Physics.Controllers
         /// </summary>
         public bool IgnorePosition { get; set; }
 
-
         public override void ApplyForce(float dt, float strength)
         {
             foreach (PhysicsBody body in World.BodyList)

@@ -1,35 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Entities;
-using GameLibrary.Helpers;
-using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Physics.Factories;
-using GameLibrary;
+﻿using GameLibrary;
 using GameLibrary.Dependencies.Entities;
+using GameLibrary.Dependencies.Physics.Factories;
+using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Templates
 {
-    class BaseTemplate : IEntityTemplate
+    internal class BaseTemplate : IEntityTemplate
     {
         private World world;
         private SpriteSheet spriteSheet;
         private Entity junkRock;
+
         public BaseTemplate(World world, SpriteSheet spriteSheet)
         {
             this.world = world;
             this.spriteSheet = spriteSheet;
         }
+
         public Entity BuildEntity(Entity e, params object[] args)
         {
             e.Group = "Structures";
             e.Tag = "Base";
 
             #region Body
+
             Body Body = e.AddComponent<Body>(new Body(world, e));
             {
                 FixtureFactory.AttachEllipse(//Add a basic bounding box (rectangle status)
@@ -44,13 +42,16 @@ namespace SpaceHordes.Entities.Templates
 
                 Body.SleepingAllowed = false;
             }
-            #endregion
+
+            #endregion Body
 
             #region Sprite
+
             Sprite Sprite = e.AddComponent<Sprite>(
-                new Sprite(spriteSheet,  "base",
+                new Sprite(spriteSheet, "base",
                     Body, 1, Color.White, 0.2f));
-            #endregion
+
+            #endregion Sprite
 
             e.AddComponent<Score>(new Score());
 

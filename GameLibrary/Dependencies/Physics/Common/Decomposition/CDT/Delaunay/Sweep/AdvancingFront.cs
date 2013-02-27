@@ -88,7 +88,7 @@ namespace Poly2Tri.Triangulation.Delaunay.Sweep
         /// </summary>
         private AdvancingFrontNode FindSearchNode(double x)
         {
-            // TODO: implement BST index 
+            // TODO: implement BST index
             return Search;
         }
 
@@ -149,6 +149,7 @@ namespace Poly2Tri.Triangulation.Delaunay.Sweep
                     else
                     {
                         throw new Exception("Failed to find Node for given afront point");
+
                         //node = null;
                     }
                 }

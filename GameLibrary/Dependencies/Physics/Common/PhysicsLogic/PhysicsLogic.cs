@@ -1,5 +1,5 @@
-using System;
 using GameLibrary.Dependencies.Physics.Dynamics;
+using System;
 
 namespace GameLibrary.Dependencies.Physics.Common.PhysicsLogic
 {

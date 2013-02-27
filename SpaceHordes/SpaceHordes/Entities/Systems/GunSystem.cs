@@ -1,26 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Entities;
-using GameLibrary;
-using SpaceHordes.Entities.Components;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework.Input;
 using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using SpaceHordes.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class GunSystem : IntervalEntityProcessingSystem
+    internal class GunSystem : IntervalEntityProcessingSystem
     {
-        ComponentMapper<ITransform> transformMapper;
-        ComponentMapper<Inventory> invMapper;
+        private ComponentMapper<ITransform> transformMapper;
+        private ComponentMapper<Inventory> invMapper;
 
-        static Random r = new Random();
+        private static Random r = new Random();
 
-        int elapsedMilli = 16;
+        private int elapsedMilli = 16;
 
         public GunSystem()
             : base(16, typeof(Inventory), typeof(ITransform))
@@ -72,7 +67,6 @@ namespace SpaceHordes.Entities.Systems
                 else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     gun.BulletsToFire = true;
             }
-
 
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval && gun.BulletsToFire && gun.Ammunition > 0)

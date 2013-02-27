@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+
 #if !XBOX && !WINDOWS_PHONE
+
 using System.Numerics;
+
 #endif
 
 #if XBOX || WINDOWS_PHONE
@@ -10,7 +13,8 @@ using BigInteger = System.Int32;
 
 namespace GameLibrary.Dependencies.Entities
 {
-    public static class ComponentTypeManager {
+    public static class ComponentTypeManager
+    {
         private static Dictionary<Type, ComponentType> componentTypes = new Dictionary<Type, ComponentType>();
 
         /// <summary>
@@ -19,13 +23,14 @@ namespace GameLibrary.Dependencies.Entities
         /// <typeparam name="T">Component for which you want the component type</typeparam>
         /// <returns>Component Type</returns>
         public static ComponentType GetTypeFor<T>() where T : Component
-        { 
+        {
             ComponentType type = null;
             Type receivedType = typeof(T);
-            if(!componentTypes.TryGetValue(receivedType,out type)){ 
+            if (!componentTypes.TryGetValue(receivedType, out type))
+            {
                 type = new ComponentType();
                 componentTypes.Add(receivedType, type);
-            }            
+            }
             return type;
         }
 
@@ -40,22 +45,22 @@ namespace GameLibrary.Dependencies.Entities
         {
             System.Diagnostics.Debug.Assert(component != null);
             ComponentType type = null;
-            if(!componentTypes.TryGetValue(component,out type)){ 
+            if (!componentTypes.TryGetValue(component, out type))
+            {
                 type = new ComponentType();
                 componentTypes.Add(component, type);
-            }            
+            }
             return type;
         }
-        
+
         public static BigInteger GetBit<T>() where T : Component
         {
             return GetTypeFor<T>().Bit;
         }
-        
+
         public static int GetId<T>() where T : Component
         {
             return GetTypeFor<T>().Id;
         }
     }
 }
-

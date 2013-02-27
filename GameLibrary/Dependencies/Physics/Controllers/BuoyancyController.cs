@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Controllers
 {
@@ -10,7 +10,7 @@ namespace GameLibrary.Dependencies.Physics.Controllers
     {
         /// <summary>
         /// Controls the rotational drag that the fluid exerts on the bodies within it. Use higher values will simulate thick fluid, like honey, lower values to
-        /// simulate water-like fluids. 
+        /// simulate water-like fluids.
         /// </summary>
         public float AngularDragCoefficient;
 

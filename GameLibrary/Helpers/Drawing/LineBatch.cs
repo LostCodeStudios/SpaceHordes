@@ -1,7 +1,7 @@
-﻿using System;
+﻿using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
+using System;
 
 namespace GameLibrary.Helpers
 {
@@ -52,7 +52,7 @@ namespace GameLibrary.Helpers
             GC.SuppressFinalize(this);
         }
 
-        #endregion
+        #endregion IDisposable Members
 
         protected virtual void Dispose(bool disposing)
         {
@@ -73,6 +73,7 @@ namespace GameLibrary.Helpers
             }
 
             _device.SamplerStates[0] = SamplerState.AnisotropicClamp;
+
             //tell our basic effect to begin.
             _basicEffect.Projection = projection;
             _basicEffect.View = view;
@@ -174,6 +175,7 @@ namespace GameLibrary.Helpers
             if (_lineVertsCount >= 2)
             {
                 int primitiveCount = _lineVertsCount / 2;
+
                 // submit the draw call to the graphics card
                 _device.DrawUserPrimitives(PrimitiveType.LineList, _lineVertices, 0, primitiveCount);
                 _lineVertsCount -= primitiveCount * 2;

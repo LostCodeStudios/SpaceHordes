@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Physics.Dynamics;
-
+using System;
 
 namespace GameLibrary.Entities.Components.Physics
 {
@@ -22,12 +17,14 @@ namespace GameLibrary.Entities.Components.Physics
             e.AddComponent<IVelocity>(this);
             e.AddComponent<IDamping>(this);
         }
+
         ~Body()
         {
-            this.World.RemoveBody(this);   
+            this.World.RemoveBody(this);
         }
 
         #region ITransform
+
         /// <summary>
         /// The position of an entity.
         /// </summary>
@@ -57,9 +54,11 @@ namespace GameLibrary.Entities.Components.Physics
                 this.Rotation = Rotation;
             }
         }
-        #endregion
+
+        #endregion ITransform
 
         #region IVelocity
+
         /// <summary>
         /// The linear velocity of an entity.
         /// </summary>
@@ -89,7 +88,8 @@ namespace GameLibrary.Entities.Components.Physics
                 this.AngularVelocity = value;
             }
         }
-        #endregion
+
+        #endregion IVelocity
 
         #region IDamping
 
@@ -123,9 +123,10 @@ namespace GameLibrary.Entities.Components.Physics
             }
         }
 
-        #endregion
+        #endregion IDamping
 
         #region Helpers
+
         public override string ToString()
         {
             return "[(Pos=" + this.Position
@@ -138,6 +139,7 @@ namespace GameLibrary.Entities.Components.Physics
         {
             Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

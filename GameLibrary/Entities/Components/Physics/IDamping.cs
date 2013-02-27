@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.Dependencies.Entities;
 
 namespace GameLibrary.Entities.Components
 {

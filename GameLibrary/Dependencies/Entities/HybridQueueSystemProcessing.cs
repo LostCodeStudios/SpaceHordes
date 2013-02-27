@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GameLibrary.Dependencies.Entities
 {
@@ -15,9 +13,10 @@ namespace GameLibrary.Dependencies.Entities
                 compTypes.Add(ComponentTypeManager.GetTypeFor(item));
             }
         }
-        List<ComponentType> compTypes = new List<ComponentType>();
-        public int EntitiesToProcessEachFrame = 50;        
-        Queue<Entity> queue = new Queue<Entity>();              
+
+        private List<ComponentType> compTypes = new List<ComponentType>();
+        public int EntitiesToProcessEachFrame = 50;
+        private Queue<Entity> queue = new Queue<Entity>();
 
         public void AddToQueue(Entity ent)
         {
@@ -25,17 +24,17 @@ namespace GameLibrary.Dependencies.Entities
             {
                 if (ent.GetComponent(item) == null)
                 {
-                    throw new Exception("You need to have the " + item + " Component to be able to use this queue" );
+                    throw new Exception("You need to have the " + item + " Component to be able to use this queue");
                 }
             }
-           queue.Enqueue(ent);         
+            queue.Enqueue(ent);
         }
 
         public int QueueCount
         {
             get
-            {            
-               return queue.Count;             
+            {
+                return queue.Count;
             }
         }
 
@@ -51,6 +50,5 @@ namespace GameLibrary.Dependencies.Entities
             }
             base.ProcessEntities(entities);
         }
-
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
-
+﻿using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using GameLibrary.Input;
+using System;
 
 namespace GameLibrary.GameStates.Screens
 {
@@ -20,7 +18,7 @@ namespace GameLibrary.GameStates.Screens
 
         protected Rectangle clickRectangle;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -58,7 +56,7 @@ namespace GameLibrary.GameStates.Screens
             get { return clickRectangle; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Events
 
@@ -66,7 +64,7 @@ namespace GameLibrary.GameStates.Screens
         /// Event raised when this menu entry is selected.
         /// </summary>
         public event EventHandler<PlayerIndexEventArgs> Selected;
-    
+
         /// <summary>
         /// Method for raising the selected event.
         /// </summary>
@@ -76,7 +74,7 @@ namespace GameLibrary.GameStates.Screens
                 Selected(this, new PlayerIndexEventArgs(playerIndex));
         }
 
-        #endregion
+        #endregion Events
 
         #region Initialization
 
@@ -88,7 +86,7 @@ namespace GameLibrary.GameStates.Screens
             Text = text;
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update & Draw
 
@@ -106,7 +104,6 @@ namespace GameLibrary.GameStates.Screens
                 selectionFade = Math.Min(selectionFade + fadeSpeed, 0.3f);
             else
                 selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
-
         }
 
         /// <summary>
@@ -121,7 +118,7 @@ namespace GameLibrary.GameStates.Screens
             SpriteBatch spriteBatch = screenManager.SpriteBatch;
             SpriteFont font = screenManager.Font;
 
-            clickRectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)(font.MeasureString(Text).X * Scale), (int)(font.MeasureString(Text).Y * Scale)); 
+            clickRectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)(font.MeasureString(Text).X * Scale), (int)(font.MeasureString(Text).Y * Scale));
 
             color *= screen.TransitionAlpha;
 
@@ -149,6 +146,6 @@ namespace GameLibrary.GameStates.Screens
             return (int)screen.ScreenManager.Font.MeasureString(Text).X;
         }
 
-        #endregion
+        #endregion Update & Draw
     }
 }

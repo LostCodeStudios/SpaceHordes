@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
+﻿using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
 using GameLibrary.Dependencies.Physics.Factories;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics
 {

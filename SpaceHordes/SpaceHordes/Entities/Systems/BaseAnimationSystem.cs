@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
-using GameLibrary.Entities.Components;
 using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class BaseAnimationSystem : TagSystem
+    internal class BaseAnimationSystem : TagSystem
     {
-        int _MaxH = 20;
-        float _X = 0;
-        float _Speed = 0.25f;
-        float _Direction;
-        
+        private int _MaxH = 20;
+        private float _X = 0;
+        private float _Speed = 0.25f;
+        private float _Direction;
+
         public BaseAnimationSystem(float speed, int maxHeight)
             : base("Base")
         {
@@ -36,10 +32,9 @@ namespace SpaceHordes.Entities.Systems
             if (ConvertUnits.ToDisplayUnits(b.Position.Y) <= 0)
                 _Direction = _Speed;
 
+            b.Position += new Microsoft.Xna.Framework.Vector2(b.Position.X - _X, ConvertUnits.ToSimUnits(_Direction));
 
-            b.Position += new Microsoft.Xna.Framework.Vector2(b.Position.X - _X,ConvertUnits.ToSimUnits(_Direction));
-
-            #endregion
+            #endregion Float Effect
 
             #region Sprite Animation
 
@@ -59,11 +54,11 @@ namespace SpaceHordes.Entities.Systems
                     frame = 2;
 
                 s.FrameIndex = frame;
-                
+
                 e.AddComponent<Sprite>(s);
             }
 
-            #endregion
+            #endregion Sprite Animation
         }
     }
 }

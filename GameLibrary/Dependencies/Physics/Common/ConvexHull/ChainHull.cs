@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
 {
@@ -121,6 +121,6 @@ namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
             }
         }
 
-        #endregion
+        #endregion Nested type: PointComparer
     }
 }

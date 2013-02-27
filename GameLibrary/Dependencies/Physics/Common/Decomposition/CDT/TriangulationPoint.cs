@@ -29,8 +29,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
 using Poly2Tri.Triangulation.Delaunay.Sweep;
+using System.Collections.Generic;
 
 namespace Poly2Tri.Triangulation
 {
@@ -50,13 +50,13 @@ namespace Poly2Tri.Triangulation
 
         public float Xf
         {
-            get { return (float) X; }
+            get { return (float)X; }
             set { X = value; }
         }
 
         public float Yf
         {
-            get { return (float) Y; }
+            get { return (float)Y; }
             set { Y = value; }
         }
 

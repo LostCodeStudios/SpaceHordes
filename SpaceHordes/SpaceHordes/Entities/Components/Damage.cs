@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -15,7 +11,7 @@ namespace SpaceHordes.Entities.Components
         public int Elapsed;
         public int Uses;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -27,6 +23,6 @@ namespace SpaceHordes.Entities.Components
             Elapsed = 0;
         }
 
-        #endregion
+        #endregion Constructor
     }
 }

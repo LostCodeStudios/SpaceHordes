@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
+﻿using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Factories
 {

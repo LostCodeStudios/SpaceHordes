@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -23,7 +19,7 @@ namespace GameLibrary.Helpers
             GraphicsDevice = graphicsDevice;
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Properties
 
@@ -40,6 +36,7 @@ namespace GameLibrary.Helpers
         }
 
         public static KeyboardState input;
+
         /// <summary>
         /// The game's viewport.
         /// </summary>
@@ -88,7 +85,7 @@ namespace GameLibrary.Helpers
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -96,15 +93,15 @@ namespace GameLibrary.Helpers
 
         public static Color[,] TextureTo2DArray(Texture2D texture)
         {
-             Color[] colors1D = new Color[texture.Width * texture.Height];
-             texture.GetData(colors1D);
+            Color[] colors1D = new Color[texture.Width * texture.Height];
+            texture.GetData(colors1D);
 
-             Color[,] colors2D = new Color[texture.Width, texture.Height];
-             for (int x = 0; x < texture.Width; x++)
-                 for (int y = 0; y < texture.Height; y++)
-                     colors2D[x, y] = colors1D[x + y * texture.Width];
+            Color[,] colors2D = new Color[texture.Width, texture.Height];
+            for (int x = 0; x < texture.Width; x++)
+                for (int y = 0; y < texture.Height; y++)
+                    colors2D[x, y] = colors1D[x + y * texture.Width];
 
-             return colors2D;
+            return colors2D;
         }
 
         /// <summary>
@@ -117,8 +114,8 @@ namespace GameLibrary.Helpers
                 Center.Y - ((font.MeasureString(text).Y / 2)) * scale);
         }
 
-        #endregion
+        #endregion Helpers
 
-        #endregion
+        #endregion Methods
     }
 }

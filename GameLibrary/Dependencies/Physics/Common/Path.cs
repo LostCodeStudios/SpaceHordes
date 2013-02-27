@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
@@ -204,7 +204,7 @@ namespace GameLibrary.Dependencies.Physics.Common
             {
                 int p = (int)(time / _deltaT);
 
-                // 
+                //
                 int p0 = p - 1;
                 if (p0 < 0) p0 = 0;
                 else if (p0 >= ControlPoints.Count - 1) p0 = ControlPoints.Count - 1;

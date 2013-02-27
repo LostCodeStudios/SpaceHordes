@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Entities
 {
@@ -12,30 +9,29 @@ namespace GameLibrary.Dependencies.Entities
         {
         }
 
-        public int EntitiesToProcessEachFrame = 50;        
-        Queue<Entity> queue = new Queue<Entity>();              
+        public int EntitiesToProcessEachFrame = 50;
+        private Queue<Entity> queue = new Queue<Entity>();
 
         public void AddToQueue(Entity ent)
         {
-           queue.Enqueue(ent);         
+            queue.Enqueue(ent);
         }
 
         public int QueueCount
         {
             get
-            {            
-               return queue.Count;             
+            {
+                return queue.Count;
             }
         }
 
-
         private Entity DeQueue()
-        {            
-                if(queue.Count > 0)
-                {
-                    return queue.Dequeue();
-                }
-                return null;            
+        {
+            if (queue.Count > 0)
+            {
+                return queue.Dequeue();
+            }
+            return null;
         }
 
         public virtual void Process(Entity Entity)

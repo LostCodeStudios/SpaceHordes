@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
 {
@@ -43,15 +42,15 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
         }
 
         /// <summary>
-        /// Implements "A new algorithm for Boolean operations on general polygons" 
+        /// Implements "A new algorithm for Boolean operations on general polygons"
         /// available here: http://liama.ia.ac.cn/wiki/_media/user:dong:dong_cg_05.pdf
-        /// Merges two polygons, a subject and a clip with the specified operation. Polygons may not be 
+        /// Merges two polygons, a subject and a clip with the specified operation. Polygons may not be
         /// self-intersecting.
-        /// 
+        ///
         /// Warning: May yield incorrect results or even crash if polygons contain collinear points.
         /// </summary>
         /// <param name="subject">The subject polygon.</param>
-        /// <param name="clip">The clip polygon, which is added, 
+        /// <param name="clip">The clip polygon, which is added,
         /// substracted or intersected with the subject</param>
         /// <param name="clipType">The operation to be performed. Either
         /// Union, Difference or Intersection.</param>
@@ -66,6 +65,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             // Copy polygons
             Vertices slicedSubject;
             Vertices slicedClip;
+
             // Calculate the intersection and touch points between
             // subject and clip and add them to both
             CalculateIntersections(subject, clip, out slicedSubject, out slicedClip);
@@ -91,6 +91,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             List<float> subjectCoeff;
             List<Edge> clipSimplices;
             List<float> clipCoeff;
+
             // Build simplical chains from the polygons and calculate the
             // the corresponding coefficients
             CalculateSimplicalChain(slicedSubject, out subjectCoeff, out subjectSimplices);
@@ -105,6 +106,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
                                  out resultSimplices);
 
             List<Vertices> result;
+
             // Convert result chain back to polygon(s)
             error = BuildPolygonsFromChain(resultSimplices, out result);
 
@@ -146,11 +148,13 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
                     Vector2 d = polygon2[polygon2.NextIndex(j)];
 
                     Vector2 intersectionPoint;
+
                     // Check if the edges intersect
                     if (LineTools.LineIntersect(a, b, c, d, out intersectionPoint))
                     {
                         // calculate alpha values for sorting multiple intersections points on a edge
                         float alpha;
+
                         // Insert intersection point into first polygon
                         alpha = GetAlpha(a, b, intersectionPoint);
                         if (alpha > 0f && alpha < 1f)
@@ -163,6 +167,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
                             }
                             slicedPoly1.Insert(index, intersectionPoint);
                         }
+
                         // Insert intersection point into second polygon
                         alpha = GetAlpha(c, d, intersectionPoint);
                         if (alpha > 0f && alpha < 1f)
@@ -178,10 +183,12 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
                     }
                 }
             }
+
             // Check for very small edges
             for (int i = 0; i < slicedPoly1.Count; ++i)
             {
                 int iNext = slicedPoly1.NextIndex(i);
+
                 //If they are closer than the distance remove vertex
                 if ((slicedPoly1[iNext] - slicedPoly1[i]).LengthSquared() <= ClipperEpsilonSquared)
                 {
@@ -192,6 +199,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             for (int i = 0; i < slicedPoly2.Count; ++i)
             {
                 int iNext = slicedPoly2.NextIndex(i);
+
                 //If they are closer than the distance remove vertex
                 if ((slicedPoly2[iNext] - slicedPoly2[i]).LengthSquared() <= ClipperEpsilonSquared)
                 {
@@ -466,6 +474,7 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             }
 
             public Vector2 EdgeStart { get; private set; }
+
             public Vector2 EdgeEnd { get; private set; }
 
             public Vector2 GetCenter()
@@ -508,6 +517,6 @@ namespace GameLibrary.Dependencies.Physics.Common.PolygonManipulation
             }
         }
 
-        #endregion
+        #endregion Nested type: Edge
     }
 }

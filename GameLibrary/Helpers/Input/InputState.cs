@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace GameLibrary.Input
@@ -13,8 +11,8 @@ namespace GameLibrary.Input
     public class InputState
     {
         #region Fields
-        
-        #if WINDOWS || XBOX
+
+#if WINDOWS || XBOX
 
         public const int MaxInputs = 4;
 
@@ -28,9 +26,9 @@ namespace GameLibrary.Input
 
         public readonly bool[] GamePadWasConnected;
 
-        #endif
+#endif
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
@@ -39,7 +37,7 @@ namespace GameLibrary.Input
         /// </summary>
         public InputState()
         {
-            #if WINDOWS || XBOX
+#if WINDOWS || XBOX
 
             CurrentKeyboardStates = new KeyboardState[MaxInputs];
             CurrentGamePadStates = new GamePadState[MaxInputs];
@@ -49,10 +47,10 @@ namespace GameLibrary.Input
 
             GamePadWasConnected = new bool[MaxInputs];
 
-            #endif
+#endif
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Update
 
@@ -61,7 +59,7 @@ namespace GameLibrary.Input
         /// </summary>
         public void Update()
         {
-            #if WINDOWS || XBOX
+#if WINDOWS || XBOX
 
             for (int i = 0; i < MaxInputs; i++)
             {
@@ -81,12 +79,12 @@ namespace GameLibrary.Input
                 }
             }
 
-            #endif
+#endif
         }
 
-        #endregion
+        #endregion Update
 
-        #if WINDOWS || XBOX
+#if WINDOWS || XBOX
 
         #region Keyboard
 
@@ -147,7 +145,7 @@ namespace GameLibrary.Input
             }
         }
 
-        #endregion
+        #endregion Keyboard
 
         #region Gamepad
 
@@ -208,7 +206,7 @@ namespace GameLibrary.Input
             }
         }
 
-        #endregion
+        #endregion Gamepad
 
         #region Mouse Location Methods
 
@@ -254,7 +252,7 @@ namespace GameLibrary.Input
                 (LastMouseLocation.Y < rectangle.Bottom));
         }
 
-        #endregion
+        #endregion Mouse Location Methods
 
         #region Left Mouse Button
 
@@ -323,7 +321,7 @@ namespace GameLibrary.Input
             return (MouseHoverIn(rectangle) && LeftButtonDown());
         }
 
-        #endregion
+        #endregion Left Mouse Button
 
         #region Right Mouse Button
 
@@ -384,7 +382,7 @@ namespace GameLibrary.Input
             return (MouseHoverIn(rectangle) && RightClicked());
         }
 
-        #endregion
+        #endregion Right Mouse Button
 
         #region Scroll Wheel Properties
 
@@ -412,8 +410,8 @@ namespace GameLibrary.Input
             get { return ScrollWheelValue - LastScrollWheelValue; }
         }
 
-        #endregion
+        #endregion Scroll Wheel Properties
 
-        #endif
+#endif
     }
 }

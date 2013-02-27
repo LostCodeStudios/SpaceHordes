@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
     public class Slow : Component
     {
         #region SlowRate
+
         /// <summary>
         /// The meter/second quantity by which the linear velocity will slow.
         /// </summary>
@@ -20,7 +17,7 @@ namespace SpaceHordes.Entities.Components
         /// </summary>
         public float AngularSlowRate { set; get; }
 
-        #endregion
+        #endregion SlowRate
 
         #region Target
 
@@ -34,21 +31,24 @@ namespace SpaceHordes.Entities.Components
         /// </summary>
         public float AngularTargetVelocity { set; get; }
 
-        #endregion
+        #endregion Target
 
-        public Slow(float angRate, float linearRate, Vector2 linearTarget, float angularTarget)
+        public Slow(int slowTime, float angRate, float linearRate, Vector2 linearTarget, float angularTarget)
         {
             AngularSlowRate = angRate;
             LinearSlowRate = linearRate;
             LinearTargetVelocity = linearTarget;
             AngularTargetVelocity = angularTarget;
+            this.Elapsed = slowTime;
         }
 
-        public Slow() : this(0f,0f,Vector2.Zero,0f)
+        public Slow()
+            : this(0, 0f, 0f, Vector2.Zero, 0f)
         {
         }
 
-        public static readonly Slow None = new Slow();
+        public int Elapsed = 0;
 
+        public static readonly Slow None = new Slow();
     }
 }

@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Entities.Systems
 {
     public class ParticleMovementSystem : EntityProcessingSystem
     {
-        ComponentMapper<Particle> particleMapper;
+        private ComponentMapper<Particle> particleMapper;
+
         public ParticleMovementSystem()
             : base(typeof(Particle))
         {
         }
-        
 
         public override void Initialize()
         {
@@ -32,7 +27,6 @@ namespace GameLibrary.Entities.Systems
             //Damping (dx/dt) = (-c*dx/dt) * DT
             particle.AngularVelocity += -particle.AngularDamping * dt * particle.AngularVelocity;
             particle.LinearVelocity += new Vector2(-particle.LinearDamping * dt) * particle.LinearVelocity;
-            
 
             //Add the velocity of a particle to its transform
             particle.Position += particle.LinearVelocity * new Vector2(dt); //x = int(dx/dt)[delta t]

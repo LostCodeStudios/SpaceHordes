@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics;
+﻿using GameLibrary.Dependencies.Physics;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 public class QuadTreeBroadPhase : IBroadPhase
 {
@@ -145,7 +145,6 @@ public class QuadTreeBroadPhase : IBroadPhase
         else
             b.UpperBound.Y += d.Y;
 
-
         Element<FixtureProxy> qtnode = _idRegister[proxyId];
         qtnode.Value.AABB = b; //not neccesary for QTree, but might be accessed externally
         qtnode.Span = b;
@@ -181,7 +180,7 @@ public class QuadTreeBroadPhase : IBroadPhase
         _quadTree.RayCast(TransformRayCallback(callback), ref input);
     }
 
-    #endregion
+    #endregion IBroadPhase Members
 
     private AABB Fatten(ref AABB aabb)
     {

@@ -4,34 +4,32 @@ using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Dynamics;
-using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SpaceHordes.Entities.Components
 {
     // Some useful structs
-    struct shapeData
+    internal struct shapeData
     {
         public PhysicsBody body;
         public float min; // absolute angles
         public float max;
     }
 
-    struct rayData
+    internal struct rayData
     {
         public float angle;
         public Vector2 pos;
     }
 
     /// <summary>
-    /// This is a comprarer used for 
+    /// This is a comprarer used for
     /// detecting angle difference between rays
     /// </summary>
-    class rayDataComparer : IComparer<rayData>
+    internal class rayDataComparer : IComparer<rayData>
     {
         int IComparer<rayData>.Compare(rayData a, rayData b)
         {
@@ -52,11 +50,11 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public abstract class Explosive
     {
-        const int MAX_SHAPES = 100;
-        Dictionary<Fixture, List<Vector2>> exploded;
-        rayDataComparer rdc;
-        List<shapeData> data = new List<shapeData>();
-        World world;
+        private const int MAX_SHAPES = 100;
+        private Dictionary<Fixture, List<Vector2>> exploded;
+        private rayDataComparer rdc;
+        private List<shapeData> data = new List<shapeData>();
+        private World world;
 
         public Explosive(World farseerWorld)
         {
@@ -93,6 +91,7 @@ namespace SpaceHordes.Entities.Components
             Fixture[] shapes = new Fixture[MAX_SHAPES];
 
             int shapeCount = 0;
+
             // Query the world for overlapping shapes.
             world.QueryAABB(
                 fixture =>
@@ -136,7 +135,7 @@ namespace SpaceHordes.Entities.Components
                         v.Add(vec);
                         vec = Vector2.Zero + new Vector2(0, -cs.Radius);
                         v.Add(vec);
-                        ps = new PolygonShape(v,1);
+                        ps = new PolygonShape(v, 1);
                     }
                     else
                         ps = shapes[i].Shape as PolygonShape;
@@ -159,6 +158,7 @@ namespace SpaceHordes.Entities.Components
                             float diff = (newAngle - angleToCentroid);
 
                             diff = (diff - MathHelper.Pi) % (2 * MathHelper.Pi); // the minus pi is important.
+
                             // It means cutoff for going other
                             // direction is at 180 deg where it
                             // needs to be
@@ -170,6 +170,7 @@ namespace SpaceHordes.Entities.Components
 
                             if (Math.Abs(diff) > MathHelper.Pi)
                                 throw new ArgumentException("OMG!"); // Something's wrong,
+
                             // point not in shape but
                             // exists angle diff > 180
 
@@ -347,6 +348,7 @@ namespace SpaceHordes.Entities.Components
                     const float max_angle = MathHelper.Pi / 15; // max angle between rays (used when segment is large)
                     const float edge_ratio = 1.0f / 40.0f; // ratio of arc length to angle from edges to first ray tested
                     const float max_edge_offset = MathHelper.Pi / 90; // two degrees: maximum angle
+
                     // from edges to first ray tested
 
                     float arclen = data[i].max - data[i].min;
@@ -402,12 +404,11 @@ namespace SpaceHordes.Entities.Components
                                 * maxForce * 180.0f / MathHelper.Pi * (1.0f - Math.Min(1.0f, minlambda));
 
                             // We Apply the impulse!!!
-                             vectImp = Vector2.Dot(impulse * new Vector2((float)Math.Cos(j),
-                                (float)Math.Sin(j)), -ro.Normal) * new Vector2((float)Math.Cos(j),
-                                    (float)Math.Sin(j));
+                            vectImp = Vector2.Dot(impulse * new Vector2((float)Math.Cos(j),
+                               (float)Math.Sin(j)), -ro.Normal) * new Vector2((float)Math.Cos(j),
+                                   (float)Math.Sin(j));
 
-                                data[i].body.ApplyLinearImpulse(vectImp, hitpoint);
-
+                            data[i].body.ApplyLinearImpulse(vectImp, hitpoint);
 
                             // We gather the fixtures for returning them
                             Vector2 val = Vector2.Zero;
@@ -435,17 +436,16 @@ namespace SpaceHordes.Entities.Components
                             }
 
                             ++jj;
-
                         }
                     }
+
                     //Apply damage
                     if (data[i].body.UserData != null && data[i].body.UserData is Entity)
                     {
                         Entity e = data[i].body.UserData as Entity;
-                        if (e.HasComponent<Health>() && e.GetComponent<Health>().IsAlive && e!=setter)
+                        if (e.HasComponent<Health>() && e.GetComponent<Health>().IsAlive && e != setter)
                             e.GetComponent<Health>().SetHealth(setter, e.GetComponent<Health>().CurrentHealth - vectImp.Length());
                     }
-                
                 }
             }
 

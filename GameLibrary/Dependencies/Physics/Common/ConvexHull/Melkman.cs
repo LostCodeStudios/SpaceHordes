@@ -86,6 +86,7 @@ namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
                     qf = qfm1; //qf--;
                     qfm1 = qf == 0 ? deque.Length - 1 : qf - 1; //qfm1 = qf - 1;
                 }
+
                 //Add vertex to the front of the queue
                 qf = qf == deque.Length - 1 ? 0 : qf + 1; //qf++;
                 qfm1 = qf == 0 ? deque.Length - 1 : qf - 1; //qfm1 = qf - 1;
@@ -98,6 +99,7 @@ namespace GameLibrary.Dependencies.Physics.Common.ConvexHull
                     qb = qbm1; //qb++;
                     qbm1 = qb == deque.Length - 1 ? 0 : qb + 1; //qbm1 = qb + 1;
                 }
+
                 //Add vertex to the back of the queue
                 qb = qb == 0 ? deque.Length - 1 : qb - 1; //qb--;
                 qbm1 = qb == deque.Length - 1 ? 0 : qb + 1; //qbm1 = qb + 1;

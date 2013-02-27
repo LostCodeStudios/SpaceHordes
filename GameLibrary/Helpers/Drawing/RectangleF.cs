@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GameLibrary.Helpers.Drawing
+﻿namespace GameLibrary.Helpers.Drawing
 {
     public struct RectangleF
     {

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 
 namespace SpaceHordes.Entities.Components
 {
-    struct Bullet : Component
+    internal struct Bullet : Component
     {
         /// <summary>
         /// Creates a bullet with a on bullet hit call back.
@@ -14,7 +10,8 @@ namespace SpaceHordes.Entities.Components
         /// <param name="damage">The damage of the bullet</param>
         /// <param name="damageGroup">The damage group of this bullet</param>
         /// <param name="onBulletHit">The event which will be called when the bullet hits it's target.</param>
-        public Bullet(double damage, string damageGroup, BulletHitEvent onBulletHit) : this()
+        public Bullet(double damage, string damageGroup, BulletHitEvent onBulletHit)
+            : this()
         {
             this.Damage = damage;
             this.DamageGroup = damageGroup;
@@ -26,8 +23,6 @@ namespace SpaceHordes.Entities.Components
             : this(damage, "", delegate(Entity e) { })
         {
         }
-
-        
 
         /// <summary>
         /// The damage of the bullet on hit.
@@ -45,10 +40,9 @@ namespace SpaceHordes.Entities.Components
         /// </summary>
         public BulletHitEvent OnBulletHit;
 
-        public int collisionChecked {set;get;}
+        public int collisionChecked { set; get; }
 
         public Entity Firer;
-        
     }
 
     public delegate void BulletHitEvent(Entity hit);

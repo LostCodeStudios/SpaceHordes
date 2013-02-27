@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class StarFieldRenderSystem : EntityProcessingSystem
     {
-        SpriteBatch spriteBatch;
+        private SpriteBatch spriteBatch;
+
         public StarFieldRenderSystem(SpriteBatch spriteBatch)
             : base(typeof(Sprite))
         {
@@ -32,9 +29,9 @@ namespace SpaceHordes.Entities.Systems
                 Sprite s = e.GetComponent<Sprite>();
 
                 spriteBatch.Draw(
-                    s.SpriteSheet.Texture, 
-                    s.Origin, 
-                    s.CurrentRectangle, 
+                    s.SpriteSheet.Texture,
+                    s.Origin,
+                    s.CurrentRectangle,
                     Color.White);
             }
         }

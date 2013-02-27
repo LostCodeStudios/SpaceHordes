@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using GameLibrary.Dependencies.Physics.Collision;
+﻿using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Collision.Shapes;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Common.Decomposition;
@@ -8,6 +6,8 @@ using GameLibrary.Dependencies.Physics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Helpers
 {
@@ -49,6 +49,7 @@ namespace GameLibrary.Helpers
                     Vector2.Min(ref lBound, ref bounds.LowerBound, out lBound);
                 }
             }
+
             // calculate body offset from its center and add a 1 pixel border
             // because we generate the textures a little bigger than the actual body's fixtures
             return ConvertUnits.ToDisplayUnits(b.Position - lBound) + new Vector2(1f);
@@ -70,7 +71,7 @@ namespace GameLibrary.Helpers
                 case ShapeType.Circle:
                     return CircleTexture(shape.Radius, type, color, materialScale);
                 case ShapeType.Polygon:
-                    return TextureFromVertices(((PolygonShape) shape).Vertices, type, color, materialScale);
+                    return TextureFromVertices(((PolygonShape)shape).Vertices, type, color, materialScale);
                 default:
                     throw new NotSupportedException("The specified shape type is not supported.");
             }
@@ -161,6 +162,7 @@ namespace GameLibrary.Helpers
                 Vector2 p1 = new Vector2(radiusX * (float)Math.Cos(theta), radiusY * (float)Math.Sin(theta));
                 Vector2 p2 = new Vector2(radiusX * (float)Math.Cos(theta + segmentSize),
                                          radiusY * (float)Math.Sin(theta + segmentSize));
+
                 // fill vertices
                 verticesFill[3 * i].Position = new Vector3(start, 0f);
                 verticesFill[3 * i + 1].Position = new Vector3(p1, 0f);
@@ -220,6 +222,7 @@ namespace GameLibrary.Helpers
             _device.Clear(Color.Transparent);
             _effect.Projection = Matrix.CreateOrthographic(width + 2f, -height - 2f, 0f, 1f);
             _effect.View = halfPixelOffset;
+
             // render shape;
             _effect.TextureEnabled = true;
             _effect.Texture = material;
@@ -229,6 +232,7 @@ namespace GameLibrary.Helpers
             {
                 _device.DrawUserPrimitives(PrimitiveType.TriangleList, verticesFill[i], 0, verticesFill[i].Length / 3);
             }
+
             // render outline;
             _effect.TextureEnabled = false;
             _effect.Techniques[0].Passes[0].Apply();

@@ -29,9 +29,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Poly2Tri.Triangulation.Delaunay;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Poly2Tri.Triangulation.Delaunay;
 
 namespace Poly2Tri.Triangulation
 {
@@ -47,12 +47,15 @@ namespace Poly2Tri.Triangulation
         }
 
         public TriangulationMode TriangulationMode { get; protected set; }
+
         public Triangulatable Triangulatable { get; private set; }
 
         public bool WaitUntilNotified { get; private set; }
+
         public bool Terminated { get; set; }
 
         public int StepCount { get; private set; }
+
         public virtual bool IsDebugEnabled { get; protected set; }
 
         public void Done()

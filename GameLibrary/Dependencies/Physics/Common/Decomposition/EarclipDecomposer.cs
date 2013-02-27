@@ -1,6 +1,6 @@
 ﻿/*
  * C# Version Ported by Matt Bettcher and Ian Qvist 2009-2010
- * 
+ *
  * Original C++ Version Copyright (c) 2007 Eric Jordan
  *
  * This software is provided 'as-is', without any express or implied
@@ -18,19 +18,19 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-using System;
-using System.Collections.Generic;
 using GameLibrary.Dependencies.Physics.Common.PolygonManipulation;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace GameLibrary.Dependencies.Physics.Common.Decomposition
 {
     /// <summary>
-    /// Ported from jBox2D. Original author: ewjordan 
+    /// Ported from jBox2D. Original author: ewjordan
     /// Triangulates a polygon using simple ear-clipping algorithm.
-    /// 
+    ///
     /// Only works on simple polygons.
-    /// 
+    ///
     /// Triangles may be degenerate, especially if you have identical points
     /// in the input to the algorithm.  Check this before you use them.
     /// </summary>
@@ -46,7 +46,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         ///
         /// Each resulting polygon will have no more than Settings.MaxPolygonVertices
         /// vertices.
-        /// 
+        ///
         /// Warning: Only works on simple polygons
         /// </summary>
         /// <param name="vertices">The vertices.</param>
@@ -132,10 +132,10 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         /// Returns an integer telling how many polygons were created.  Will fill
         /// polys array up to polysLength entries, which may be smaller or larger
         /// than the return value.
-        /// 
+        ///
         /// Takes O(N///P) where P is the number of resultant polygons, N is triangle
         /// count.
-        /// 
+        ///
         /// The final polygon list will not necessarily be minimal, though in
         /// practice it works fairly well.
         /// </summary>
@@ -229,6 +229,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                         //the vertex number check
                         if (poly.Count >= 3)
                             polys.Add(new Vertices(poly));
+
                         //else
                         //    printf("Skipping corrupt poly\n");
                     }
@@ -396,12 +397,12 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
         /// <summary>
         /// Finds and fixes "pinch points," points where two polygon
         /// vertices are at the same point.
-        /// 
+        ///
         /// If a pinch point is found, pin is broken up into poutA and poutB
         /// and true is returned; otherwise, returns false.
-        /// 
+        ///
         /// Mostly for internal use.
-        /// 
+        ///
         /// O(N^2) time, which sucks...
         /// </summary>
         /// <param name="pin">The pin.</param>
@@ -448,7 +449,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                 int sizeB = pin.Count - sizeA;
                 for (int i = 0; i < sizeB; ++i)
                 {
-                    int ind = Remainder(pinchIndexB + i, pin.Count); // is this right    
+                    int ind = Remainder(pinchIndexB + i, pin.Count); // is this right
                     poutB.Add(pin[ind]);
                 }
             }
@@ -520,6 +521,7 @@ namespace GameLibrary.Dependencies.Physics.Common.Decomposition
                     }
                 }
             }
+
             // Fix ordering if first should be last vertex of poly
             if (firstP == 0 && secondP == vertices.Count - 1)
             {

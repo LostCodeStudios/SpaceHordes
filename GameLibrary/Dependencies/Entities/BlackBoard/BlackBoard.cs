@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 
 namespace GameLibrary.Dependencies.Entities
 {
     public class BlackBoard
     {
         private Dictionary<String, object> intelligence = new Dictionary<string, object>();
-        private Dictionary<String, List<Trigger>> triggers = new Dictionary<string, List<Trigger>>();                
-        private object entrylock = new object();       
-        
+        private Dictionary<String, List<Trigger>> triggers = new Dictionary<string, List<Trigger>>();
+        private object entrylock = new object();
+
         public void SetEntry<T>(String name, T intel)
         {
             lock (entrylock)
@@ -19,12 +16,11 @@ namespace GameLibrary.Dependencies.Entities
                 TriggerState TriggerState = intelligence.ContainsKey(name) == true ? TriggerState.VALUE_CHANGED : TriggerState.VALUE_ADDED;
                 intelligence[name] = intel;
 
-
                 if (triggers.ContainsKey(name))
                 {
                     foreach (var item in triggers[name])
                     {
-                        if(item.fired ==false)
+                        if (item.fired == false)
                             item.Fire(TriggerState);
                     }
                 }
@@ -39,13 +35,11 @@ namespace GameLibrary.Dependencies.Entities
             }
         }
 
-
         public void RemoveEntry(String name)
         {
             lock (entrylock)
             {
                 intelligence.Remove(name);
-
 
                 if (triggers.ContainsKey(name))
                 {
@@ -79,7 +73,6 @@ namespace GameLibrary.Dependencies.Entities
                 Trigger.BlackBoard = this;
                 foreach (var IntellName in Trigger.WorldPropertiesMonitored)
                 {
-
                     if (triggers.ContainsKey(IntellName))
                     {
                         triggers[IntellName].Add(Trigger);

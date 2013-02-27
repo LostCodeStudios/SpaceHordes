@@ -1,10 +1,9 @@
 ﻿#region Using Statements
 
+using Microsoft.Xna.Framework;
 using System;
 
-using Microsoft.Xna.Framework;
-
-#endregion
+#endregion Using Statements
 
 namespace GameLibrary.Input
 {
@@ -14,7 +13,7 @@ namespace GameLibrary.Input
     /// </summary>
     public class PlayerIndexEventArgs : EventArgs
     {
-        PlayerIndex playerIndex;
+        private PlayerIndex playerIndex;
 
         public PlayerIndexEventArgs(PlayerIndex playerIndex)
         {

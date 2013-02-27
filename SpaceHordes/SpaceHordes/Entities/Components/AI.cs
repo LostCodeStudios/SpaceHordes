@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Entities.Components;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
-using GameLibrary.Dependencies.Entities;
+using System;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -18,8 +14,8 @@ namespace SpaceHordes.Entities.Components
 
     public class AI : Component
     {
-        Body target;
-        Behavior behavior;
+        private Body target;
+        private Behavior behavior;
 
         public event Action TargetChangedEvent;
 

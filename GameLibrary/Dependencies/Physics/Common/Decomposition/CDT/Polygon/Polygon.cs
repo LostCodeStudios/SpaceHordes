@@ -38,10 +38,10 @@
 //   We have a lot of Add/Clear methods -- we may prefer to just expose the container
 //   Some self-explanitory methods may deserve commenting anyways
 
+using Poly2Tri.Triangulation.Delaunay;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Poly2Tri.Triangulation.Delaunay;
 
 namespace Poly2Tri.Triangulation.Polygon
 {
@@ -72,7 +72,8 @@ namespace Poly2Tri.Triangulation.Polygon
         /// Create a polygon from a list of at least 3 points with no duplicates.
         /// </summary>
         /// <param name="points">A list of unique points.</param>
-        public Polygon(IEnumerable<PolygonPoint> points) : this((points as IList<PolygonPoint>) ?? points.ToArray())
+        public Polygon(IEnumerable<PolygonPoint> points)
+            : this((points as IList<PolygonPoint>) ?? points.ToArray())
         {
         }
 
@@ -160,7 +161,7 @@ namespace Poly2Tri.Triangulation.Polygon
             }
         }
 
-        #endregion
+        #endregion Triangulatable Members
 
         public void AddSteinerPoint(TriangulationPoint point)
         {
@@ -196,6 +197,7 @@ namespace Poly2Tri.Triangulation.Polygon
         {
             if (_holes == null) _holes = new List<Polygon>();
             _holes.Add(poly);
+
             // XXX: tests could be made here to be sure it is fully inside
             //        addSubtraction( poly.getPoints() );
         }
@@ -207,7 +209,7 @@ namespace Poly2Tri.Triangulation.Polygon
         /// <param name="newPoint">The point to insert into the polygon</param>
         public void InsertPointAfter(PolygonPoint point, PolygonPoint newPoint)
         {
-            // Validate that 
+            // Validate that
             int index = _points.IndexOf(point);
             if (index == -1)
                 throw new ArgumentException(
@@ -237,7 +239,7 @@ namespace Poly2Tri.Triangulation.Polygon
                 _last = p;
                 _points.Add(p);
             }
-            first = (PolygonPoint) _points[0];
+            first = (PolygonPoint)_points[0];
             _last.Next = first;
             first.Previous = _last;
         }

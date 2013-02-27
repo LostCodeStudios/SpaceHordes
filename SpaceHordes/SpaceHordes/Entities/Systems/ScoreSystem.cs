@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using SpaceHordes.Entities.Components;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class ScoreSystem : IntervalEntitySystem
     {
-        Entity Base;
+        private Entity Base;
 
-        static long pointsToGive;
+        private static long pointsToGive;
+
         public static void GivePoints(int value)
         {
             pointsToGive += value;

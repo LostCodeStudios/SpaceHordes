@@ -1,16 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Xml.Linq;
-
+﻿using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Storage;
-
-using GameLibrary.Input;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameLibrary.GameStates
 {
@@ -30,23 +23,23 @@ namespace GameLibrary.GameStates
         StorageDevice storageDevice;
 #endif
 
-        List<GameScreen> screens = new List<GameScreen>();
-        List<GameScreen> tempScreensList = new List<GameScreen>();
+        private List<GameScreen> screens = new List<GameScreen>();
+        private List<GameScreen> tempScreensList = new List<GameScreen>();
 
-        InputState input = new InputState();
+        private InputState input = new InputState();
 
-        SpriteBatch spriteBatch;
-        SpriteFont font;
-        SpriteFont titleFont;
-        SpriteFont initialEntryFont;
+        private SpriteBatch spriteBatch;
+        private SpriteFont font;
+        private SpriteFont titleFont;
+        private SpriteFont initialEntryFont;
 
-        Texture2D blankTexture;
+        private Texture2D blankTexture;
 
-        bool isInitialized;
+        private bool isInitialized;
 
-        bool traceEnabled;
+        private bool traceEnabled;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -107,6 +100,7 @@ namespace GameLibrary.GameStates
         }
 
 #if XBOX
+
         /// <summary>
         /// The game's storage device.
         /// </summary>
@@ -117,7 +111,7 @@ namespace GameLibrary.GameStates
         }
 #endif
 
-        #endregion
+        #endregion Properties
 
         #region Initialization
 
@@ -174,7 +168,7 @@ namespace GameLibrary.GameStates
             }
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update and Draw
 
@@ -235,7 +229,7 @@ namespace GameLibrary.GameStates
         /// <summary>
         /// Prints a list of all the screens, for debugging.
         /// </summary>
-        void TraceScreens()
+        private void TraceScreens()
         {
             List<string> screenNames = new List<string>();
 
@@ -260,7 +254,7 @@ namespace GameLibrary.GameStates
             }
         }
 
-        #endregion
+        #endregion Update and Draw
 
         #region Public Methods
 
@@ -328,6 +322,6 @@ namespace GameLibrary.GameStates
             spriteBatch.End();
         }
 
-        #endregion
+        #endregion Public Methods
     }
 }

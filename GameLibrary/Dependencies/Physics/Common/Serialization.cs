@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GameLibrary.Dependencies.Physics.Collision.Shapes;
+using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Dynamics.Joints;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-using GameLibrary.Dependencies.Physics.Collision.Shapes;
-using GameLibrary.Dependencies.Physics.Dynamics;
-using GameLibrary.Dependencies.Physics.Dynamics.Joints;
-using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Dependencies.Physics.Common
 {
@@ -62,6 +62,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("Position", circle.Position);
                     }
                     break;
+
                 case ShapeType.Polygon:
                     {
                         PolygonShape poly = (PolygonShape)shape;
@@ -74,6 +75,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("Centroid", poly.MassData.Centroid);
                     }
                     break;
+
                 case ShapeType.Edge:
                     {
                         EdgeShape poly = (EdgeShape)shape;
@@ -81,6 +83,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("Vertex2", poly.Vertex2);
                     }
                     break;
+
                 default:
                     throw new Exception();
             }
@@ -184,6 +187,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("LocalAnchorB", djd.LocalAnchorB);
                     }
                     break;
+
                 case JointType.Friction:
                     {
                         FrictionJoint fjd = (FrictionJoint)joint;
@@ -193,6 +197,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("MaxTorque", fjd.MaxTorque);
                     }
                     break;
+
                 case JointType.Gear:
                     throw new Exception("Gear joint not supported by serialization");
                 case JointType.Line:
@@ -209,6 +214,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("LocalXAxis", ljd.LocalXAxis);
                     }
                     break;
+
                 case JointType.Prismatic:
                     {
                         PrismaticJoint pjd = (PrismaticJoint)joint;
@@ -226,6 +232,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("MotorSpeed", pjd.MotorSpeed);
                     }
                     break;
+
                 case JointType.Pulley:
                     {
                         PulleyJoint pjd = (PulleyJoint)joint;
@@ -241,6 +248,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("Ratio", pjd.Ratio);
                     }
                     break;
+
                 case JointType.Revolute:
                     {
                         RevoluteJoint rjd = (RevoluteJoint)joint;
@@ -256,6 +264,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("UpperAngle", rjd.UpperLimit);
                     }
                     break;
+
                 case JointType.Weld:
                     {
                         WeldJoint wjd = (WeldJoint)joint;
@@ -264,6 +273,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("LocalAnchorB", wjd.LocalAnchorB);
                     }
                     break;
+
                 //
                 // Not part of Box2DScene
                 //
@@ -276,6 +286,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("MaxLength", rjd.MaxLength);
                     }
                     break;
+
                 case JointType.Angle:
                     {
                         AngleJoint aj = (AngleJoint)joint;
@@ -285,6 +296,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("TargetAngle", aj.TargetAngle);
                     }
                     break;
+
                 case JointType.Slider:
                     {
                         SliderJoint sliderJoint = (SliderJoint)joint;
@@ -296,6 +308,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                         WriteElement("LocalAnchorB", sliderJoint.LocalAnchorB);
                     }
                     break;
+
                 default:
                     throw new Exception("Joint not supported");
             }
@@ -378,7 +391,6 @@ namespace GameLibrary.Dependencies.Physics.Common
 
             _writer.WriteEndElement();
             _writer.WriteStartElement("Fixtures");
-
 
             for (int i = 0; i < world.BodyList.Count; i++)
             {
@@ -518,9 +530,11 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "radius":
                                                 shape.Radius = float.Parse(sn.Value);
                                                 break;
+
                                             case "position":
                                                 shape.Position = ReadVector(sn);
                                                 break;
+
                                             default:
                                                 throw new Exception();
                                         }
@@ -529,6 +543,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                                     _shapes.Add(shape);
                                 }
                                 break;
+
                             case ShapeType.Polygon:
                                 {
                                     PolygonShape shape = new PolygonShape();
@@ -547,6 +562,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                                                     shape.Set(new Vertices(verts.ToArray()));
                                                 }
                                                 break;
+
                                             case "centroid":
                                                 shape.MassData.Centroid = ReadVector(sn);
                                                 break;
@@ -556,6 +572,7 @@ namespace GameLibrary.Dependencies.Physics.Common
                                     _shapes.Add(shape);
                                 }
                                 break;
+
                             case ShapeType.Edge:
                                 {
                                     EdgeShape shape = new EdgeShape();
@@ -566,21 +583,27 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "hasvertex0":
                                                 shape.HasVertex0 = bool.Parse(sn.Value);
                                                 break;
+
                                             case "hasvertex3":
                                                 shape.HasVertex0 = bool.Parse(sn.Value);
                                                 break;
+
                                             case "vertex0":
                                                 shape.Vertex0 = ReadVector(sn);
                                                 break;
+
                                             case "vertex1":
                                                 shape.Vertex1 = ReadVector(sn);
                                                 break;
+
                                             case "vertex2":
                                                 shape.Vertex2 = ReadVector(sn);
                                                 break;
+
                                             case "vertex3":
                                                 shape.Vertex3 = ReadVector(sn);
                                                 break;
+
                                             default:
                                                 throw new Exception();
                                         }
@@ -611,9 +634,11 @@ namespace GameLibrary.Dependencies.Physics.Common
                                 case "shape":
                                     fixture.Shape = _shapes[int.Parse(sn.Value)];
                                     break;
+
                                 case "density":
                                     fixture.Shape.Density = float.Parse(sn.Value);
                                     break;
+
                                 case "filterdata":
                                     foreach (XMLFragmentElement ssn in sn.Elements)
                                     {
@@ -622,9 +647,11 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "categorybits":
                                                 fixture._collisionCategories = (Category)int.Parse(ssn.Value);
                                                 break;
+
                                             case "maskbits":
                                                 fixture._collidesWith = (Category)int.Parse(ssn.Value);
                                                 break;
+
                                             case "groupindex":
                                                 fixture._collisionGroup = short.Parse(ssn.Value);
                                                 break;
@@ -632,15 +659,19 @@ namespace GameLibrary.Dependencies.Physics.Common
                                     }
 
                                     break;
+
                                 case "friction":
                                     fixture.Friction = float.Parse(sn.Value);
                                     break;
+
                                 case "issensor":
                                     fixture.IsSensor = bool.Parse(sn.Value);
                                     break;
+
                                 case "restitution":
                                     fixture.Restitution = float.Parse(sn.Value);
                                     break;
+
                                 case "userdata":
                                     fixture.UserData = ReadSimpleType(sn, null, false);
                                     break;
@@ -675,36 +706,46 @@ namespace GameLibrary.Dependencies.Physics.Common
                                     else
                                         body.Flags &= ~BodyFlags.Enabled;
                                     break;
+
                                 case "allowsleep":
                                     body.SleepingAllowed = bool.Parse(sn.Value);
                                     break;
+
                                 case "angle":
                                     {
                                         Vector2 position = body.Position;
                                         body.SetTransformIgnoreContacts(ref position, float.Parse(sn.Value));
                                     }
                                     break;
+
                                 case "angulardamping":
                                     body.AngularDamping = float.Parse(sn.Value);
                                     break;
+
                                 case "angularvelocity":
                                     body.AngularVelocity = float.Parse(sn.Value);
                                     break;
+
                                 case "awake":
                                     body.Awake = bool.Parse(sn.Value);
                                     break;
+
                                 case "bullet":
                                     body.IsBullet = bool.Parse(sn.Value);
                                     break;
+
                                 case "fixedrotation":
                                     body.FixedRotation = bool.Parse(sn.Value);
                                     break;
+
                                 case "lineardamping":
                                     body.LinearDamping = float.Parse(sn.Value);
                                     break;
+
                                 case "linearvelocity":
                                     body.LinearVelocity = ReadVector(sn);
                                     break;
+
                                 case "position":
                                     {
                                         float rotation = body.Rotation;
@@ -712,9 +753,11 @@ namespace GameLibrary.Dependencies.Physics.Common
                                         body.SetTransformIgnoreContacts(ref position, rotation);
                                     }
                                     break;
+
                                 case "userdata":
                                     body.UserData = ReadSimpleType(sn, null, false);
                                     break;
+
                                 case "fixtures":
                                     {
                                         foreach (XMLFragmentElement v in sn.Elements)
@@ -762,12 +805,15 @@ namespace GameLibrary.Dependencies.Physics.Common
                                 case "bodya":
                                     bodyAIndex = int.Parse(sn.Value);
                                     break;
+
                                 case "bodyb":
                                     bodyBIndex = int.Parse(sn.Value);
                                     break;
+
                                 case "collideconnected":
                                     collideConnected = bool.Parse(sn.Value);
                                     break;
+
                                 case "userdata":
                                     userData = ReadSimpleType(sn, null, false);
                                     break;
@@ -782,33 +828,43 @@ namespace GameLibrary.Dependencies.Physics.Common
                             case JointType.Distance:
                                 joint = new DistanceJoint();
                                 break;
+
                             case JointType.Friction:
                                 joint = new FrictionJoint();
                                 break;
+
                             case JointType.Line:
                                 joint = new LineJoint();
                                 break;
+
                             case JointType.Prismatic:
                                 joint = new PrismaticJoint();
                                 break;
+
                             case JointType.Pulley:
                                 joint = new PulleyJoint();
                                 break;
+
                             case JointType.Revolute:
                                 joint = new RevoluteJoint();
                                 break;
+
                             case JointType.Weld:
                                 joint = new WeldJoint();
                                 break;
+
                             case JointType.Rope:
                                 joint = new RopeJoint();
                                 break;
+
                             case JointType.Angle:
                                 joint = new AngleJoint();
                                 break;
+
                             case JointType.Slider:
                                 joint = new SliderJoint();
                                 break;
+
                             case JointType.Gear:
                                 throw new Exception("GearJoint is not supported.");
                             default:
@@ -834,21 +890,26 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "dampingratio":
                                                 ((DistanceJoint)joint).DampingRatio = float.Parse(sn.Value);
                                                 break;
+
                                             case "frequencyhz":
                                                 ((DistanceJoint)joint).Frequency = float.Parse(sn.Value);
                                                 break;
+
                                             case "length":
                                                 ((DistanceJoint)joint).Length = float.Parse(sn.Value);
                                                 break;
+
                                             case "localanchora":
                                                 ((DistanceJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((DistanceJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Friction:
                                     {
                                         switch (sn.Name.ToLower())
@@ -856,18 +917,22 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "localanchora":
                                                 ((FrictionJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((FrictionJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "maxforce":
                                                 ((FrictionJoint)joint).MaxForce = float.Parse(sn.Value);
                                                 break;
+
                                             case "maxtorque":
                                                 ((FrictionJoint)joint).MaxTorque = float.Parse(sn.Value);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Line:
                                     {
                                         switch (sn.Name.ToLower())
@@ -875,30 +940,38 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "enablemotor":
                                                 ((LineJoint)joint).MotorEnabled = bool.Parse(sn.Value);
                                                 break;
+
                                             case "localanchora":
                                                 ((LineJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((LineJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "motorspeed":
                                                 ((LineJoint)joint).MotorSpeed = float.Parse(sn.Value);
                                                 break;
+
                                             case "dampingratio":
                                                 ((LineJoint)joint).DampingRatio = float.Parse(sn.Value);
                                                 break;
+
                                             case "maxmotortorque":
                                                 ((LineJoint)joint).MaxMotorTorque = float.Parse(sn.Value);
                                                 break;
+
                                             case "frequencyhz":
                                                 ((LineJoint)joint).Frequency = float.Parse(sn.Value);
                                                 break;
+
                                             case "localxaxis":
                                                 ((LineJoint)joint).LocalXAxis = ReadVector(sn);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Prismatic:
                                     {
                                         switch (sn.Name.ToLower())
@@ -906,36 +979,46 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "enablelimit":
                                                 ((PrismaticJoint)joint).LimitEnabled = bool.Parse(sn.Value);
                                                 break;
+
                                             case "enablemotor":
                                                 ((PrismaticJoint)joint).MotorEnabled = bool.Parse(sn.Value);
                                                 break;
+
                                             case "localanchora":
                                                 ((PrismaticJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((PrismaticJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "local1axis1":
                                                 ((PrismaticJoint)joint).LocalXAxis1 = ReadVector(sn);
                                                 break;
+
                                             case "maxmotorforce":
                                                 ((PrismaticJoint)joint).MaxMotorForce = float.Parse(sn.Value);
                                                 break;
+
                                             case "motorspeed":
                                                 ((PrismaticJoint)joint).MotorSpeed = float.Parse(sn.Value);
                                                 break;
+
                                             case "lowertranslation":
                                                 ((PrismaticJoint)joint).LowerLimit = float.Parse(sn.Value);
                                                 break;
+
                                             case "uppertranslation":
                                                 ((PrismaticJoint)joint).UpperLimit = float.Parse(sn.Value);
                                                 break;
+
                                             case "referenceangle":
                                                 ((PrismaticJoint)joint).ReferenceAngle = float.Parse(sn.Value);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Pulley:
                                     {
                                         switch (sn.Name.ToLower())
@@ -943,33 +1026,42 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "groundanchora":
                                                 ((PulleyJoint)joint).GroundAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "groundanchorb":
                                                 ((PulleyJoint)joint).GroundAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "lengtha":
                                                 ((PulleyJoint)joint).LengthA = float.Parse(sn.Value);
                                                 break;
+
                                             case "lengthb":
                                                 ((PulleyJoint)joint).LengthB = float.Parse(sn.Value);
                                                 break;
+
                                             case "localanchora":
                                                 ((PulleyJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((PulleyJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "maxlengtha":
                                                 ((PulleyJoint)joint).MaxLengthA = float.Parse(sn.Value);
                                                 break;
+
                                             case "maxlengthb":
                                                 ((PulleyJoint)joint).MaxLengthB = float.Parse(sn.Value);
                                                 break;
+
                                             case "ratio":
                                                 ((PulleyJoint)joint).Ratio = float.Parse(sn.Value);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Revolute:
                                     {
                                         switch (sn.Name.ToLower())
@@ -977,33 +1069,42 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "enablelimit":
                                                 ((RevoluteJoint)joint).LimitEnabled = bool.Parse(sn.Value);
                                                 break;
+
                                             case "enablemotor":
                                                 ((RevoluteJoint)joint).MotorEnabled = bool.Parse(sn.Value);
                                                 break;
+
                                             case "localanchora":
                                                 ((RevoluteJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((RevoluteJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "maxmotortorque":
                                                 ((RevoluteJoint)joint).MaxMotorTorque = float.Parse(sn.Value);
                                                 break;
+
                                             case "motorspeed":
                                                 ((RevoluteJoint)joint).MotorSpeed = float.Parse(sn.Value);
                                                 break;
+
                                             case "lowerangle":
                                                 ((RevoluteJoint)joint).LowerLimit = float.Parse(sn.Value);
                                                 break;
+
                                             case "upperangle":
                                                 ((RevoluteJoint)joint).UpperLimit = float.Parse(sn.Value);
                                                 break;
+
                                             case "referenceangle":
                                                 ((RevoluteJoint)joint).ReferenceAngle = float.Parse(sn.Value);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Weld:
                                     {
                                         switch (sn.Name.ToLower())
@@ -1011,12 +1112,14 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "localanchora":
                                                 ((WeldJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((WeldJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Rope:
                                     {
                                         switch (sn.Name.ToLower())
@@ -1024,15 +1127,18 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "localanchora":
                                                 ((RopeJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((RopeJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
+
                                             case "maxlength":
                                                 ((RopeJoint)joint).MaxLength = float.Parse(sn.Value);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Gear:
                                     throw new Exception("Gear joint is unsupported");
                                 case JointType.Angle:
@@ -1042,18 +1148,22 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "biasfactor":
                                                 ((AngleJoint)joint).BiasFactor = float.Parse(sn.Value);
                                                 break;
+
                                             case "maximpulse":
                                                 ((AngleJoint)joint).MaxImpulse = float.Parse(sn.Value);
                                                 break;
+
                                             case "softness":
                                                 ((AngleJoint)joint).Softness = float.Parse(sn.Value);
                                                 break;
+
                                             case "targetangle":
                                                 ((AngleJoint)joint).TargetAngle = float.Parse(sn.Value);
                                                 break;
                                         }
                                     }
                                     break;
+
                                 case JointType.Slider:
                                     {
                                         switch (sn.Name.ToLower())
@@ -1061,18 +1171,23 @@ namespace GameLibrary.Dependencies.Physics.Common
                                             case "dampingratio":
                                                 ((SliderJoint)joint).DampingRatio = float.Parse(sn.Value);
                                                 break;
+
                                             case "frequencyhz":
                                                 ((SliderJoint)joint).Frequency = float.Parse(sn.Value);
                                                 break;
+
                                             case "maxlength":
                                                 ((SliderJoint)joint).MaxLength = float.Parse(sn.Value);
                                                 break;
+
                                             case "minlength":
                                                 ((SliderJoint)joint).MinLength = float.Parse(sn.Value);
                                                 break;
+
                                             case "localanchora":
                                                 ((SliderJoint)joint).LocalAnchorA = ReadVector(sn);
                                                 break;
+
                                             case "localanchorb":
                                                 ((SliderJoint)joint).LocalAnchorB = ReadVector(sn);
                                                 break;
@@ -1449,5 +1564,5 @@ namespace GameLibrary.Dependencies.Physics.Common
         }
     }
 
-    #endregion
+    #endregion XMLFragment
 }

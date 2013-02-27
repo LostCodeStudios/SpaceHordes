@@ -16,10 +16,10 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
-using System;
-using System.Diagnostics;
 using GameLibrary.Dependencies.Physics.Common;
 using Microsoft.Xna.Framework;
+using System;
+using System.Diagnostics;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
 {
@@ -213,7 +213,6 @@ namespace GameLibrary.Dependencies.Physics.Dynamics.Joints
             Vector2 rB = MathUtils.Multiply(ref xf2.R, LocalAnchorB - bB.LocalCenter);
 
             Vector2 u = bB.Sweep.C + rB - bA.Sweep.C - rA;
-
 
             float length = u.Length();
             u.Normalize();

@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Helpers;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace SpaceHordes.Entities.Templates
 {
     public class StarTemplate : IEntityTemplate
     {
-        SpriteSheet spriteSheet;
-        static Random rbitch = new Random();
-        int stars = 0;
-        int nebulas = 0;
-        static Vector2[] nebulaLocs = new Vector2[4];
-        
+        private SpriteSheet spriteSheet;
+        private static Random rbitch = new Random();
+        private int stars = 0;
+        private int nebulas = 0;
+        private static Vector2[] nebulaLocs = new Vector2[4];
+
         public StarTemplate(SpriteSheet spriteSheet)
         {
             this.spriteSheet = spriteSheet;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="e"></param>
         /// <param name="args">args[0] = bool bigStar</param>
@@ -40,6 +37,7 @@ namespace SpaceHordes.Entities.Templates
             if ((bool)args[0] == true)
             {
                 Sprite s = new Sprite(spriteSheet, "redstar", loc, 1f, Color.White, 0);
+
                 //Sprite s = e.AddComponent<Sprite>(new Sprite(spriteSheet, "redstar", loc, 1f, Color.White, 0));
                 s.FrameIndex = rbitch.Next(0, 3);
                 e.AddComponent<Sprite>(s);
@@ -48,9 +46,10 @@ namespace SpaceHordes.Entities.Templates
             else
             {
                 #region Nebula Positioning
+
                 if (nebulas > 0)
                 {
-                    bool topLeft= false;
+                    bool topLeft = false;
                     bool topRight = false;
                     bool bottomLeft = false;
                     bool bottomRight = false;
@@ -111,11 +110,13 @@ namespace SpaceHordes.Entities.Templates
                 }
                 nebulaLocs[nebulas] = loc;
                 nebulas++;
-                #endregion
+
+                #endregion Nebula Positioning
+
                 Sprite s = e.AddComponent<Sprite>(new Sprite(spriteSheet, "rednebula", loc, 1f, Color.White, 0));
             }
 
-            #endregion
+            #endregion Sprite
 
             return e;
         }

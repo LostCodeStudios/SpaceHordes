@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using GameLibrary;
-using GameLibrary.Entities.Systems;
-using GameLibrary.Entities;
-using SpaceHordes.Entities.Templates;
-using GameLibrary.Helpers;
-using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Entities.Components;
-using SpaceHordes.Entities.Systems;
-using SpaceHordes.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
+﻿using GameLibrary;
 using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using SpaceHordes.Entities.Components;
+using SpaceHordes.Entities.Systems;
+using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
+using System.Collections.Generic;
 
 namespace SpaceHordes
 {
@@ -41,7 +36,6 @@ namespace SpaceHordes
         /// </summary>
         public override void Initialize()
         {
-
             base.Initialize();
         }
 
@@ -53,6 +47,7 @@ namespace SpaceHordes
         public override void LoadContent(ContentManager Content, params object[] args)
         {
             base.LoadContent(Content, args);
+
             // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
             _font.LoadContent(Content, "Textures/gamefont");
             hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
@@ -68,7 +63,7 @@ namespace SpaceHordes
             radarRenderSystem.LoadContent(Content);
         }
 
-        #endregion
+        #endregion Content/Init
 
         #region Systems
 
@@ -103,7 +98,7 @@ namespace SpaceHordes
             base.BuildSystems();
         }
 
-        #endregion
+        #endregion Systems
 
         #region Templates
 
@@ -122,24 +117,24 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
 
-            #endregion
+            #endregion Crystals
 
             #region Player Bullets
 
             this.SetEntityTemplate("BlueBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(1, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(1, "Enemies", e => e.AddComponent<Slow>(new Slow(10, 1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BlueBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot2"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(2, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(2, "Enemies", e => e.AddComponent<Slow>(new Slow(20, 1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(3, "Enemies", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(3, "Enemies", e => e.AddComponent<Slow>(new Slow(30, 1f, 5.0f, new Vector2(4), 0.0f))
                     )));
 
             this.SetEntityTemplate("RedBullet1", new BulletTemplate(
@@ -211,24 +206,24 @@ namespace SpaceHordes
                 new Bullet(3, "Enemies", null
                     )));
 
-            #endregion
+            #endregion Player Bullets
 
             #region Enemy Bullets
 
             this.SetEntityTemplate("BBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1"),
                 new Velocity(new Vector2(5), 0f),
-                new Bullet(1, "Players", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(1, "Players", e => e.AddComponent<Slow>(new Slow(10, 1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot2"),
                 new Velocity(new Vector2(5), 0f),
-                new Bullet(2, "Players", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(2, "Players", e => e.AddComponent<Slow>(new Slow(20, 1f, 5.0f, new Vector2(4), 0.0f))
                     )));
             this.SetEntityTemplate("BBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3"),
                 new Velocity(new Vector2(5), 0f),
-                new Bullet(3, "Players", e => e.AddComponent<Slow>(new Slow(1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(3, "Players", e => e.AddComponent<Slow>(new Slow(30, 1f, 5.0f, new Vector2(4), 0.0f))
                     )));
 
             this.SetEntityTemplate("GBullet1", new BulletTemplate(
@@ -243,7 +238,7 @@ namespace SpaceHordes
                 new Bullet(4, "Players", null
                     )));
 
-            this.SetEntityTemplate("GBullet3", new BulletTemplate(
+            this.SetEntityTemplate("GBullet3", new BulletTemplate( 
                 new Sprite(_spriteSheet, "greenshot3"),
                 new Velocity(new Vector2(6), 0f),
                 new Bullet(6, "Players", null
@@ -285,7 +280,7 @@ namespace SpaceHordes
                 new Bullet(3, "Players", null
                     )));
 
-            #endregion
+            #endregion Enemy Bullets
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
             this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
@@ -293,7 +288,7 @@ namespace SpaceHordes
             base.BuildTemplates(Content, args);
         }
 
-        #endregion
+        #endregion Templates
 
         #region Entities
 
@@ -324,50 +319,58 @@ namespace SpaceHordes
             Base.Refresh();
             enemySpawnSystem.LoadContent(Base);
 #if DEBUG
+
             //Camera.TrackingBody = Player.GetComponent<Body>();
 #endif
         }
 
-        #endregion
+        #endregion Entities
 
-        #endregion
+        #endregion Initialization
 
         #region Functioning Loop
 
-        #endregion
+        #endregion Functioning Loop
 
         #region Fields
 
         #region Entity
+
         //Update Systems
-        GunSystem gunSystem;
-        BulletRemovalSystem bulletRemovalSystem;
-        BulletCollisionSystem bulletCollisionSystem;
+        private GunSystem gunSystem;
+
+        private BulletRemovalSystem bulletRemovalSystem;
+        private BulletCollisionSystem bulletCollisionSystem;
+
         //HealthRenderSystem healthRenderSystem;
-        HealthSystem healthSystem;
-        DirectorSystem enemySpawnSystem;
-        AISystem enemyMovementSystem;
-        SlowSystem slowSystem;
-        PlayerControlSystem playerControlSystem;
-        ExplosionSystem explosionSystem;
-        DamageSystem damageSystem;
-        ScoreSystem scoreSystem;
+        private HealthSystem healthSystem;
+
+        private DirectorSystem enemySpawnSystem;
+        private AISystem enemyMovementSystem;
+        private SlowSystem slowSystem;
+        private PlayerControlSystem playerControlSystem;
+        private ExplosionSystem explosionSystem;
+        private DamageSystem damageSystem;
+        private ScoreSystem scoreSystem;
 
         //Draw Systems
-        HealthRenderSystem healthRenderSystem;
-        HUDRenderSystem hudRenderSystem;
-        StarFieldRenderSystem starFieldRenderSystem;
-        RadarRenderSystem radarRenderSystem;
+        private HealthRenderSystem healthRenderSystem;
+
+        private HUDRenderSystem hudRenderSystem;
+        private StarFieldRenderSystem starFieldRenderSystem;
+        private RadarRenderSystem radarRenderSystem;
 
         //Entities for safe keeping
         public Entity Player;
+
         public Entity Base;
-        #endregion
 
-        SpriteSheet _spriteSheet;
-        Texture2D _hud;
-        ImageFont _font;
+        #endregion Entity
 
-        #endregion
+        private SpriteSheet _spriteSheet;
+        private Texture2D _hud;
+        private ImageFont _font;
+
+        #endregion Fields
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.Entities.Components
@@ -40,6 +35,7 @@ namespace SpaceHordes.Entities.Components
         public uint YELLOW;
 
         private GunType _CurrentGunType;
+
         public Gun CurrentGun
         {
             get
@@ -49,17 +45,21 @@ namespace SpaceHordes.Entities.Components
                 switch (_CurrentGunType)
                 {
                     case GunType.BLUE:
-                        returnValue =  BLUE;
+                        returnValue = BLUE;
                         break;
+
                     case GunType.RED:
                         returnValue = RED;
                         break;
+
                     case GunType.GREEN:
                         returnValue = GREEN;
                         break;
+
                     case GunType.WHITE:
-                        returnValue =  WHITE;
+                        returnValue = WHITE;
                         break;
+
                     default:
                         returnValue = null;
                         break;
@@ -71,7 +71,7 @@ namespace SpaceHordes.Entities.Components
 
         public void ChangeGun(Entity e, GunType gun)
         {
-            if(e.GetComponent<Gun>() != null)
+            if (e.GetComponent<Gun>() != null)
             {
                 CurrentGun.Ammunition = e.GetComponent<Gun>().Ammunition;
                 e.RemoveComponent<Gun>(e.GetComponent<Gun>());

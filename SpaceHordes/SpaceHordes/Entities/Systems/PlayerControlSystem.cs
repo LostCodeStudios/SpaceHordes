@@ -1,34 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-
-using GameLibrary.Helpers;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Dependencies.Physics.Dynamics;
-using GameLibrary.Dependencies.Physics.Dynamics.Contacts;
-using GameLibrary.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
 using SpaceHordes.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class PlayerControlSystem : GroupSystem
     {
-        ComponentMapper<Body> bodyMapper;
-        float _Velocity;
-        bool WasMoving = false;
+        private ComponentMapper<Body> bodyMapper;
+        private float _Velocity;
+        private bool WasMoving = false;
 
-        KeyboardState keyState;
-        KeyboardState lastKeyState;
+        private KeyboardState keyState;
+        private KeyboardState lastKeyState;
 
-        GamePadState[] padState = new GamePadState[4];
-        GamePadState[] lastPadState = new GamePadState[4];
+        private GamePadState[] padState = new GamePadState[4];
+        private GamePadState[] lastPadState = new GamePadState[4];
 
-        MouseState mouseState;
+        private MouseState mouseState;
 
         public PlayerControlSystem(float velocity)
             : base("Players")
@@ -84,7 +76,7 @@ namespace SpaceHordes.Entities.Systems
 
                 target = new Vector2(pad.ThumbSticks.Left.X, -pad.ThumbSticks.Left.Y);
 
-                #endregion
+                #endregion Movement
 
                 #region Gun Swapping
 
@@ -115,7 +107,7 @@ namespace SpaceHordes.Entities.Systems
                     }
                 }
 
-                #endregion
+                #endregion Gun Swapping
 
                 #region Building
 
@@ -124,7 +116,7 @@ namespace SpaceHordes.Entities.Systems
                     inv.BuildMode = !inv.BuildMode;
                 }
 
-                #endregion
+                #endregion Building
 
                 #region Aiming
 
@@ -134,10 +126,10 @@ namespace SpaceHordes.Entities.Systems
                     b.RotateTo(aiming);
                 }
 
-                #endregion
+                #endregion Aiming
             }
 
-            #endregion
+            #endregion Gamepad
 
             #region Keyboard
 
@@ -164,7 +156,7 @@ namespace SpaceHordes.Entities.Systems
                     target += -Vector2.UnitY;
                 }
 
-                #endregion
+                #endregion Movement
 
                 #region Gun Swapping
 
@@ -195,7 +187,7 @@ namespace SpaceHordes.Entities.Systems
                     }
                 }
 
-                #endregion
+                #endregion Gun Swapping
 
                 #region Building
 
@@ -204,7 +196,7 @@ namespace SpaceHordes.Entities.Systems
                     inv.BuildMode = !inv.BuildMode;
                 }
 
-                #endregion
+                #endregion Building
 
                 #region Aiming
 
@@ -213,11 +205,11 @@ namespace SpaceHordes.Entities.Systems
                 Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
                 b.RotateTo(-aiming);
 
-                #endregion
+                #endregion Aiming
             }
 #endif
 
-            #endregion
+            #endregion Keyboard
 
             if (target != Vector2.Zero) //If being moved by player
             {

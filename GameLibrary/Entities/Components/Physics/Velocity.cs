@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameLibrary.Entities.Components
 {
@@ -26,7 +22,9 @@ namespace GameLibrary.Entities.Components
                 return _LinearVelocity;
             }
         }
+
         private Vector2 _LinearVelocity;
+
         public float AngularVelocity
         {
             set
@@ -38,8 +36,7 @@ namespace GameLibrary.Entities.Components
                 return _AngularVelocity;
             }
         }
+
         private float _AngularVelocity;
-
-
     }
 }

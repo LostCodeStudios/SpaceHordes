@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
+
 namespace GameLibrary.Dependencies.Entities
 {
-    public sealed class TagManager {
+    public sealed class TagManager
+    {
         private EntityWorld world;
         private Dictionary<String, Entity> entityByTag = new Dictionary<String, Entity>();
-    
-        internal TagManager(EntityWorld world) {
+
+        internal TagManager(EntityWorld world)
+        {
             this.world = world;
         }
-    
-        internal void Register(String tag, Entity e) {
+
+        internal void Register(String tag, Entity e)
+        {
             System.Diagnostics.Debug.Assert(e != null);
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(tag));
             entityByTag.Add(tag, e);
@@ -21,13 +25,15 @@ namespace GameLibrary.Dependencies.Entities
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(tag));
             entityByTag.Remove(tag);
         }
-    
-        public bool IsRegistered(String tag) {
+
+        public bool IsRegistered(String tag)
+        {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(tag));
             return entityByTag.ContainsKey(tag);
         }
-    
-        public Entity GetEntity(String tag) {
+
+        public Entity GetEntity(String tag)
+        {
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(tag));
             Entity e;
             entityByTag.TryGetValue(tag, out e);
@@ -41,13 +47,15 @@ namespace GameLibrary.Dependencies.Entities
                 return null;
             }
         }
-    
-        public String GetTagOfEntity(Entity e) {
+
+        public String GetTagOfEntity(Entity e)
+        {
             System.Diagnostics.Debug.Assert(e != null);
             String tag = "";
             foreach (var pair in entityByTag)
             {
-                if(pair.Value.Equals(e)) {
+                if (pair.Value.Equals(e))
+                {
                     tag = pair.Key;
                     break;
                 }
@@ -56,4 +64,3 @@ namespace GameLibrary.Dependencies.Entities
         }
     }
 }
-

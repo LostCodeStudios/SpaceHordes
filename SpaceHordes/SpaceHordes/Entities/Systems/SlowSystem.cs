@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
-using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    class SlowSystem : EntityProcessingSystem
+    internal class SlowSystem : EntityProcessingSystem
     {
-        ComponentMapper<IVelocity> velocityMapper;
-        ComponentMapper<IDamping> dampingMapper;
-        ComponentMapper<Slow> slowMapper;
+        private ComponentMapper<IVelocity> velocityMapper;
+        private ComponentMapper<IDamping> dampingMapper;
+        private ComponentMapper<Slow> slowMapper;
 
-        public SlowSystem() : base(typeof(IVelocity), typeof(IDamping))
+        public SlowSystem()
+            : base(typeof(IVelocity), typeof(IDamping))
         {
         }
 
@@ -31,9 +27,20 @@ namespace SpaceHordes.Entities.Systems
         {
             Slow slow = slowMapper.Get(e);
             if (slow != null && slow != Slow.None) //If particle is slowing
-             {
+            {
+                slow.Elapsed--;
+                if (slow.Elapsed <= 0)
+                {
+                    Sprite s = e.GetComponent<Sprite>();
+                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
+                    s.Color = Color.White;
+                    e.AddComponent<Sprite>(s);
+                    e.RemoveComponent<Slow>(slow);
+                    e.Refresh();
+                }
                 IVelocity velocity = velocityMapper.Get(e);
                 IDamping damping = dampingMapper.Get(e);
+
                 //Slow particle angular speed
                 if (velocity.AngularVelocity > slow.AngularTargetVelocity || damping.AngularDamping != slow.AngularSlowRate)
                     damping.AngularDamping = slow.AngularSlowRate;
@@ -41,7 +48,7 @@ namespace SpaceHordes.Entities.Systems
                     damping.AngularDamping = 0;
 
                 //Slow particle linear speed
-                if (Vector2.Distance(velocity.LinearVelocity, slow.LinearTargetVelocity) > 1 || damping.LinearDamping != slow.LinearSlowRate)
+                if (velocity.LinearVelocity.Length() - slow.LinearTargetVelocity.Length() > 1 || damping.LinearDamping != slow.LinearSlowRate)
                     damping.LinearDamping = slow.LinearSlowRate;
                 else
                     damping.LinearDamping = 0;
@@ -52,14 +59,12 @@ namespace SpaceHordes.Entities.Systems
                     if (s.Color != Color.Blue)
                     {
                         e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
-                        s.Color = Color.Blue;
+                        s.Color = Color.LightBlue;
                         e.AddComponent<Sprite>(s);
+                        e.Refresh();
                     }
                 }
-
-
             }
-
         }
     }
 }

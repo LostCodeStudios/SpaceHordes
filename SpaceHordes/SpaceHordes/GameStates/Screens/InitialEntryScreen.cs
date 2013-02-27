@@ -1,40 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-using GameLibrary;
-using GameLibrary.Input;
+﻿using GameLibrary.GameStates;
 using GameLibrary.GameStates.Screens;
-using GameLibrary.GameStates;
+using GameLibrary.Input;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace SpaceHordes.GameStates.Screens
 {
-    class InitialEntryScreen : GameScreen
+    internal class InitialEntryScreen : GameScreen
     {
         #region Fields
 
-        GameOverScreen parent;
+        private GameOverScreen parent;
 
-        Vector2 position;
+        private Vector2 position;
 
-        int selectedChar = 0;
-        InitialEntryChar[] initials = new InitialEntryChar[3];
+        private int selectedChar = 0;
+        private InitialEntryChar[] initials = new InitialEntryChar[3];
 
-        InputAction up;
-        InputAction down;
-        InputAction left;
-        InputAction right;
-        InputAction accept;
+        private InputAction up;
+        private InputAction down;
+        private InputAction left;
+        private InputAction right;
+        private InputAction accept;
 
-        bool expired = false;
+        private bool expired = false;
 
-        #endregion
+        #endregion Fields
 
         #region Properties
 
@@ -60,7 +52,7 @@ namespace SpaceHordes.GameStates.Screens
             set { expired = value; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Initialization
 
@@ -104,7 +96,7 @@ namespace SpaceHordes.GameStates.Screens
             base.Activate();
 
             //Draw using a center point rather than a top left corner
-            Vector2 loc = position 
+            Vector2 loc = position
                 - new Vector2(7, 0)
                 - new Vector2(ScreenManager.InitialEntryFont.MeasureString("AAA").X / 2, 0);
 
@@ -117,7 +109,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Initialization
 
         #region Update & Draw
 
@@ -151,7 +143,7 @@ namespace SpaceHordes.GameStates.Screens
             //ScreenManager.SpriteBatch.End();
         }
 
-        #endregion
+        #endregion Update & Draw
 
         #region Input
 
@@ -196,7 +188,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (num > 90)
                 num = 65;
-            
+
             c = (char)num;
 
             initials[selectedChar].Text = c.ToString();
@@ -221,6 +213,6 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        #endregion
+        #endregion Input
     }
 }

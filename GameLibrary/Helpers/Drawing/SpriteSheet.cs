@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GameLibrary.Helpers
 {
@@ -16,11 +12,11 @@ namespace GameLibrary.Helpers
     {
         #region Fields
 
-        Texture2D texture;
+        private Texture2D texture;
 
-        Dictionary<string, Rectangle[]> animations = new Dictionary<string, Rectangle[]>();
+        private Dictionary<string, Rectangle[]> animations = new Dictionary<string, Rectangle[]>();
 
-        #endregion
+        #endregion Fields
 
         #region Operator
 
@@ -30,7 +26,7 @@ namespace GameLibrary.Helpers
             set { Animations[key] = value; }
         }
 
-        #endregion
+        #endregion Operator
 
         #region Properties
 
@@ -51,7 +47,7 @@ namespace GameLibrary.Helpers
             set { animations = value; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructor
 
@@ -68,6 +64,6 @@ namespace GameLibrary.Helpers
             texture = spriteSheet;
         }
 
-        #endregion
+        #endregion Constructor
     }
 }

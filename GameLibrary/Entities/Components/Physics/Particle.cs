@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameLibrary.Entities.Components.Physics
 {
@@ -31,6 +28,7 @@ namespace GameLibrary.Entities.Components.Physics
         }
 
         #region ITransform
+
         /// <summary>
         /// The world position of a particle.
         /// </summary>
@@ -49,14 +47,15 @@ namespace GameLibrary.Entities.Components.Physics
             set;
         }
 
-
         public void RotateTo(Vector2 direction)
         {
             Rotation = (float)Math.Atan2(direction.Y, direction.X);
         }
-        #endregion
+
+        #endregion ITransform
 
         #region IVelocity
+
         /// <summary>
         /// The linear velocity of a particle.
         /// </summary>
@@ -74,9 +73,11 @@ namespace GameLibrary.Entities.Components.Physics
             set;
             get;
         }
-        #endregion
+
+        #endregion IVelocity
 
         #region IDamping
+
         /// <summary>
         /// The meter/second quantity by which the linear velocity will slow.
         /// </summary>
@@ -87,6 +88,6 @@ namespace GameLibrary.Entities.Components.Physics
         /// </summary>
         public float AngularDamping { set; get; }
 
-        #endregion
+        #endregion IDamping
     }
 }

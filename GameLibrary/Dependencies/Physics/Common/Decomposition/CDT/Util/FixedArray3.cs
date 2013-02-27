@@ -62,12 +62,15 @@ namespace Poly2Tri.Triangulation.Util
                     case 0:
                         _0 = value;
                         break;
+
                     case 1:
                         _1 = value;
                         break;
+
                     case 2:
                         _2 = value;
                         break;
+
                     default:
                         throw new IndexOutOfRangeException();
                 }
@@ -86,7 +89,7 @@ namespace Poly2Tri.Triangulation.Util
             return GetEnumerator();
         }
 
-        #endregion
+        #endregion IEnumerable<T> Members
 
         public bool Contains(T value)
         {
