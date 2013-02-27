@@ -64,8 +64,13 @@ namespace SpaceHordes
 
             Window.Title = "Space Hordes";
             graphics.PreferMultiSampling = true;
+#if DEBUG
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
+#else
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+#endif
 
             int sound;
             int music;
