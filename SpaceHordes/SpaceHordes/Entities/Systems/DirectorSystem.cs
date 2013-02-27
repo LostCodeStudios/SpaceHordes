@@ -29,8 +29,20 @@ namespace SpaceHordes.Entities.Systems
         int huntersToSpawn = 0;
         int destroyersToSpawn = 0;
 
+        public static int MookSpawnRate = 0;
+        public static int GunnerSpawnRate = 0;
+        public static int HunterSpawnRate = 0;
+        public static int DestroyerSpawnRate = 0;
+
+        public static string MookTemplate = "Mook";
+        public static string GunnerTemplate = "Gunner";
+        public static string HunterTemplate = "Hunter";
+        public static string DestroyerTemplate = "Destroyer";
+
+        int timesCalled = 0;
+
         public DirectorSystem()
-            : base(500)
+            : base(333)
         {
             elapsedSeconds = 60f;
             elapsedMinutes = 1f;
@@ -45,8 +57,9 @@ namespace SpaceHordes.Entities.Systems
         {
             base.ProcessEntities(entities);
 
-            elapsedSeconds += .5f;
-            elapsedMinutes += .5f/60f;
+            timesCalled++;
+            elapsedSeconds += .25f;
+            elapsedMinutes += .25f/60f;
 
             difficulty = (int)(elapsedMinutes - (playerDeaths / 2 + baseDamage));
 
@@ -54,24 +67,26 @@ namespace SpaceHordes.Entities.Systems
 
             Score s = Base.GetComponent<Score>();
 
-            ScoreSystem.GivePoints(10 * difficulty);
+            if (elapsedSeconds % 1 == 0)
+                ScoreSystem.GivePoints(10 * difficulty);
 
             #endregion
 
             #region Spawning
 
             //Every 5 seconds spawn
-            if (elapsedSeconds % 5 == 0)
+            if (timesCalled % 5 == 0)
             {
-                mooksToSpawn = 3 * difficulty;
-                gunnersToSpawn = (int)(difficulty / 3);
-                huntersToSpawn = (int)(difficulty / 5);
-                destroyersToSpawn = (int)(difficulty / 10);
+                int type;
+                mooksToSpawn = (MookSpawnRate == 0) ? difficulty : MookSpawnRate;
+                gunnersToSpawn = (GunnerSpawnRate == 0) ? (int)(difficulty / 9) : GunnerSpawnRate;
+                huntersToSpawn = (HunterSpawnRate == 0) ? (int)(difficulty / 15) : HunterSpawnRate;
+                destroyersToSpawn = (DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : DestroyerSpawnRate;
 
-                int type = r.Next(9);
+                type = r.Next(9);
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
-                    World.CreateEntity("Mook", type, Base.GetComponent<Body>()).Refresh();
+                    World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>()).Refresh();
                 }
 
                 for (int i = 0; i < gunnersToSpawn; i++)
