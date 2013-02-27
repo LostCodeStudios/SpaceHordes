@@ -30,10 +30,13 @@ namespace SpaceHordes.Entities.Systems
         {
             base.ProcessEntities(entities);
 
-            Score s = Base.GetComponent<Score>();
+            if (Base.HasComponent<Score>())
+            {
+                Score s = Base.GetComponent<Score>();
 
-            s.Value += pointsToGive;
-            pointsToGive = 0;
+                s.Value += pointsToGive;
+                pointsToGive = 0;
+            }
         }
     }
 }

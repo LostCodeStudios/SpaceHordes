@@ -82,8 +82,9 @@ namespace SpaceHordes.GameStates.Screens
 
                 ReadSettings(out sound, out music, out fullscreen);
 
-                WriteSettings(value % 11, music, fullscreen);
-                SoundManager.Volume = (float)(value % 11) / (10f);
+                int amount = value % 11;
+                WriteSettings(amount, music, fullscreen);
+                SoundManager.Volume = (float)(amount) / (10f);
             }
         }
 
@@ -108,8 +109,9 @@ namespace SpaceHordes.GameStates.Screens
 
                 ReadSettings(out sound, out music, out fullscreen);
 
-                WriteSettings(sound, value % 11, fullscreen);
-                MusicManager.Volume = (float)(value % 11) / (10f);
+                int amount = value % 11;
+                WriteSettings(sound, amount, fullscreen);
+                MusicManager.Volume = (float)(amount) / (10f);
             }
         }
 
