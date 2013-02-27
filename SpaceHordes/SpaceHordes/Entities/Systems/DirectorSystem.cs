@@ -25,16 +25,19 @@ namespace SpaceHordes.Entities.Systems
         int baseDamage = 0;
 
         int mooksToSpawn = 0;
+        int thugsToSpawn = 0;
         int gunnersToSpawn = 0;
         int huntersToSpawn = 0;
         int destroyersToSpawn = 0;
 
         public static int MookSpawnRate = 0;
+        public static int ThugSpawnRate = 0;
         public static int GunnerSpawnRate = 0;
         public static int HunterSpawnRate = 0;
         public static int DestroyerSpawnRate = 0;
 
         public static string MookTemplate = "Mook";
+        public static string ThugTemplate = "Thug";
         public static string GunnerTemplate = "Gunner";
         public static string HunterTemplate = "Hunter";
         public static string DestroyerTemplate = "Destroyer";
@@ -79,14 +82,21 @@ namespace SpaceHordes.Entities.Systems
             {
                 int type;
                 mooksToSpawn = (MookSpawnRate == 0) ? difficulty : MookSpawnRate;
+                thugsToSpawn = (ThugSpawnRate == 0) ? ((r.Next(1, 100) * difficulty > 90) ? 1 : 0) : ThugSpawnRate;
                 gunnersToSpawn = (GunnerSpawnRate == 0) ? (int)(difficulty / 9) : GunnerSpawnRate;
                 huntersToSpawn = (HunterSpawnRate == 0) ? (int)(difficulty / 15) : HunterSpawnRate;
                 destroyersToSpawn = (DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : DestroyerSpawnRate;
 
-                type = r.Next(9);
+                type = r.Next(8);
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
                     World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>()).Refresh();
+                }
+
+                type = r.Next(4);
+                for (int i = 0; i < thugsToSpawn; i++)
+                {
+                    World.CreateEntity(ThugTemplate, type, Base.GetComponent<Body>()).Refresh();
                 }
 
                 for (int i = 0; i < gunnersToSpawn; i++)

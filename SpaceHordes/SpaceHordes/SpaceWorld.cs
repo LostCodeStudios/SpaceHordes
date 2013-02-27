@@ -112,6 +112,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
             this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet)); //TEST
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
 
             #region Crystals
 
