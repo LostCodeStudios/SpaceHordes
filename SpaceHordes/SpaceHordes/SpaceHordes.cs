@@ -55,7 +55,7 @@ namespace SpaceHordes
 
         #endregion Fields
 
-        #region Initalization
+        #region Initalization   
 
         public SpaceHordes()
         {

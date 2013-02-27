@@ -32,6 +32,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics
 {
@@ -1460,6 +1461,16 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
             }
 
             ProcessChanges();
+        }
+
+
+        public PhysicsBody[] GetBodiesInArea(Vector2 location, float radius)
+        {
+            lock (BodyList)
+            {
+                return BodyList.Where(x =>
+                        Vector2.Distance(x.Position, location) <= radius).ToArray();
+            }
         }
     }
 }
