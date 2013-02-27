@@ -322,6 +322,7 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
             this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
+            this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
             this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }
