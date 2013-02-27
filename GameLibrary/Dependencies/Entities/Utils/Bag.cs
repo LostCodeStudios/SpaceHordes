@@ -170,7 +170,10 @@ namespace GameLibrary.Dependencies.Entities
 
         public E Get(int index)
         {
-            return data[index];
+            if (index < data.Length)
+                return data[index];
+            else
+                return default(E);
         }
 
         /// <summary>
