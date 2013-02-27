@@ -1,35 +1,48 @@
-﻿using GameLibrary.Dependencies.Entities;
-using GameLibrary.Entities.Components.Physics;
-using Microsoft.Xna.Framework;
-using SpaceHordes.Entities.Components;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using GameLibrary.Dependencies.Entities;
+using Microsoft.Xna.Framework;
+using GameLibrary.Entities.Components.Physics;
+using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class DirectorSystem : IntervalEntitySystem
     {
-        private Random r = new Random();
+        Random r = new Random();
 
-        private Entity Base;
+        Entity Base;
 
-        private int difficulty = 0;
+        int difficulty = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
-        private float elapsedSeconds;
+        float elapsedSeconds;
+        float elapsedMinutes;
 
-        private float elapsedMinutes;
+        int playerDeaths = 0;
+        int baseDamage = 0;
 
-        private int playerDeaths = 0;
-        private int baseDamage = 0;
+        int mooksToSpawn = 0;
+        int gunnersToSpawn = 0;
+        int huntersToSpawn = 0;
+        int destroyersToSpawn = 0;
 
-        private int mooksToSpawn = 0;
-        private int gunnersToSpawn = 0;
-        private int huntersToSpawn = 0;
-        private int destroyersToSpawn = 0;
+        public static int MookSpawnRate = 0;
+        public static int GunnerSpawnRate = 0;
+        public static int HunterSpawnRate = 0;
+        public static int DestroyerSpawnRate = 0;
+
+        public static string MookTemplate = "Mook";
+        public static string GunnerTemplate = "Gunner";
+        public static string HunterTemplate = "Hunter";
+        public static string DestroyerTemplate = "Destroyer";
+
+        int timesCalled = 0;
 
         public DirectorSystem()
-            : base(500)
+            : base(333)
         {
             elapsedSeconds = 60f;
             elapsedMinutes = 1f;
@@ -44,8 +57,9 @@ namespace SpaceHordes.Entities.Systems
         {
             base.ProcessEntities(entities);
 
-            elapsedSeconds += .5f;
-            elapsedMinutes += .5f / 60f;
+            timesCalled++;
+            elapsedSeconds += .25f;
+            elapsedMinutes += .25f/60f;
 
             difficulty = (int)(elapsedMinutes - (playerDeaths / 2 + baseDamage));
 
@@ -53,24 +67,26 @@ namespace SpaceHordes.Entities.Systems
 
             Score s = Base.GetComponent<Score>();
 
-            ScoreSystem.GivePoints(10 * difficulty);
+            if (elapsedSeconds % 1 == 0)
+                ScoreSystem.GivePoints(10 * difficulty);
 
-            #endregion Scoring
+            #endregion
 
             #region Spawning
 
             //Every 5 seconds spawn
-            if (elapsedSeconds % 5 == 0)
+            if (timesCalled % 5 == 0)
             {
-                mooksToSpawn = 3 * difficulty;
-                gunnersToSpawn = (int)(difficulty / 3);
-                huntersToSpawn = (int)(difficulty / 5);
-                destroyersToSpawn = (int)(difficulty / 10);
+                int type;
+                mooksToSpawn = (MookSpawnRate == 0) ? difficulty : MookSpawnRate;
+                gunnersToSpawn = (GunnerSpawnRate == 0) ? (int)(difficulty / 9) : GunnerSpawnRate;
+                huntersToSpawn = (HunterSpawnRate == 0) ? (int)(difficulty / 15) : HunterSpawnRate;
+                destroyersToSpawn = (DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : DestroyerSpawnRate;
 
-                int type = r.Next(9);
+                type = r.Next(9);
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
-                    World.CreateEntity("Mook", type, Base.GetComponent<Body>()).Refresh();
+                    World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>()).Refresh();
                 }
 
                 for (int i = 0; i < gunnersToSpawn; i++)
@@ -86,7 +102,7 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
-            #endregion Spawning
+            #endregion
         }
 
         public static float ClampInverse(float value, float min, float max)

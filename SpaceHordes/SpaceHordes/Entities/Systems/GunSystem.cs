@@ -69,7 +69,7 @@ namespace SpaceHordes.Entities.Systems
             }
 
             //Fire bullets bro
-            if (gun.Elapsed > gun.Interval && gun.BulletsToFire && gun.Ammunition > 0)
+            if (gun.Elapsed > gun.Interval / gun.Power && gun.BulletsToFire && gun.Ammunition > 0)
             {
                 gun.BulletsToFire = false;
                 gun.Elapsed = 0;

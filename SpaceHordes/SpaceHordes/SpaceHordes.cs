@@ -72,8 +72,10 @@ namespace SpaceHordes
             bool fullscreen;
             OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
 
-            OptionsMenuScreen.SoundVolume = sound;
-            OptionsMenuScreen.MusicVolume = music;
+            //OptionsMenuScreen.SoundVolume = sound;
+            //OptionsMenuScreen.MusicVolume = music;
+            SoundManager.Volume = (float)sound / 10f;
+            MusicManager.Volume = (float)music / 10f;
             graphics.IsFullScreen = fullscreen;
 
             IsFixedTimeStep = true;
