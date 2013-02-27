@@ -1,4 +1,5 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -79,10 +80,12 @@ namespace SpaceHordes.Entities.Components
 
         public int Power
         {
-            get;
-            set;
+            get
+            { return power; }
+            set
+            { power = (int)MathHelper.Clamp((float)value, 0f, 3f); }
         }
-
+        int power;
         public int PowerUpTime
         {
             get;

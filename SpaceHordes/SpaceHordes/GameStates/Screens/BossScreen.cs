@@ -223,7 +223,7 @@ namespace SpaceHordes.GameStates.Screens
             else if (currentKey.Equals("minikillerhead"))
             {
                 extraSource[0] = spriteSheet["minikillereyes"][5];
-                extra[0] = new Rectangle(destination.X + (int)(36 * scale), destination.Y + (int)(43 * scale), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
+                extra[0] = new Rectangle((int)(destination.X + (36 * scale)), (int)(destination.Y + (43 * scale)), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
             }
 
             else if (currentKey.Equals("flamer"))

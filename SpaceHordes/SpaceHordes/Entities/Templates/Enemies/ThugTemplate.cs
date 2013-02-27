@@ -11,13 +11,13 @@ using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
-    public class MookTemplate : IEntityTemplate
+    public class ThugTemplate : IEntityTemplate
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
         private static Random rbitch = new Random();
 
-        public MookTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        public ThugTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             _SpriteSheet = spriteSheet;
             _World = world;
@@ -33,39 +33,19 @@ namespace SpaceHordes.Entities.Templates.Enemies
             switch (type)
             {
                 case 0:
-                    spriteKey = "squidship";
+                    spriteKey = "bluemissile";
                     break;
 
                 case 1:
-                    spriteKey = "brownfangship";
+                    spriteKey = "graymissile";
                     break;
 
                 case 2:
-                    spriteKey = "grayshipwithtwoprongs";
+                    spriteKey = "swastika";
                     break;
 
                 case 3:
-                    spriteKey = "grayshipwithtwowings";
-                    break;
-
-                case 4:
-                    spriteKey = "brownplane";
-                    break;
-
-                case 5:
-                    spriteKey = "bluecrystalship";
-                    break;
-
-                case 6:
-                    spriteKey = "brownthingwithbluelight";
-                    break;
-
-                case 7:
-                    spriteKey = "graytriangleship";
-                    break;
-
-                case 8:
-                    spriteKey = "eyeshot";
+                    spriteKey = "swastika2";
                     break;
             }
 
@@ -75,7 +55,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
+            Sprite s = new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f);
+            if (spriteKey.Contains("swastika"))
+                s.Origin = new Vector2(s.CurrentRectangle.Width/2, s.CurrentRectangle.Height/2);
+            e.AddComponent<Sprite>(s);
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
@@ -99,6 +82,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos *= ScreenHelper.Viewport.Width;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
+            if (spriteKey.Contains("swastika"))
+                e.GetComponent<Body>().AngularVelocity = (float)Math.PI * 4;
 
             #endregion Body
 
@@ -113,26 +98,26 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Color crystalColor = Color.Red;
             int colorchance = rbitch.Next(100);
-            int amount = 3;
+            int amount = 9;
             if (colorchance > 50)
             {
                 crystalColor = Color.Blue;
-                amount = 2;
+                amount = 6;
             }
             if (colorchance > 70)
             {
                 crystalColor = Color.Green;
-                amount = 1;
+                amount = 3;
             }
             if (colorchance > 80)
             {
                 crystalColor = Color.Yellow;
-                amount = 5;
+                amount = 15;
             }
             if (colorchance > 90)
             {
                 crystalColor = Color.Gray;
-                amount = 2;
+                amount = 6;
             }
             e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
@@ -142,11 +127,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
-            e.AddComponent<Health>(new Health(1)).OnDeath +=
+            e.AddComponent<Health>(new Health(5)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
+                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 5, e);
 
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
@@ -154,7 +139,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
 
-                    ScoreSystem.GivePoints(1);
+                    ScoreSystem.GivePoints(3);
                 };
 
             #endregion AI/Health
