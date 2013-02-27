@@ -12,6 +12,7 @@ using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
 using System.Collections.Generic;
+using GameLibrary.Entities.Components.Render;
 
 namespace SpaceHordes
 {
@@ -125,17 +126,41 @@ namespace SpaceHordes
             this.SetEntityTemplate("BlueBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(1, "Enemies", e => e.AddComponent<Slow>(new Slow(10, 1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(1, "Enemies", e => 
+                    {
+                        e.AddComponent<Slow>(new Slow(500, 1f, 5.0f, new Vector2(4), 0.0f));
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = new Color(0, 0, 255);
+
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
+                        e.Refresh();
+                    }
                     )));
             this.SetEntityTemplate("BlueBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot2"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(2, "Enemies", e => e.AddComponent<Slow>(new Slow(20, 1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(2, "Enemies", e =>
+                    {
+                        e.AddComponent<Slow>(new Slow(1000, 1f, 5.0f, new Vector2(4), 0.0f));
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Blue;
+
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
+                        e.Refresh();
+                    }
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(3, "Enemies", e => e.AddComponent<Slow>(new Slow(30, 1f, 5.0f, new Vector2(4), 0.0f))
+                new Bullet(3, "Enemies", e => 
+                    {
+                        e.AddComponent<Slow>(new Slow(1500, 1f, 5.0f, new Vector2(4), 0.0f));
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Blue;
+
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        e.Refresh();
+                    }
                     )));
 
             this.SetEntityTemplate("RedBullet1", new BulletTemplate(
@@ -162,6 +187,10 @@ namespace SpaceHordes
                 new Bullet(4, "Enemies",
                     e =>
                     {
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Green;
+
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
                         e.AddComponent<Damage>(new Damage(1, 3, 500));
                         e.Refresh();
                     }
@@ -173,7 +202,11 @@ namespace SpaceHordes
                 new Bullet(8, "Enemies",
                     e =>
                     {
-                        e.AddComponent<Damage>(new Damage(2, 5, 500));
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Green;
+
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
+                        e.AddComponent<Damage>(new Damage(2, 5, 1000));
                         e.Refresh();
                     }
                     )));
@@ -184,7 +217,11 @@ namespace SpaceHordes
                 new Bullet(12, "Enemies",
                     e =>
                     {
-                        e.AddComponent<Damage>(new Damage(3, 10, 500));
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Green;
+
+                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        e.AddComponent<Damage>(new Damage(3, 10, 1500));
                         e.Refresh();
                     }
                     )));

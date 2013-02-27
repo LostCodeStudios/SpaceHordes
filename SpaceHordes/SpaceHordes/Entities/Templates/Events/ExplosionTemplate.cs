@@ -23,7 +23,8 @@ namespace SpaceHordes.Entities.Templates
         {
             float magnitude = (float)args[0];
 
-            string spriteKey = "splosion" + "4";
+            int power = (int)args[3];
+            string spriteKey = "splosion" + power.ToString();
 
             Vector2 center = new Vector2(_SpriteSheet[spriteKey][0].Center.X, _SpriteSheet[spriteKey][0].Center.Y);
 

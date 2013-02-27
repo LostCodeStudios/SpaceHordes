@@ -142,6 +142,7 @@
     <Compile Include="Entities\Systems\SlowSystem.cs" />
     <Compile Include="Entities\Systems\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\Enemies\ThugTemplate.cs" />
+    <Compile Include="Entities\Templates\Events\BigExplosionTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\BaseTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\BulletTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\MookTemplate.cs" />
