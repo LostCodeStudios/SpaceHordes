@@ -46,9 +46,9 @@ namespace SpaceHordes.Entities.Systems
 
             switch (ai.Targeting)
             {
-                case Targeting.Closest:
-                    ai.Target = new Body(world.GetClosestBody(e.GetComponent<ITransform>().Position));
-                    break;
+                //case Targeting.Closest:
+                //    ai.Target = new Body(world.GetClosestBody(e.GetComponent<ITransform>().Position));
+                //    break;
 
                 case Targeting.Strongest:
                     ai.Target = StrongestEntity(world.GetBodiesInArea(e.GetComponent<ITransform>().Position, ai.SearchRadius)).GetComponent<Body>();
