@@ -12,13 +12,22 @@ namespace SpaceHordes.Entities.Components
         CareFollowAndGun //(Careful mode: keeps a distance) Follows and shoots untill hits target
     }
 
+    public enum Targeting
+    {
+        Constant,
+        Closest,
+        Strongest,
+        Weakest
+    }
+
     public class AI : Component
     {
         private Body target;
         private Behavior behavior;
+        private Targeting targeting;
 
         public event Action TargetChangedEvent;
-
+        
         public Body Target
         {
             get { return target; }
@@ -34,6 +43,18 @@ namespace SpaceHordes.Entities.Components
         {
             get { return behavior; }
             set { behavior = value; }
+        }
+
+        public Targeting Targeting
+        {
+            get { return targeting; }
+            set { targeting = value; }
+        }
+
+        public float SearchRadius
+        {
+            get;
+            set;
         }
 
         public AI()
