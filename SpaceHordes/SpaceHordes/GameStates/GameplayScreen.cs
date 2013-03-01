@@ -181,16 +181,7 @@ namespace SpaceHordes.GameStates.Screens
 
             World.Draw(gameTime); //Draw the world.
 
-            if (TransitionPosition > 0 || pauseAlpha > 0)
-            {
-                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
-
-                ScreenManager.FadeBackBufferToBlack(alpha);
-            }
-
             spriteBatch.Begin();
-
-            //gameFont.DrawString(spriteBatch, Vector2.Zero, "It worked.");
             Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
             gameFont.DrawString(
                 spriteBatch,
@@ -200,6 +191,16 @@ namespace SpaceHordes.GameStates.Screens
                 score.ToString(),
                 scoreScale);
             spriteBatch.End();
+
+            if (TransitionPosition > 0 || pauseAlpha > 0)
+            {
+                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+
+                ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+
+            
+
         }
 
         #endregion Update & Draw

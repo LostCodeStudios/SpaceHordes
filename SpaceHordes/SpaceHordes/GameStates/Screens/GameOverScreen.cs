@@ -68,37 +68,42 @@ namespace SpaceHordes.GameStates.Screens
             base.Activate();
 
             text = "GAME OVER";
+
+            Rectangle viewport = new Rectangle(0, 0, ScreenHelper.Viewport.Width, ScreenHelper.Viewport.Height);
+
             if (HighScoreScreen.IsHighScore(players.Length, score))
             {
                 text2 = "High score! Enter your initials.";
+                titleLocation = new Vector2(
+                    viewport.Center.X, viewport.Height * 0.1736111111111111f);
+            }
+            else
+            {
+                titleLocation = new Vector2(
+                    viewport.Center.X, viewport.Center.Y - viewport.Height * 0.1f);
             }
 
             titleFont = ScreenManager.TitleFont;
             textFont = ScreenManager.Font;
-
-            Rectangle viewport = new Rectangle(0, 0, ScreenHelper.Viewport.Width, ScreenHelper.Viewport.Height);
-
-            titleLocation = new Vector2(
-                viewport.Center.X, viewport.Height * 0.1736111111111111f);
+            
             subtitleLocation = new Vector2(
-                viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y);
+                viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y/2);
 
             screenLocations[0] = new Vector2(
-                viewport.Left + viewport.Width / 4, viewport.Top + viewport.Height / 4);
+                viewport.Left + viewport.Width / 3, viewport.Top + viewport.Height / 3);
             screenLocations[1] = new Vector2(
-                viewport.Right - viewport.Width / 4, viewport.Top + viewport.Height / 4);
+                viewport.Right - viewport.Width / 3, viewport.Top + viewport.Height / 3);
             screenLocations[2] = new Vector2(
-                viewport.Left + viewport.Width / 4, viewport.Bottom - viewport.Height / 4);
+                viewport.Left + viewport.Width / 3, viewport.Bottom - viewport.Height / 3);
             screenLocations[3] = new Vector2(
-                viewport.Right - viewport.Width / 4, viewport.Bottom - viewport.Height / 4);
+                viewport.Right - viewport.Width / 3, viewport.Bottom - viewport.Height / 3);
 
             if (HighScoreScreen.IsHighScore(players.Length, score))
             {
                 for (int i = 0; i < players.Length; i++)
                 {
                     initialEntryScreens[i] = new InitialEntryScreen(screenLocations[i], this);
-                    initialEntryScreens[i].ScreenManager = ScreenManager;
-                    initialEntryScreens[i].Activate();
+                    ScreenManager.AddScreen(initialEntryScreens[i], (PlayerIndex)i);
                 }
             }
         }
@@ -178,12 +183,6 @@ namespace SpaceHordes.GameStates.Screens
 
             spriteBatch.DrawString(textFont, text2, subtitleLocation, Color.White,
                 0, subtitleOrigin, 1f, SpriteEffects.None, 0);
-
-            foreach (InitialEntryScreen screen in initialEntryScreens)
-            {
-                if (screen != null)
-                    screen.Draw(gameTime);
-            }
 
             spriteBatch.End();
         }

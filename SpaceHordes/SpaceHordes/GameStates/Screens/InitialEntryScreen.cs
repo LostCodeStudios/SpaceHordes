@@ -4,6 +4,7 @@ using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.IO;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -63,6 +64,8 @@ namespace SpaceHordes.GameStates.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             IsPopup = true;
+
+
             this.position = position;
 
             up = new InputAction(
@@ -100,12 +103,17 @@ namespace SpaceHordes.GameStates.Screens
                 - new Vector2(7, 0)
                 - new Vector2(ScreenManager.InitialEntryFont.MeasureString("AAA").X / 2, 0);
 
+            if (!File.Exists(OptionsMenuScreen.FolderPath + "/initials.txt"))
+                setInitialInitials();
+
+            string name = InitialsOf((PlayerIndex)ControllingPlayer);
+
             for (int i = 0; i < initials.Length; i++)
             {
-                initials[i] = new InitialEntryChar("A");
+                initials[i] = new InitialEntryChar(name[i].ToString());
                 initials[i].Position = loc;
 
-                loc += new Vector2(ScreenManager.InitialEntryFont.MeasureString("A").X + 7, 0);
+                loc += new Vector2(ScreenManager.InitialEntryFont.MeasureString(name[i].ToString()).X + 7, 0);
             }
         }
 
@@ -130,7 +138,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             base.Draw(gameTime);
 
-            //ScreenManager.SpriteBatch.Begin();
+            ScreenManager.SpriteBatch.Begin();
 
             foreach (MenuEntry entry in initials)
             {
@@ -140,7 +148,7 @@ namespace SpaceHordes.GameStates.Screens
                     entry.Draw(this, false, gameTime);
             }
 
-            //ScreenManager.SpriteBatch.End();
+            ScreenManager.SpriteBatch.End();
         }
 
         #endregion Update & Draw
@@ -208,11 +216,66 @@ namespace SpaceHordes.GameStates.Screens
             if (accept.Evaluate(input, ControllingPlayer, out index))
             {
                 parent.Initials.Add(Initials);
+                SetInitialsOf((PlayerIndex)ControllingPlayer, Initials);
                 ExitScreen();
                 expired = true;
             }
         }
 
         #endregion Input
+
+        #region Static Methods
+
+        public static string InitialsOf(PlayerIndex index)
+        {
+            StreamReader reader = new StreamReader(OptionsMenuScreen.FolderPath + "/initials.txt");
+            string toReturn = "";
+            while (reader.ReadLine() != "[" + index.ToString() + "]")
+            {
+            }
+            toReturn = reader.ReadLine();
+            reader.Close();
+            return toReturn;
+        }
+
+        public static void SetInitialsOf(PlayerIndex index, string value)
+        {
+            string[] initials = new string[4];
+            for (int i = 0; i < 4; i++)
+            {
+                initials[i] = InitialsOf((PlayerIndex)i);
+            }
+            StreamWriter writer = new StreamWriter(OptionsMenuScreen.FolderPath + "/initials.txt");
+            for (int i = 0; i < 4; i++)
+            {
+                writer.WriteLine("[" + ((PlayerIndex)i).ToString() + "]");
+                if (i != (int)index)
+                    writer.WriteLine(initials[i]);
+                else
+                    writer.WriteLine(value);
+            }
+            writer.Close();
+        }
+
+        public static void setInitialInitials()
+        {
+            string[] initials = new string[]
+            {
+                "AAA",
+                "AAA",
+                "AAA",
+                "AAA"
+            };
+
+            StreamWriter writer = new StreamWriter(OptionsMenuScreen.FolderPath + "/initials.txt");
+            for (int i = 0; i < 4; i++)
+            {
+                writer.WriteLine("[" + ((PlayerIndex)i).ToString() + "]");
+                writer.WriteLine(initials[i]);
+            }
+            writer.Close();
+        }
+
+        #endregion
     }
 }
