@@ -55,7 +55,7 @@ namespace SpaceHordes
 
         #endregion Fields
 
-        #region Initalization   
+        #region Initalization
 
         public SpaceHordes()
         {
@@ -64,27 +64,17 @@ namespace SpaceHordes
 
             Window.Title = "Space Hordes";
             graphics.PreferMultiSampling = true;
-#if DEBUG
+
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
-#else
-            graphics.PreferredBackBufferWidth = 1920;
-            graphics.PreferredBackBufferHeight = 1080;
-#endif
+            graphics.ApplyChanges();
 
-            int sound;
-            int music;
-            bool fullscreen;
-            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
+            //graphics.PreferredBackBufferWidth = 1920; //I have to be able to run in release mode from my home computer. So yeah.
+            //graphics.PreferredBackBufferHeight = 1080;
 
-            //OptionsMenuScreen.SoundVolume = sound;
-            //OptionsMenuScreen.MusicVolume = music;
-            SoundManager.Volume = (float)sound / 10f;
-            MusicManager.Volume = (float)music / 10f;
-            graphics.IsFullScreen = fullscreen;
+
 
             IsFixedTimeStep = true;
-            graphics.ApplyChanges();
 
             Components.Add(new GamerServicesComponent(this));
         }
@@ -102,7 +92,7 @@ namespace SpaceHordes
 #endif
 
             screenManager = new ScreenManager(this);
-            ScreenHelper.Initialize(GraphicsDevice);
+            ScreenHelper.Initialize(graphics, GraphicsDevice);
             ConvertUnits.SetDisplayUnitToSimUnitRatio(24f);
             Components.Add(screenManager);
 
@@ -117,6 +107,7 @@ namespace SpaceHordes
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            ApplySettings();
 
             base.LoadContent();
 
@@ -817,5 +808,22 @@ namespace SpaceHordes
         }
 
         #endregion Music
+
+        #region Helpers
+
+        public static void ApplySettings()
+        {
+            int sound;
+            int music;
+            bool fullscreen;
+            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
+
+            SoundManager.Volume = (float)sound / 10f;
+            MusicManager.Volume = (float)music / 10f;
+            ScreenHelper.Graphics.IsFullScreen = fullscreen;
+            ScreenHelper.Graphics.ApplyChanges();
+        }
+
+        #endregion
     }
 }

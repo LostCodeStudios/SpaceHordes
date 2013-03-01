@@ -84,7 +84,8 @@ namespace SpaceHordes.GameStates.Screens
 
                 int amount = value % 11;
                 WriteSettings(amount, music, fullscreen);
-                SoundManager.Volume = (float)(amount) / (10f);
+
+                SpaceHordes.ApplySettings();
             }
         }
 
@@ -111,7 +112,8 @@ namespace SpaceHordes.GameStates.Screens
 
                 int amount = value % 11;
                 WriteSettings(sound, amount, fullscreen);
-                MusicManager.Volume = (float)(amount) / (10f);
+
+                SpaceHordes.ApplySettings();
             }
         }
 
@@ -139,6 +141,8 @@ namespace SpaceHordes.GameStates.Screens
                 ReadSettings(out sound, out music, out fullscreen);
 
                 WriteSettings(sound, music, value);
+
+                SpaceHordes.ApplySettings();
             }
         }
 
@@ -159,15 +163,7 @@ namespace SpaceHordes.GameStates.Screens
             this.fullScreen.Selected += fullScreen_selected;
 #endif
 
-            int sound;
-            int music;
-            bool fullscreen;
-
-            ReadSettings(out sound, out music, out fullscreen);
-
-            SoundVolume = sound;
-            MusicVolume = music;
-            FullScreen = fullscreen;
+            SpaceHordes.ApplySettings();
 
             updateMenuEntryText();
 
@@ -259,14 +255,12 @@ namespace SpaceHordes.GameStates.Screens
                 }
 
                 sound = int.Parse(tr.ReadLine());
-                SoundManager.Volume = sound;
 
                 while (tr.ReadLine() != "[Music]")
                 {
                 }
 
                 music = int.Parse(tr.ReadLine());
-                MusicManager.Volume = music;
 #if WINDOWS
                 while (tr.ReadLine() != "[FullScreen]")
                 {

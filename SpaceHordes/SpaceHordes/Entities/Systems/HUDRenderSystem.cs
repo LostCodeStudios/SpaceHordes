@@ -84,6 +84,7 @@ namespace SpaceHordes.Entities.Systems
             _SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             _SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
+
             base.Process();
 
             _SpriteBatch.End();

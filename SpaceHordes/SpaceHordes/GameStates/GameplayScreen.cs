@@ -107,7 +107,7 @@ namespace SpaceHordes.GameStates.Screens
                     }
                 }
             }
-            ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
+            //ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
 
             #endregion Screen
 
