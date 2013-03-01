@@ -128,9 +128,9 @@ namespace SpaceHordes.GameStates.Screens
             StorageContainer c = Container;
             if (!File.Exists(FilePath(c)))
             {
+                c.Dispose();
                 setInitialInitials();
             }
-            c.Dispose();
 #endif
             string name = InitialsOf((PlayerIndex)ControllingPlayer);
 
