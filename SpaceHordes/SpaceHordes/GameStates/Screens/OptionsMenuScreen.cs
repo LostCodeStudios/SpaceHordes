@@ -2,6 +2,7 @@
 using GameLibrary.Helpers;
 using System;
 using System.IO;
+using Microsoft.Xna.Framework.Storage;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -25,6 +26,24 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Fields
 
+        #if XBOX
+        public StorageContainer Container
+        {
+            get
+            {
+                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
+            }
+        }
+
+        public string FilePath(Container which)
+        {
+            get
+            {
+                return Path.Combine(which.Path, "settings.txt";
+            }
+        }
+        #endif
+
         #region Static Properties
 
         /// <summary>
@@ -36,10 +55,6 @@ namespace SpaceHordes.GameStates.Screens
             {
 #if WINDOWS
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
-#endif
-
-#if XBOX
-                return "";
 #endif
             }
         }
@@ -163,8 +178,6 @@ namespace SpaceHordes.GameStates.Screens
             this.fullScreen.Selected += fullScreen_selected;
 #endif
 
-            SpaceHordes.ApplySettings();
-
             updateMenuEntryText();
 
             MenuEntries.Add(this.sound);
@@ -243,6 +256,7 @@ namespace SpaceHordes.GameStates.Screens
         /// <param name="music"></param>
         public static void ReadSettings(out int sound, out int music, out bool fullscreen)
         {
+#if WINDOWS
             if (!File.Exists(FilePath))
             {
                 WriteInitialSettings();
@@ -261,7 +275,7 @@ namespace SpaceHordes.GameStates.Screens
                 }
 
                 music = int.Parse(tr.ReadLine());
-#if WINDOWS
+
                 while (tr.ReadLine() != "[FullScreen]")
                 {
                 }
@@ -280,18 +294,64 @@ namespace SpaceHordes.GameStates.Screens
                         fullscreen = false;
                         break;
                 }
+            }
 #endif
 
 #if XBOX
-                fullscreen = true;
-#endif
+            StorageContainer c = Container;
+            
+            if (!File.Exists(FilePath(c)))
+                WriteInitialSettings();
+
+            using (TextReader tr = new StreamReader(FilePath(c)))
+            {
+                while (tr.ReadLine() != "[Sound]")
+                {
+                }
+
+                sound = int.Parse(tr.ReadLine());
+
+                while (tr.ReadLine() != "[Music]")
+                {
+                }
+
+                music = int.Parse(tr.ReadLine());
+
+                while (tr.ReadLine() != "[FullScreen]")
+                {
+                }
+
+                switch (tr.ReadLine())
+                {
+                    case "On":
+                        fullscreen = true;
+                        break;
+
+                    case "Off":
+                        fullscreen = false;
+                        break;
+
+                    default:
+                        fullscreen = false;
+                        break;
+                }
             }
+            fullscreen = true;
+            c.Dispose();
+#endif
         }
 
         public static void WriteSettings(int sound, int music, bool fullscreen)
         {
+#if WINDOWS
             using (StreamWriter writer = new StreamWriter(FilePath))
             {
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            using (StreamWriter writer = new StreamWriter(FilePath(c))
+            {
+#endif
                 writer.WriteLine("[Sound]");
                 writer.WriteLine(sound);
 
@@ -311,13 +371,17 @@ namespace SpaceHordes.GameStates.Screens
                         break;
                 }
             }
+#if XBOX
+            c.Dispose();
+#endif
         }
 
         public static void WriteInitialSettings()
         {
-            if (!Directory.Exists(FolderPath))
-                Directory.CreateDirectory(FolderPath);
+            //if (!Directory.Exists(FolderPath))
+            //    Directory.CreateDirectory(FolderPath);
 
+#if WINDOWS
             if (!File.Exists(FilePath))
             {
                 using (FileStream fs = File.Create(FilePath))
@@ -325,10 +389,21 @@ namespace SpaceHordes.GameStates.Screens
                     fs.Close();
                 }
             }
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            if (!File.Exists(FilePath(c)))
+            {
+                using (FileStream fs = File.Create(FilePath(c)))
+                {
+                    fs.Close();
+                }
+            }
+#endif
 
             WriteSettings(10, 10, true);
         }
 
-        #endregion Static Methods
+        #endregion
     }
 }

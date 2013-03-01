@@ -242,6 +242,24 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Static Properties
 
+#if XBOX
+        public StorageContainer Container
+        {
+            get
+            {
+                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
+            }
+        }
+
+        public string FilePath(Container which)
+        {
+            get
+            {
+                return Path.Combine(which.Path, "scores.txt";
+            }
+        }
+#endif
+
         #region Initialization
 
         /// <summary>
@@ -421,7 +439,13 @@ namespace SpaceHordes.GameStates.Screens
                 scores1.Add(x, scores2);
             }
 
+#if WINDOWS
             using (StreamWriter sw = new StreamWriter(FilePath))
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            using (StreamWriter sw = new StreamWriter(FilePath(c)))
+#endif
             {
                 for (int x = 1; x <= 4; x++)
                 {
@@ -440,6 +464,10 @@ namespace SpaceHordes.GameStates.Screens
 
                 sw.Close();
             }
+
+#if XBOX
+            c.Dispose();
+#endif
         }
 
         public static void WriteScores(int players, string[] initials, long[] scores, StreamWriter writer)
@@ -458,6 +486,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         public static void WriteInitialScores()
         {
+#if WINDOWS
             if (!Directory.Exists(FolderPath))
                 Directory.CreateDirectory(FolderPath);
 
@@ -469,6 +498,18 @@ namespace SpaceHordes.GameStates.Screens
                     fs.Close();
                 }
             }
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            if (!File.Exists(FilePath(c)))
+            {
+                using (FileStream fs = File.Create(FilePath(c)))
+                {
+                    fs.Close();
+                }
+            }
+            c.Dispose();
+#endif
 
             WriteScores(1, FirstInitials1, FirstScores1);
         }
@@ -485,9 +526,17 @@ namespace SpaceHordes.GameStates.Screens
 
             string[] tags = new string[4];
 
+            #if WINDOWS
             if (File.Exists(FilePath))
             {
                 using (TextReader tr = new StreamReader(FilePath))
+            #endif
+#if XBOX
+            StorageContainer c = Container;
+            if (File.Exists(FilePath(c)))
+            {
+                using (TextReader tr = new StreamReader(FilePath(c)))
+#endif
                 {
                     int x = 1;
                     while (x <= 4)
@@ -562,6 +611,10 @@ namespace SpaceHordes.GameStates.Screens
                             break;
                     }
                 }
+
+#if XBOX
+                c.Dispose();
+#endif
             }
         }
 
@@ -574,10 +627,21 @@ namespace SpaceHordes.GameStates.Screens
         /// <returns>The place at which the score was placed.</returns>
         public static int AddScore(int players, string names, long score)
         {
+#if WINDOWS
             if (!File.Exists(FilePath))
             {
                 WriteInitialScores();
             }
+#endif
+
+#if XBOX
+            StorageContainer c = Container;
+            if (!File.Exists(FilePath(c)))
+            {
+                WriteInitialScores();
+            }
+            c.Dispose();
+#endif
 
             string[] initials;
             long[] scores;

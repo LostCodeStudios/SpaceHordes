@@ -55,6 +55,24 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Properties
 
+#if XBOX
+        public StorageContainer Container
+        {
+            get
+            {
+                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
+            }
+        }
+
+        public string FilePath(Container which)
+        {
+            get
+            {
+                return Path.Combine(which.Path, "initials.txt";
+            }
+        }
+#endif
+
         #region Initialization
 
         public InitialEntryScreen(Vector2 position, GameOverScreen parent)
@@ -64,7 +82,6 @@ namespace SpaceHordes.GameStates.Screens
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             IsPopup = true;
-
 
             this.position = position;
 
@@ -103,9 +120,18 @@ namespace SpaceHordes.GameStates.Screens
                 - new Vector2(7, 0)
                 - new Vector2(ScreenManager.InitialEntryFont.MeasureString("AAA").X / 2, 0);
 
+#if WINDOWS
             if (!File.Exists(OptionsMenuScreen.FolderPath + "/initials.txt"))
                 setInitialInitials();
-
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            if (!File.Exists(FilePath(c)))
+            {
+                setInitialInitials();
+            }
+            c.Dispose();
+#endif
             string name = InitialsOf((PlayerIndex)ControllingPlayer);
 
             for (int i = 0; i < initials.Length; i++)
@@ -228,13 +254,22 @@ namespace SpaceHordes.GameStates.Screens
 
         public static string InitialsOf(PlayerIndex index)
         {
+#if WINDOWS
             StreamReader reader = new StreamReader(OptionsMenuScreen.FolderPath + "/initials.txt");
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            StreamReader reader = new StreamReader(FilePath(c));
+#endif
             string toReturn = "";
             while (reader.ReadLine() != "[" + index.ToString() + "]")
             {
             }
             toReturn = reader.ReadLine();
             reader.Close();
+#if XBOX
+            c.Dispose();
+#endif
             return toReturn;
         }
 
@@ -245,7 +280,14 @@ namespace SpaceHordes.GameStates.Screens
             {
                 initials[i] = InitialsOf((PlayerIndex)i);
             }
+
+#if WINDOWS
             StreamWriter writer = new StreamWriter(OptionsMenuScreen.FolderPath + "/initials.txt");
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            StreamWriter writer = new StreamWriter(FilePath(c));
+#endif
             for (int i = 0; i < 4; i++)
             {
                 writer.WriteLine("[" + ((PlayerIndex)i).ToString() + "]");
@@ -255,6 +297,9 @@ namespace SpaceHordes.GameStates.Screens
                     writer.WriteLine(value);
             }
             writer.Close();
+#if XBOX
+            c.Dispose();
+#endif
         }
 
         public static void setInitialInitials()
@@ -267,7 +312,13 @@ namespace SpaceHordes.GameStates.Screens
                 "AAA"
             };
 
+#if WINDOWS
             StreamWriter writer = new StreamWriter(OptionsMenuScreen.FolderPath + "/initials.txt");
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            StreamWriter writer = new StreamWriter(FilePath(c));
+#endif
             for (int i = 0; i < 4; i++)
             {
                 writer.WriteLine("[" + ((PlayerIndex)i).ToString() + "]");

@@ -145,7 +145,7 @@ namespace SpaceHordes
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-#if XBOX
+#if XBOX //Storage Device stuff
 
             //UPDATE
             // Set the request flag

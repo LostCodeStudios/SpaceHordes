@@ -110,6 +110,25 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Static Properties
 
+#if XBOX
+        public StorageContainer Container
+        {
+            get
+            {
+                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
+            }
+        }
+
+        public string FilePath(Container which)
+        {
+            get
+            {
+                return Path.Combine(which.Path, "bosses.txt";
+            }
+        }
+#endif
+
+
         #region Initialization
 
         public BossScreen(string filename, SpriteSheet sheet)
@@ -326,10 +345,18 @@ namespace SpaceHordes.GameStates.Screens
         public static bool[] ReadData()
         {
             List<bool> data = new List<bool>();
-
+            
+#if WINDOWS
             if (File.Exists(FilePath))
             {
                 using (StreamReader reader = new StreamReader(FilePath))
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            if (File.Exists(FilePath(c))
+            {  
+                using (StreamReader reader = new StreamReader(FilePath(c)))
+#endif
                 {
                     for (int x = 0; x < bosses.Length; x++)
                     {
@@ -358,6 +385,9 @@ namespace SpaceHordes.GameStates.Screens
                 return ReadData();
             }
 
+#if XBOX
+            c.Dispose();
+#endif
             return data.ToArray();
         }
 
@@ -365,7 +395,13 @@ namespace SpaceHordes.GameStates.Screens
         {
             bool[] dat = new bool[bosses.Count()];
 
+#if WINDOWS
             using (StreamWriter writer = new StreamWriter(FilePath))
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            using (StreamWriter writer = new StreamWriter(FilePath(c)))
+#endif
             {
                 for (int i = 0; i < bosses.Count(); i++)
                 {
@@ -374,10 +410,15 @@ namespace SpaceHordes.GameStates.Screens
 
                 writer.Close();
             }
+
+#if XBOX
+            c.Dispose();
+#endif
         }
 
         public static void WriteInitialData()
         {
+#if WINDOWS
             if (!Directory.Exists(FolderPath))
                 Directory.CreateDirectory(FolderPath);
 
@@ -389,6 +430,18 @@ namespace SpaceHordes.GameStates.Screens
                     fs.Close();
                 }
             }
+#endif
+#if XBOX
+            StorageContainer c = Container;
+            if (!File.Exists(FilePath(c)))
+            {
+                using (FileStream fs = File.Create(FilePath(C)))
+                {
+                    fs.Close();
+                }
+            }
+            c.Dispose();
+#endif
 
             bool[] data = new bool[bosses.Length];
 
