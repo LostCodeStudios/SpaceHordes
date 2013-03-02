@@ -142,6 +142,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             //AI ai = new AI();
             //ai.Targeting = Targeting.Closest;
+            //ai.HostileGroup = "Players";
             //e.AddComponent<AI>(ai);
             e.AddComponent<AI>(new AI((args[1] as Body)));
 

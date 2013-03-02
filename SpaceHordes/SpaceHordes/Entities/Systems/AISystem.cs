@@ -19,9 +19,11 @@ namespace SpaceHordes.Entities.Systems
             e.GetComponent<AI>().TargetChangedEvent +=
                 () =>
                 {
+                    AI a = e.GetComponent<AI>();
+                    if (a.Target == null)
+                        return;
                     ITransform b = e.GetComponent<ITransform>();
                     IVelocity v = e.GetComponent<IVelocity>();
-                    AI a = e.GetComponent<AI>();
                     Vector2 Velocity = (a.Target.Position - b.Position);
                     if (Velocity != Vector2.Zero)
                     {
@@ -46,9 +48,9 @@ namespace SpaceHordes.Entities.Systems
 
             switch (ai.Targeting)
             {
-                //case Targeting.Closest:
-                //    ai.Target = new Body(world.GetClosestBody(e.GetComponent<ITransform>().Position));
-                //    break;
+                case Targeting.Closest:
+                    ai.Target = ClosestTarget(e);
+                    break;
 
                 case Targeting.Strongest:
                     ai.Target = StrongestEntity(world.GetBodiesInArea(e.GetComponent<ITransform>().Position, ai.SearchRadius)).GetComponent<Body>();
@@ -59,12 +61,21 @@ namespace SpaceHordes.Entities.Systems
                     break;
             }
 
-            if (e.Group == "Crystals" && ai.Target != null)
+            if (e.Group == "Crystals")
             {
-                Vector2 distance = e.GetComponent<AI>().Target.Position - e.GetComponent<Body>().Position;
-                distance.Normalize();
-                e.GetComponent<Body>().LinearVelocity = distance * new Vector2(7);
+                if (ai.Target != null)
+                {
+                    Vector2 distance = e.GetComponent<AI>().Target.Position - e.GetComponent<Body>().Position;
+                    distance.Normalize();
+                    e.GetComponent<Body>().LinearVelocity = distance * new Vector2(7);
+                }
+                else
+                {
+                    ai.Target = ClosestTarget(e);
+                }
             }
+            e.RemoveComponent<AI>(e.GetComponent<AI>());
+            e.AddComponent<AI>(ai);
         }
 
         public Entity StrongestEntity(PhysicsBody[] list)
@@ -105,6 +116,14 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
             return weakest;
+        }
+
+        public Body ClosestTarget(Entity e)
+        {
+            AI a = e.GetComponent<AI>();
+            PhysicsBody pb = world.GetClosestBody(e.GetComponent<ITransform>().Position, a.HostileGroup);
+            Body b = new Body(world, pb.UserData as Entity);
+            return b;
         }
     }
 }

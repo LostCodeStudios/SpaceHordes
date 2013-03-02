@@ -57,6 +57,12 @@ namespace SpaceHordes.Entities.Components
             set;
         }
 
+        public string HostileGroup
+        {
+            get;
+            set;
+        }
+
         public AI()
         {
         }
