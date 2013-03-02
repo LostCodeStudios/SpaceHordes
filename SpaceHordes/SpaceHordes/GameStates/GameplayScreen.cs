@@ -18,24 +18,26 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        private ContentManager content;
-        private ImageFont gameFont;
-        private SpriteBatch spriteBatch;
-        private string fontName;
+        ContentManager content;
+        ImageFont gameFont;
+        SpriteBatch spriteBatch;
+        string fontName;
 
-        private float pauseAlpha;
-        private SpriteSheet spriteSheet;
-        private InputAction pauseAction;
+        float pauseAlpha;
+        InputAction pauseAction;
+        bool multiplayer;
 
-        private bool multiplayer;
+        Vector2 mouseLoc;
 
-        private Vector2 mouseLoc;
+        long score = 0;
+        Vector2 scoreLocation;
+        float scoreScale;
 
-        private long score = 0;
-        private Vector2 scoreLocation;
-        private float scoreScale;
+        SpaceWorld World;
 
-        private SpaceWorld World;
+        bool over;
+        TimeSpan elapsed = TimeSpan.Zero;
+        TimeSpan beforeGameOver = TimeSpan.FromSeconds(1);
 
         #endregion Fields
 
@@ -49,13 +51,6 @@ namespace SpaceHordes.GameStates.Screens
             get { return content; }
         }
 
-        /// <summary>
-        /// The spritesheet.
-        /// </summary>
-        public SpriteSheet Spritesheet
-        {
-            get { return spriteSheet; }
-        }
 
         #endregion Properties
 
@@ -120,7 +115,7 @@ namespace SpaceHordes.GameStates.Screens
             World.Base.GetComponent<Health>().OnDeath +=
                 (x) =>
                 {
-                    GameOver();
+                    EndGame();
                 };
             World.Base.GetComponent<Score>().OnChange +=
                 () =>
@@ -171,6 +166,12 @@ namespace SpaceHordes.GameStates.Screens
             if (IsActive)
             {
                 World.Update(gameTime); //Update the world.
+                if (over)
+                {
+                    elapsed += gameTime.ElapsedGameTime;
+                    if (elapsed > beforeGameOver)
+                        GameOver();
+                }
             }
         }
 
@@ -198,9 +199,6 @@ namespace SpaceHordes.GameStates.Screens
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
-
-            
-
         }
 
         #endregion Update & Draw
@@ -250,6 +248,12 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.AddScreen(new GameOverScreen(new PlayerIndex[] { (PlayerIndex)ControllingPlayer }, score), ControllingPlayer);
             ExitScreen();
             MusicManager.Stop();
+        }
+
+
+        private void EndGame()
+        {
+            over = true;
         }
 
         #endregion Methods

@@ -6,6 +6,7 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using SpaceHordes.Entities.Systems;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -55,7 +56,14 @@ namespace SpaceHordes.Entities.Templates
 
             e.AddComponent<Score>(new Score());
 
-            e.AddComponent<Health>(new Health(10));
+            e.AddComponent<Health>(new Health(10)).OnDeath +=
+            ent =>
+            {
+                Vector2 poss = e.GetComponent<ITransform>().Position;
+                world.CreateEntityGroup("BigExplosion", "Explosions", poss, 50, e);
+
+                SoundManager.Play("Explosion1");
+            };
 
             return e;
         }
