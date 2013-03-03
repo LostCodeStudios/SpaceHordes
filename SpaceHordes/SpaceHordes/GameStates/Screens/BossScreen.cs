@@ -33,8 +33,8 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("smasher", "The Smasher"),
             new BossInfo("greenbossship", "Big Green"),
             new BossInfo("clawbossthing", "Clawdia"),
-            new BossInfo("minikillerhead", "Mini Destroyer"),
-            new BossInfo("eye", "Barley"),
+            new BossInfo("minikillerhead", "The Destroyer"),
+            new BossInfo("eye", "The Oculus"),
             new BossInfo("brain", "Father Brain"),
             new BossInfo("bigredblobboss", "Big Red"),
             new BossInfo("blimp", "Lead Zeppelin"),
@@ -43,7 +43,7 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("redgunship", "The Gunner"),
             new BossInfo("flamer", "The Flamer"),
             new BossInfo("massivebluemissile", "The Jabber-W0K"),
-            new BossInfo("killerhead", "The Destroyer")
+            new BossInfo("killerhead", "The Ravager")
         };
 
         private ContentManager content;
