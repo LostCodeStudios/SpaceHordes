@@ -3,9 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
+    public enum TransitionType
+    {
+        Slide,
+        Fade
+    }
+
     public class BackgroundScreen : GameScreen
     {
         #region Fields
@@ -13,6 +20,7 @@ namespace SpaceHordes.GameStates.Screens
         private ContentManager content;
         private Texture2D backgroundTexture;
         private string filename;
+        private TransitionType transitionType;
 
         #endregion Fields
 
@@ -21,11 +29,12 @@ namespace SpaceHordes.GameStates.Screens
         /// <summary>
         /// Constructs a new background screen.
         /// </summary>
-        public BackgroundScreen(string filename)
+        public BackgroundScreen(string filename, TransitionType trans)
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             this.filename = filename;
+            transitionType = trans;
         }
 
         /// <summary>
@@ -73,8 +82,27 @@ namespace SpaceHordes.GameStates.Screens
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundTexture, fullscreen,
-                new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            if (transitionType == TransitionType.Fade)
+            {
+                spriteBatch.Draw(backgroundTexture, fullscreen,
+                    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            }
+
+            else if (transitionType == TransitionType.Slide)
+            {
+                float transitionOffset = TransitionPosition;
+
+                if (ScreenState == ScreenState.TransitionOff)
+                {
+                    fullscreen.X -= (int)(transitionOffset * ScreenHelper.Viewport.Width);
+                }
+                else if (ScreenState == ScreenState.TransitionOn)
+                {
+                    fullscreen.X += (int)(transitionOffset * ScreenHelper.Viewport.Width);
+                }
+                spriteBatch.Draw(backgroundTexture, fullscreen,
+                    Color.White);
+            }
 
             spriteBatch.End();
         }

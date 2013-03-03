@@ -41,7 +41,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void QuitGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            BackgroundScreen background = new BackgroundScreen("Textures/hiscore");
+            BackgroundScreen background = new BackgroundScreen("Textures/hiscore", TransitionType.Fade);
             MainMenuScreen mainMenu = new MainMenuScreen("Space Hordes");
 
             ScreenManager.AddScreen(background, ControllingPlayer);

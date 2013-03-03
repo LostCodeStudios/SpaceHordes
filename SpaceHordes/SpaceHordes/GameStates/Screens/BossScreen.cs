@@ -48,15 +48,17 @@ namespace SpaceHordes.GameStates.Screens
 
         private ContentManager content;
         private SpriteSheet spriteSheet;
-        private Texture2D backgroundTexture;
-        private string filename;
 
         private int index = 0;
         private string currentKey;
+        private int lastIndex;
+        private int nextIndex;
 
         private InputAction next;
         private InputAction previous;
         private InputAction cancel;
+
+        BackgroundScreen backdrop;
 
         #endregion Fields
 
@@ -131,11 +133,12 @@ namespace SpaceHordes.GameStates.Screens
 
         #region Initialization
 
-        public BossScreen(string filename, SpriteSheet sheet)
+        public BossScreen(BackgroundScreen backdrop, SpriteSheet sheet)
         {
-            //TransitionOnTime = TimeSpan.FromSeconds(0.5);
-            //TransitionOffTime = TimeSpan.FromSeconds(0.5);
-            this.filename = filename;
+            TransitionOnTime = TimeSpan.FromSeconds(0.5);
+            TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
+            this.backdrop = backdrop;
 
             spriteSheet = sheet;
             currentKey = bosses[0].SpriteKey;
@@ -181,8 +184,6 @@ namespace SpaceHordes.GameStates.Screens
         {
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
-
-            backgroundTexture = content.Load<Texture2D>(filename);
         }
 
         /// <summary>
@@ -207,10 +208,22 @@ namespace SpaceHordes.GameStates.Screens
             bool[] data = ReadData();
             bool current = data[index];
 
+            float transitionOffset = TransitionPosition;
+
+            if (lastIndex == -1)
+                transitionOffset *= (ScreenState == ScreenState.TransitionOn) ? 1 : -1;
+            else if (ScreenState == ScreenState.TransitionOn)
+                transitionOffset *= (lastIndex > index) ? -1 : 1;
+            else
+            {
+                if (nextIndex == -1)
+                    transitionOffset *= -1;
+                else
+                    transitionOffset *= (index > nextIndex) ? 1 : -1;
+            }
+
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             spriteBatch.Begin();
-
-            spriteBatch.Draw(backgroundTexture, ScreenHelper.Viewport.Bounds, Color.White);
 
             float scale = 5f;
 
@@ -223,8 +236,9 @@ namespace SpaceHordes.GameStates.Screens
             Color color = current ? Color.White : Color.Black;
             destination = new Rectangle((int)spriteLoc.X, (int)spriteLoc.Y, (int)(source.Width * scale), (int)(source.Height * scale));
 
-            Rectangle[] extraSource = new Rectangle[10]; // = Rectangle.Empty;
-            Rectangle[] extra = new Rectangle[10]; // = Rectangle.Empty;
+            #region Special Cases
+            Rectangle[] extraSource = new Rectangle[10];
+            Rectangle[] extra = new Rectangle[10];
             if (currentKey.Equals("smasher"))
             {
                 //special draw handling
@@ -289,19 +303,22 @@ namespace SpaceHordes.GameStates.Screens
                     }
                 }
             }
+            #endregion
 
+            destination.X += (int)(transitionOffset * ScreenHelper.Viewport.Width);
             spriteBatch.Draw(spriteSheet.Texture, destination, source, color);
 
             for (int x = 0; x < extra.Count(); x++)
             {
                 if (extra[x] != Rectangle.Empty)
                 {
+                    extra[x].X += (int)(transitionOffset * ScreenHelper.Viewport.Width);
                     spriteBatch.Draw(spriteSheet.Texture, extra[x], extraSource[x], color);
                 }
             }
 
             string text = current ? bosses[index].BossName : "?????";
-            Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width / 2, ScreenHelper.Viewport.Height * 0.80f);
+            Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width / 2 + (float)(transitionOffset * ScreenHelper.Viewport.Width), ScreenHelper.Viewport.Height * 0.80f);
             Vector2 size = ScreenManager.Font.MeasureString(text);
             Vector2 origin = size / 2;
             spriteBatch.DrawString(ScreenManager.Font, text, textDest, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
@@ -314,27 +331,48 @@ namespace SpaceHordes.GameStates.Screens
 
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+            if (ScreenState == ScreenState.TransitionOff || ScreenState == ScreenState.TransitionOn)
+                return;
+
             PlayerIndex indx;
 
             if (next.Evaluate(input, ControllingPlayer, out indx))
             {
                 if (index != bosses.Count() - 1)
-                    index++;
-
-                currentKey = bosses[index].SpriteKey;
+                {
+                    string key = bosses[index + 1].SpriteKey;
+                    ExitScreen();
+                    BossScreen newS = new BossScreen(backdrop, spriteSheet);
+                    newS.index = index + 1;
+                    nextIndex = index + 1;
+                    newS.lastIndex = index;
+                    newS.currentKey = key;
+                    newS.OnExit += MainMenuScreen.BossScreenExited;
+                    ScreenManager.AddScreen(newS, ControllingPlayer);
+                }
             }
 
             if (previous.Evaluate(input, ControllingPlayer, out indx))
             {
                 if (index != 0)
-                    index--;
-
-                currentKey = bosses[index].SpriteKey;
+                {
+                    string key = bosses[index - 1].SpriteKey;
+                    ExitScreen();
+                    BossScreen newS = new BossScreen(backdrop, spriteSheet);
+                    newS.index = index - 1;
+                    nextIndex = index - 1;
+                    newS.lastIndex = index;
+                    newS.currentKey = key;
+                    newS.OnExit += MainMenuScreen.BossScreenExited;
+                    ScreenManager.AddScreen(newS, ControllingPlayer);
+                }
             }
 
             if (cancel.Evaluate(input, ControllingPlayer, out indx))
             {
                 ExitScreen();
+                nextIndex = -1;
+                CallExit();
             }
         }
 

@@ -54,10 +54,7 @@ namespace SpaceHordes.Entities.Templates
                     offset.Normalize();
                     offset *= radius;
 
-                    if (j == 3 && i == 3)
-                        world.CreateEntity("Explosion", 0.5f, center, ent, (i+1)).Refresh();
-                    else
-                        world.CreateEntity("Explosion", 0.5f, center + offset, ent, (i+1)).Refresh();
+                    world.CreateEntity("Explosion", 0.05f * (i+1), center + offset, ent, (i+1)).Refresh();
                 }
             }
 

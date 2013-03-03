@@ -2,6 +2,7 @@
 using GameLibrary.Helpers;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -78,9 +79,19 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
         }
 
+        static BackgroundScreen bossBackdrop;
         private void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new BossScreen("Textures/GameMenu", ScreenHelper.SpriteSheet), e.PlayerIndex);
+            bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
+            ScreenManager.AddScreen(bossBackdrop, ControllingPlayer);
+            BossScreen bosses = new BossScreen(bossBackdrop, ScreenHelper.SpriteSheet);
+            bosses.OnExit += new EventHandler(BossScreenExited);
+            ScreenManager.AddScreen(bosses, e.PlayerIndex);
+        }
+
+        public static void BossScreenExited(object sender, EventArgs e)
+        {
+            bossBackdrop.ExitScreen();
         }
 
         /// <summary>

@@ -112,7 +112,7 @@ namespace SpaceHordes
             base.LoadContent();
 
             // TODO: use this.Content to load your game content here
-            screenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), null);
+            screenManager.AddScreen(new BackgroundScreen("Textures/Hiscore", TransitionType.Fade), null);
             screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
 
             ScreenHelper.SpriteSheet = new SpriteSheet(Content.Load<Texture2D>("Textures/spritesheet"));
