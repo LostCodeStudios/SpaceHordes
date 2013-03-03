@@ -244,7 +244,6 @@ namespace SpaceHordes.GameStates.Screens
 
         private void GameOver()
         {
-            ScreenManager.AddScreen(new BackgroundScreen("Textures/Hiscore"), ControllingPlayer);
             ScreenManager.AddScreen(new GameOverScreen(new PlayerIndex[] { (PlayerIndex)ControllingPlayer }, score), ControllingPlayer);
             ExitScreen();
             MusicManager.Stop();
