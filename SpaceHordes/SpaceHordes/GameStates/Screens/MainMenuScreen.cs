@@ -84,7 +84,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
             ScreenManager.AddScreen(bossBackdrop, ControllingPlayer);
-            BossScreen bosses = new BossScreen(bossBackdrop, ScreenHelper.SpriteSheet);
+            BossScreen bosses = new BossScreen(ScreenHelper.SpriteSheet);
             bosses.OnExit += new EventHandler(BossScreenExited);
             ScreenManager.AddScreen(bosses, e.PlayerIndex);
         }

@@ -50,8 +50,11 @@ namespace SpaceHordes
 
         private ScreenManager screenManager;
 
+#if XBOX
         private IAsyncResult result;
         private bool needStorageDevice = true;
+
+#endif
 
         #endregion Fields
 

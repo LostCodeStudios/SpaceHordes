@@ -33,7 +33,6 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("smasher", "The Smasher"),
             new BossInfo("greenbossship", "Big Green"),
             new BossInfo("clawbossthing", "Clawdia"),
-            new BossInfo("minikillerhead", "The Destroyer"),
             new BossInfo("eye", "The Oculus"),
             new BossInfo("brain", "Father Brain"),
             new BossInfo("bigredblobboss", "Big Red"),
@@ -43,7 +42,7 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("redgunship", "The Gunner"),
             new BossInfo("flamer", "The Flamer"),
             new BossInfo("massivebluemissile", "The Jabber-W0K"),
-            new BossInfo("killerhead", "The Ravager")
+            new BossInfo("killerhead", "The Destroyer")
         };
 
         private ContentManager content;
@@ -57,8 +56,6 @@ namespace SpaceHordes.GameStates.Screens
         private InputAction next;
         private InputAction previous;
         private InputAction cancel;
-
-        BackgroundScreen backdrop;
 
         #endregion Fields
 
@@ -133,12 +130,10 @@ namespace SpaceHordes.GameStates.Screens
 
         #region Initialization
 
-        public BossScreen(BackgroundScreen backdrop, SpriteSheet sheet)
+        public BossScreen(SpriteSheet sheet)
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
-            this.backdrop = backdrop;
 
             spriteSheet = sheet;
             currentKey = bosses[0].SpriteKey;
@@ -253,12 +248,6 @@ namespace SpaceHordes.GameStates.Screens
                 extra[0] = new Rectangle(destination.X + (int)(73 * scale), destination.Y + (int)(51 * scale), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
             }
 
-            else if (currentKey.Equals("minikillerhead"))
-            {
-                extraSource[0] = spriteSheet["minikillereyes"][5];
-                extra[0] = new Rectangle((int)(destination.X + (36 * scale)), (int)(destination.Y + (43 * scale)), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
-            }
-
             else if (currentKey.Equals("flamer"))
             {
                 scale = 3f;
@@ -342,7 +331,7 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     string key = bosses[index + 1].SpriteKey;
                     ExitScreen();
-                    BossScreen newS = new BossScreen(backdrop, spriteSheet);
+                    BossScreen newS = new BossScreen(spriteSheet);
                     newS.index = index + 1;
                     nextIndex = index + 1;
                     newS.lastIndex = index;
@@ -358,7 +347,7 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     string key = bosses[index - 1].SpriteKey;
                     ExitScreen();
-                    BossScreen newS = new BossScreen(backdrop, spriteSheet);
+                    BossScreen newS = new BossScreen(spriteSheet);
                     newS.index = index - 1;
                     nextIndex = index - 1;
                     newS.lastIndex = index;

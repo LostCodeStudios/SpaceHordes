@@ -28,7 +28,10 @@ namespace SpaceHordes.Entities.Systems
                             Sprite s = e.GetComponent<Sprite>();
                             s.Color = Color.Red;
 
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 10));
+                            if (!e.HasComponent<SpriteEffect>())
+                                e.AddComponent<SpriteEffect>(new SpriteEffect(s, 10));
+                            else
+                                e.GetComponent<SpriteEffect>().AddEffect(s, 10);
                             e.Refresh();
                         }
                     };

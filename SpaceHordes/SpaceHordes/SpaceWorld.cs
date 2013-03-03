@@ -132,7 +132,13 @@ namespace SpaceHordes
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = new Color(0, 0, 255);
 
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
+                        else
+                        {
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 500);
+                        }
+
                         e.Refresh();
                     }
                     )));
@@ -144,8 +150,13 @@ namespace SpaceHordes
                         e.AddComponent<Slow>(new Slow(1000, 1f, 5.0f, new Vector2(4), 0.0f));
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Blue;
-
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
+                        else
+                        {
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 1000);
+                        }
+                        
                         e.Refresh();
                     }
                     )));
@@ -158,7 +169,12 @@ namespace SpaceHordes
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Blue;
 
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        else
+                        {
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
+                        }
                         e.Refresh();
                     }
                     )));
@@ -190,7 +206,10 @@ namespace SpaceHordes
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Green;
 
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
+                        else
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 500);
                         e.AddComponent<Damage>(new Damage(1, 3, 500));
                         e.Refresh();
                     }
@@ -205,7 +224,10 @@ namespace SpaceHordes
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Green;
 
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
+                        else
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 1000);
                         e.AddComponent<Damage>(new Damage(2, 5, 1000));
                         e.Refresh();
                     }
@@ -220,7 +242,10 @@ namespace SpaceHordes
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Green;
 
-                        e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        else
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
                         e.AddComponent<Damage>(new Damage(3, 10, 1500));
                         e.Refresh();
                     }
