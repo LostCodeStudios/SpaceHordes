@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using GameLibrary.Dependencies.Entities;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics
 {
@@ -619,7 +620,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
                             // You tried to remove a body that is not contained in the BodyList.
                             // Are you removing the body more than once?
                             if (!BodyList.Contains(body))
-                                break;
+                                break;  
 
                             // Delete the attached joints.
                             JointEdge je = body.JointList;
@@ -1470,6 +1471,28 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
             {
                 return BodyList.Where(x =>
                         Vector2.Distance(x.Position, location) <= radius).ToArray();
+            }
+        }
+
+        public PhysicsBody GetClosestBody(Vector2 location, string group)
+        {
+            lock (BodyList)
+            {
+                PhysicsBody closest = new PhysicsBody();
+                float distance = 100000f;
+
+                foreach (PhysicsBody b in BodyList)
+                {
+                    Entity e = b.UserData as Entity;
+                    float dist = Vector2.Distance(b.Position, location);
+                    if ((!string.IsNullOrEmpty(group) || e.Group == group) && dist < distance)
+                    {
+                        closest = b;
+                        distance = dist;
+                    }
+                }
+
+                return closest;
             }
         }
     }

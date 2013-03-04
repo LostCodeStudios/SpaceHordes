@@ -195,6 +195,12 @@ namespace GameLibrary.GameStates
             }
         }
 
+        public void CallExit()
+        {
+            if (OnExit != null)
+                OnExit(null, null);
+        }
+
         #endregion Methods
 
         #region Virtual Methods
@@ -295,5 +301,11 @@ namespace GameLibrary.GameStates
         }
 
         #endregion Virtual Methods
+
+        #region Events
+
+        public event EventHandler OnExit;
+
+        #endregion
     }
 }

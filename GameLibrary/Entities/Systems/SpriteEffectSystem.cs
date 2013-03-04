@@ -1,6 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Render;
+using System.Collections.Generic;
 
 namespace GameLibrary.Entities.Systems
 {
@@ -33,7 +34,7 @@ namespace GameLibrary.Entities.Systems
             {
                 seMapper.Get(e).OldSprite = sMapper.Get(e);
                 e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
-                e.AddComponent<Sprite>(seMapper.Get(e).EffectSprite);
+                e.AddComponent<Sprite>(seMapper.Get(e).TopEffect);
                 e.Refresh();
             }
         }
@@ -44,20 +45,36 @@ namespace GameLibrary.Entities.Systems
         /// <param name="e"></param>
         public override void Process(Entity e)
         {
+            List<Sprite> toRemove = new List<Sprite>();
+            Sprite s = sMapper.Get(e);
+            SpriteEffect se = seMapper.Get(e);
             lock (e)
             {
-                Sprite s = sMapper.Get(e);
-                SpriteEffect se = seMapper.Get(e);
-
-                se.Elapsed--;
-                if (se.Elapsed <= 0)
+                se.Elapsed++;
+                
+                foreach (Sprite ss in se.EffectSprites.Keys)
                 {
-                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
-                    e.AddComponent<Sprite>(seMapper.Get(e).OldSprite);
-                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<SpriteEffect>());
-                    e.Refresh();
-                }
+                    if (se.Elapsed - se.startingTick[ss] >= se.EffectSprites[ss])
+                    {
+                        toRemove.Add(ss);
+                    }
+                }             
             }
+
+            foreach (Sprite ss in toRemove)
+            {
+                e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
+                se.Remove(ss);
+                if (se.HasEffects())
+                    e.AddComponent<Sprite>(seMapper.Get(e).TopEffect);
+                else
+                {
+                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<SpriteEffect>());
+                    e.RemoveComponent<Sprite>(ss);
+                    e.AddComponent<Sprite>(se.OldSprite);
+                }
+                e.Refresh();
+            }                
         }
     }
-}
+} 

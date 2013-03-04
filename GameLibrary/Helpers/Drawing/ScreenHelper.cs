@@ -14,8 +14,9 @@ namespace GameLibrary.Helpers
         /// <summary>
         /// Initializes the Screen class with the game's viewport.
         /// </summary>
-        public static void Initialize(GraphicsDevice graphicsDevice)
+        public static void Initialize(GraphicsDeviceManager graphics, GraphicsDevice graphicsDevice)
         {
+            Graphics = graphics;
             GraphicsDevice = graphicsDevice;
         }
 
@@ -24,6 +25,12 @@ namespace GameLibrary.Helpers
         #region Properties
 
         public static GraphicsDevice GraphicsDevice
+        {
+            set;
+            get;
+        }
+
+        public static GraphicsDeviceManager Graphics
         {
             set;
             get;

@@ -12,7 +12,7 @@ namespace SpaceHordes.Entities.Systems
     {
         private ComponentMapper<Body> bodyMapper;
         private float _Velocity;
-        private bool WasMoving = false;
+        private bool[] WasMoving = new bool[4] {false,false,false,false};
 
         private KeyboardState keyState;
         private KeyboardState lastKeyState;
@@ -55,13 +55,6 @@ namespace SpaceHordes.Entities.Systems
 
             Vector2 target = Vector2.Zero;
 
-            if (WasMoving) //Stops movement
-            {
-                b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);
-                WasMoving = false;
-            }
-            else
-                b.LinearDamping = 0;
 
             #region Gamepad
 
@@ -125,6 +118,7 @@ namespace SpaceHordes.Entities.Systems
                     Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
                     b.RotateTo(aiming);
                 }
+
 
                 #endregion Aiming
             }
@@ -211,19 +205,26 @@ namespace SpaceHordes.Entities.Systems
 
             #endregion Keyboard
 
+
+            if (WasMoving[playerIndex]) //Stops movement
+            {
+                b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);
+                WasMoving[playerIndex] = false;
+            }
+            else
+                b.LinearDamping = 0;
+
             if (target != Vector2.Zero) //If being moved by player
             {
                 target.Normalize();
-                WasMoving = true;
+                WasMoving[playerIndex] = true;
                 b.LinearDamping = _Velocity * 2;
             }
 
             //Rotation
             if (b.LinearVelocity != Vector2.Zero)
             {
-                if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
-                    b.RotateTo(b.LinearVelocity);
-                WasMoving = true;
+                WasMoving[playerIndex] = true;
             }
 
             //update position
