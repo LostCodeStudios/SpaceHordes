@@ -27,10 +27,10 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
             MenuEntry playGameMenuEntry = new MenuEntry("Play Solo");
 #endif
-            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Multiplayer");
+            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Play Game");
 
-            MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
-            MenuEntry bossEntry = new MenuEntry("Bosses");
+            MenuEntry highScoresMenuEntry = new MenuEntry("Multiplayer");
+            MenuEntry bossEntry = new MenuEntry("High Scores");
 
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");

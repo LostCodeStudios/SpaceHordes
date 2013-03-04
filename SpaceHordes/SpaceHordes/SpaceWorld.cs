@@ -49,7 +49,6 @@ namespace SpaceHordes
         {
             base.LoadContent(Content, args);
 
-            // healthRenderSystem.LoadContent(Content.Load<SpriteFont>("Fonts/gamefont"));
             _font.LoadContent(Content, "Textures/gamefont");
             hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
@@ -364,7 +363,7 @@ namespace SpaceHordes
         protected override void BuildEntities(ContentManager Content, params object[] args)
         {
             //Set up player(s)
-            if (args != null && args.Length > 0 && args[0] != null) //IF MULTIPLAYER
+            if (args != null && (args[0] as PlayerIndex[]).Length > 0 && args[0] != null) //IF MULTIPLAYER
                 for (int i = 0; i < (args[0] as PlayerIndex[]).Length && i < 4; i++)
                 {
                     Player = this.CreateEntity("Player", (PlayerIndex)i);

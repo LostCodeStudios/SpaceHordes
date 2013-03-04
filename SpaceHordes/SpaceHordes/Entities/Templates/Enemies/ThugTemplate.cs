@@ -127,7 +127,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             e.AddComponent<AI>(new AI((args[1] as Body)));
 
-            e.AddComponent<Health>(new Health(1000)).OnDeath +=
+            e.AddComponent<Health>(new Health(5)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
