@@ -63,7 +63,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (e.Group == "Crystals")
             {
-                if (ai.Target != null)
+                if ((ai.Target.UserData as Entity).DeletingState != true)
                 {
                     Vector2 distance = e.GetComponent<AI>().Target.Position - e.GetComponent<Body>().Position;
                     distance.Normalize();
@@ -71,7 +71,9 @@ namespace SpaceHordes.Entities.Systems
                 }
                 else
                 {
-                    ai.Target = ClosestTarget(e);
+                    e.Delete();
+                    //ai.Target = ClosestTarget(e);
+                    
                 }
             }
             e.RemoveComponent<AI>(e.GetComponent<AI>());
