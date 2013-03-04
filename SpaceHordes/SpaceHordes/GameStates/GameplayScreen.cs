@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SpaceHordes.Entities.Components;
 using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -91,25 +92,25 @@ namespace SpaceHordes.GameStates.Screens
             scoreScale = 1f;
 
             spriteBatch = ScreenManager.SpriteBatch;
-            PlayerIndex[] players = new PlayerIndex[4];
+            List<PlayerIndex> players = new List<PlayerIndex>();
+
             if (multiplayer)
             {
                 for (int x = 0; x < 4; x++)
                 {
                     if (ScreenManager.Input.GamePadWasConnected[x])
                     {
-                        players[x] = (PlayerIndex)x;
-                    }
+                        players.Add((PlayerIndex)x);
+                    }                        
                 }
             }
-            //ScreenHelper.Initialize(ScreenManager.GraphicsDevice);
 
             #endregion Screen
 
             //World
             World = new SpaceWorld(ScreenManager.Game, ScreenHelper.SpriteSheet);
             World.Initialize();
-            World.LoadContent(content, players);
+            World.LoadContent(content, players.ToArray());
 
             ScreenManager.Game.ResetElapsedTime();
             World.Base.GetComponent<Health>().OnDeath +=

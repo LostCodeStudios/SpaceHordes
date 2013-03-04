@@ -26,8 +26,8 @@ namespace SpaceHordes.GameStates.Screens
 
 #if XBOX
             MenuEntry playGameMenuEntry = new MenuEntry("Play Solo");
-            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Multiplayer");
 #endif
+            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Multiplayer");
 
             MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
             MenuEntry bossEntry = new MenuEntry("Bosses");
@@ -37,9 +37,9 @@ namespace SpaceHordes.GameStates.Screens
 
             //Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
-#if XBOX
+//#if XBOX
             playMultiplayerMenuEntry.Selected += PlayMultiplayerMenuEntrySelected;
-#endif
+//#endif
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
@@ -48,9 +48,7 @@ namespace SpaceHordes.GameStates.Screens
 
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
-#if XBOX
             MenuEntries.Add(playMultiplayerMenuEntry);
-#endif
             MenuEntries.Add(highScoresMenuEntry);
             MenuEntries.Add(bossEntry);
             MenuEntries.Add(optionsMenuEntry);
