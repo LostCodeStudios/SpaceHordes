@@ -82,8 +82,9 @@ namespace SpaceHordes.Entities.Systems
 
             if (timesCalled == 1)
             {
-                World.CreateEntity(BossTemplate, 3).Refresh();
+                World.CreateEntity(BossTemplate, 1).Refresh();
             }
+
             if (timesCalled % 5 == 0)
             {
                 int type;
@@ -116,6 +117,13 @@ namespace SpaceHordes.Entities.Systems
                 for (int i = 0; i < destroyersToSpawn; i++)
                 {
                 }
+            }
+
+            if (elapsedMinutes % 3 == 0)
+            {
+                //Boss.
+                int tier = difficulty / 3;
+                World.CreateEntity(BossTemplate, tier).Refresh();
             }
 
             #endregion

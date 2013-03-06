@@ -420,8 +420,6 @@ namespace SpaceHordes.GameStates.Screens
 
         public static void WriteData(bool[] data)
         {
-            bool[] dat = new bool[bosses.Count()];
-
 #if WINDOWS
             using (StreamWriter writer = new StreamWriter(FilePath))
 #endif
@@ -432,7 +430,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 for (int i = 0; i < bosses.Count(); i++)
                 {
-                    writer.WriteLine(dat[i].ToString());
+                    writer.WriteLine(data[i].ToString());
                 }
 
                 writer.Close();
@@ -482,7 +480,7 @@ namespace SpaceHordes.GameStates.Screens
 
         public static void BossKilled(string bossName)
         {
-            int index;
+            int index = 0;
 
             for (index = 0; index < ClearedBosses.Count(); index++)
             {
@@ -490,7 +488,9 @@ namespace SpaceHordes.GameStates.Screens
                     break;
             }
 
-            ClearedBosses[index] = true;
+            bool[] b = ClearedBosses.Clone() as bool[];
+            b[index] = true;
+            ClearedBosses = b;
         }
 
         #endregion Static Methods

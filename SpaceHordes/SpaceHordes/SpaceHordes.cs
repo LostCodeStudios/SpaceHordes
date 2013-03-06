@@ -825,6 +825,8 @@ namespace SpaceHordes
             MusicManager.Volume = (float)music / 10f;
             ScreenHelper.Graphics.IsFullScreen = fullscreen;
             ScreenHelper.Graphics.ApplyChanges();
+
+            BossScreen.ClearedBosses = BossScreen.ReadData();
         }
 
         #endregion

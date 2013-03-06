@@ -10,6 +10,7 @@ using GameLibrary.Entities.Components;
 using SpaceHordes.Entities.Components;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Systems;
+using SpaceHordes.GameStates.Screens;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -190,6 +191,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
 
                     ScoreSystem.GivePoints(points);
+                    BossScreen.BossKilled(bosses[type].BossName);
                 };
 
             #endregion AI/Health
