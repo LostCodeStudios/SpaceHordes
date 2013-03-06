@@ -27,10 +27,17 @@ namespace SpaceHordes.Entities.Systems
                     Vector2 Velocity = (a.Target.Position - b.Position);
                     if (Velocity != Vector2.Zero)
                     {
+                        float speed = 5f;
+
+                        if (e.Tag == "Boss")
+                            speed = 1f;
+
+
                         Velocity.Normalize();
-                        Velocity *= new Vector2(5);
+                        Velocity *= speed;
                         v.LinearVelocity = Velocity;
-                        b.RotateTo(Velocity);
+                        if (e.Tag != "Boss")
+                            b.RotateTo(Velocity);
                     }
                 };
 

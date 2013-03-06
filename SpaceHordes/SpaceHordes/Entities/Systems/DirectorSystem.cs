@@ -41,6 +41,7 @@ namespace SpaceHordes.Entities.Systems
         public static string GunnerTemplate = "Gunner";
         public static string HunterTemplate = "Hunter";
         public static string DestroyerTemplate = "Destroyer";
+        public static string BossTemplate = "Boss";
 
         int timesCalled = 0;
 
@@ -78,6 +79,11 @@ namespace SpaceHordes.Entities.Systems
             #region Spawning
 
             //Every 5 seconds spawn
+
+            if (timesCalled == 1)
+            {
+                World.CreateEntity(BossTemplate, 3).Refresh();
+            }
             if (timesCalled % 5 == 0)
             {
                 int type;

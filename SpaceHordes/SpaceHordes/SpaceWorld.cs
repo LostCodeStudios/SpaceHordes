@@ -113,6 +113,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet)); //TEST
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Boss", new BossTemplate(_spriteSheet, this));
 
             #region Crystals
 
@@ -347,6 +348,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
             this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
+            
             this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }
