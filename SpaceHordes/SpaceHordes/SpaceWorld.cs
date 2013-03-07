@@ -86,6 +86,7 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
             scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(), ExecutionType.Update);
+            this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 3);
@@ -114,6 +115,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Boss", new BossTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("SmasherBall", new SmasherBallTemplate(_spriteSheet, this));
 
             #region Crystals
 

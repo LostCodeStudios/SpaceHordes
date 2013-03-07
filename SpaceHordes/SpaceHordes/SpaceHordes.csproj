@@ -122,6 +122,7 @@
     <Compile Include="Entities\Components\Gun.cs" />
     <Compile Include="Entities\Components\Health.cs" />
     <Compile Include="Entities\Components\Inventory.cs" />
+    <Compile Include="Entities\Components\Origin.cs" />
     <Compile Include="Entities\Components\Score.cs" />
     <Compile Include="Entities\Components\Slow.cs" />
     <Compile Include="Entities\Systems\BaseAnimationSystem.cs" />
@@ -140,8 +141,10 @@
     <Compile Include="Entities\Systems\RadarRenderSystem.cs" />
     <Compile Include="Entities\Systems\ScoreSystem.cs" />
     <Compile Include="Entities\Systems\SlowSystem.cs" />
+    <Compile Include="Entities\Systems\SmasherBallSystem.cs" />
     <Compile Include="Entities\Systems\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\Enemies\BossTemplate.cs" />
+    <Compile Include="Entities\Templates\Enemies\SmasherBallTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\ThugTemplate.cs" />
     <Compile Include="Entities\Templates\Events\BigExplosionTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\BaseTemplate.cs" />

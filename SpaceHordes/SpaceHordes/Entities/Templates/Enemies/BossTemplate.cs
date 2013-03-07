@@ -190,14 +190,28 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
 
-                    ScoreSystem.GivePoints(points);
-                    BossScreen.BossKilled(bosses[type].BossName);
+                    if (ent.Group != "Players" && ent.Tag != "Base")
+                    {
+                        ScoreSystem.GivePoints(points);
+                        BossScreen.BossKilled(bosses[type].BossName);
+                    }
                 };
 
             #endregion AI/Health
 
             e.Tag = "Boss";
             e.Group = "Enemies";
+
+            #region Special Cases
+
+            if (spriteKey == "smasher")
+            {
+                world.CreateEntity("SmasherBall", e).Refresh();
+            }
+
+            #endregion
+
+
             return e;
         }
     }

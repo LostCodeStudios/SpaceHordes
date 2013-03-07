@@ -156,9 +156,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
                     if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
+                    {
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
-
-                    ScoreSystem.GivePoints(1);
+                        ScoreSystem.GivePoints(1);
+                    }
                 };
 
             #endregion AI/Health
