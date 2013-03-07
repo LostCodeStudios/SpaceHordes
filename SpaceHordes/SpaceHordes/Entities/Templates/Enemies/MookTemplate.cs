@@ -16,6 +16,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
         private static Random rbitch = new Random();
+        private static int mooks = 0;
 
         public MookTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
@@ -144,7 +145,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             //ai.Targeting = Targeting.Closest;
             //ai.HostileGroup = "Players";
             //e.AddComponent<AI>(ai);
-            e.AddComponent<AI>(new AI((args[1] as Body)));
+            e.AddComponent<AI>(new AI(args[1] as Body));
 
             e.AddComponent<Health>(new Health(1)).OnDeath +=
                 ent =>
@@ -164,7 +165,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #endregion AI/Health
 
+            e.Tag = "Mook" + mooks.ToString();
             e.Group = "Enemies";
+            mooks++;
             return e;
         }
     }

@@ -36,6 +36,15 @@ namespace SpaceHordes.Entities.Systems
                     s.Color = Color.White;
                     e.AddComponent<Sprite>(s);
                     e.RemoveComponent<Slow>(slow);
+
+                    if (e.HasComponent<AI>())
+                    {
+                        AI a = e.GetComponent<AI>();
+                        a.Target = a.Target;
+                        e.RemoveComponent<AI>(e.GetComponent<AI>());
+                        e.AddComponent<AI>(a);
+                    }
+
                     e.Refresh();
                 }
                 IVelocity velocity = velocityMapper.Get(e);

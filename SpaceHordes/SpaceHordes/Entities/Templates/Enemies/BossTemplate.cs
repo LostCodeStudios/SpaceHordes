@@ -64,18 +64,18 @@ namespace SpaceHordes.Entities.Templates.Enemies
             string spriteKey = "";
             int type = 0;
 
-            switch (tier)
-            {
-                case 1:
-                    type = rbitch.Next(0, 4);
-                    break;
-                case 2:
-                    type = rbitch.Next(5, 8);
-                    break;
-                case 3:
-                    type = rbitch.Next(8, 13);
-                    break;
-            }
+            //switch (tier)
+            //{
+            //    case 1:
+            //        type = rbitch.Next(0, 4);
+            //        break;
+            //    case 2:
+            //        type = rbitch.Next(5, 8);
+            //        break;
+            //    case 3:
+            //        type = rbitch.Next(8, 13);
+            //        break;
+            //}
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -157,8 +157,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             //ai.Targeting = Targeting.Closest;
             //ai.HostileGroup = "Players";
             //e.AddComponent<AI>(ai);
-            SpaceWorld world = _World as SpaceWorld;
-            e.AddComponent<AI>(new AI((world.Base.GetComponent<Body>())));
+
+            e.AddComponent<AI>(new AI(args[1] as Body));
 
             int points = 0;
             int health = 0;
@@ -178,7 +178,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
-            e.AddComponent<Health>(new Health(health)).OnDeath +=
+             e.AddComponent<Health>(new Health(health)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
@@ -190,7 +190,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
                         _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
 
-                    if (ent.Group != "Players" && ent.Tag != "Base")
+                    if (ent.Tag != "Base")
                     {
                         ScoreSystem.GivePoints(points);
                         BossScreen.BossKilled(bosses[type].BossName);
@@ -206,7 +206,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             if (spriteKey == "smasher")
             {
-                world.CreateEntity("SmasherBall", e).Refresh();
+                _World.CreateEntity("SmasherBall", e).Refresh();
             }
 
             #endregion

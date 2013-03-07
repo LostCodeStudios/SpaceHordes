@@ -82,7 +82,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (timesCalled == 1)
             {
-                World.CreateEntity(BossTemplate, 1).Refresh();
+                World.CreateEntity(BossTemplate, 1, Base.GetComponent<Body>()).Refresh();
             }
 
             if (timesCalled % 5 == 0)

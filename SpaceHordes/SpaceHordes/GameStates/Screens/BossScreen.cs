@@ -479,7 +479,7 @@ namespace SpaceHordes.GameStates.Screens
         }
 
         public static void BossKilled(string bossName)
-        {
+        { 
             int index = 0;
 
             for (index = 0; index < ClearedBosses.Count(); index++)

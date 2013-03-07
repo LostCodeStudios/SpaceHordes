@@ -408,7 +408,7 @@ namespace SpaceHordes.Entities.Components
                                (float)Math.Sin(j)), -ro.Normal) * new Vector2((float)Math.Cos(j),
                                    (float)Math.Sin(j));
 
-                            data[i].body.ApplyLinearImpulse(vectImp, hitpoint);
+                            //data[i].body.ApplyLinearImpulse(vectImp, hitpoint);
 
                             // We gather the fixtures for returning them
                             Vector2 val = Vector2.Zero;

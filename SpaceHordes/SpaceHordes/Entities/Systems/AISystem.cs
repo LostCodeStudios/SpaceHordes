@@ -20,8 +20,8 @@ namespace SpaceHordes.Entities.Systems
                 () =>
                 {
                     AI a = e.GetComponent<AI>();
-                    if (a.Target == null)
-                        return;
+                    //if (a.Target == null)
+                    //    return;
                     ITransform b = e.GetComponent<ITransform>();
                     IVelocity v = e.GetComponent<IVelocity>();
                     Vector2 Velocity = (a.Target.Position - b.Position);

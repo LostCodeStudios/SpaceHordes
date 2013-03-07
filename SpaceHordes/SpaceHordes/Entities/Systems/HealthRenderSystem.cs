@@ -58,7 +58,7 @@ namespace SpaceHordes.Entities.Systems
 
             int X = (int)ScreenHelper.Center.X;
             int Y = (int)ScreenHelper.Center.Y;
-            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && e.Group != "Enemies")
+            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && !e.Tag.Contains("Mook") && e.Tag != "SmasherBall")
             {
                 float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
                 float Height = e.GetComponent<Sprite>().CurrentRectangle.Height + 10;
