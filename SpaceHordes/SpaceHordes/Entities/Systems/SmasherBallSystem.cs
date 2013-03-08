@@ -14,7 +14,7 @@ namespace SpaceHordes.Entities.Systems
     {
         float elapsedSeconds = 0f;
         float orbitTime = 1f;
-        public static float Radius = 10f;
+        public static float Radius = 100f;
 
         public SmasherBallSystem()
             : base(16, "SmasherBall")
@@ -26,7 +26,7 @@ namespace SpaceHordes.Entities.Systems
             Body b = e.GetComponent<Body>();
             Entity parent = e.GetComponent<Origin>().Parent;
 
-            if (!parent.HasComponent<Body>() || parent.GetComponent<Health>().IsAlive)
+            if (!parent.HasComponent<Body>() || !parent.GetComponent<Health>().IsAlive)
             {
                 e.GetComponent<Health>().SetHealth(e, 0);
                 return;
@@ -46,7 +46,8 @@ namespace SpaceHordes.Entities.Systems
             Vector2 oldPosition = origin + new Vector2((float)(ConvertUnits.ToSimUnits(Radius) * (Math.Cos(MathHelper.ToRadians(360/orbitTime) * lastTime))), (float)(ConvertUnits.ToSimUnits(Radius) * (Math.Sin(MathHelper.ToRadians(360/orbitTime) * lastTime))));
             Vector2 newPosition = origin + new Vector2((float)(ConvertUnits.ToSimUnits(Radius) * (Math.Cos(MathHelper.ToRadians(360/orbitTime) * elapsedSeconds))), (float)(ConvertUnits.ToSimUnits(Radius) * (Math.Sin(MathHelper.ToRadians(360/orbitTime) * elapsedSeconds))));
 
-            b.LinearVelocity = parent.GetComponent<Body>().LinearVelocity + (newPosition - oldPosition);
+            //b.LinearVelocity = parent.GetComponent<Body>().LinearVelocity + (newPosition - oldPosition);
+            b.Position = newPosition;
         }
     }
 }

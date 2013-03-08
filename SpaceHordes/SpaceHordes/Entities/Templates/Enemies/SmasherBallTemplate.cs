@@ -63,7 +63,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Entity smasher = (args[0] as Entity);
 
-            float dist = 10f;
+            float dist = ConvertUnits.ToSimUnits(20f);
             Vector2 pos = smasher.GetComponent<Body>().Position + new Vector2(0, dist);
             bitch.Position = pos;
 

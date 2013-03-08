@@ -119,7 +119,6 @@ namespace SpaceHordes.Entities.Systems
                     b.RotateTo(aiming);
                 }
 
-
                 #endregion Aiming
             }
 
@@ -205,7 +204,7 @@ namespace SpaceHordes.Entities.Systems
 
             #endregion Keyboard
 
-
+            
             if (WasMoving[playerIndex]) //Stops movement
             {
                 b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);
@@ -224,6 +223,8 @@ namespace SpaceHordes.Entities.Systems
             //Rotation
             if (b.LinearVelocity != Vector2.Zero)
             {
+                if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
+                    b.RotateTo(b.LinearVelocity);
                 WasMoving[playerIndex] = true;
             }
 
