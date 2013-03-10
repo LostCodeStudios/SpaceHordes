@@ -30,6 +30,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private EntityWorld _World;
         private static Random rbitch = new Random();
 
+        private static int spawned = 0;
+
         private static BossInfo[] bosses = new BossInfo[]
         {
             new BossInfo("smasher", "The Smasher"),
@@ -60,7 +62,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Sprite
 
             string spriteKey = "";
-            int type = 0;
+            int type = 2;
 
             //switch (tier)
             //{
@@ -108,7 +110,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.Position = pos;
 
             if (spriteKey == "massivebluemissile")
+            {
                 bitch.Rotation = MathHelper.ToRadians(90);
+            }
 
             #endregion Body
 
@@ -194,18 +198,49 @@ namespace SpaceHordes.Entities.Templates.Enemies
                        ScoreSystem.GivePoints(points);
                        BossScreen.BossKilled(bosses[type].BossName);
                    }
+
+                   #region Special Cases
+
+                   DirectorSystem.MookSprite = "";
+                   DirectorSystem.ThugSprite = "";
+                   DirectorSystem.MookSpawnRate = 0;
+                   DirectorSystem.ThugSpawnRate = 0;
+                   DirectorSystem.GunnerSpawnRate = 0;
+                   DirectorSystem.HunterSpawnRate = 0;
+                   DirectorSystem.DestroyerSpawnRate = 0;
+                   #endregion
                };
 
             #endregion AI/Health
 
-            e.Tag = "Boss";
+            e.Tag = "Boss" + spawned.ToString();
             e.Group = "Enemies";
+
+            spawned++;
 
             #region Special Cases
 
             if (spriteKey == "smasher")
             {
                 _World.CreateEntity("SmasherBall", e).Refresh();
+            }
+
+            if (spriteKey == "eye")
+            {
+                DirectorSystem.MookSprite = "eyeshot";
+                DirectorSystem.ThugSpawnRate = -1;
+                DirectorSystem.GunnerSpawnRate = -1;
+                DirectorSystem.HunterSpawnRate = -1;
+                DirectorSystem.DestroyerSpawnRate = -1;
+            }
+
+            if (spriteKey == "clawbossthing")
+            {
+                DirectorSystem.MookSprite = "8prongbrownthingwithfangs";
+                DirectorSystem.ThugSprite = "minibrownclawboss";
+                DirectorSystem.GunnerSpawnRate = -1;
+                DirectorSystem.HunterSpawnRate = -1;
+                DirectorSystem.DestroyerSpawnRate = -1;
             }
 
             #endregion Special Cases

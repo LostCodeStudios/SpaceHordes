@@ -70,6 +70,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
+            if (args.Length > 2)
+                spriteKey = (string)args[2];
+
             #endregion Sprite
 
             #region Body

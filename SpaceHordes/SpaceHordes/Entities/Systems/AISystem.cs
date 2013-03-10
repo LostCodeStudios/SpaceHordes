@@ -26,17 +26,18 @@ namespace SpaceHordes.Entities.Systems
                     ITransform b = e.GetComponent<ITransform>();
                     IVelocity v = e.GetComponent<IVelocity>();
                     Vector2 Velocity = (a.Target.Position - b.Position);
+
                     if (Velocity != Vector2.Zero)
                     {
                         float speed = 5f;
 
-                        if (e.Tag == "Boss")
+                        if (e.Tag.Contains("Boss"))
                             speed = 1f;
 
                         Velocity.Normalize();
                         Velocity *= speed;
                         v.LinearVelocity = Velocity;
-                        if (e.Tag != "Boss")
+                        if (!e.Tag.Contains("Boss"))
                             b.RotateTo(Velocity);
                     }
                 };

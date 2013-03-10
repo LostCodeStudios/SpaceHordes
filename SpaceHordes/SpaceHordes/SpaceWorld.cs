@@ -11,6 +11,8 @@ using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
+using GameLibrary.Entities.Components.Physics;
+using System.Collections.Generic;
 
 namespace SpaceHordes
 {
@@ -87,8 +89,8 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
 
             //Draw Systems
-            healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 3);
-            hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 1);
+            healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
+            hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);
             starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw);
             radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(hudRenderSystem.RadarScreenLocation,
                 new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,

@@ -58,7 +58,7 @@ namespace SpaceHordes.Entities.Systems
 
             int X = (int)ScreenHelper.Center.X;
             int Y = (int)ScreenHelper.Center.Y;
-            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && !e.Tag.Contains("Mook") && e.Tag != "SmasherBall")
+            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && health.MaxHealth > 1 && e.Tag != "SmasherBall")
             {
                 float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
                 float Height = e.GetComponent<Sprite>().CurrentRectangle.Height + 10;
@@ -76,6 +76,9 @@ namespace SpaceHordes.Entities.Systems
                         Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2,
                         (int)((health.CurrentHealth / health.MaxHealth) * Width),
                             2), Color.Red);
+            }
+            else
+            {
             }
         }
 

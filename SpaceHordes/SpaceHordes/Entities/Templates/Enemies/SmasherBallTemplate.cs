@@ -87,6 +87,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #endregion Health
 
             e.AddComponent<Origin>(new Origin(smasher));
+            e.Group = "Enemies";
             e.Tag = "SmasherBall";
             return e;
         }
