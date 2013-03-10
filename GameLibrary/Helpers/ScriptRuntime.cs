@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
+﻿using Microsoft.CSharp;
+using System;
 using System.CodeDom.Compiler;
-using System.IO;
-using Microsoft.CSharp;
-using System.Text.RegularExpressions;
-using System.Linq.Expressions;
-using System.Reflection.Emit;
-using System.CodeDom;
-using System.Dynamic;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace GameLibrary.Helpers
 {
@@ -30,7 +21,6 @@ namespace GameLibrary.Helpers
         //        public static void Execute(string code,
         //            object scope)
         //        {
-
         //            string dependencies = @"using System;
         //                            using System.Collections.Generic;
         //                            using System.Text;
@@ -87,7 +77,6 @@ namespace GameLibrary.Helpers
         //            CompilerParams.ReferencedAssemblies.Add(scope.GetType().Assembly.Location);
         //            CompilerResults compile = provider.CompileAssemblyFromSource(CompilerParams, prg.ToString());
 
-
         //            if (compile.Errors.HasErrors)
         //            {
         //Console.ForegroundColor = ConsoleColor.Red;
@@ -105,7 +94,7 @@ namespace GameLibrary.Helpers
         //            }
         //        }
 
-        #endregion
+        #endregion Compile
 
         private const string classTemplate = @"
 using System;
@@ -124,8 +113,6 @@ using System.Dynamic;
 using System.ComponentModel;
 using Microsoft.Xna.Framework;
 
-
-
             public static class ExTemplate
             {{
                 public static Action<object> GetRun(object scope){{
@@ -142,17 +129,16 @@ using Microsoft.Xna.Framework;
                 return;
             var expression = GetExpressionsFromAssembly(scope, assembly);
             expression(scope);
-
         }
 
-        static Action<object> GetExpressionsFromAssembly(object scope, Assembly assembly)
+        private static Action<object> GetExpressionsFromAssembly(object scope, Assembly assembly)
         {
             var type = assembly.GetType("ExTemplate");
             var method = type.GetMethod("GetRun");
             return (Action<object>)method.Invoke(null, new object[] { scope });
         }
 
-        static Assembly CompileAssembly(string source, object scope)
+        private static Assembly CompileAssembly(string source, object scope)
         {
             Dictionary<string, string> opts = new Dictionary<string, string>();
             opts["CompilerVersion"] = "v4.0"; // .NET target
@@ -189,6 +175,5 @@ using Microsoft.Xna.Framework;
                 return assembly;
             }
         }
-
     }
 }

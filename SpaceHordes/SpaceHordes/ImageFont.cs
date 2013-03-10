@@ -227,7 +227,7 @@ namespace SpaceHordes
 
             foreach (char c in ch)
             {
-                if (c != ' ')
+                if (c != ' ' && letters.ContainsKey(c))
                 {
                     toReturn.X += (letters[c].Width + charSpacing) * scale;
                 }

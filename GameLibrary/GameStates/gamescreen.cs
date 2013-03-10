@@ -306,6 +306,6 @@ namespace GameLibrary.GameStates
 
         public event EventHandler OnExit;
 
-        #endregion
+        #endregion Events
     }
 }

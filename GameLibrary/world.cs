@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Systems;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Helpers;
-using GameLibrary.Entities.Systems;
-using GameLibrary.Helpers.Debug;
 using SpaceHordes.Entities.Systems;
+using System;
 
 namespace GameLibrary
 {
@@ -19,6 +15,7 @@ namespace GameLibrary
     public abstract class World : EntityWorld
     {
         #region Constructors
+
         /// <summary>
         /// Constructs a world with a specified gravity.
         /// </summary>
@@ -40,7 +37,8 @@ namespace GameLibrary
             : this(Game, Vector2.Zero)
         {
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Initialization
 
@@ -63,8 +61,6 @@ namespace GameLibrary
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content);
 #endif
 
-
-
             //Builds templates in world.
 
             this.BuildTemplates(Content, args);
@@ -72,6 +68,7 @@ namespace GameLibrary
         }
 
         #region Building
+
         /// <summary>
         /// Builds all of the systems.
         /// </summary>
@@ -80,12 +77,10 @@ namespace GameLibrary
             //Default Systems
             _MovementSystem = this.SystemManager.SetSystem(new ParticleMovementSystem(), ExecutionType.Update);
 
-
             //Render System
             _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
             _AnimationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update);
             _SpriteEffectSystem = this.SystemManager.SetSystem(new SpriteEffectSystem(), ExecutionType.Update);
-
 
 #if DEBUG
             _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);
@@ -111,11 +106,12 @@ namespace GameLibrary
             Game.Exiting += this.OnExit;
         }
 
-        #endregion
+        #endregion Building
 
-        #endregion
+        #endregion Initialization
 
         #region Functioning Loop
+
         /// <summary>
         /// Updates the world
         /// </summary>
@@ -140,7 +136,8 @@ namespace GameLibrary
             //Render all of the systems (entities)
             this.SystemManager.UpdateSynchronous(ExecutionType.Draw);
         }
-        #endregion
+
+        #endregion Functioning Loop
 
         #region Properties
 
@@ -149,23 +146,25 @@ namespace GameLibrary
             get { return "GameLibrary"; }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Fields
 
         public Camera Camera;
         protected SpriteBatch SpriteBatch;
+
         //Systems
         protected RenderSystem _RenderSystem;
+
         protected AnimationSystem _AnimationSystem;
         protected ParticleMovementSystem _MovementSystem;
         protected DebugSystem _DebugSystem;
         protected SpriteEffectSystem _SpriteEffectSystem;
 
-
-        #endregion
+        #endregion Fields
 
         #region Events
+
         /// <summary>
         /// Called whe the world is exited.
         /// </summary>
@@ -177,13 +176,11 @@ namespace GameLibrary
             this._DebugSystem.Dispose();
 #endif
         }
-        #endregion
+
+        #endregion Events
 
         #region Helpers
 
-        
-
-
-        #endregion
+        #endregion Helpers
     }
 }

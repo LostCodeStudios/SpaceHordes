@@ -7,7 +7,7 @@ using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class HUDRenderSystem : EntityProcessingSystem
+    public class HUDRenderSystem : GroupSystem
     {
         private SpriteBatch _SpriteBatch;
         private ImageFont _Font;
@@ -31,7 +31,7 @@ namespace SpaceHordes.Entities.Systems
         #endregion Locations
 
         public HUDRenderSystem()
-            : base(typeof(Inventory))
+            : base("Players")
         {
             #region HUD Specifications
 

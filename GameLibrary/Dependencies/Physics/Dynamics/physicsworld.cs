@@ -23,6 +23,7 @@
 * 3. This notice may not be removed or altered from any source distribution.
 */
 
+using GameLibrary.Dependencies.Entities;
 using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Common;
 using GameLibrary.Dependencies.Physics.Controllers;
@@ -33,7 +34,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using GameLibrary.Dependencies.Entities;
 
 namespace GameLibrary.Dependencies.Physics.Dynamics
 {
@@ -620,7 +620,7 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
                             // You tried to remove a body that is not contained in the BodyList.
                             // Are you removing the body more than once?
                             if (!BodyList.Contains(body))
-                                break;  
+                                break;
 
                             // Delete the attached joints.
                             JointEdge je = body.JointList;
@@ -1463,7 +1463,6 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
 
             ProcessChanges();
         }
-
 
         public PhysicsBody[] GetBodiesInArea(Vector2 location, float radius)
         {

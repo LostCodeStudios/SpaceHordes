@@ -15,10 +15,10 @@ namespace SpaceHordes.Entities.Systems
 
         private static Random r = new Random();
 
-        private int elapsedMilli = 16;
+        private static int elapsedMilli = 16;
 
         public GunSystem()
-            : base(16, typeof(Inventory), typeof(ITransform))
+            : base(elapsedMilli, typeof(Inventory), typeof(ITransform))
         {
         }
 
@@ -38,7 +38,6 @@ namespace SpaceHordes.Entities.Systems
             //Process guns
             Inventory inv = invMapper.Get(e);
             Gun gun = inv.CurrentGun;
-
             ITransform transform = transformMapper.Get(e);
 
             gun.Elapsed += elapsedMilli;
@@ -75,6 +74,7 @@ namespace SpaceHordes.Entities.Systems
                 gun.Elapsed = 0;
                 gun.Ammunition--;
                 Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
+                gun.BulletVelocity = bullet.GetComponent<IVelocity>().LinearVelocity;
                 Bullet bb = bullet.GetComponent<Bullet>();
                 bb.Firer = e;
                 bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());

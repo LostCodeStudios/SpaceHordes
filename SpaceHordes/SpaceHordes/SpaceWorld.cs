@@ -11,7 +11,6 @@ using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
-using GameLibrary.Entities.Components.Physics;
 using System.Collections.Generic;
 
 namespace SpaceHordes
@@ -33,14 +32,6 @@ namespace SpaceHordes
         #region Content/Init
 
         /// <summary>
-        /// Initializes the spaceworld
-        /// </summary>
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        /// <summary>
         /// Loads the content of the Space World
         /// </summary>
         /// <param name="Content"></param>
@@ -55,7 +46,7 @@ namespace SpaceHordes
 #if DEBUG   //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
-                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
+                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<GameLibrary.Entities.Components.Physics.Body>()),
                  new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 
@@ -110,18 +101,111 @@ namespace SpaceHordes
         /// <param name="args"></param>
         protected override void BuildTemplates(ContentManager Content, params object[] args)
         {
-            this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
-            this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet)); //TEST
+            #region Enemies
+
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
+
+            #region Bosses
+
             this.SetEntityTemplate("Boss", new BossTemplate(_spriteSheet, this));
             this.SetEntityTemplate("SmasherBall", new SmasherBallTemplate(_spriteSheet, this));
 
-            #region Crystals
+            #endregion Bosses
 
+            #region Enemy Bullets
+
+            this.SetEntityTemplate("BBullet1", new BulletTemplate(
+                new Sprite(_spriteSheet, "blueshot1"),
+                new Velocity(new Vector2(5), 0f),
+                new Bullet(1, "Players", e => e.AddComponent<Slow>(new Slow(10, 1f, 5.0f, new Vector2(4), 0.0f))
+                    )));
+            this.SetEntityTemplate("BBullet2", new BulletTemplate(
+                new Sprite(_spriteSheet, "blueshot2"),
+                new Velocity(new Vector2(5), 0f),
+                new Bullet(2, "Players", e => e.AddComponent<Slow>(new Slow(20, 1f, 5.0f, new Vector2(4), 0.0f))
+                    )));
+            this.SetEntityTemplate("BBullet3", new BulletTemplate(
+                new Sprite(_spriteSheet, "blueshot3"),
+                new Velocity(new Vector2(5), 0f),
+                new Bullet(3, "Players", e => e.AddComponent<Slow>(new Slow(30, 1f, 5.0f, new Vector2(4), 0.0f))
+                    )));
+
+            this.SetEntityTemplate("GBullet1", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot1"),
+                new Velocity(new Vector2(6), 0f),
+                new Bullet(2, "Players", null
+                    )));
+
+            this.SetEntityTemplate("GBullet2", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot2"),
+                new Velocity(new Vector2(6), 0f),
+                new Bullet(4, "Players", null
+                    )));
+
+            this.SetEntityTemplate("GBullet3", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot3"),
+                new Velocity(new Vector2(6), 0f),
+                new Bullet(6, "Players", null
+                    )));
+
+            this.SetEntityTemplate("RBullet1", new BulletTemplate(
+                new Sprite(_spriteSheet, "redshot1"),
+                new Velocity(new Vector2(6), 0f),
+                new Bullet(4, "Players", null
+                    )));
+
+            this.SetEntityTemplate("RBullet2", new BulletTemplate(
+                new Sprite(_spriteSheet, "redshot2"),
+                new Velocity(new Vector2(6), 0f),
+                new Bullet(8, "Players", null
+                    )));
+
+            this.SetEntityTemplate("RBullet3", new BulletTemplate(
+                new Sprite(_spriteSheet, "redshot3"),
+                new Velocity(new Vector2(6), 0f),
+                new Bullet(12, "Players", null
+                    )));
+
+            this.SetEntityTemplate("WBullet1", new BulletTemplate(
+                new Sprite(_spriteSheet, "whiteshot1"),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(1, "Players", null
+                    )));
+
+            this.SetEntityTemplate("WBullet2", new BulletTemplate(
+                new Sprite(_spriteSheet, "whiteshot2"),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(2, "Players", null
+                    )));
+
+            this.SetEntityTemplate("WBullet3", new BulletTemplate(
+                new Sprite(_spriteSheet, "whiteshot3"),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(3, "Players", null
+                    )));
+
+            #endregion Enemy Bullets
+
+            #endregion Enemies
+
+            #region Objects/Events
+
+            this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet));
+            this.SetEntityTemplate("Turret", new TurretTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
 
-            #endregion Crystals
+            this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
+            this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
+
+            this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
+            this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
+
+            #endregion Objects/Events
+
+            #region Player
+
+            this.SetEntityTemplate("Player", new PlayerTemplate(this, _spriteSheet));
 
             #region Player Bullets
 
@@ -273,85 +357,8 @@ namespace SpaceHordes
 
             #endregion Player Bullets
 
-            #region Enemy Bullets
+            #endregion Player
 
-            this.SetEntityTemplate("BBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "blueshot1"),
-                new Velocity(new Vector2(5), 0f),
-                new Bullet(1, "Players", e => e.AddComponent<Slow>(new Slow(10, 1f, 5.0f, new Vector2(4), 0.0f))
-                    )));
-            this.SetEntityTemplate("BBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "blueshot2"),
-                new Velocity(new Vector2(5), 0f),
-                new Bullet(2, "Players", e => e.AddComponent<Slow>(new Slow(20, 1f, 5.0f, new Vector2(4), 0.0f))
-                    )));
-            this.SetEntityTemplate("BBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "blueshot3"),
-                new Velocity(new Vector2(5), 0f),
-                new Bullet(3, "Players", e => e.AddComponent<Slow>(new Slow(30, 1f, 5.0f, new Vector2(4), 0.0f))
-                    )));
-
-            this.SetEntityTemplate("GBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot1"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(2, "Players", null
-                    )));
-
-            this.SetEntityTemplate("GBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot2"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(4, "Players", null
-                    )));
-
-            this.SetEntityTemplate("GBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot3"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(6, "Players", null
-                    )));
-
-            this.SetEntityTemplate("RBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "redshot1"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(4, "Players", null
-                    )));
-
-            this.SetEntityTemplate("RBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "redshot2"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(8, "Players", null
-                    )));
-
-            this.SetEntityTemplate("RBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "redshot3"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(12, "Players", null
-                    )));
-
-            this.SetEntityTemplate("WBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "whiteshot1"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(1, "Players", null
-                    )));
-
-            this.SetEntityTemplate("WBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "whiteshot2"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(2, "Players", null
-                    )));
-
-            this.SetEntityTemplate("WBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "whiteshot3"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(3, "Players", null
-                    )));
-
-            #endregion Enemy Bullets
-
-            this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
-            this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
-            this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
-
-            this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }
 
@@ -386,6 +393,7 @@ namespace SpaceHordes
             Base.Refresh();
             enemySpawnSystem.LoadContent(Base);
 #if DEBUG
+            this.CreateEntity("Turret", new Vector2(100)).Refresh();
 
             //Camera.TrackingBody = Player.GetComponent<Body>();
 #endif

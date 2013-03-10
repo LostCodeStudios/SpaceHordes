@@ -25,11 +25,8 @@ namespace GameLibrary.Dependencies.Entities
 
         protected override void ProcessEntities(Dictionary<int, Entity> entities)
         {
-            for (int i = 0, s = entities.Count; i < s; i++)
-            {
-                if (entities.ContainsKey(i))
-                    Process(entities[i]);
-            }
+            foreach (Entity e in entities.Values)
+                Process(e);
         }
     }
 }

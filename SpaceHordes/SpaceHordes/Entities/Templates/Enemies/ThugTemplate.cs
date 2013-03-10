@@ -85,8 +85,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos *= ScreenHelper.Viewport.Width;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
+            bool rotateTo = true;
             if (spriteKey.Contains("swastika"))
+            {
                 e.GetComponent<Body>().AngularVelocity = (float)Math.PI * 4;
+                rotateTo = false;
+            }
 
             #endregion Body
 
@@ -128,7 +132,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region AI/Health
 
-            e.AddComponent<AI>(new AI((args[1] as Body)));
+            e.AddComponent<AI>(new AI((args[1] as Body),
+                AI.CreateFollow(3, rotateTo)));
 
             e.AddComponent<Health>(new Health(5)).OnDeath +=
                 ent =>
