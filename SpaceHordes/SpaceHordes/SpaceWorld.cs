@@ -11,6 +11,7 @@ using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
+using System.Collections.Generic;
 
 namespace SpaceHordes
 {
@@ -53,7 +54,7 @@ namespace SpaceHordes
 #if DEBUG   //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
-                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<Body>()),
+                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<GameLibrary.Entities.Components.Physics.Body>()),
                  new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 
@@ -85,6 +86,7 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
             scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
+
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 3);
