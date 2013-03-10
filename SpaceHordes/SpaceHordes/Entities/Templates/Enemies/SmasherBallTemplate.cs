@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Helpers;
-using GameLibrary.Entities.Components.Physics;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Dependencies.Physics.Factories;
 using GameLibrary.Entities.Components;
-using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
-using SpaceHordes.Entities.Systems;
+using SpaceHordes.Entities.Components;
+using System;
+using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -26,14 +23,13 @@ namespace SpaceHordes.Entities.Templates.Enemies
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="e"></param>
         /// <param name="args">args[0] = Entity smasher, args[1] = Smasher loc</param>
         /// <returns></returns>
         public Entity BuildEntity(Entity e, params object[] args)
         {
-
             string spriteKey = "smasherball";
 
             #region Body
@@ -88,7 +84,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     SoundManager.Play("Explosion" + splodeSound.ToString());
                 };
 
-            #endregion AI/Health
+            #endregion Health
 
             e.AddComponent<Origin>(new Origin(smasher));
             e.Tag = "SmasherBall";

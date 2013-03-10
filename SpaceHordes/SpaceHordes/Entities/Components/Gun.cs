@@ -85,7 +85,9 @@ namespace SpaceHordes.Entities.Components
             set
             { power = (int)MathHelper.Clamp((float)value, 0f, 3f); }
         }
-        int power;
+
+        private int power;
+
         public int PowerUpTime
         {
             get;

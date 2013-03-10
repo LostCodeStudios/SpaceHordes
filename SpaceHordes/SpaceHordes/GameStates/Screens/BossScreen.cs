@@ -127,7 +127,6 @@ namespace SpaceHordes.GameStates.Screens
         }
 #endif
 
-
         #region Initialization
 
         public BossScreen(SpriteSheet sheet)
@@ -232,6 +231,7 @@ namespace SpaceHordes.GameStates.Screens
             destination = new Rectangle((int)spriteLoc.X, (int)spriteLoc.Y, (int)(source.Width * scale), (int)(source.Height * scale));
 
             #region Special Cases
+
             Rectangle[] extraSource = new Rectangle[10];
             Rectangle[] extra = new Rectangle[10];
             if (currentKey.Equals("smasher"))
@@ -292,7 +292,8 @@ namespace SpaceHordes.GameStates.Screens
                     }
                 }
             }
-            #endregion
+
+            #endregion Special Cases
 
             destination.X += (int)(transitionOffset * ScreenHelper.Viewport.Width);
             spriteBatch.Draw(spriteSheet.Texture, destination, source, color);
@@ -372,7 +373,7 @@ namespace SpaceHordes.GameStates.Screens
         public static bool[] ReadData()
         {
             List<bool> data = new List<bool>();
-            
+
 #if WINDOWS
             if (File.Exists(FilePath))
             {
@@ -381,7 +382,7 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
             StorageContainer c = Container;
             if (File.Exists(FilePath(c))
-            {  
+            {
                 using (StreamReader reader = new StreamReader(FilePath(c)))
 #endif
                 {
@@ -479,7 +480,7 @@ namespace SpaceHordes.GameStates.Screens
         }
 
         public static void BossKilled(string bossName)
-        { 
+        {
             int index = 0;
 
             for (index = 0; index < ClearedBosses.Count(); index++)

@@ -37,9 +37,11 @@ namespace SpaceHordes.GameStates.Screens
 
             //Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
-//#if XBOX
+
+            //#if XBOX
             playMultiplayerMenuEntry.Selected += PlayMultiplayerMenuEntrySelected;
-//#endif
+
+            //#endif
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
@@ -77,7 +79,8 @@ namespace SpaceHordes.GameStates.Screens
             ScreenManager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
         }
 
-        static BackgroundScreen bossBackdrop;
+        private static BackgroundScreen bossBackdrop;
+
         private void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);

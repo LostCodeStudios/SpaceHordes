@@ -75,8 +75,6 @@ namespace SpaceHordes
             //graphics.PreferredBackBufferWidth = 1920; //I have to be able to run in release mode from my home computer. So yeah.
             //graphics.PreferredBackBufferHeight = 1080;
 
-
-
             IsFixedTimeStep = true;
 
             Components.Add(new GamerServicesComponent(this));
@@ -829,6 +827,6 @@ namespace SpaceHordes
             BossScreen.ClearedBosses = BossScreen.ReadData();
         }
 
-        #endregion
+        #endregion Helpers
     }
-}  
+}

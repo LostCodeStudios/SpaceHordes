@@ -57,7 +57,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
             Sprite s = new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f);
             if (spriteKey.Contains("swastika"))
-                s.Origin = new Vector2(s.CurrentRectangle.Width/2, s.CurrentRectangle.Height/2);
+                s.Origin = new Vector2(s.CurrentRectangle.Width / 2, s.CurrentRectangle.Height / 2);
             e.AddComponent<Sprite>(s);
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;

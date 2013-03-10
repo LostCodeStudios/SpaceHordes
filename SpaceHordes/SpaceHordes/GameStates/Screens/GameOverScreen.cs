@@ -85,9 +85,9 @@ namespace SpaceHordes.GameStates.Screens
 
             titleFont = ScreenManager.TitleFont;
             textFont = ScreenManager.Font;
-            
+
             subtitleLocation = new Vector2(
-                viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y/2);
+                viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y / 2);
 
             screenLocations[0] = new Vector2(
                 viewport.Left + viewport.Width / 3, viewport.Top + viewport.Height / 3);

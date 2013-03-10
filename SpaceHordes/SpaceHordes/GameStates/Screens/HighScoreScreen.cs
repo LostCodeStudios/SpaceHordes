@@ -526,11 +526,11 @@ namespace SpaceHordes.GameStates.Screens
 
             string[] tags = new string[4];
 
-            #if WINDOWS
+#if WINDOWS
             if (File.Exists(FilePath))
             {
                 using (TextReader tr = new StreamReader(FilePath))
-            #endif
+#endif
 #if XBOX
             StorageContainer c = Container;
             if (File.Exists(FilePath(c)))

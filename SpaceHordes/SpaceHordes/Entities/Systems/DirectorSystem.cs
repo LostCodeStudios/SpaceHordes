@@ -1,34 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Systems
 {
     public class DirectorSystem : IntervalEntitySystem
     {
-        Random r = new Random();
+        private Random r = new Random();
 
-        Entity Base;
+        private Entity Base;
 
-        int difficulty = 0;
+        private int difficulty = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
-        float elapsedSeconds;
-        float elapsedMinutes;
+        private float elapsedSeconds;
 
-        int playerDeaths = 0;
-        int baseDamage = 0;
+        private float elapsedMinutes;
 
-        int mooksToSpawn = 0;
-        int thugsToSpawn = 0;
-        int gunnersToSpawn = 0;
-        int huntersToSpawn = 0;
-        int destroyersToSpawn = 0;
+        private int playerDeaths = 0;
+        private int baseDamage = 0;
+
+        private int mooksToSpawn = 0;
+        private int thugsToSpawn = 0;
+        private int gunnersToSpawn = 0;
+        private int huntersToSpawn = 0;
+        private int destroyersToSpawn = 0;
 
         public static int MookSpawnRate = 0;
         public static int ThugSpawnRate = 0;
@@ -43,7 +42,7 @@ namespace SpaceHordes.Entities.Systems
         public static string DestroyerTemplate = "Destroyer";
         public static string BossTemplate = "Boss";
 
-        int timesCalled = 0;
+        private int timesCalled = 0;
 
         public DirectorSystem()
             : base(333)
@@ -63,7 +62,7 @@ namespace SpaceHordes.Entities.Systems
 
             timesCalled++;
             elapsedSeconds += .25f;
-            elapsedMinutes += .25f/60f;
+            elapsedMinutes += .25f / 60f;
 
             difficulty = (int)(elapsedMinutes - (playerDeaths / 2 + baseDamage));
 
@@ -74,7 +73,7 @@ namespace SpaceHordes.Entities.Systems
             if (elapsedSeconds % 1 == 0)
                 ScoreSystem.GivePoints(10 * difficulty);
 
-            #endregion
+            #endregion Scoring
 
             #region Spawning
 
@@ -126,7 +125,7 @@ namespace SpaceHordes.Entities.Systems
                 World.CreateEntity(BossTemplate, tier).Refresh();
             }
 
-            #endregion
+            #endregion Spawning
         }
 
         public static float ClampInverse(float value, float min, float max)

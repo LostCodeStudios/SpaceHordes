@@ -12,7 +12,7 @@ namespace SpaceHordes.Entities.Systems
     {
         private ComponentMapper<Body> bodyMapper;
         private float _Velocity;
-        private bool[] WasMoving = new bool[4] {false,false,false,false};
+        private bool[] WasMoving = new bool[4] { false, false, false, false };
 
         private KeyboardState keyState;
         private KeyboardState lastKeyState;
@@ -54,7 +54,6 @@ namespace SpaceHordes.Entities.Systems
             Gun g = inv.CurrentGun;
 
             Vector2 target = Vector2.Zero;
-
 
             #region Gamepad
 
@@ -204,7 +203,6 @@ namespace SpaceHordes.Entities.Systems
 
             #endregion Keyboard
 
-            
             if (WasMoving[playerIndex]) //Stops movement
             {
                 b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);

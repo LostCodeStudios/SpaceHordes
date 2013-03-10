@@ -1,8 +1,6 @@
 ﻿using GameLibrary.GameStates.Screens;
-using GameLibrary.Helpers;
 using System;
 using System.IO;
-using Microsoft.Xna.Framework.Storage;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -26,7 +24,7 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Fields
 
-        #if XBOX
+#if XBOX
         public StorageContainer Container
         {
             get
@@ -42,7 +40,7 @@ namespace SpaceHordes.GameStates.Screens
                 return Path.Combine(which.Path, "settings.txt";
             }
         }
-        #endif
+#endif
 
         #region Static Properties
 
@@ -299,7 +297,7 @@ namespace SpaceHordes.GameStates.Screens
 
 #if XBOX
             StorageContainer c = Container;
-            
+
             if (!File.Exists(FilePath(c)))
                 WriteInitialSettings();
 
@@ -404,6 +402,6 @@ namespace SpaceHordes.GameStates.Screens
             WriteSettings(10, 10, true);
         }
 
-        #endregion
+        #endregion Static Methods
     }
 }

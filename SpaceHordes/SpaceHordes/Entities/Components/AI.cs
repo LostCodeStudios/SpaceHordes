@@ -27,7 +27,7 @@ namespace SpaceHordes.Entities.Components
         private Targeting targeting;
 
         public event Action TargetChangedEvent;
-        
+
         public Body Target
         {
             get { return target; }

@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using SpaceHordes.Entities.Components;
 using System;
 using System.Collections.Generic;
@@ -19,26 +18,26 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Fields
 
-        ContentManager content;
-        ImageFont gameFont;
-        SpriteBatch spriteBatch;
-        string fontName;
+        private ContentManager content;
+        private ImageFont gameFont;
+        private SpriteBatch spriteBatch;
+        private string fontName;
 
-        float pauseAlpha;
-        InputAction pauseAction;
-        bool multiplayer;
+        private float pauseAlpha;
+        private InputAction pauseAction;
+        private bool multiplayer;
 
-        Vector2 mouseLoc;
+        private Vector2 mouseLoc;
 
-        long score = 0;
-        Vector2 scoreLocation;
-        float scoreScale;
+        private long score = 0;
+        private Vector2 scoreLocation;
+        private float scoreScale;
 
-        SpaceWorld World;
+        private SpaceWorld World;
 
-        bool over;
-        TimeSpan elapsed = TimeSpan.Zero;
-        TimeSpan beforeGameOver = TimeSpan.FromSeconds(1);
+        private bool over;
+        private TimeSpan elapsed = TimeSpan.Zero;
+        private TimeSpan beforeGameOver = TimeSpan.FromSeconds(1);
 
         #endregion Fields
 
@@ -51,7 +50,6 @@ namespace SpaceHordes.GameStates.Screens
         {
             get { return content; }
         }
-
 
         #endregion Properties
 
@@ -101,7 +99,7 @@ namespace SpaceHordes.GameStates.Screens
                     if (ScreenManager.Input.GamePadWasConnected[x])
                     {
                         players.Add((PlayerIndex)x);
-                    }                        
+                    }
                 }
             }
 
@@ -249,7 +247,6 @@ namespace SpaceHordes.GameStates.Screens
             ExitScreen();
             MusicManager.Stop();
         }
-
 
         private void EndGame()
         {

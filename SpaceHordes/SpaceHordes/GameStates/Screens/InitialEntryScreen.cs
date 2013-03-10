@@ -327,6 +327,6 @@ namespace SpaceHordes.GameStates.Screens
             writer.Close();
         }
 
-        #endregion
+        #endregion Static Methods
     }
 }

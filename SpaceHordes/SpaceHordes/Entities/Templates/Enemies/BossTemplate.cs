@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using GameLibrary.Helpers;
-using GameLibrary.Entities.Components.Physics;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Dependencies.Physics.Factories;
 using GameLibrary.Entities.Components;
-using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
+using SpaceHordes.Entities.Components;
 using SpaceHordes.Entities.Systems;
 using SpaceHordes.GameStates.Screens;
+using System;
+using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -112,7 +110,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
             if (spriteKey == "massivebluemissile")
                 bitch.Rotation = MathHelper.ToRadians(90);
 
-
             #endregion Body
 
             #region Animation
@@ -168,34 +165,36 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     points = 100;
                     health = 100;
                     break;
+
                 case 2:
                     points = 500;
                     health = 500;
                     break;
+
                 case 3:
                     points = 1000;
                     health = 1000;
                     break;
             }
 
-             e.AddComponent<Health>(new Health(health)).OnDeath +=
-                ent =>
-                {
-                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 50, ent);
+            e.AddComponent<Health>(new Health(health)).OnDeath +=
+               ent =>
+               {
+                   Vector2 poss = e.GetComponent<ITransform>().Position;
+                   _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 50, ent);
 
-                    int splodeSound = rbitch.Next(1, 5);
-                    SoundManager.Play("Explosion" + splodeSound.ToString());
+                   int splodeSound = rbitch.Next(1, 5);
+                   SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                    if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
-                        _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                   if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
+                       _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
 
-                    if (ent.Tag != "Base")
-                    {
-                        ScoreSystem.GivePoints(points);
-                        BossScreen.BossKilled(bosses[type].BossName);
-                    }
-                };
+                   if (ent.Tag != "Base")
+                   {
+                       ScoreSystem.GivePoints(points);
+                       BossScreen.BossKilled(bosses[type].BossName);
+                   }
+               };
 
             #endregion AI/Health
 
@@ -209,8 +208,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 _World.CreateEntity("SmasherBall", e).Refresh();
             }
 
-            #endregion
-
+            #endregion Special Cases
 
             return e;
         }

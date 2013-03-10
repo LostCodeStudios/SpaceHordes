@@ -1,9 +1,9 @@
 ﻿using GameLibrary.GameStates;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {

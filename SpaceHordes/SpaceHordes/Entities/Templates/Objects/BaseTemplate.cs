@@ -6,7 +6,6 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using SpaceHordes.Entities.Systems;
 
 namespace SpaceHordes.Entities.Templates
 {

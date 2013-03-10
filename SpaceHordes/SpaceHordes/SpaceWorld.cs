@@ -1,7 +1,7 @@
 ﻿using GameLibrary;
 using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Entities.Components.Render;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -11,8 +11,6 @@ using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
-using System.Collections.Generic;
-using GameLibrary.Entities.Components.Render;
 
 namespace SpaceHordes
 {
@@ -128,7 +126,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("BlueBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(1, "Enemies", e => 
+                new Bullet(1, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(500, 1f, 5.0f, new Vector2(4), 0.0f));
                         Sprite s = e.GetComponent<Sprite>();
@@ -158,14 +156,14 @@ namespace SpaceHordes
                         {
                             e.GetComponent<SpriteEffect>().AddEffect(s, 1000);
                         }
-                        
+
                         e.Refresh();
                     }
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3"),
                 new Velocity(new Vector2(15), 0f),
-                new Bullet(3, "Enemies", e => 
+                new Bullet(3, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(1500, 1f, 5.0f, new Vector2(4), 0.0f));
                         Sprite s = e.GetComponent<Sprite>();
@@ -303,7 +301,7 @@ namespace SpaceHordes
                 new Bullet(4, "Players", null
                     )));
 
-            this.SetEntityTemplate("GBullet3", new BulletTemplate( 
+            this.SetEntityTemplate("GBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot3"),
                 new Velocity(new Vector2(6), 0f),
                 new Bullet(6, "Players", null
@@ -350,7 +348,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
             this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
-            
+
             this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
             base.BuildTemplates(Content, args);
         }

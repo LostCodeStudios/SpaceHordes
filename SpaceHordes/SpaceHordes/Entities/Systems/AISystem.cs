@@ -1,9 +1,9 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using GameLibrary.Dependencies.Physics.Dynamics;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -20,6 +20,7 @@ namespace SpaceHordes.Entities.Systems
                 () =>
                 {
                     AI a = e.GetComponent<AI>();
+
                     //if (a.Target == null)
                     //    return;
                     ITransform b = e.GetComponent<ITransform>();
@@ -31,7 +32,6 @@ namespace SpaceHordes.Entities.Systems
 
                         if (e.Tag == "Boss")
                             speed = 1f;
-
 
                         Velocity.Normalize();
                         Velocity *= speed;
@@ -79,8 +79,8 @@ namespace SpaceHordes.Entities.Systems
                 else
                 {
                     e.Delete();
+
                     //ai.Target = ClosestTarget(e);
-                    
                 }
             }
             e.RemoveComponent<AI>(e.GetComponent<AI>());
