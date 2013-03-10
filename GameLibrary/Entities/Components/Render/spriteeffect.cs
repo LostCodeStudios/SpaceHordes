@@ -1,6 +1,5 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using System.Collections.Generic;
-using System;
 
 namespace GameLibrary.Entities.Components.Render
 {
@@ -27,7 +26,7 @@ namespace GameLibrary.Entities.Components.Render
 
         public Sprite TopEffect
         {
-            get 
+            get
             {
                 if (EffectSprites.ContainsKey(Sprites.Peek()))
                     return Sprites.Peek();

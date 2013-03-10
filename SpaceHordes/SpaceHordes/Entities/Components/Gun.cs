@@ -94,6 +94,8 @@ namespace SpaceHordes.Entities.Components
             set;
         }
 
+        public Vector2 BulletVelocity = Vector2.One;
+
         #endregion Properties
 
         #region Fields

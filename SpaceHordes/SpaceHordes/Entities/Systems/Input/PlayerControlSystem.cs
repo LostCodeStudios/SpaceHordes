@@ -187,6 +187,14 @@ namespace SpaceHordes.Entities.Systems
                 {
                     inv.BuildMode = !inv.BuildMode;
                 }
+                if (inv.BuildMode)
+                {
+                    if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
+                    {
+                        world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                        inv.YELLOW -= 1;
+                    }
+                }
 
                 #endregion Building
 

@@ -144,9 +144,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<AI>(new AI((args[1] as Body),
                 AI.CreateFollow(5)));
 
-
-
-
             e.AddComponent<Health>(new Health(1)).OnDeath +=
                 ent =>
                 {

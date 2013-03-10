@@ -1,10 +1,12 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Dependencies.Physics.Collision;
 using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -15,51 +17,73 @@ namespace SpaceHordes.Entities.Systems
         {
         }
 
-        public override void Added(Entity e)
-        {
-            //e.GetComponent<AI>().TargetChangedEvent +=
-            //    () =>
-            //    {
-            //        AI a = e.GetComponent<AI>();
-
-            //        //if (a.Target == null)
-            //        //    return;
-            //        ITransform b = e.GetComponent<ITransform>();
-            //        IVelocity v = e.GetComponent<IVelocity>();
-            //        Vector2 Velocity = (a.Target.Position - b.Position);
-            //        if (Velocity != Vector2.Zero)
-            //        {
-            //            float speed = 5f;
-
-            //            if (e.Tag == "Boss")
-            //                speed = 1f;
-
-            //            Velocity.Normalize();
-            //            Velocity *= speed;
-            //            v.LinearVelocity = Velocity;
-            //            if (e.Tag != "Boss")
-            //                b.RotateTo(Velocity);
-            //        }
-            //    };
-
-            base.Added(e);
-        }
-
         public override void Process(Entity e)
         {
             AI ai = e.GetComponent<AI>();
-            if(ai.Target != null)
-                if (ai.Behavior(e, ai.Target)) //Run ai behavior, if behavior returns true look for new target.
-                {
-                    ai.Target = _FindNewTarget(ai, e.GetComponent<Body>().Position);
-                    e.Refresh();
-                }
+            if (ai.Target != null)
+            {
+                if (World.EntityManager.GetEntity((ai.Target.UserData as Entity).Id) == null)
+                    ai.Target = null;
+                else if (!ai.Behavior(e, ai.Target)) //Run ai behavior, if behavior returns true look for new target.
+                    return;
+            }
+
+            ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
+            e.Refresh();
         }
 
-
-        private Body _FindNewTarget(AI ai, Vector2 location)
+        /// <summary>
+        /// Finds a new target for AI component
+        /// </summary>
+        /// <param name="ai"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        private Body _FindNewTarget(AI ai, Body location)
         {
-            throw new NotImplementedException();
+            //find all fixtures in world around the location.
+            AABB aabb = new AABB(location.Position, ai.SearchRadius, ai.SearchRadius);
+            HashSet<PhysicsBody> bodies = new HashSet<PhysicsBody>();
+            world.QueryAABB(x =>
+            {
+                if (x.Body.BodyId != location.BodyId)
+                {
+                    if ((ai.TargetGroup == "" || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group, StringComparison.OrdinalIgnoreCase)))
+                        bodies.Add(x.Body);
+                }
+                return true;
+            }, ref aabb);
+
+            if (bodies.Count > 0) //IF BODIES IN SEARCH RADIUS.
+            {
+                PhysicsBody[] list = new PhysicsBody[bodies.Count];
+                bodies.CopyTo(list);
+
+                //SORT BY TARGETING TYPE.
+                switch (ai.Targeting)
+                {
+                    case Targeting.Closest:
+                        return ClosestEntity(location.Position, list).GetComponent<Body>();
+                        break;
+
+                    case Targeting.Strongest:
+                        return StrongestEntity(list).GetComponent<Body>();
+                        break;
+
+                    case Targeting.Weakest:
+                        return WeakestEntity(list).GetComponent<Body>();
+                        break;
+
+                    case Targeting.None:
+                        return null;
+                        break;
+
+                    default:
+                        return null;
+                        break;
+                }
+            }
+            else
+                return null;
         }
 
         public Entity StrongestEntity(PhysicsBody[] list)
@@ -102,12 +126,14 @@ namespace SpaceHordes.Entities.Systems
             return weakest;
         }
 
-        public Body ClosestTarget(Entity e)
+        public Entity ClosestEntity(Vector2 location, PhysicsBody[] list)
         {
-            AI a = e.GetComponent<AI>();
-            PhysicsBody pb = world.GetClosestBody(e.GetComponent<ITransform>().Position, a.TargetGroup);
-            Body b = new Body(world, pb.UserData as Entity);
-            return b;
+            PhysicsBody closest = list[0];
+            foreach (PhysicsBody pb in list)
+                if (Vector2.Distance(location, pb.Position) < Vector2.Distance(location, closest.Position))
+                    closest = pb;
+
+            return closest.UserData as Entity;
         }
     }
 }

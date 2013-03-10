@@ -1,12 +1,10 @@
-﻿using GameLibrary.Input;
+﻿using GameLibrary.Helpers;
+using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
-
-using GameLibrary.Input;
-using GameLibrary.Helpers;
 
 namespace GameLibrary.GameStates.Screens
 {

@@ -150,7 +150,12 @@ namespace GameLibrary.Entities.Components
         /// </summary>
         public int FrameIndex
         {
-            get { return _Index; }
+            get
+            {
+                if (_Index < 0)
+                    _Index = 0;
+                return _Index;
+            }
             set
             {
                 if (_Index < 0)

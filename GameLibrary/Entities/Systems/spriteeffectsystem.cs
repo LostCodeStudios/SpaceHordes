@@ -51,14 +51,14 @@ namespace GameLibrary.Entities.Systems
             lock (e)
             {
                 se.Elapsed++;
-                
+
                 foreach (Sprite ss in se.EffectSprites.Keys)
                 {
                     if (se.Elapsed - se.startingTick[ss] >= se.EffectSprites[ss])
                     {
                         toRemove.Add(ss);
                     }
-                }             
+                }
             }
 
             foreach (Sprite ss in toRemove)
@@ -74,7 +74,7 @@ namespace GameLibrary.Entities.Systems
                     e.AddComponent<Sprite>(se.OldSprite);
                 }
                 e.Refresh();
-            }                
+            }
         }
     }
-} 
+}

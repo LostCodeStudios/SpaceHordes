@@ -45,7 +45,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             Body b = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),
-                (crystal, target)=>
+                (crystal, target) =>
                 {
                     if ((target.UserData as Entity).DeletingState != true)
                     {

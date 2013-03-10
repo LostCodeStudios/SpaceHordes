@@ -7,7 +7,7 @@ namespace SpaceHordes.Entities.Components
 {
     public enum Targeting
     {
-        Constant,
+        None,
         Closest,
         Strongest,
         Weakest
@@ -18,7 +18,7 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class AI : Component
     {
-        public AI(Body target, Func<Entity, Body, bool> behavior, string targetGroup = "", float searchRadius =10f)
+        public AI(Body target, Func<Entity, Body, bool> behavior, string targetGroup = "", float searchRadius = 200f)
         {
             this.Target = target;
             this.TargetGroup = targetGroup;
@@ -55,7 +55,7 @@ namespace SpaceHordes.Entities.Components
             set;
         }
 
-        #endregion
+        #endregion Properties
 
         #region Fields
 
@@ -63,13 +63,14 @@ namespace SpaceHordes.Entities.Components
         /// The target which the AI component will process.
         /// </summary>
         public Body Target;
+
         /// <summary>
         /// Specifies the behavior of the AI component.
         /// Returns true if the AI system is to search for a new target for this specific AI component.
         /// </summary>
         public Func<Entity, Body, bool> Behavior;
 
-        #endregion
+        #endregion Fields
 
         #region Behaviors
 
@@ -92,17 +93,15 @@ namespace SpaceHordes.Entities.Components
                     if (target != null && target.LinearVelocity != distance && !ent.HasComponent<Slow>())
                     {
                         b.LinearVelocity = distance;
-                        if(rotateTo)
+                        if (rotateTo)
                             b.RotateTo(distance);
                     }
                     return false;
                 };
         }
 
-
-        #endregion
+        #endregion Behaviors
     }
-
 
     ////TODO: DEPRICATE
     //public class AI : Component
