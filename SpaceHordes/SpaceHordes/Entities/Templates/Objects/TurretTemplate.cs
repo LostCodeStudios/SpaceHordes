@@ -28,7 +28,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 FixtureFactory.AttachEllipse(//Add a basic bounding box (rectangle status)
                     ConvertUnits.ToSimUnits(_SpriteSheet.Animations["miniturret"][0].Width / 2f),
                     ConvertUnits.ToSimUnits(_SpriteSheet.Animations["miniturret"][0].Height / 2f),
-                    20,
+                    5,
                     1,
                     Body);
                 Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0]);
@@ -94,7 +94,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
+                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 1).Refresh();
 
                     int splodeSound = 1;
                     SoundManager.Play("Explosion" + splodeSound.ToString());

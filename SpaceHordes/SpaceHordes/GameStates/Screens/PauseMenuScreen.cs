@@ -21,14 +21,17 @@ namespace SpaceHordes.GameStates.Screens
         {
             //Create our menu entries.
             MenuEntry resumeGameMenuEntry = new MenuEntry("Resume Game");
+            MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
 
             //Hook up menu eventhandlers.
             resumeGameMenuEntry.Selected += OnCancel;
+            optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
 
             //Add entries to the menu.
             MenuEntries.Add(resumeGameMenuEntry);
+            MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
         }
 
@@ -46,6 +49,14 @@ namespace SpaceHordes.GameStates.Screens
 
             ScreenManager.AddScreen(background, ControllingPlayer);
             ScreenManager.AddScreen(mainMenu, ControllingPlayer);
+        }
+
+        /// <summary>
+        /// Event handler for when the Options menu entry is selected.
+        /// </summary>
+        private void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
         }
 
         protected override void OnCancel(PlayerIndex playerIndex)

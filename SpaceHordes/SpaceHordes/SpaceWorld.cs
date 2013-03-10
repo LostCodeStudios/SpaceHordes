@@ -78,6 +78,7 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
             scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
+            SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
@@ -193,6 +194,8 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet));
             this.SetEntityTemplate("Turret", new TurretTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Barrier", new BarrierTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Mine", new MineTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));

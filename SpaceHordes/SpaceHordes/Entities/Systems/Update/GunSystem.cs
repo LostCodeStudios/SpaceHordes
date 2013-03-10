@@ -82,7 +82,10 @@ namespace SpaceHordes.Entities.Systems
                 bullet.Refresh();
 
                 int shot = r.Next(1, 3);
-                SoundManager.Play("Shot" + shot.ToString());
+                if (e.Group == "Structures")
+                    SoundManager.Play("Shot" + shot.ToString(), .25f);
+                else
+                    SoundManager.Play("Shot" + shot.ToString());
             }
         }
     }

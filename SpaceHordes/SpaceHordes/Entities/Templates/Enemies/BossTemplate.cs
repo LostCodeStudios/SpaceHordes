@@ -62,20 +62,20 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Sprite
 
             string spriteKey = "";
-            int type = 2;
+            int type = 0;
 
-            //switch (tier)
-            //{
-            //    case 1:
-            //        type = rbitch.Next(0, 4);
-            //        break;
-            //    case 2:
-            //        type = rbitch.Next(5, 8);
-            //        break;
-            //    case 3:
-            //        type = rbitch.Next(8, 13);
-            //        break;
-            //}
+            switch (tier)
+            {
+                case 1:
+                    type = rbitch.Next(0, 4);
+                    break;
+                case 2:
+                    type = rbitch.Next(5, 8);
+                    break;
+                case 3:
+                    type = rbitch.Next(8, 13);
+                    break;
+            }
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite

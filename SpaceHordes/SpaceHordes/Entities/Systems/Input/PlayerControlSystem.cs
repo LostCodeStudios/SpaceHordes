@@ -22,6 +22,10 @@ namespace SpaceHordes.Entities.Systems
 
         private MouseState mouseState;
 
+        public static uint TurretPrice = 50;
+        public static uint BarrierPrice = 10;
+        public static uint MinePrice = 25;
+
         public PlayerControlSystem(float velocity)
             : base("Players")
         {
@@ -108,6 +112,36 @@ namespace SpaceHordes.Entities.Systems
                     inv.BuildMode = !inv.BuildMode;
                 }
 
+                if (inv.BuildMode)
+                {
+                    if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
+                    {
+                        if (inv.YELLOW >= BarrierPrice)
+                        {
+                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            inv.YELLOW -= BarrierPrice;
+                        }
+                    }
+
+                    if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
+                    {
+                        if (inv.YELLOW >= TurretPrice)
+                        {
+                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            inv.YELLOW -= TurretPrice;
+                        }
+                    }
+
+                    if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
+                    {
+                        if (inv.YELLOW >= MinePrice)
+                        {
+                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            inv.YELLOW -= MinePrice;
+                        }
+                    }
+                }
+
                 #endregion Building
 
                 #region Aiming
@@ -189,10 +223,31 @@ namespace SpaceHordes.Entities.Systems
                 }
                 if (inv.BuildMode)
                 {
+                    if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
+                    {
+                        if (inv.YELLOW >= BarrierPrice)
+                        {
+                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            inv.YELLOW -= BarrierPrice;
+                        }
+                    }
+
                     if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
                     {
-                        world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
-                        inv.YELLOW -= 1;
+                        if (inv.YELLOW >= TurretPrice)
+                        {
+                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            inv.YELLOW -= TurretPrice;
+                        }
+                    }
+
+                    if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
+                    {
+                        if (inv.YELLOW >= MinePrice)
+                        {
+                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            inv.YELLOW -= MinePrice;
+                        }
                     }
                 }
 

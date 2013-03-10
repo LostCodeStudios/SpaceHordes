@@ -44,6 +44,7 @@ namespace SpaceHordes.Entities.Systems
         public static string BossTemplate = "Boss";
 
         private int timesCalled = 0;
+        private float intervalSeconds = 0f;
 
         private int lastBoss = 2;
 
@@ -65,6 +66,7 @@ namespace SpaceHordes.Entities.Systems
 
             timesCalled++;
             elapsedSeconds += .333f;
+            intervalSeconds += .333f;
             elapsedMinutes += .333f / 60f;
 
             difficulty = (int)(elapsedMinutes);
@@ -73,21 +75,23 @@ namespace SpaceHordes.Entities.Systems
 
             Score s = Base.GetComponent<Score>();
 
-            if (elapsedSeconds % 1 == 0)
+            if (intervalSeconds >= 1)
+            {
                 ScoreSystem.GivePoints(10 * difficulty);
+                intervalSeconds = 0;
+            }
 
             #endregion Scoring
 
             #region Spawning
 
-
+            //Every 5/3 seconds spawn
 
             if (timesCalled == 1)
             {
-                World.CreateEntity(BossTemplate, 1, Base.GetComponent<Body>()).Refresh();
+                Boss = World.CreateEntity(BossTemplate, 1, Base.GetComponent<Body>());
+                Boss.Refresh();
             }
-
-            //Every 5/3 seconds spawn
 
             if (timesCalled % 5 == 0)
             {
