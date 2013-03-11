@@ -23,8 +23,8 @@ namespace SpaceHordes.Entities.Systems
         private MouseState mouseState;
 
         public static uint TurretPrice = 50;
-        public static uint BarrierPrice = 10;
-        public static uint MinePrice = 25;
+        public static uint BarrierPrice = 25;
+        public static uint MinePrice = 10;
 
         public PlayerControlSystem(float velocity)
             : base("Players")
@@ -82,7 +82,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.CurrentGun == inv.BLUE)
                             inv.ChangeGun(e, GunType.WHITE);
-                        else
+                        else if (inv.BLUE.Ammunition > 0)
                             inv.ChangeGun(e, GunType.BLUE);
                     }
 
@@ -90,7 +90,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.CurrentGun == inv.GREEN)
                             inv.ChangeGun(e, GunType.WHITE);
-                        else
+                        else if (inv.GREEN.Ammunition > 0)
                             inv.ChangeGun(e, GunType.GREEN);
                     }
 
@@ -98,7 +98,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.CurrentGun == inv.RED)
                             inv.ChangeGun(e, GunType.WHITE);
-                        else
+                        else if (inv.RED.Ammunition > 0)
                             inv.ChangeGun(e, GunType.RED);
                     }
                 }
@@ -192,7 +192,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.CurrentGun == inv.BLUE)
                             inv.ChangeGun(e, GunType.WHITE);
-                        else
+                        else if (inv.BLUE.Ammunition > 0)
                             inv.ChangeGun(e, GunType.BLUE);
                     }
 
@@ -200,7 +200,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.CurrentGun == inv.GREEN)
                             inv.ChangeGun(e, GunType.WHITE);
-                        else
+                        else if (inv.GREEN.Ammunition > 0)
                             inv.ChangeGun(e, GunType.GREEN);
                     }
 
@@ -208,7 +208,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.CurrentGun == inv.RED)
                             inv.ChangeGun(e, GunType.WHITE);
-                        else
+                        else if (inv.RED.Ammunition > 0)
                             inv.ChangeGun(e, GunType.RED);
                     }
                 }

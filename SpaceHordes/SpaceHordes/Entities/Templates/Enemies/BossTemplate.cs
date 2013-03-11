@@ -195,15 +195,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
                        BossScreen.BossKilled(bosses[type].BossName);
                    }
 
+                   DirectorSystem.ResetTags();
+
                    #region Special Cases
 
-                   DirectorSystem.MookSprite = "";
-                   DirectorSystem.ThugSprite = "";
-                   DirectorSystem.MookSpawnRate = 0;
-                   DirectorSystem.ThugSpawnRate = 0;
-                   DirectorSystem.GunnerSpawnRate = 0;
-                   DirectorSystem.HunterSpawnRate = 0;
-                   DirectorSystem.DestroyerSpawnRate = 0;
                    #endregion
                };
 

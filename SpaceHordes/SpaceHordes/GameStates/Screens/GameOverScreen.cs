@@ -175,7 +175,7 @@ namespace SpaceHordes.GameStates.Screens
             Vector2 subtitleOrigin = textFont.MeasureString(text2) / 2;
             subtitlePosition.Y -= transitionOffset * 100;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             spriteBatch.DrawString(titleFont, text, titlePosition, titleColor, 0,
                 titleOrigin, 1f, SpriteEffects.None, 0);

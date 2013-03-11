@@ -73,6 +73,12 @@ namespace SpaceHordes.Entities.Systems
                 gun.BulletsToFire = false;
                 gun.Elapsed = 0;
                 gun.Ammunition--;
+
+                if (gun.Ammunition == 0)
+                {
+                    inv.CurrentGun = inv.WHITE;
+                }
+
                 Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
                 gun.BulletVelocity = bullet.GetComponent<IVelocity>().LinearVelocity;
                 Bullet bb = bullet.GetComponent<Bullet>();

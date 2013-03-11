@@ -67,6 +67,18 @@ namespace SpaceHordes.Entities.Components
 
                 return returnValue;
             }
+
+            set
+            {
+                if (value == BLUE)
+                    _CurrentGunType = GunType.BLUE;
+                else if (value == RED)
+                    _CurrentGunType = GunType.RED;
+                else if (value == GREEN)
+                    _CurrentGunType = GunType.GREEN;
+                else if (value == WHITE)
+                    _CurrentGunType = GunType.WHITE;
+            }
         }
 
         public void ChangeGun(Entity e, GunType gun)
