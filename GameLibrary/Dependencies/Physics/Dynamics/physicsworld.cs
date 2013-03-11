@@ -612,53 +612,61 @@ namespace GameLibrary.Dependencies.Physics.Dynamics
                 {
                     var iter = _bodyRemoveList.GetEnumerator();
                     lock (_bodyRemoveList)
-                        while (iter.MoveNext())
+                    {
+                        try
                         {
-                            PhysicsBody body = iter.Current;
-                            Debug.Assert(BodyList.Count > 0);
-
-                            // You tried to remove a body that is not contained in the BodyList.
-                            // Are you removing the body more than once?
-                            if (!BodyList.Contains(body))
-                                break;
-
-                            // Delete the attached joints.
-                            JointEdge je = body.JointList;
-                            while (je != null)
+                            while (iter.MoveNext())
                             {
-                                JointEdge je0 = je;
-                                je = je.Next;
+                                PhysicsBody body = iter.Current;
+                                Debug.Assert(BodyList.Count > 0);
 
-                                RemoveJoint(je0.Joint, false);
+                                // You tried to remove a body that is not contained in the BodyList.
+                                // Are you removing the body more than once?
+                                if (!BodyList.Contains(body))
+                                    break;
+
+                                // Delete the attached joints.
+                                JointEdge je = body.JointList;
+                                while (je != null)
+                                {
+                                    JointEdge je0 = je;
+                                    je = je.Next;
+
+                                    RemoveJoint(je0.Joint, false);
+                                }
+                                body.JointList = null;
+
+                                // Delete the attached contacts.
+                                ContactEdge ce = body.ContactList;
+                                while (ce != null)
+                                {
+                                    ContactEdge ce0 = ce;
+                                    ce = ce.Next;
+                                    ContactManager.Destroy(ce0.Contact);
+                                }
+                                body.ContactList = null;
+
+                                // Delete the attached fixtures. This destroys broad-phase proxies.
+                                for (int i = 0; i < body.FixtureList.Count; i++)
+                                {
+                                    body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
+                                    body.FixtureList[i].Destroy();
+                                }
+
+                                body.FixtureList = null;
+
+                                // Remove world body list.
+                                BodyList.Remove(body);
+
+                                if (BodyRemoved != null)
+                                    BodyRemoved(body);
                             }
-                            body.JointList = null;
-
-                            // Delete the attached contacts.
-                            ContactEdge ce = body.ContactList;
-                            while (ce != null)
-                            {
-                                ContactEdge ce0 = ce;
-                                ce = ce.Next;
-                                ContactManager.Destroy(ce0.Contact);
-                            }
-                            body.ContactList = null;
-
-                            // Delete the attached fixtures. This destroys broad-phase proxies.
-                            for (int i = 0; i < body.FixtureList.Count; i++)
-                            {
-                                body.FixtureList[i].DestroyProxies(ContactManager.BroadPhase);
-                                body.FixtureList[i].Destroy();
-                            }
-
-                            body.FixtureList = null;
-
-                            // Remove world body list.
-                            BodyList.Remove(body);
-
-                            if (BodyRemoved != null)
-                                BodyRemoved(body);
                         }
-
+                        catch (InvalidOperationException)
+                        {
+                        }
+                    }
+                    
                     _bodyRemoveList.Clear();
                 }
         }

@@ -18,12 +18,13 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class AI : Component
     {
-        public AI(Body target, Func<Entity, Body, bool> behavior, string targetGroup = "", float searchRadius = 200f)
+        public AI(Body target, Func<Body, bool> behavior, string targetGroup = "", float searchRadius = 200f)
         {
             this.Target = target;
             this.TargetGroup = targetGroup;
             this.SearchRadius = searchRadius;
             this.Behavior = behavior;
+            Notify = (x, y) => { return; };
         }
 
         #region Properties
@@ -68,7 +69,12 @@ namespace SpaceHordes.Entities.Components
         /// Specifies the behavior of the AI component.
         /// Returns true if the AI system is to search for a new target for this specific AI component.
         /// </summary>
-        public Func<Entity, Body, bool> Behavior;
+        public Func<Body, bool> Behavior;
+
+        /// <summary>
+        /// Messages the AI sub system of this component.
+        /// </summary>
+        public Action<string, Entity> Notify;
 
         #endregion Fields
 
@@ -80,10 +86,10 @@ namespace SpaceHordes.Entities.Components
         /// <param name="speed"></param>
         /// <param name="rotateTo"></param>
         /// <returns></returns>
-        public static Func<Entity, Body, bool> CreateFollow(float speed, bool rotateTo = true)
+        public static Func<Body, bool> CreateFollow(Entity ent,float speed, bool rotateTo = true)
         {
             return
-                (ent, target) =>
+                (target) =>
                 {
                     Body b = ent.GetComponent<Body>();
                     Vector2 distance = target.Position - b.Position;

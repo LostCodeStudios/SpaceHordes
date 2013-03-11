@@ -155,7 +155,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
 
             e.AddComponent<AI>(new AI((args[1] as Body),
-               AI.CreateFollow(1, false)));
+               AI.CreateFollow(e,1, false)));
 
             int points = 0;
             int health = 0;

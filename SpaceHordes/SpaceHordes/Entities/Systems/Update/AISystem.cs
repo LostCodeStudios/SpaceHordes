@@ -24,7 +24,7 @@ namespace SpaceHordes.Entities.Systems
             {
                 if (World.EntityManager.GetEntity((ai.Target.UserData as Entity).Id) == null)
                     ai.Target = null;
-                else if (!ai.Behavior(e, ai.Target)) //Run ai behavior, if behavior returns true look for new target.
+                else if (!ai.Behavior(ai.Target)) //Run ai behavior, if behavior returns true look for new target.
                     return;
             }
 

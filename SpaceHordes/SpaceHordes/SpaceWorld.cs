@@ -27,6 +27,7 @@ namespace SpaceHordes
             this._font = new ImageFont();
         }
 
+
         #region Initialization
 
         #region Content/Init
