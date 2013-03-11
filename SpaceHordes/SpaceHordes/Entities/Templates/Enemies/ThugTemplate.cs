@@ -133,7 +133,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
 
             e.AddComponent<AI>(new AI((args[1] as Body),
-                AI.CreateFollow(3, rotateTo)));
+                AI.CreateFollow(e,3, rotateTo)));
 
             e.AddComponent<Health>(new Health(5)).OnDeath +=
                 ent =>
