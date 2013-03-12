@@ -37,7 +37,7 @@ namespace SpaceHordes.Entities.Systems
                     delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
                     {
                         //Check if in collision range.
-                        if((point - particle.Position).Length() < (expectedRange).Length())
+                        if ((point - particle.Position).Length() < (expectedRange).Length())
                         {
                             bullet.collisionChecked++;
                             if (fix.Body.UserData is Entity)
@@ -56,14 +56,13 @@ namespace SpaceHordes.Entities.Systems
                                     }
                                 }
                             }
-                        } 
+                        }
                         else //If premptive
                         {
 
-
+                        }
                         return 0;
                     }, particle.Position, particle.Position + particle.LinearVelocity);
-
 
             }
 

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Media;
 using SpaceHordes.GameStates.Screens;
 using System;
 using System.Collections.Generic;
+using SpaceHordes.Entities.Systems;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
@@ -827,6 +828,7 @@ namespace SpaceHordes
             {
                 ScreenHelper.Graphics.IsFullScreen = fullscreen;
                 ScreenHelper.Graphics.ApplyChanges();
+                HUDRenderSystem.ApplyScaling();
             }
 
             BossScreen.ClearedBosses = BossScreen.ReadData();

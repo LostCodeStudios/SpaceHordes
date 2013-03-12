@@ -15,22 +15,22 @@ namespace SpaceHordes.Entities.Systems
 
         #region Locations
 
-        private Vector2 hudDimmensions;
-        private Vector2 radarDimmensions;
-        private Vector2 warningDimmensions;
-        private Rectangle[] hudLocations;
-        private Rectangle radarLocation;
-        public Rectangle RadarScreenLocation;
-        private Rectangle warningLocation;
+        private static Vector2 hudDimmensions;
+        private static Vector2 radarDimmensions;
+        private static Vector2 warningDimmensions;
+        private static Rectangle[] hudLocations;
+        private static Rectangle radarLocation;
+        public static Rectangle RadarScreenLocation;
+        private static Rectangle warningLocation;
 
-        private Rectangle radarSource;
-        private Rectangle hudSource;
-        private Rectangle buildMenuSource;
-        private Rectangle selectionSource;
-        private Rectangle warningSource;
+        private static Rectangle radarSource;
+        private static Rectangle hudSource;
+        private static Rectangle buildMenuSource;
+        private static Rectangle selectionSource;
+        private static Rectangle warningSource;
 
-        private Vector2[] boxOffsets;
-        private RectangleF box = new RectangleF(0, 0, 21, 21);
+        private static Vector2[] boxOffsets;
+        private static RectangleF box = new RectangleF(0, 0, 21, 21);
 
         #endregion Locations
 
@@ -39,11 +39,16 @@ namespace SpaceHordes.Entities.Systems
         public HUDRenderSystem()
             : base("Players")
         {
+            ApplyScaling();
+        }
+
+        public static void ApplyScaling()
+        {
             #region HUD Specifications
 
             hudDimmensions = new Vector2(96, 51);
             float radarScale = 2.6f;
-            radarDimmensions = new Vector2(87, 51) * radarScale;
+            radarDimmensions = new Vector2(86, 50) * radarScale;
             warningDimmensions = new Vector2(173, 76);
 
             hudLocations = new Rectangle[]
@@ -63,7 +68,7 @@ namespace SpaceHordes.Entities.Systems
             RadarScreenLocation = new Rectangle((int)(radarLocation.Location.X + leftRadarPadding), (int)(radarLocation.Location.Y + topRadarPadding), (int)(radarLocation.Width - (rightRadarPadding + leftRadarPadding)), (int)(radarLocation.Height - (bottomRadarPadding + topRadarPadding)));
             warningLocation = new Rectangle((int)(ScreenHelper.Center.X - warningDimmensions.X / 2), (int)(ScreenHelper.Center.Y - warningDimmensions.Y * 2), (int)warningDimmensions.X, (int)warningDimmensions.Y);
 
-            radarSource = new Rectangle(0, 0, 87, 51);
+            radarSource = new Rectangle(0, 0, 86, 50);
             hudSource = new Rectangle(86, 0, 96, 51);
             buildMenuSource = new Rectangle(181, 0, 96, 51);
             selectionSource = new Rectangle(277, 0, 26, 26);
