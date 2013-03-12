@@ -156,9 +156,17 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                    if (ent is Entity && (ent as Entity).Group != null && (ent as Entity).Group == "Players")
+                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
                     {
-                        _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                        if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
+                        {
+                            Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
+                            _World.CreateEntity("Crystal", e2.GetComponent<ITransform>().Position, e2.GetComponent<Crystal>().Color, e2.GetComponent<Crystal>().Amount, e2);
+                        }
+                        else
+                        {
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                        }
                         ScoreSystem.GivePoints(1);
                     }
                 };

@@ -118,7 +118,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= BarrierPrice)
                         {
-                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
                         }
                     }
@@ -127,7 +127,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= TurretPrice)
                         {
-                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= TurretPrice;
                         }
                     }
@@ -136,7 +136,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= MinePrice)
                         {
-                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
                         }
                     }
@@ -227,7 +227,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= BarrierPrice)
                         {
-                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
                         }
                     }
@@ -236,7 +236,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= TurretPrice)
                         {
-                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= TurretPrice;
                         }
                     }
@@ -245,7 +245,7 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= MinePrice)
                         {
-                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position)).Refresh();
+                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
                         }
                     }
