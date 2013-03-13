@@ -57,7 +57,7 @@ namespace SpaceHordes.Entities.Systems
                                 }
                             }
                         }
-                        else //If premptive
+                        //else //If premptive
                         {
 
                         }

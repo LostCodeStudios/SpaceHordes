@@ -192,7 +192,8 @@ namespace SpaceHordes.Entities.Systems
                     //SURGE
                     surge = true;
                     HUDRenderSystem.SurgeWarning = true;
-                    SpawnRate = 2;
+                    SpawnRate = 4;
+                    lastBoss++;
                 }
                 else
                 {

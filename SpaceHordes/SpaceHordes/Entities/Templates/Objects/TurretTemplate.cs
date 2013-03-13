@@ -51,6 +51,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             #region AI/GUN
 
             Inventory inv = e.AddComponent<Inventory>(new Inventory(0, 0, 0, 0));
+            inv.CurrentGun.PowerUp(10000000, 3);
 
             AI ai = e.AddComponent<AI>(new AI(null,
                 (target) => //AI FUNCTION
@@ -83,7 +84,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                     // Console.WriteLine((target.UserData as Entity).Tag + ": " + time);
                 },
                 "Enemies",
-                1280));
+                ConvertUnits.ToSimUnits(3000)));
             ai.Targeting = Targeting.Closest;
 
             #endregion AI/GUN
