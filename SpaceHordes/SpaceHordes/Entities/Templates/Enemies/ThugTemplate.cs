@@ -149,7 +149,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
                         {
                             Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
-                            _World.CreateEntity("Crystal", e2.GetComponent<ITransform>().Position, e2.GetComponent<Crystal>().Color, e2.GetComponent<Crystal>().Amount, e2);
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
                         }
                         else
                         {

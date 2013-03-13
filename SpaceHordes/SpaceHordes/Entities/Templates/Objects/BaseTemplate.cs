@@ -23,7 +23,7 @@ namespace SpaceHordes.Entities.Templates
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
-            e.Group = "Structures";
+            //e.Group = "Structures";
             e.Tag = "Base";
 
             #region Body

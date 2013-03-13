@@ -4,6 +4,7 @@ using GameLibrary.Entities.Components.Render;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System;
+using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -46,11 +47,26 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             Health h = healthMapper.Get(e);
+
+            if (e.HasComponent<Origin>())
+            {
+                Origin o = e.GetComponent<Origin>();
+                Entity parent = o.Parent;
+
+                if (!parent.HasComponent<Body>() || !parent.GetComponent<Health>().IsAlive)
+                {
+                    e.GetComponent<Health>().SetHealth(e, 0);
+                    return;
+                }
+            }
+
             if (!h.IsAlive)
             {
                 h.SetHealth(e, 0);
                 e.Delete();
             }
+
+
         }
     }
 }

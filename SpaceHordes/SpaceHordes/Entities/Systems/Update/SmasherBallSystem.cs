@@ -25,11 +25,11 @@ namespace SpaceHordes.Entities.Systems
             if (o != null)
             {
                 Entity parent = o.Parent;
-                if (!parent.HasComponent<Body>() || !parent.GetComponent<Health>().IsAlive)
-                {
-                    e.GetComponent<Health>().SetHealth(e, 0);
-                    return;
-                }
+                //if (!parent.HasComponent<Body>() || !parent.GetComponent<Health>().IsAlive)
+                //{
+                //    e.GetComponent<Health>().SetHealth(e, 0);
+                //    return;
+                //}
 
                 Vector2 origin = parent.GetComponent<Body>().Position;
 
