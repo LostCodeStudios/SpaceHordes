@@ -377,12 +377,14 @@ namespace SpaceHordes
         /// <param name="args">{0-4} Player indices in use.</param>
         protected override void BuildEntities(ContentManager Content, params object[] args)
         {
+            Indices.Clear();
             //Set up player(s)
             if (args != null && (args[0] as PlayerIndex[]).Length > 0 && args[0] != null) //IF MULTIPLAYER
                 for (int i = 0; i < (args[0] as PlayerIndex[]).Length && i < 4; i++)
                 {
                     Player = this.CreateEntity("Player", (PlayerIndex)i);
                     Player.Refresh();
+                    Indices.Add((PlayerIndex)i);
                     Players++;
                 }
             else //IF SINGLEPLAYER
@@ -390,10 +392,11 @@ namespace SpaceHordes
                 Player = this.CreateEntity("Player", (PlayerIndex.One));
                 Player.Refresh();
                 Players = 1;
+                Indices.Add((PlayerIndex.One));
             }
 
             CreateEntityGroup("StarField", "Stars");
-
+        
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();
@@ -447,6 +450,8 @@ namespace SpaceHordes
         private Texture2D _hud;
         private ImageFont _font;
         public int Players = 0;
+
+        public static List<PlayerIndex> Indices = new List<PlayerIndex>();
 
         #endregion Fields
     }

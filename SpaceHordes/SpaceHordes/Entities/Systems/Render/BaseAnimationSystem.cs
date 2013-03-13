@@ -25,14 +25,17 @@ namespace SpaceHordes.Entities.Systems
         {
             #region Float Effect
 
-            Body b = e.GetComponent<Body>();
+            if (e.HasComponent<Body>())
+            {
+                Body b = e.GetComponent<Body>();
 
-            if (ConvertUnits.ToDisplayUnits(b.Position.Y) >= _MaxH)
-                _Direction = -_Speed;
-            if (ConvertUnits.ToDisplayUnits(b.Position.Y) <= 0)
-                _Direction = _Speed;
+                if (ConvertUnits.ToDisplayUnits(b.Position.Y) >= _MaxH)
+                    _Direction = -_Speed;
+                if (ConvertUnits.ToDisplayUnits(b.Position.Y) <= 0)
+                    _Direction = _Speed;
 
-            b.Position += new Microsoft.Xna.Framework.Vector2(b.Position.X - _X, ConvertUnits.ToSimUnits(_Direction));
+                b.Position += new Microsoft.Xna.Framework.Vector2(b.Position.X - _X, ConvertUnits.ToSimUnits(_Direction));
+            }
 
             #endregion Float Effect
 

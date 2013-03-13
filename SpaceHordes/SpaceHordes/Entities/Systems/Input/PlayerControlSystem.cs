@@ -140,6 +140,13 @@ namespace SpaceHordes.Entities.Systems
                             inv.YELLOW -= MinePrice;
                         }
                     }
+
+
+
+                    if (inv.YELLOW < MinePrice)
+                    {
+                        inv.BuildMode = false;
+                    }
                 }
 
                 #endregion Building
@@ -248,6 +255,11 @@ namespace SpaceHordes.Entities.Systems
                             world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
                         }
+                    }
+
+                    if (inv.YELLOW < MinePrice)
+                    {
+                        inv.BuildMode = false;
                     }
                 }
 

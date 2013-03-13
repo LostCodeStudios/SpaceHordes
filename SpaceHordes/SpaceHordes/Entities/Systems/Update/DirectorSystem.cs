@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System;
 using System.Collections.Generic;
+using SpaceHordes.Entities.Templates.Objects;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -76,11 +77,15 @@ namespace SpaceHordes.Entities.Systems
         int elapsedSurge = 0;
         int warningTime = 3000;
         int surgeTime = 30000;
+
+
         public DirectorSystem()
             : base(333)
         {
             elapsedSeconds = 60f;
             elapsedMinutes = 1f;
+
+            timesCalled = 0;
         }
 
         public void LoadContent(Entity Base)
@@ -182,17 +187,25 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
-            if ((int)(elapsedMinutes) >= lastBoss || timesCalled == 1)
+            if ((int)(elapsedMinutes) >= lastBoss || timesCalled == 100)
             {
                 
                 int chance = r.Next(1, 100);
 
-                if (chance > 66)
+                if (chance > 66 || timesCalled == 100)
                 {
                     //SURGE
                     surge = true;
                     HUDRenderSystem.SurgeWarning = true;
-                    SpawnRate = 4;
+                    SpawnRate = 3;
+
+                    foreach (Entity e in TurretTemplate.Turrets)
+                    {
+                        Inventory inv = e.GetComponent<Inventory>();
+                        inv.CurrentGun.PowerUp(surgeTime, 3);
+                    }
+                    
+
                     lastBoss++;
                 }
                 else

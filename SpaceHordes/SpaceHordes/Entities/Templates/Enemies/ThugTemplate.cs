@@ -64,17 +64,23 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<Sprite>(s);
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
-            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
+            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
             bitch.OnCollision +=
                 (f1, f2, c) =>
                 {
                     if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
                         if ((f2.Body.UserData as Entity).Group != "Crystals")
                         {
-                            (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
-                                (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
-                            (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                            try
+                            {
+                                (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
+                                    (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
+                                    - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
+                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                            }
+                            catch
+                            {
+                                }
                         }
                     return true;
                 };

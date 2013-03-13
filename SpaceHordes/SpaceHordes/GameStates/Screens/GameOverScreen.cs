@@ -150,8 +150,9 @@ namespace SpaceHordes.GameStates.Screens
                             names += ", ";
                     }
 
+                    ScreenManager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
                     ScreenManager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
-                    ScreenManager.AddScreen(new HighScoreScreen(HighScoreScreen.AddScore(players.Length, names, score)), ControllingPlayer);
+                    ScreenManager.AddScreen(new HighScoreScreen(players.Length, HighScoreScreen.AddScore(players.Length, names, score)), ControllingPlayer);
                     ExitScreen();
                     expired = true;
                 }

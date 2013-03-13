@@ -165,6 +165,12 @@ namespace SpaceHordes.GameStates.Screens
             if (IsActive)
             {
                 World.Update(gameTime); //Update the world.
+
+                if (!World.Base.HasComponent<Health>())
+                {
+                    EndGame();
+                }
+
                 if (over)
                 {
                     elapsed += gameTime.ElapsedGameTime;
@@ -243,7 +249,7 @@ namespace SpaceHordes.GameStates.Screens
 
         private void GameOver()
         {
-            ScreenManager.AddScreen(new GameOverScreen(new PlayerIndex[] { (PlayerIndex)ControllingPlayer }, score), ControllingPlayer);
+            ScreenManager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score), ControllingPlayer);
             ExitScreen();
             MusicManager.Stop();
         }

@@ -5,6 +5,7 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Templates.Objects
 {
@@ -12,6 +13,8 @@ namespace SpaceHordes.Entities.Templates.Objects
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
+
+        public static List<Entity> Turrets = new List<Entity>();
 
         public TurretTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
@@ -34,6 +37,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0]);
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
                 Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
+                Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
                 Body.FixedRotation = false;
 
                 Body.SleepingAllowed = false;
@@ -51,7 +55,6 @@ namespace SpaceHordes.Entities.Templates.Objects
             #region AI/GUN
 
             Inventory inv = e.AddComponent<Inventory>(new Inventory(0, 0, 0, 0));
-            inv.CurrentGun.PowerUp(10000000, 3);
 
             AI ai = e.AddComponent<AI>(new AI(null,
                 (target) => //AI FUNCTION
@@ -99,6 +102,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
                     int splodeSound = 1;
                     SoundManager.Play("Explosion" + splodeSound.ToString());
+                    Turrets.Remove(e);
                 };
 
             #endregion Health
@@ -110,6 +114,8 @@ namespace SpaceHordes.Entities.Templates.Objects
             #endregion
 
             e.Group = "Structures";
+
+            Turrets.Add(e);
             return e;
         }
     }

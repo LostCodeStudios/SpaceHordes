@@ -26,14 +26,15 @@ namespace SpaceHordes.Entities.Templates.Objects
             Body Body = e.AddComponent<Body>(new Body(_World, e));
             {
                 FixtureFactory.AttachEllipse(//Add a basic bounding box (rectangle status)
-                    ConvertUnits.ToSimUnits(_SpriteSheet.Animations["rotatinglightball"][0].Width / 2f),
-                    ConvertUnits.ToSimUnits(_SpriteSheet.Animations["rotatinglightball"][0].Height / 2f),
+                    ConvertUnits.ToSimUnits(_SpriteSheet.Animations["rotatinglightball"][0].Width * 2),
+                    ConvertUnits.ToSimUnits(_SpriteSheet.Animations["rotatinglightball"][0].Height * 2),
                     5,
                     1,
                     Body);
                 Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0]);
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
-                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
+                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
+                Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
                 Body.FixedRotation = false;
 
                 Body.SleepingAllowed = false;

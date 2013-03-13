@@ -23,7 +23,7 @@ namespace SpaceHordes.Entities.Systems
                         (f1.Body.UserData as Entity).Delete();
                         SoundManager.Play("Pickup1");
                     }
-                    return true;
+                    return false;
                 };
 
             base.Added(e);
