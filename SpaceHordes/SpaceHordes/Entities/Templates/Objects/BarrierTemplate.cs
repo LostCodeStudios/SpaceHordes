@@ -64,6 +64,12 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #endregion Health
 
+            #region Origin
+
+            e.AddComponent<Origin>(new Origin(args[1] as Entity));
+
+            #endregion
+
             e.Group = "Structures";
             return e;
         }

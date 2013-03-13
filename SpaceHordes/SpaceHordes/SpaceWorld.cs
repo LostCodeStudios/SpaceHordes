@@ -383,11 +383,13 @@ namespace SpaceHordes
                 {
                     Player = this.CreateEntity("Player", (PlayerIndex)i);
                     Player.Refresh();
+                    Players++;
                 }
             else //IF SINGLEPLAYER
             {
                 Player = this.CreateEntity("Player", (PlayerIndex.One));
                 Player.Refresh();
+                Players = 1;
             }
 
             CreateEntityGroup("StarField", "Stars");
@@ -396,11 +398,6 @@ namespace SpaceHordes
             Base = this.CreateEntity("Base");
             Base.Refresh();
             enemySpawnSystem.LoadContent(Base);
-#if DEBUG
-            this.CreateEntity("Turret", new Vector2(100)).Refresh();
-
-            //Camera.TrackingBody = Player.GetComponent<Body>();
-#endif
         }
 
         #endregion Entities
@@ -449,6 +446,7 @@ namespace SpaceHordes
         private SpriteSheet _spriteSheet;
         private Texture2D _hud;
         private ImageFont _font;
+        public int Players = 0;
 
         #endregion Fields
     }

@@ -97,7 +97,8 @@ namespace SpaceHordes.Entities.Systems
             intervalSeconds += .333f;
             elapsedMinutes += .333f / 60f;
 
-            difficulty = (int)(elapsedMinutes);
+            SpaceWorld w = world as SpaceWorld;
+            difficulty = (int)(elapsedMinutes) * w.Players;
 
             if (surge)
             {
@@ -113,6 +114,7 @@ namespace SpaceHordes.Entities.Systems
                 if (elapsedSurge >= surgeTime)
                 {
                     surge = false;
+                    elapsedSurge = 0;
                     SpawnRate = 0;
                 }
             }
