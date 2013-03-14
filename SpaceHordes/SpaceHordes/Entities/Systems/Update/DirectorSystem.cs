@@ -27,13 +27,13 @@ namespace SpaceHordes.Entities.Systems
         private int huntersToSpawn = 0;
         private int destroyersToSpawn = 0;
 
-        public static int MookSpawnRate = 0;
-        public static int ThugSpawnRate = 0;
-        public static int GunnerSpawnRate = 0;
-        public static int HunterSpawnRate = 0;
-        public static int DestroyerSpawnRate = 0;
+        public  int MookSpawnRate = 0;
+        public  int ThugSpawnRate = 0;
+        public  int GunnerSpawnRate = 0;
+        public  int HunterSpawnRate = 0;
+        public  int DestroyerSpawnRate = 0;
 
-        public static int SpawnRate
+        public  int SpawnRate
         {
             set
             {
@@ -45,18 +45,18 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
-        public static string MookTemplate = "Mook";
-        public static string MookSprite = "";
+        public  string MookTemplate = "Mook";
+        public  string MookSprite = "";
 
-        public static string ThugTemplate = "Thug";
-        public static string ThugSprite = "";
+        public  string ThugTemplate = "Thug";
+        public  string ThugSprite = "";
 
-        public static string GunnerTemplate = "Gunner";
-        public static string HunterTemplate = "Hunter";
-        public static string DestroyerTemplate = "Destroyer";
-        public static string BossTemplate = "Boss";
+        public  string GunnerTemplate = "Gunner";
+        public  string HunterTemplate = "Hunter";
+        public  string DestroyerTemplate = "Destroyer";
+        public  string BossTemplate = "Boss";
 
-        public static void ResetTags()
+        public  void ResetTags()
         {
             MookSprite = "";
             ThugSprite = "";
@@ -221,7 +221,7 @@ namespace SpaceHordes.Entities.Systems
             #endregion Spawning
         }
 
-        public static float ClampInverse(float value, float min, float max)
+        public  float ClampInverse(float value, float min, float max)
         {
             if (value > min && value < max)
             {

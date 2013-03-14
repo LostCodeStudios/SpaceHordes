@@ -27,7 +27,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
     public class BossTemplate : IEntityTemplate
     {
         private SpriteSheet _SpriteSheet;
-        private EntityWorld _World;
+        private SpaceWorld _World;
         private static Random rbitch = new Random();
 
         private static int spawned = 0;
@@ -49,7 +49,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             new BossInfo("killerhead", "The Destroyer")
         };
 
-        public BossTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        public BossTemplate(SpriteSheet spriteSheet, SpaceWorld world)
         {
             _SpriteSheet = spriteSheet;
             _World = world;
@@ -205,7 +205,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                        BossScreen.BossKilled(bosses[type].BossName);
                    }
 
-                   DirectorSystem.ResetTags();
+                   _World.enemySpawnSystem.ResetTags();
 
                    #region Special Cases
 
@@ -228,20 +228,20 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             if (spriteKey == "eye")
             {
-                DirectorSystem.MookSprite = "eyeshot";
-                DirectorSystem.ThugSpawnRate = -1;
-                DirectorSystem.GunnerSpawnRate = -1;
-                DirectorSystem.HunterSpawnRate = -1;
-                DirectorSystem.DestroyerSpawnRate = -1;
+                _World.enemySpawnSystem.MookSprite = "eyeshot";
+                _World.enemySpawnSystem.ThugSpawnRate = -1;
+                _World.enemySpawnSystem.GunnerSpawnRate = -1;
+                _World.enemySpawnSystem.HunterSpawnRate = -1;
+                _World.enemySpawnSystem.DestroyerSpawnRate = -1;
             }
 
             if (spriteKey == "clawbossthing")
             {
-                DirectorSystem.MookSprite = "8prongbrownthingwithfangs";
-                DirectorSystem.ThugSprite = "minibrownclawboss";
-                DirectorSystem.GunnerSpawnRate = -1;
-                DirectorSystem.HunterSpawnRate = -1;
-                DirectorSystem.DestroyerSpawnRate = -1;
+                _World.enemySpawnSystem.MookSprite = "8prongbrownthingwithfangs";
+                _World.enemySpawnSystem.ThugSprite = "minibrownclawboss";
+                _World.enemySpawnSystem.GunnerSpawnRate = -1;
+                _World.enemySpawnSystem.HunterSpawnRate = -1;
+                _World.enemySpawnSystem.DestroyerSpawnRate = -1;
             }
 
             #endregion Special Cases

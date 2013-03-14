@@ -424,7 +424,7 @@ namespace SpaceHordes
         //HealthRenderSystem healthRenderSystem;
         private HealthSystem healthSystem;
 
-        private DirectorSystem enemySpawnSystem;
+        public DirectorSystem enemySpawnSystem;
         private AISystem enemyMovementSystem;
         private SlowSystem slowSystem;
         private PlayerControlSystem playerControlSystem;
