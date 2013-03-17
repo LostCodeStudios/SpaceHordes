@@ -11,13 +11,14 @@ using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
-    public class ThugTemplate : IEntityTemplate
+    public class HunterTemplate : IEntityTemplate
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
-        private static Random rbitch = new Random();
+        private static Random r = new Random();
+        private static int hunters = 0;
 
-        public ThugTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        public HunterTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             _SpriteSheet = spriteSheet;
             _World = world;
@@ -33,19 +34,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
             switch (type)
             {
                 case 0:
-                    spriteKey = "bluemissile";
+                    spriteKey = "graytriangleship";
                     break;
 
                 case 1:
-                    spriteKey = "graymissile";
+                    spriteKey = "grayshipwithtwowings";
                     break;
 
                 case 2:
-                    spriteKey = "swastika";
-                    break;
-
-                case 3:
-                    spriteKey = "swastika2";
+                    spriteKey = "brownplane";
                     break;
             }
 
@@ -56,16 +53,13 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region Body
 
-            Body bitch = e.AddComponent<Body>(new Body(_World, e));
-            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-            Sprite s = new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f);
-            if (spriteKey.Contains("swastika"))
-                s.Origin = new Vector2(s.CurrentRectangle.Width / 2, s.CurrentRectangle.Height / 2);
-            e.AddComponent<Sprite>(s);
-            bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
-            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
-            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
-            bitch.OnCollision +=
+            Body b = e.AddComponent<Body>(new Body(_World, e));
+            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, b);
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, b, 1f, Color.White, 0.5f));
+            b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+            b.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
+            b.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
+            b.OnCollision +=
                 (f1, f2, c) =>
                 {
                     if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
@@ -80,23 +74,17 @@ namespace SpaceHordes.Entities.Templates.Enemies
                             }
                             catch
                             {
-                                }
+                            }
                         }
                     return false;
                 };
-            bitch.Mass++;
+            b.Mass++;
 
-            Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
+            Vector2 pos = new Vector2((float)(r.NextDouble() * 2) - 1, (float)(r.NextDouble() * 2) - 1);
             pos.Normalize();
             pos *= ScreenHelper.Viewport.Width;
             pos = ConvertUnits.ToSimUnits(pos);
-            bitch.Position = pos;
-            bool rotateTo = true;
-            if (spriteKey.Contains("swastika"))
-            {
-                e.GetComponent<Body>().AngularVelocity = (float)Math.PI * 4;
-                rotateTo = false;
-            }
+            b.Position = pos;
 
             #endregion Body
 
@@ -110,28 +98,27 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Crystal
 
             Color crystalColor = Color.Red;
-            int colorchance = rbitch.Next(100);
-            int amount = 9;
+            int colorchance = r.Next(100);
+            int amount = 3;
             if (colorchance > 50)
             {
                 crystalColor = Color.Yellow;
-                amount = 15;
+                amount = 5;
             }
             if (colorchance > 70)
             {
                 crystalColor = Color.Blue;
-                amount = 6;
-                
+                amount = 3;
             }
             if (colorchance > 80)
             {
                 crystalColor = Color.Green;
-                amount = 3;
+                amount = 1;
             }
             if (colorchance > 90)
             {
                 crystalColor = Color.Gray;
-                amount = 6;
+                amount = 2;
             }
             e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
@@ -140,18 +127,18 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
 
             e.AddComponent<AI>(new AI((args[1] as Body),
-                AI.CreateFollow(e,3, rotateTo)));
+                    AI.CreateFollow(e, 7)));
 
-            e.AddComponent<Health>(new Health(5)).OnDeath +=
+            e.AddComponent<Health>(new Health(1)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 10, e);
+                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
 
-                    int splodeSound = rbitch.Next(1, 5);
+                    int splodeSound = r.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players") || (ent as Entity).Group == "Structures")
+                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
                     {
                         if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
                         {
@@ -162,13 +149,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         {
                             _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
                         }
-                        ScoreSystem.GivePoints(3);
+                        ScoreSystem.GivePoints(1);
                     }
                 };
 
             #endregion AI/Health
 
+            e.Tag = "Hunter" + hunters.ToString();
             e.Group = "Enemies";
+            hunters++;
             return e;
         }
     }

@@ -131,6 +131,7 @@
     <Compile Include="Entities\Systems\Render\StarFieldRenderSystem.cs" />
     <Compile Include="Entities\Templates\Enemies\BossTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\GunnerTemplate.cs" />
+    <Compile Include="Entities\Templates\Enemies\HunterTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\SmasherBallTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\ThugTemplate.cs" />
     <Compile Include="Entities\Templates\Events\BigExplosionTemplate.cs" />

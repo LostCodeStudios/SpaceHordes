@@ -86,7 +86,7 @@ namespace SpaceHordes.Entities.Components
         /// <param name="speed"></param>
         /// <param name="rotateTo"></param>
         /// <returns></returns>
-        public static Func<Body, bool> CreateFollow(Entity ent,float speed, bool rotateTo = true)
+        public static Func<Body, bool> CreateFollow(Entity ent, float speed, bool rotateTo = true)
         {
             return
                 (target) =>

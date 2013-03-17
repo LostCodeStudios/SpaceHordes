@@ -107,6 +107,7 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Hunter", new HunterTemplate(_spriteSheet, this));
 
             #region Bosses
 
@@ -382,15 +383,17 @@ namespace SpaceHordes
             if (args != null && (args[0] as PlayerIndex[]).Length > 0 && args[0] != null) //IF MULTIPLAYER
                 for (int i = 0; i < (args[0] as PlayerIndex[]).Length && i < 4; i++)
                 {
-                    Player = this.CreateEntity("Player", (PlayerIndex)i);
-                    Player.Refresh();
+                    Entity e = CreateEntity("Player", (PlayerIndex)i);
+                    e.Refresh();
+                    Player.Add(e);
                     Indices.Add((PlayerIndex)i);
                     Players++;
                 }
             else //IF SINGLEPLAYER
             {
-                Player = this.CreateEntity("Player", (PlayerIndex.One));
-                Player.Refresh();
+                Entity e = CreateEntity("Player", (PlayerIndex.One));
+                e.Refresh();
+                Player.Add(e);
                 Players = 1;
                 Indices.Add((PlayerIndex.One));
             }
@@ -400,7 +403,7 @@ namespace SpaceHordes
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();
-            enemySpawnSystem.LoadContent(Base);
+            enemySpawnSystem.LoadContent(Base, Player.ToArray());
         }
 
         #endregion Entities
@@ -440,7 +443,7 @@ namespace SpaceHordes
         private RadarRenderSystem radarRenderSystem;
 
         //Entities for safe keeping
-        public Entity Player;
+        public List<Entity> Player = new List<Entity>();
 
         public Entity Base;
 
