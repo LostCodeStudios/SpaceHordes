@@ -484,7 +484,7 @@ namespace GameLibrary.Helpers
             {
                 var handle = CreateFile
                     ("CONIN$"
-                    , EFileAccess.GenericRead | EFileAccess.GenericWrite
+                    , EFileAccess.GenericRead | EFileAccess.GenericWrite 
                     , FileShare.ReadWrite
                     , IntPtr.Zero
                     , FileMode.Open
@@ -526,6 +526,18 @@ namespace GameLibrary.Helpers
             , [MarshalAs(UnmanagedType.U4)] FileAttributes dwFlagsAndAttributes
             , IntPtr hTemplateFile
             );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteFile(string lpFileName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteFileA([MarshalAs(UnmanagedType.LPStr)]string lpFileName);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteFileW([MarshalAs(UnmanagedType.LPWStr)]string lpFileName);
 
         public static readonly IntPtr InvalidHandleValue = new IntPtr(-1);
     }

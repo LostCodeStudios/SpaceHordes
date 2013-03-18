@@ -112,7 +112,6 @@
     <Compile Include="Entities\Components\Render\SpriteEffect.cs" />
     <Compile Include="Entities\Systems\SpriteEffectSystem.cs" />
     <Compile Include="Entities\Systems\DebugSystem.cs" />
-    <Compile Include="Entities\Systems\DebugRenderSystem.cs" />
     <Compile Include="Entities\Systems\ParticalMovementSystem.cs" />
     <Compile Include="Entities\Systems\RenderSystem.cs" />
     <Compile Include="Entities\Systems\AnimationSystem.cs" />

@@ -4,6 +4,7 @@ using GameLibrary.Helpers.Debug;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -53,11 +54,30 @@ namespace GameLibrary.Entities.Systems
 
         #region Functioning Loop
 
+        KeyboardState oldks;
         public override void Process()
         {
-            Matrix projection = _Camera.SimProjection;
-            Matrix view = _Camera.SimView;
-            View.RenderDebugData(ref projection, ref view);
+            KeyboardState newks = Keyboard.GetState();
+            if (newks != oldks)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.F1))
+                    _ShowGraph = !_ShowGraph;
+
+                if (Keyboard.GetState().IsKeyDown(Keys.OemTilde))
+                {
+                    if (Console.Running)
+                        Console.Stop();
+                }
+            }
+            oldks = newks;
+
+            if (_ShowGraph)
+            {
+                Matrix projection = _Camera.SimProjection;
+                Matrix view = _Camera.SimView;
+                View.RenderDebugData(ref projection, ref view);
+            }
+
         }
 
         #endregion Functioning Loop
@@ -71,6 +91,7 @@ namespace GameLibrary.Entities.Systems
 
         public DebugView View;
         private Camera _Camera;
+        private bool _ShowGraph = false;
 
         #endregion Fields
     }
