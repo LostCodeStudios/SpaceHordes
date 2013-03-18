@@ -196,7 +196,7 @@ namespace SpaceHordes
             #region Objects/Events
 
             this.SetEntityTemplate("Base", new BaseTemplate(this, _spriteSheet));
-            this.SetEntityTemplate("Turret", new TurretTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Turret", new TurretTemplate(_spriteSheet, enemySpawnSystem, this));
             this.SetEntityTemplate("Barrier", new BarrierTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Mine", new MineTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));

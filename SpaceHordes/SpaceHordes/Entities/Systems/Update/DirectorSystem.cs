@@ -76,11 +76,11 @@ namespace SpaceHordes.Entities.Systems
 
         private int lastBoss = 2;
 
-        bool surge = false;
+        public bool Surge = false;
         int elapsedWarning = 0;
-        int elapsedSurge = 0;
+        public int ElapsedSurge = 0;
         int warningTime = 3000;
-        int surgeTime = 30000;
+        public int SurgeTime = 20000;
 
 
         public DirectorSystem()
@@ -110,10 +110,10 @@ namespace SpaceHordes.Entities.Systems
             SpaceWorld w = world as SpaceWorld;
             difficulty = (int)(elapsedMinutes) * w.Players;
 
-            if (surge)
+            if (Surge)
             {
                 elapsedWarning += 333;
-                elapsedSurge += 333;
+                ElapsedSurge += 333;
 
                 if (elapsedWarning >= warningTime)
                 {
@@ -121,10 +121,10 @@ namespace SpaceHordes.Entities.Systems
                     elapsedWarning = 0; 
                 }
 
-                if (elapsedSurge >= surgeTime)
+                if (ElapsedSurge >= SurgeTime)
                 {
-                    surge = false;
-                    elapsedSurge = 0;
+                    Surge = false;
+                    ElapsedSurge = 0;
                     SpawnRate = 0;
                 }
             }
@@ -215,14 +215,14 @@ namespace SpaceHordes.Entities.Systems
                 if (chance > 66 || timesCalled == 100)
                 {
                     //SURGE
-                    surge = true;
+                    Surge = true;
                     HUDRenderSystem.SurgeWarning = true;
-                    SpawnRate = 3;
+                    SpawnRate = 2;
 
                     foreach (Entity e in TurretTemplate.Turrets)
                     {
                         Inventory inv = e.GetComponent<Inventory>();
-                        inv.CurrentGun.PowerUp(surgeTime, 3);
+                        inv.CurrentGun.PowerUp(SurgeTime, 3);
                     }
                     
 

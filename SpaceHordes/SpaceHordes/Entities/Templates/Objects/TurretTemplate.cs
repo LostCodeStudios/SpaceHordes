@@ -6,6 +6,7 @@ using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System.Collections.Generic;
+using SpaceHordes.Entities.Systems;
 
 namespace SpaceHordes.Entities.Templates.Objects
 {
@@ -13,12 +14,14 @@ namespace SpaceHordes.Entities.Templates.Objects
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
+        private DirectorSystem _DirectorSystem;
 
         public static List<Entity> Turrets = new List<Entity>();
 
-        public TurretTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        public TurretTemplate(SpriteSheet spriteSheet, DirectorSystem directorSystem, EntityWorld world)
         {
             _SpriteSheet = spriteSheet;
+            _DirectorSystem = directorSystem;
             _World = world;
         }
 
@@ -61,6 +64,11 @@ namespace SpaceHordes.Entities.Templates.Objects
                 {
                     Gun g = inv.CurrentGun;
                     g.BulletsToFire = true;
+
+                    if (_DirectorSystem.Surge)
+                    {
+                        g.PowerUp(_DirectorSystem.SurgeTime - _DirectorSystem.ElapsedSurge, 3);
+                    }
 
                     /* Aiming *\
                      * X = v*t + x_o therefore
