@@ -1,6 +1,7 @@
 ﻿using GameLibrary;
 using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Entities.Components.Render;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
@@ -47,7 +48,7 @@ namespace SpaceHordes
 #if DEBUG   //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
-                 new KeyValuePair<string, object>("Player", this.Player.GetComponent<GameLibrary.Entities.Components.Physics.Body>()),
+                 new KeyValuePair<string, object>("Player", this.Player[0].GetComponent<Body>()),
                  new KeyValuePair<string, object>("Base", this.Base.GetComponent<Health>()),
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 
