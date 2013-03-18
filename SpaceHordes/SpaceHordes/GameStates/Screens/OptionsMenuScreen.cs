@@ -376,8 +376,8 @@ namespace SpaceHordes.GameStates.Screens
 
         public static void WriteInitialSettings()
         {
-            //if (!Directory.Exists(FolderPath))
-            //    Directory.CreateDirectory(FolderPath);
+            if (!Directory.Exists(FolderPath))
+                Directory.CreateDirectory(FolderPath);
 
 #if WINDOWS
             if (!File.Exists(FilePath))

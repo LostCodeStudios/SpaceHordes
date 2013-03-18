@@ -118,7 +118,11 @@ namespace SpaceHordes.Entities.Systems
                     {
                         if (inv.YELLOW >= BarrierPrice)
                         {
-                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
+                            SpaceWorld w = world as SpaceWorld;
+                            Vector2 offset = (w.Base.GetComponent<Body>().Position - b.Position);
+                            offset.Normalize();
+                            //offset;
+                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
                         }
                     }

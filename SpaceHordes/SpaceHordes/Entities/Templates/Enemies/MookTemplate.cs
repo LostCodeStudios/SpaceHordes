@@ -15,7 +15,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
-        private static Random rbitch = new Random();
+        private static Random r = new Random();
         private static int mooks = 0;
 
         public MookTemplate(SpriteSheet spriteSheet, EntityWorld world)
@@ -42,31 +42,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
 
                 case 2:
-                    spriteKey = "grayshipwithtwoprongs";
-                    break;
-
-                case 3:
-                    spriteKey = "grayshipwithtwowings";
-                    break;
-
-                case 4:
-                    spriteKey = "brownplane";
-                    break;
-
-                case 5:
                     spriteKey = "bluecrystalship";
                     break;
 
-                case 6:
+                case 3:
                     spriteKey = "brownthingwithbluelight";
                     break;
 
-                case 7:
-                    spriteKey = "graytriangleship";
-                    break;
-
-                case 8:
-                    spriteKey = "eyeshot";
+                case 4:
+                    spriteKey = "grayshipwithtwoprongs";
                     break;
             }
 
@@ -100,11 +84,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
                             {
                             }
                         }
-                    return true;
+                    return false;
                 };
             bitch.Mass++;
 
-            Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
+            Vector2 pos = new Vector2((float)(r.NextDouble() * 2) - 1, (float)(r.NextDouble() * 2) - 1);
             pos.Normalize();
             pos *= ScreenHelper.Viewport.Width;
             pos = ConvertUnits.ToSimUnits(pos);
@@ -122,22 +106,22 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Crystal
 
             Color crystalColor = Color.Red;
-            int colorchance = rbitch.Next(100);
+            int colorchance = r.Next(100);
             int amount = 3;
             if (colorchance > 50)
             {
-                crystalColor = Color.Blue;
-                amount = 2;
+                crystalColor = Color.Yellow;
+                amount = 5;
             }
             if (colorchance > 70)
             {
-                crystalColor = Color.Green;
-                amount = 1;
+                crystalColor = Color.Blue;
+                amount = 3;
             }
             if (colorchance > 80)
             {
-                crystalColor = Color.Yellow;
-                amount = 5;
+                crystalColor = Color.Green;
+                amount = 1;
             }
             if (colorchance > 90)
             {
@@ -159,7 +143,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     Vector2 poss = e.GetComponent<ITransform>().Position;
                     _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
 
-                    int splodeSound = rbitch.Next(1, 5);
+                    int splodeSound = r.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
                     if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))

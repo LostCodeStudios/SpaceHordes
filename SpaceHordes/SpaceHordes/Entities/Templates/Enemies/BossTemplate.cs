@@ -99,7 +99,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                                 - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
                             (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
                         }
-                    return true;
+                    return false;
                 };
             bitch.Mass++;
 
@@ -130,18 +130,19 @@ namespace SpaceHordes.Entities.Templates.Enemies
             int amount = 25;
             if (colorchance > 50)
             {
-                crystalColor = Color.Blue;
-                amount = 15;
+                crystalColor = Color.Yellow;
+                amount = 35;
             }
             if (colorchance > 70)
             {
-                crystalColor = Color.Green;
-                amount = 10;
+                crystalColor = Color.Blue;
+                amount = 15;
+                
             }
             if (colorchance > 80)
             {
-                crystalColor = Color.Yellow;
-                amount = 35;
+                crystalColor = Color.Green;
+                amount = 10;
             }
             if (colorchance > 90)
             {

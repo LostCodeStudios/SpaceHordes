@@ -14,6 +14,7 @@ namespace SpaceHordes.Entities.Systems
 
         private Entity Base;
         private Entity Boss;
+        private Entity[] Players;
 
         private int difficulty = 0;
 
@@ -45,16 +46,19 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
-        public  string MookTemplate = "Mook";
-        public  string MookSprite = "";
+        public string MookTemplate = "Mook";
+        public string MookSprite = "";
 
-        public  string ThugTemplate = "Thug";
-        public  string ThugSprite = "";
+        public string ThugTemplate = "Thug";
+        public string ThugSprite = "";
 
-        public  string GunnerTemplate = "Gunner";
-        public  string HunterTemplate = "Hunter";
-        public  string DestroyerTemplate = "Destroyer";
-        public  string BossTemplate = "Boss";
+        public string GunnerTemplate = "Gunner";
+
+        public string HunterTemplate = "Hunter";
+        public string HunterSprite = "";
+
+        public string DestroyerTemplate = "Destroyer";
+        public string BossTemplate = "Boss";
 
         public  void ResetTags()
         {
@@ -88,9 +92,10 @@ namespace SpaceHordes.Entities.Systems
             timesCalled = 0;
         }
 
-        public void LoadContent(Entity Base)
+        public void LoadContent(Entity Base, Entity[] Players)
         {
             this.Base = Base;
+            this.Players = Players;
         }
 
         protected override void ProcessEntities(Dictionary<int, Entity> entities)
@@ -153,21 +158,29 @@ namespace SpaceHordes.Entities.Systems
                 }
                     
                 gunnersToSpawn = (GunnerSpawnRate != -1) ? ((GunnerSpawnRate == 0) ? (int)(difficulty / 9) : difficulty * (int)(GunnerSpawnRate/9)) : 0;
-                huntersToSpawn = (HunterSpawnRate != -1) ? ((HunterSpawnRate == 0) ? (int)(difficulty / 15) : difficulty * (int)(HunterSpawnRate/15)) : 0;
-                destroyersToSpawn = (DestroyerSpawnRate != -1) ? ((DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : difficulty * (int)(DestroyerSpawnRate/30)) : 0;
 
-                type = r.Next(8);
+                if (HunterSpawnRate != -1)
+                {
+                    huntersToSpawn = (HunterSpawnRate == 0) ?
+                        ((r.Next(1, 100) * difficulty > 90) ? 1 : 0) :
+                        ((r.Next(1, 100) * HunterSpawnRate) > 90 ?
+                            difficulty * HunterSpawnRate : 0);
+                }
+                //huntersToSpawn = (HunterSpawnRate != -1) ? ((HunterSpawnRate == 0) ? (int)(difficulty) : difficulty * (int)(HunterSpawnRate)) : 0;
+                destroyersToSpawn = (DestroyerSpawnRate != -1) ? ((DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : difficulty * (int)(DestroyerSpawnRate/30)) : 0;
+                
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
+                    type = r.Next(5);
                     if (string.IsNullOrEmpty(MookSprite))
                         World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>()).Refresh();
                     else
                         World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>(), MookSprite).Refresh();
                 }
 
-                type = r.Next(4);
                 for (int i = 0; i < thugsToSpawn; i++)
                 {
+                    type = r.Next(3);
                     if (string.IsNullOrEmpty(ThugSprite))
                         World.CreateEntity(ThugTemplate, type, Base.GetComponent<Body>()).Refresh();
                     else
@@ -180,6 +193,13 @@ namespace SpaceHordes.Entities.Systems
 
                 for (int i = 0; i < huntersToSpawn; i++)
                 {
+                    type = r.Next(0, 3);
+                    int target = r.Next(0, Players.Length);
+                    Body b = Players[target].GetComponent<Body>();
+                    if (string.IsNullOrEmpty(HunterSprite))
+                        World.CreateEntity(HunterTemplate, type, b).Refresh();
+                    else
+                        World.CreateEntity(HunterTemplate, type, b, HunterSprite).Refresh();
                 }
 
                 for (int i = 0; i < destroyersToSpawn; i++)
