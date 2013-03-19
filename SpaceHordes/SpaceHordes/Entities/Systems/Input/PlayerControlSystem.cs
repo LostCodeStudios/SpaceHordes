@@ -122,7 +122,7 @@ namespace SpaceHordes.Entities.Systems
                             Vector2 offset = (w.Base.GetComponent<Body>().Position - b.Position);
                             offset.Normalize();
                             //offset;
-                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
+                             world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
                         }
                     }
