@@ -155,6 +155,14 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion Building
 
+                //Rotation
+                if (b.LinearVelocity != Vector2.Zero)
+                {
+                    if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
+                        b.RotateTo(b.LinearVelocity);
+                    WasMoving[playerIndex] = true;
+                }
+
                 #region Aiming
 
                 if (pad.ThumbSticks.Right != Vector2.Zero)
@@ -164,6 +172,8 @@ namespace SpaceHordes.Entities.Systems
                 }
 
                 #endregion Aiming
+
+
             }
 
             #endregion Gamepad
@@ -277,6 +287,15 @@ namespace SpaceHordes.Entities.Systems
                 b.RotateTo(-aiming);
 
                 #endregion Aiming
+
+
+                //Rotation
+                if (b.LinearVelocity != Vector2.Zero)
+                {
+                    if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
+                        b.RotateTo(b.LinearVelocity);
+                    WasMoving[playerIndex] = true;
+                }
             }
 #endif
 
@@ -295,14 +314,6 @@ namespace SpaceHordes.Entities.Systems
                 target.Normalize();
                 WasMoving[playerIndex] = true;
                 b.LinearDamping = _Velocity * 2;
-            }
-
-            //Rotation
-            if (b.LinearVelocity != Vector2.Zero)
-            {
-                if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
-                    b.RotateTo(b.LinearVelocity);
-                WasMoving[playerIndex] = true;
             }
 
             //update position
