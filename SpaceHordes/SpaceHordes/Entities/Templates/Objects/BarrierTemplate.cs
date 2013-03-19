@@ -46,7 +46,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Sprite
 
-            Sprite s = new Sprite(_SpriteSheet, "barrier");
+            Sprite s = new Sprite(_SpriteSheet, "barrier", 1);
             e.AddComponent<Sprite>(s);
 
             #endregion Sprite

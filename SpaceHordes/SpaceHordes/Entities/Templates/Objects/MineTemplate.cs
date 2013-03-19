@@ -44,7 +44,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Sprite
 
-            Sprite s = new Sprite(_SpriteSheet, "rotatinglightball");
+            Sprite s = new Sprite(_SpriteSheet, "rotatinglightball", 1);
             e.AddComponent<Sprite>(s); 
 
             #endregion Sprite
