@@ -15,6 +15,7 @@ namespace SpaceHordes.Entities.Systems
         private Entity Base;
         private Entity Boss;
         private Entity[] Players;
+        private int[] RespawnTime;
 
         private int difficulty = 0;
 
@@ -96,6 +97,17 @@ namespace SpaceHordes.Entities.Systems
         {
             this.Base = Base;
             this.Players = Players;
+            this.RespawnTime = new int[Players.Length];
+
+            for (int i = 0; i < Players.Length; i++)
+            {
+                Entity e = Players[i];
+                e.GetComponent<Health>().OnDeath += x =>
+                {
+                    int id = int.Parse(e.Tag.Replace("P", " ")) - 1;
+                    RespawnTime[id] = 3000;
+                };
+            }
         }
 
         protected override void ProcessEntities(Dictionary<int, Entity> entities)
@@ -239,9 +251,30 @@ namespace SpaceHordes.Entities.Systems
             }
 
             #endregion Spawning
+
+            #region Player Respawn
+
+
+
+            for (int i = 0; i < Players.Length; i++)
+            {
+                if (RespawnTime[i] > 0)
+                {
+                    RespawnTime[i] -= 333;
+
+                    if (RespawnTime[i] <= 0)
+                    {
+                        RespawnTime[i] = 0;
+                        Players[i] = World.CreateEntity("Player", (PlayerIndex)i);
+                        Players[i].Refresh();
+                    }
+                }
+            }
+
+            #endregion
         }
 
-        public  float ClampInverse(float value, float min, float max)
+        public float ClampInverse(float value, float min, float max)
         {
             if (value > min && value < max)
             {
