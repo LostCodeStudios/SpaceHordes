@@ -13,6 +13,8 @@ using SpaceHordes.Entities.Templates;
 using SpaceHordes.Entities.Templates.Enemies;
 using SpaceHordes.Entities.Templates.Objects;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace SpaceHordes
 {
@@ -414,7 +416,20 @@ namespace SpaceHordes
         #endregion Initialization
 
         #region Functioning Loop
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
 
+            //SPEED UP FOR DEBUG LOL
+#if DEBUG
+            Console.WriteLine(Speed + "\n");
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && Speed >= 0.4f)
+                Speed -= 0.01f;
+            else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                Speed += 0.01f;
+#endif
+            
+        }
         #endregion Functioning Loop
 
         #region Fields

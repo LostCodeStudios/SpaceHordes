@@ -95,7 +95,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                     // Console.WriteLine((target.UserData as Entity).Tag + ": " + time);
                 },
                 "Enemies",
-                ConvertUnits.ToSimUnits(3000)));
+                ConvertUnits.ToSimUnits(500)));
             ai.Targeting = Targeting.Closest;
 
             #endregion AI/GUN

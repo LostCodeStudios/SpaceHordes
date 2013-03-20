@@ -17,7 +17,7 @@ namespace SpaceHordes.Entities.Systems
         private Entity[] Players;
         public int[] RespawnTime;
 
-        private int difficulty = 0;
+        private double difficulty = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
         private float elapsedSeconds;
@@ -122,7 +122,7 @@ namespace SpaceHordes.Entities.Systems
             elapsedMinutes += .333f / 60f;
 
             SpaceWorld w = world as SpaceWorld;
-            difficulty = (int)(elapsedMinutes) * w.Players;
+            difficulty = ((elapsedMinutes)*(elapsedMinutes)) * w.Players;
 
             if (Surge)
             {
@@ -149,7 +149,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (intervalSeconds >= 1)
             {
-                ScoreSystem.GivePoints(10 * difficulty);
+                ScoreSystem.GivePoints(10 * (int)difficulty);
                 intervalSeconds = 0;
             }
 
@@ -162,32 +162,32 @@ namespace SpaceHordes.Entities.Systems
             if (timesCalled % 5 == 0)
             {
                 int type;
-                mooksToSpawn = (MookSpawnRate != -1) ? ((MookSpawnRate == 0) ? difficulty : difficulty * MookSpawnRate) : 0;
+                mooksToSpawn = (MookSpawnRate != -1) ? ((MookSpawnRate == 0) ? (int)difficulty : (int)difficulty * MookSpawnRate) : 0;
                 if (ThugSpawnRate != -1)
                 {
-                    thugsToSpawn = (ThugSpawnRate == 0) ? 
-                        ((r.Next(1, 100) * difficulty > 90) ? 1 : 0) : 
-                        ((r.Next(1, 100) * ThugSpawnRate) > 90 ? 
-                            difficulty * ThugSpawnRate : 0);
+                    thugsToSpawn = (ThugSpawnRate == 0) ?
+                        ((r.Next(1, 100) * (int)difficulty > 90) ? 1 : 0) : 
+                        ((r.Next(1, 100) * ThugSpawnRate) > 90 ?
+                            (int)difficulty * ThugSpawnRate : 0);
                 }
 
                 if (GunnerSpawnRate != -1)
                 {
                     gunnersToSpawn = (GunnerSpawnRate == 0) ?
-                        ((r.Next(1, 100) * difficulty > 40) ? 1 : 0) :
+                        ((r.Next(1, 100) * (int)difficulty > 40) ? 1 : 0) :
                         ((r.Next(1, 100) * GunnerSpawnRate) > 90 ?
-                            difficulty * GunnerSpawnRate : 0);
+                            (int)difficulty * GunnerSpawnRate : 0);
                 }
 
                 if (HunterSpawnRate != -1)
                 {
                     huntersToSpawn = (HunterSpawnRate == 0) ?
-                        ((r.Next(1, 100) * difficulty > 90) ? 1 : 0) :
+                        ((r.Next(1, 100) * (int)difficulty > 90) ? 1 : 0) :
                         ((r.Next(1, 100) * HunterSpawnRate) > 90 ?
-                            difficulty * HunterSpawnRate : 0);
+                            (int)difficulty * HunterSpawnRate : 0);
                 }
                 //huntersToSpawn = (HunterSpawnRate != -1) ? ((HunterSpawnRate == 0) ? (int)(difficulty) : difficulty * (int)(HunterSpawnRate)) : 0;
-                destroyersToSpawn = (DestroyerSpawnRate != -1) ? ((DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : difficulty * (int)(DestroyerSpawnRate/30)) : 0;
+                destroyersToSpawn = (DestroyerSpawnRate != -1) ? ((DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : (int)difficulty * (int)(DestroyerSpawnRate / 30)) : 0;
                 
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
@@ -256,7 +256,7 @@ namespace SpaceHordes.Entities.Systems
                 else
                 {
                     //Boss.
-                    int tier = Math.Min(difficulty, 3);
+                    int tier = Math.Min((int)difficulty, 3);
                     Boss = World.CreateEntity(BossTemplate, tier, Base.GetComponent<Body>());
                     Boss.Refresh();
                     lastBoss++;

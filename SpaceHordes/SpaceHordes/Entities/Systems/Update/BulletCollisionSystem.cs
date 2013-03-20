@@ -34,33 +34,25 @@ namespace SpaceHordes.Entities.Systems
                 world.RayCast(
                     delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
                     {
-                        //Check if in collision range.
-                        if ((point - particle.Position).Length() < (expectedRange).Length())
+                        bullet.collisionChecked++;
+                        if (fix.Body.UserData is Entity)
                         {
-                            bullet.collisionChecked++;
-                            if (fix.Body.UserData is Entity)
-                            {
-                                if ((fix.Body.UserData as Entity).HasComponent<Health>()
-                                    && (fix.Body.UserData as Entity).Group == bullet.DamageGroup)
-                                { //Do damage
-                                    (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
-                                        (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
-                                    e.Delete(); //Remove bullet
+                            if ((fix.Body.UserData as Entity).HasComponent<Health>()
+                                && (fix.Body.UserData as Entity).Group == bullet.DamageGroup)
+                            { //Do damage
+                                (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
+                                    (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
+                                e.Delete(); //Remove bullet
 
-                                    if (bullet.OnBulletHit != null)
-                                    {
-                                        //Do bullet effects here........... Maybe a call back?{
-                                        bullet.OnBulletHit(fix.Body.UserData as Entity);
-                                    }
+                                if (bullet.OnBulletHit != null)
+                                {
+                                    //Do bullet effects here........... Maybe a call back?{
+                                    bullet.OnBulletHit(fix.Body.UserData as Entity);
                                 }
                             }
                         }
-                        //else //If premptive
-                        {
-
-                        }
                         return 0;
-                    }, particle.Position, particle.LinearVelocity);
+                    }, particle.Position,  particle.Position + particle.LinearVelocity * new Vector2(World.Delta * .001f));
         }
     }
 }

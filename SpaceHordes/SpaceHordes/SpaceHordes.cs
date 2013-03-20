@@ -73,8 +73,8 @@ namespace SpaceHordes
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
-            graphics.PreferredBackBufferWidth = 1920; //I have to be able to run in release mode from my home computer. So yeah.
-            graphics.PreferredBackBufferHeight = 1080;
+           //graphics.PreferredBackBufferWidth = 1920; //I have to be able to run in release mode from my home computer. So yeah.
+           // graphics.PreferredBackBufferHeight = 1080;
 
             IsFixedTimeStep = true;
 
