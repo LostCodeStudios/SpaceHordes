@@ -28,10 +28,8 @@ namespace SpaceHordes.Entities.Systems
             Bullet bullet = bulletMapper.Get(e);
 
             //Check collision with physical world.
-            if (bullet.collisionChecked < 3)
-            {
                 //Range
-                Vector2 expectedRange = particle.LinearVelocity * (new Microsoft.Xna.Framework.Vector2(world.Delta / 1000f));
+                Vector2 expectedRange = particle.Position + particle.LinearVelocity * (new Microsoft.Xna.Framework.Vector2(world.Delta / 500f));
 
                 world.RayCast(
                     delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
@@ -62,15 +60,7 @@ namespace SpaceHordes.Entities.Systems
 
                         }
                         return 0;
-                    }, particle.Position, particle.Position + particle.LinearVelocity);
-
-            }
-
-
-
-            //Long range preemptive
-
-
+                    }, particle.Position, particle.LinearVelocity);
         }
     }
 }

@@ -115,7 +115,7 @@ namespace GameLibrary.Entities.Components
         /// <param name="_SpriteSheet"></param>
         /// <param name="spriteKey"></param>
         /// <param name="layer"></param>
-        public Sprite(SpriteSheet _SpriteSheet, string spriteKey, int layer)
+        public Sprite(SpriteSheet _SpriteSheet, string spriteKey, float layer)
             : this(_SpriteSheet, spriteKey, new Vector2(_SpriteSheet[spriteKey][0].Width / 2f, _SpriteSheet[spriteKey][0].Height / 2f), 1f, Color.White, layer)
         {
         }
