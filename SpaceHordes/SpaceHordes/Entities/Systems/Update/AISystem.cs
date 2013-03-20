@@ -47,7 +47,7 @@ namespace SpaceHordes.Entities.Systems
             {
                 if (x.Body.BodyId != location.BodyId)
                 {
-                    if ((ai.TargetGroup == "" || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group, StringComparison.OrdinalIgnoreCase)))
+                    if ((ai.TargetGroup == "" || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group)))
                         bodies.Add(x.Body);
                 }
                 return true;

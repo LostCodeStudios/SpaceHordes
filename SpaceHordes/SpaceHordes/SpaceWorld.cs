@@ -109,6 +109,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Mook", new MookTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Hunter", new HunterTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Gunner", new GunnerTemplate(_spriteSheet, this));
 
             #region Bosses
 
@@ -275,19 +276,19 @@ namespace SpaceHordes
             this.SetEntityTemplate("RedBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot1", bulletLayer),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(2, "Enemies", null
+                new Bullet(1, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot2", bulletLayer),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(4, "Enemies", null
+                new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot3", bulletLayer),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(6, "Enemies", null
+                new Bullet(3, "Enemies", null
                     )));
 
             this.SetEntityTemplate("GreenBullet1", new BulletTemplate(

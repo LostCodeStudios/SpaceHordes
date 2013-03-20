@@ -113,6 +113,8 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             Inventory i = e.GetComponent<Inventory>();
+            if (i._type != InvType.Player)
+                return;
 
             int playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
             int playerNum = playerIndex + 1;

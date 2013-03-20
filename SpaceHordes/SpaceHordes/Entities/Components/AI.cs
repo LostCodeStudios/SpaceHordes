@@ -106,6 +106,32 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
+        public static Func<Body, bool> CreateShoot(Entity ent, float speed, float shootDistance, bool rotateTo = true)
+        {
+            return
+                (target) =>
+                {
+                    Body b = ent.GetComponent<Body>();
+                    float distance = Vector2.Distance(b.Position, target.Position);
+
+                    Vector2 direction = b.Position - target.Position;
+                    direction.Normalize();
+                    b.RotateTo(direction);
+                    if (distance > shootDistance)
+                    {
+                        direction *= 5f;
+                        b.LinearVelocity = direction;
+                    }
+
+                    else
+                    {
+                        ent.GetComponent<Inventory>().CurrentGun.BulletsToFire = true;
+                    }
+
+                    return false;
+                };
+        }
+
         #endregion Behaviors
     }
 
