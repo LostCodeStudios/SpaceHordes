@@ -70,28 +70,39 @@ namespace SpaceHordes.Entities.Systems
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval / gun.Power && gun.BulletsToFire && gun.Ammunition > 0)
             {
-                gun.BulletsToFire = false;
-                gun.Elapsed = 0;
-                gun.Ammunition--;
-
                 if (gun.Ammunition == 0)
                 {
                     inv.CurrentGun = inv.WHITE;
                 }
 
-                Entity bullet = world.CreateEntity(gun.BulletTemplateTag, transform);
-                gun.BulletVelocity = bullet.GetComponent<IVelocity>().LinearVelocity;
-                Bullet bb = bullet.GetComponent<Bullet>();
-                bb.Firer = e;
-                bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
-                bullet.AddComponent<Bullet>(bb);
-                bullet.Refresh();
+                foreach (Vector2 offset in gun.GunOffsets)
+                {
+                    float rotation = transform.Rotation;
+                    float r_o = (float)Math.Atan2(offset.X, offset.Y);
+                    float r_a = (float)Math.Atan2(offset.Y, offset.X);
 
-                int shot = r.Next(1, 3);
-                if (e.Group == "Structures")
-                    SoundManager.Play("Shot" + shot.ToString(), .25f);
-                else
-                    SoundManager.Play("Shot" + shot.ToString());
+                    Vector2 rotatedOffset = ConvertUnits.ToSimUnits(new Vector2((float)Math.Cos(r_a + rotation)*offset.Length(), (float)Math.Sin(r_a + rotation)*offset.Length())) ;
+                    Transform fireAt = new Transform(transform.Position + rotatedOffset, rotation);
+
+                    Entity bullet = world.CreateEntity(gun.BulletTemplateTag, fireAt);
+                    gun.BulletVelocity = bullet.GetComponent<IVelocity>().LinearVelocity;
+                    Bullet bb = bullet.GetComponent<Bullet>();
+                    bb.Firer = e;
+                    bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
+                    bullet.AddComponent<Bullet>(bb);
+                    bullet.Refresh();
+
+                    int shot = r.Next(1, 3);
+                    if (e.Group == "Structures")
+                        SoundManager.Play("Shot" + shot.ToString(), .25f);
+                    else
+                        SoundManager.Play("Shot" + shot.ToString());
+                }
+
+
+                gun.Ammunition--;
+                gun.BulletsToFire = false;
+                gun.Elapsed = 0;
             }
         }
     }

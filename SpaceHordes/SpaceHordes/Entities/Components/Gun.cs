@@ -1,5 +1,6 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -8,16 +9,33 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class Gun : Component
     {
-        public Gun(int ammunition, int interval, int power, string bulletTemplateTag)
+        public Gun(int ammunition, int interval, int power, string bulletTemplateTag, params Vector2[] offsets)
         {
             Ammunition = ammunition;
             DefaultTemplate = bulletTemplateTag;
             Power = power;
             Interval = interval;
             Elapsed = 0;
+
+            if (offsets.Length == 0)
+            {
+                GunOffsets.Add(Vector2.Zero);
+            }
+            else
+            {
+                foreach (Vector2 offset in offsets)
+                {
+                    gunOffsets.Add(offset);
+                }
+            }
         }
 
         #region Properties
+
+        public List<Vector2> GunOffsets
+        {
+            get { return gunOffsets; }
+        }
 
         public bool BulletsToFire
         {
@@ -102,6 +120,8 @@ namespace SpaceHordes.Entities.Components
 
         private bool _BulletsToFire = false;
         private int ammo;
+
+        List<Vector2> gunOffsets = new List<Vector2>();
 
         #endregion Fields
 

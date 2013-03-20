@@ -44,7 +44,7 @@ namespace SpaceHordes.Entities.Systems
             Sprite s = e.GetComponent<Sprite>();
             Health h = e.GetComponent<Health>();
 
-            if (h.IsAlive)
+            if (h != null || h.IsAlive)
             {
                 e.RemoveComponent<Sprite>(s);
 

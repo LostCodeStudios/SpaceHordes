@@ -207,10 +207,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                    }
 
                    _World.enemySpawnSystem.ResetTags();
-
-                   #region Special Cases
-
-                   #endregion
+                   _World.enemySpawnSystem.SpawnRate = 0;
                };
 
             #endregion AI/Health
@@ -238,9 +235,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             if (spriteKey == "clawbossthing")
             {
-                _World.enemySpawnSystem.MookSprite = "8prongbrownthingwithfangs";
+                _World.enemySpawnSystem.GunnerSprite = "8prongbrownthingwithfangs";
                 _World.enemySpawnSystem.ThugSprite = "minibrownclawboss";
-                _World.enemySpawnSystem.GunnerSpawnRate = -1;
+                _World.enemySpawnSystem.MookSpawnRate = -1;
+                _World.enemySpawnSystem.GunnerSpawnRate = 2;
                 _World.enemySpawnSystem.HunterSpawnRate = -1;
                 _World.enemySpawnSystem.DestroyerSpawnRate = -1;
             }

@@ -789,6 +789,9 @@ namespace SpaceHordes
             SoundManager.Add("Explosion2", Content.Load<SoundEffect>("Sounds/Explosion2"));
             SoundManager.Add("Explosion3", Content.Load<SoundEffect>("Sounds/Explosion3"));
             SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
+            SoundManager.Add("SelectChanged", Content.Load<SoundEffect>("Sounds/50561__broumbroum__sf3-sfx-menu-select"));
+            SoundManager.Add("MenuCancel", Content.Load<SoundEffect>("Sounds/50557__broumbroum__sf3-sfx-menu-back"));
+            //SoundManager.Add("Selection", Content.Load<SoundEffect>("Sounds/150222__killkhan__menu-select"));
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
             SoundManager.Add("Pickup1", Content.Load<SoundEffect>("Sounds/pickup"));

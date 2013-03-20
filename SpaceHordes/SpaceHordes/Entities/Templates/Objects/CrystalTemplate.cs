@@ -41,7 +41,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             if (color == Color.Gray)
                 source = "graycrystal";
 
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f));
             Body b = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),

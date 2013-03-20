@@ -52,6 +52,14 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 case 4:
                     spriteKey = "grayshipwithtwoprongs";
                     break;
+
+                case 5:
+                    spriteKey = "greyshipbrownbulb";
+                    break;
+
+                case 6:
+                    spriteKey = "blueshipgraybulb";
+                    break;
             }
 
             if (args.Length > 2)

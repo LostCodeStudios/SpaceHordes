@@ -1,140 +1,170 @@
-﻿//using GameLibrary.Dependencies.Entities;
-//using GameLibrary.Dependencies.Physics.Factories;
-//using GameLibrary.Entities.Components;
-//using GameLibrary.Entities.Components.Physics;
-//using GameLibrary.Helpers;
-//using Microsoft.Xna.Framework;
-//using SpaceHordes.Entities.Components;
-//using SpaceHordes.Entities.Systems;
-//using System;
-//using System.Linq;
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Dependencies.Physics.Factories;
+using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
+using SpaceHordes.Entities.Components;
+using SpaceHordes.Entities.Systems;
+using System;
+using System.Linq;
 
-//namespace SpaceHordes.Entities.Templates.Enemies
-//{
-//    public class GunnerTemplate : IEntityTemplate
-//    {
-//        private SpriteSheet _SpriteSheet;
-//        private EntityWorld _World;
-//        private static Random rbitch = new Random();
-//        private static int mooks = 0;
-         
-//        public GunnerTemplate(SpriteSheet spriteSheet, EntityWorld world)
-//        {
-//            _SpriteSheet = spriteSheet;
-//            _World = world;
-//        }
+namespace SpaceHordes.Entities.Templates.Enemies
+{
+    public class GunnerTemplate : IEntityTemplate
+    {
+        private SpriteSheet _SpriteSheet;
+        private EntityWorld _World;
+        private static Random rbitch = new Random();
 
-//        public Entity BuildEntity(Entity e, params object[] args)
-//        {
+        private float shootdistance = 10f;
 
-//            #region Body
+        public GunnerTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        {
+            _SpriteSheet = spriteSheet;
+            _World = world;
+        }
 
-//            Body bitch = e.AddComponent<Body>(new Body(_World, e));
-//            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-//            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
-//            bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
-//            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
-//            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
-//            bitch.OnCollision +=
-//                (f1, f2, c) =>
-//                {
-//                    if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
-//                        if ((f2.Body.UserData as Entity).Group != "Crystals")
-//                        {
-//                            try
-//                            {
-//                                (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
-//                                    (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-//                                    - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
-//                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
-//                            }
-//                            catch
-//                            {
-//                            }
-//                        }
-//                    return true;
-//                };
-//            bitch.Mass++;
+        public Entity BuildEntity(Entity e, params object[] args)
+        {
+            int type = (int)args[0];
 
-//            Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
-//            pos.Normalize();
-//            pos *= ScreenHelper.Viewport.Width;
-//            pos = ConvertUnits.ToSimUnits(pos);
-//            bitch.Position = pos;
+            #region Body
+            string spriteKey = "";
 
-//            #endregion Body
+            switch (type)
+            {
+                case 0:
+                    spriteKey = "graybulbwithsidegunthings";
+                    break;
+                case 1:
+                    spriteKey = "blueshipwithbulb";
+                    break;
+                case 2:
+                    spriteKey = "purpleship";
+                    break;
+                case 3:
+                    spriteKey = "browntriangleship";
+                    break;
+                case 4:
+                    spriteKey = "brownarmship";
+                    break;
+            }
 
-//            #region Animation
+            if (args.Length > 1)
+                spriteKey = (string)args[1];
 
-//            if (s.Source.Count() > 1)
-//                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
+            Body bitch = e.AddComponent<Body>(new Body(_World, e));
+            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
+            bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
+            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
+            bitch.OnCollision +=
+                (f1, f2, c) =>
+                {
+                    if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
+                        if ((f2.Body.UserData as Entity).Group != "Crystals")
+                        {
+                            try
+                            {
+                                (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
+                                    (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
+                                    - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
+                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                            }
+                            catch
+                            {
+                            }
+                        }
+                    return true;
+                };
+            bitch.Mass++;
 
-//            #endregion Animation
+            Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
+            pos.Normalize();
+            pos *= ScreenHelper.Viewport.Width;
+            pos = ConvertUnits.ToSimUnits(pos);
+            bitch.Position = pos;
 
-//            #region Crystal
+            #endregion Body
 
-//            Color crystalColor = Color.Red;
-//            int colorchance = rbitch.Next(100);
-//            int amount = 3;
-//            if (colorchance > 50)
-//            {
-//                crystalColor = Color.Blue;
-//                amount = 2;
-//            }
-//            if (colorchance > 70)
-//            {
-//                crystalColor = Color.Green;
-//                amount = 1;
-//            }
-//            if (colorchance > 80)
-//            {
-//                crystalColor = Color.Yellow;
-//                amount = 5;
-//            }
-//            if (colorchance > 90)
-//            {
-//                crystalColor = Color.Gray;
-//                amount = 2;
-//            }
-//            e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
+            #region Animation
 
-//            #endregion Crystal
+            if (s.Source.Count() > 1)
+                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
 
-//            #region AI/Health
+            #endregion Animation
 
-//            e.AddComponent<AI>(new AI((args[1] as Body),
-//                AI.CreateFollow(e, 5)));
+            #region Crystal
 
-//            e.AddComponent<Health>(new Health(1)).OnDeath +=
-//                ent =>
-//                {
-//                    Vector2 poss = e.GetComponent<ITransform>().Position;
-//                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
+            Color crystalColor = Color.Red;
+            int colorchance = rbitch.Next(100);
+            int amount = 3;
+            if (colorchance > 50)
+            {
+                crystalColor = Color.Blue;
+                amount = 2;
+            }
+            if (colorchance > 70)
+            {
+                crystalColor = Color.Green;
+                amount = 1;
+            }
+            if (colorchance > 80)
+            {
+                crystalColor = Color.Yellow;
+                amount = 5;
+            }
+            if (colorchance > 90)
+            {
+                crystalColor = Color.Gray;
+                amount = 2;
+            }
+            e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
-//                    int splodeSound = rbitch.Next(1, 5);
-//                    SoundManager.Play("Explosion" + splodeSound.ToString());
+            #endregion Crystal
 
-//                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
-//                    {
-//                        if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
-//                        {
-//                            Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
-//                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
-//                        }
-//                        else
-//                        {
-//                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
-//                        }
-//                        ScoreSystem.GivePoints(1);
-//                    }
-//                };
+            #region AI/Health
 
-//            #endregion AI/Health
+            e.AddComponent<AI>(new AI(null, 
+                AI.CreateShoot(e, 4f, 2000f)));
 
-//            e.Tag = "Mook" + mooks.ToString();
-//            e.Group = "Enemies";
-//            mooks++;
-//            return e;
-//        }
-//    }
-//}
+            e.AddComponent<Health>(new Health(1)).OnDeath +=
+                ent =>
+                {
+                    Vector2 poss = e.GetComponent<ITransform>().Position;
+                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
+
+                    int splodeSound = rbitch.Next(1, 5);
+                    SoundManager.Play("Explosion" + splodeSound.ToString());
+
+                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
+                    {
+                        if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
+                        {
+                            Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
+                        }
+                        else
+                        {
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                        }
+                        ScoreSystem.GivePoints(1);
+                    }
+                };
+
+            #endregion AI/Health
+
+            #region Inventory
+
+            Inventory i = new Inventory(0, 0, 0, 0, InvType.Gunner, spriteKey);
+            e.AddComponent<Inventory>(i);
+
+            #endregion
+
+            e.Group = "Enemies";
+            return e;
+        }
+    }
+}
