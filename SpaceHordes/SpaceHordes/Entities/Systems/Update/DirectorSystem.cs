@@ -15,7 +15,7 @@ namespace SpaceHordes.Entities.Systems
         private Entity Base;
         private Entity Boss;
         private Entity[] Players;
-        private int[] RespawnTime;
+        public int[] RespawnTime;
 
         private int difficulty = 0;
 
@@ -106,7 +106,7 @@ namespace SpaceHordes.Entities.Systems
                 Entity e = Players[i];
                 e.GetComponent<Health>().OnDeath += x =>
                 {
-                    int id = int.Parse(e.Tag.Replace("P", " ")) - 1;
+                    int id = int.Parse(e.Tag.Replace("P", "")) - 1;
                     RespawnTime[id] = 3000;
                 };
             }
@@ -237,7 +237,7 @@ namespace SpaceHordes.Entities.Systems
                 
                 int chance = r.Next(1, 100);
 
-                if (chance > 66 || timesCalled == 100)
+                if (chance > 66)
                 {
                     //SURGE
                     Surge = true;
@@ -279,6 +279,12 @@ namespace SpaceHordes.Entities.Systems
                     {
                         RespawnTime[i] = 0;
                         Players[i] = World.CreateEntity("Player", (PlayerIndex)i);
+                        Entity e = Players[i];
+                        e.GetComponent<Health>().OnDeath += x =>
+                        {
+                            int id = int.Parse(e.Tag.Replace("P", "")) - 1;
+                            RespawnTime[id] = 3000;
+                        };
                         Players[i].Refresh();
                     }
                 }
