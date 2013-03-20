@@ -13,6 +13,8 @@ namespace SpaceHordes.Entities.Templates.Objects
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
 
+        private float distFromPlayer = 25f;
+
         public BarrierTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             _SpriteSheet = spriteSheet;
@@ -21,7 +23,14 @@ namespace SpaceHordes.Entities.Templates.Objects
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
+            #region Origin
+
+            e.AddComponent<Origin>(new Origin(args[1] as Entity));
+
+            #endregion
+
             #region Body
+
 
             Body Body = e.AddComponent<Body>(new Body(_World, e));
             {
@@ -31,7 +40,13 @@ namespace SpaceHordes.Entities.Templates.Objects
                     5,
                     1,
                     Body);
-                Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0]);
+
+                Body blarg = (args[1] as Entity).GetComponent<Body>();
+                Vector2 dist = Body.Position - blarg.Position;
+                dist.Normalize();
+                dist *= distFromPlayer;
+
+                Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0] - dist);
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
                 Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
                 //Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
@@ -64,12 +79,6 @@ namespace SpaceHordes.Entities.Templates.Objects
                 };
 
             #endregion Health
-
-            #region Origin
-
-            e.AddComponent<Origin>(new Origin(args[1] as Entity));
-
-            #endregion
 
             e.Group = "Structures";
             return e;
