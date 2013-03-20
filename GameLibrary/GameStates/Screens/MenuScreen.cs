@@ -26,10 +26,31 @@ namespace GameLibrary.GameStates.Screens
         private InputAction menuSelect;
         private InputAction menuCancel;
 #endif
+        string selectionChangeSound = "";
+        string selectionSound = "";
+        string cancelSound = "";
 
         #endregion Fields
 
         #region Properties
+
+        protected string SelectionChangeSound
+        {
+            get { return selectionChangeSound; }
+            set { selectionChangeSound = value; }
+        }
+
+        protected string SelectionSound
+        {
+            get { return selectionSound; }
+            set { selectionSound = value; }
+        }
+
+        protected string CancelSound
+        {
+            get { return cancelSound; }
+            set { cancelSound = value; }
+        }
 
         /// <summary>
         /// Gets the list of menu entries, so derived classes can add or change the menu
@@ -115,8 +136,13 @@ namespace GameLibrary.GameStates.Screens
             {
                 selectedEntry--;
 
+                if (!string.IsNullOrEmpty(selectionChangeSound))
+                    SoundManager.Play(selectionChangeSound);
+
                 if (selectedEntry < 0)
+                {
                     selectedEntry = menuEntries.Count - 1;
+                }
             }
 
             //Move to the next menu entry?
@@ -124,17 +150,33 @@ namespace GameLibrary.GameStates.Screens
             {
                 selectedEntry++;
 
+                if (!string.IsNullOrEmpty(selectionChangeSound))
+                    SoundManager.Play(selectionChangeSound);
+
                 if (selectedEntry >= menuEntries.Count)
+                {
                     selectedEntry = 0;
+                }
             }
 
             if (menuSelect.Evaluate(input, ControllingPlayer, out playerIndex))
             {
                 OnSelectEntry(selectedEntry, playerIndex);
+
+                if (!string.IsNullOrEmpty(selectionSound))
+                {
+                    SoundManager.Play(selectionSound);
+                }
             }
+
             else if (menuCancel.Evaluate(input, ControllingPlayer, out playerIndex))
             {
                 OnCancel(playerIndex);
+
+                if (!string.IsNullOrEmpty(cancelSound))
+                {
+                    SoundManager.Play(cancelSound);
+                }
             }
 
 #endif
