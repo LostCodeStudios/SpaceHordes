@@ -83,7 +83,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Body
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
-            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
+            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 20, 1f, bitch);
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
@@ -109,7 +109,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
 
-            if (spriteKey == "massivebluemissile")
+            if (spriteKey == "massivebluemissile" || spriteKey == "flamer")
             {
                 bitch.Rotation = MathHelper.ToRadians(90);
             }
@@ -207,10 +207,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                    }
 
                    _World.enemySpawnSystem.ResetTags();
-
-                   #region Special Cases
-
-                   #endregion
+                   _World.enemySpawnSystem.SpawnRate = 0;
                };
 
             #endregion AI/Health
@@ -238,9 +235,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             if (spriteKey == "clawbossthing")
             {
-                _World.enemySpawnSystem.MookSprite = "8prongbrownthingwithfangs";
+                _World.enemySpawnSystem.GunnerSprite = "8prongbrownthingwithfangs";
                 _World.enemySpawnSystem.ThugSprite = "minibrownclawboss";
-                _World.enemySpawnSystem.GunnerSpawnRate = -1;
+                _World.enemySpawnSystem.MookSpawnRate = -1;
+                _World.enemySpawnSystem.GunnerSpawnRate = 2;
                 _World.enemySpawnSystem.HunterSpawnRate = -1;
                 _World.enemySpawnSystem.DestroyerSpawnRate = -1;
             }

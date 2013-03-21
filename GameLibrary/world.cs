@@ -28,6 +28,8 @@ namespace GameLibrary
             this.Camera = new Camera(Game.GraphicsDevice);
             this.SpriteBatch = new SpriteBatch(Game.GraphicsDevice);
             this.BuildEvents(Game);
+
+            Speed = 1;
         }
 
         /// <summary>
@@ -120,9 +122,9 @@ namespace GameLibrary
         {
             this.LoopStart(); //Start the functioning loop
             {
-                this.Delta = (int)gameTime.ElapsedGameTime.TotalMilliseconds; //set change in time.
+                this.Delta = (int)(gameTime.ElapsedGameTime.TotalMilliseconds / Speed); //set change in time.
                 this.SystemManager.UpdateSynchronous(ExecutionType.Update); //Update the entity world.
-                this.Step((float)gameTime.ElapsedGameTime.TotalSeconds); //Update physical world.
+                this.Step((float)gameTime.ElapsedGameTime.TotalSeconds / Speed); //Update physical world.
                 Camera.Update(gameTime); //Finally update the camera.
             }
         }
@@ -144,6 +146,12 @@ namespace GameLibrary
         public virtual string Name
         {
             get { return "GameLibrary"; }
+        }
+
+        public float Speed
+        {
+            set;
+            get;
         }
 
         #endregion Properties

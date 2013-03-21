@@ -79,8 +79,9 @@ namespace SpaceHordes.Entities.Systems
                 {
                     float rotation = transform.Rotation;
                     float r_o = (float)Math.Atan2(offset.X, offset.Y);
+                    float r_a = (float)Math.Atan2(offset.Y, offset.X);
 
-                    Vector2 rotatedOffset = ConvertUnits.ToSimUnits(new Vector2((float)Math.Cos(r_o + rotation)*offset.Length(), (float)Math.Sin(r_o + rotation)*offset.Length())) ;
+                    Vector2 rotatedOffset = ConvertUnits.ToSimUnits(new Vector2((float)Math.Cos(r_a + rotation)*offset.Length(), (float)Math.Sin(r_a + rotation)*offset.Length())) ;
                     Transform fireAt = new Transform(transform.Position + rotatedOffset, rotation);
 
                     Entity bullet = world.CreateEntity(gun.BulletTemplateTag, fireAt);

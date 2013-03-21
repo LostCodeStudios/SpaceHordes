@@ -36,10 +36,10 @@ namespace SpaceHordes.Entities.Components
             }
             else if (type == InvType.Player)
             {
-                RED = new Gun((int)red, 100, 1, "RedBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
-                GREEN = new Gun((int)green, 600, 1, "GreenBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
-                BLUE = new Gun((int)blue, 300, 1, "BlueBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
-                WHITE = new Gun(-1, 200, 1, "WhiteBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
+                RED = new Gun((int)red, 100, 1, "RedBullet", Vector2.UnitY, -Vector2.UnitY * 3);
+                GREEN = new Gun((int)green, 600, 1, "GreenBullet", Vector2.UnitY, -Vector2.UnitY * 3);
+                BLUE = new Gun((int)blue, 300, 1, "BlueBullet", Vector2.UnitY, -Vector2.UnitY * 3);
+                WHITE = new Gun(-1, 200, 1, "WhiteBullet", Vector2.UnitY, -Vector2.UnitY * 3);
                 _CurrentGunType = GunType.WHITE;
                 YELLOW = yellow;
             }
@@ -50,18 +50,18 @@ namespace SpaceHordes.Entities.Components
                 switch (key)
                 {
                     case "graybulbwithsidegunthings":
-                        offsets.Add(new Vector2(14, 1));
-                        offsets.Add(new Vector2(14, 21));
+                        offsets.Add(new Vector2(0, -12));
+                        offsets.Add(new Vector2(0, 8));
                         break;
                     
                     case "blueshipwithbulb":
-                        offsets.Add(new Vector2(22, 3));
-                        offsets.Add(new Vector2(22, 21));
+                        offsets.Add(new Vector2(0, -10));
+                        offsets.Add(new Vector2(0, 8));
                         break;
 
                     case "browntriangleship":
-                        offsets.Add(new Vector2(16, 3));
-                        offsets.Add(new Vector2(16, 19));
+                        offsets.Add(new Vector2(0, -10));
+                        offsets.Add(new Vector2(0, 7));
                         break;
                 }
 

@@ -63,6 +63,10 @@ namespace GameLibrary.Entities.Systems
                 if (Keyboard.GetState().IsKeyDown(Keys.F1))
                     _ShowGraph = !_ShowGraph;
 
+                if (Keyboard.GetState().IsKeyDown(Keys.F2))
+                    View.EnableOrDisableFlag(Dependencies.Physics.DebugViewFlags.Controllers);
+
+
                 if (Keyboard.GetState().IsKeyDown(Keys.OemTilde))
                 {
                     if (Console.Running)

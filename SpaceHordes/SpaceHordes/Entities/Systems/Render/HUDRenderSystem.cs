@@ -102,6 +102,21 @@ namespace SpaceHordes.Entities.Systems
 
             base.Process();
 
+            SpaceWorld w = world as SpaceWorld;
+
+            for (int i = 0; i < w.enemySpawnSystem.RespawnTime.Length; i++)
+            {
+                int time = w.enemySpawnSystem.RespawnTime[i];
+                if (time > 0)
+                {
+                    int amount = (int)(time / 1000) + 1;
+                    amount = (int)MathHelper.Clamp(amount, 1, 3);
+                    Rectangle loc = hudLocations[i];
+                    RectangleF locF = new RectangleF(loc.X, loc.Y, loc.Width, loc.Height);
+                    _Font.DrawString(_SpriteBatch, locF, amount.ToString());
+                }
+            }
+
             if (SurgeWarning)
             {
                 _SpriteBatch.Draw(_Hud, warningLocation, warningSource, Color.White);

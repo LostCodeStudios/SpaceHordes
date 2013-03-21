@@ -55,6 +55,10 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(bossEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
+
+            SelectionChangeSound = "SelectChanged";
+            SelectionSound = "Selection";
+            CancelSound = "MenuCancel";
         }
 
         #endregion Initialization
