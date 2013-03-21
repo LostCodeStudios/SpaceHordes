@@ -9,13 +9,15 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class Gun : Component
     {
-        public Gun(int ammunition, int interval, int power, string bulletTemplateTag, params Vector2[] offsets)
+        InvType _Type;
+        public Gun(int ammunition, int interval, int power, string bulletTemplateTag, InvType type, params Vector2[] offsets)
         {
             Ammunition = ammunition;
             DefaultTemplate = bulletTemplateTag;
             Power = power;
             Interval = interval;
             Elapsed = 0;
+            _Type = type;
 
             if (offsets.Length == 0)
             {
@@ -74,7 +76,10 @@ namespace SpaceHordes.Entities.Components
         {
             get
             {
-                return DefaultTemplate + Power.ToString();
+                if (_Type == InvType.Player || _Type == InvType.Turret)
+                    return DefaultTemplate + Power.ToString();
+                else
+                    return DefaultTemplate;
             }
         }
 
@@ -142,5 +147,7 @@ namespace SpaceHordes.Entities.Components
         }
 
         #endregion Methods
+
+
     }
 }

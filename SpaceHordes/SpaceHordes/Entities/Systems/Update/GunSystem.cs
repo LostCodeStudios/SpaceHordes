@@ -93,7 +93,7 @@ namespace SpaceHordes.Entities.Systems
                     bullet.Refresh();
 
                     int shot = r.Next(1, 3);
-                    if (e.Group == "Structures")
+                    if (e.Group == "Structures" || e.Group == "Enemies")
                         SoundManager.Play("Shot" + shot.ToString(), .25f);
                     else
                         SoundManager.Play("Shot" + shot.ToString());

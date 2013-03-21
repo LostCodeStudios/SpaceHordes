@@ -31,15 +31,16 @@ namespace SpaceHordes.Entities.Components
             _type = type;
             if (type == InvType.Turret)
             {
-                WHITE = new Gun(-1, 200, 1, "WhiteBullet");
+                WHITE = new Gun(-1, 200, 1, "WhiteBullet", InvType.Turret);
                 _CurrentGunType = GunType.WHITE;
             }
             else if (type == InvType.Player)
             {
-                RED = new Gun((int)red, 100, 1, "RedBullet", Vector2.UnitY, -Vector2.UnitY * 3);
-                GREEN = new Gun((int)green, 600, 1, "GreenBullet", Vector2.UnitY, -Vector2.UnitY * 3);
-                BLUE = new Gun((int)blue, 300, 1, "BlueBullet", Vector2.UnitY, -Vector2.UnitY * 3);
-                WHITE = new Gun(-1, 200, 1, "WhiteBullet", Vector2.UnitY, -Vector2.UnitY * 3);
+                RED = new Gun((int)red, 100, 1, "RedBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
+                GREEN = new Gun((int)green, 600, 1, "GreenBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
+                BLUE = new Gun((int)blue, 300, 1, "BlueBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
+                WHITE = new Gun(-1, 200, 1, "WhiteBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
+
                 _CurrentGunType = GunType.WHITE;
                 YELLOW = yellow;
             }
@@ -65,7 +66,7 @@ namespace SpaceHordes.Entities.Components
                         break;
                 }
 
-                WHITE = new Gun(-1, 200, 1, "WhiteBullet", offsets.ToArray());
+                WHITE = new Gun(-1, 200, 1, "EnemyBullet", InvType.Gunner, offsets.ToArray());
                 _CurrentGunType = GunType.WHITE;
             }
         }

@@ -204,6 +204,12 @@ namespace SpaceHordes
             this.SetEntityTemplate("Mine", new MineTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
 
+            this.SetEntityTemplate("EnemyBullet", new BulletTemplate(
+                new Sprite(_spriteSheet, "whiteshot1", 0.4f),
+                new Velocity(new Vector2(12), 0f),
+                new Bullet(1, "Structures", null
+                    )));
+
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
             this.SetEntityGroupTemplate("StarField", new StarFieldTemplate());
 
