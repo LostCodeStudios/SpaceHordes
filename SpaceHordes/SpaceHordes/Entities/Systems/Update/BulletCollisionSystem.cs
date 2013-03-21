@@ -27,9 +27,6 @@ namespace SpaceHordes.Entities.Systems
             Particle particle = particleMapper.Get(e);
             Bullet bullet = bulletMapper.Get(e);
 
-            //Check collision with physical world.
-                //Range
-                Vector2 expectedRange = particle.Position + particle.LinearVelocity * (new Microsoft.Xna.Framework.Vector2(world.Delta / 500f));
 
                 world.RayCast(
                     delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit

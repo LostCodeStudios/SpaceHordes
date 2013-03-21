@@ -422,7 +422,6 @@ namespace SpaceHordes
 
             //SPEED UP FOR DEBUG LOL
 #if DEBUG
-            Console.WriteLine(Speed + "\n");
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && Speed >= 0.4f)
                 Speed -= 0.01f;
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))

@@ -29,6 +29,7 @@ namespace SpaceHordes.Entities.Systems
             }
 
             ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
+
             e.Refresh();
         }
 
@@ -43,12 +44,18 @@ namespace SpaceHordes.Entities.Systems
             //find all fixtures in world around the location.
             AABB aabb = new AABB(location.Position, ai.SearchRadius, ai.SearchRadius);
             HashSet<PhysicsBody> bodies = new HashSet<PhysicsBody>();
+
             world.QueryAABB(x =>
             {
+
                 if (x.Body.BodyId != location.BodyId)
                 {
-                    if ((ai.TargetGroup == "" || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group)))
+
+                    if (string.IsNullOrEmpty(ai.TargetGroup) || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group))
+                    {
+
                         bodies.Add(x.Body);
+                    }
                 }
                 return true;
             }, ref aabb);
@@ -57,7 +64,9 @@ namespace SpaceHordes.Entities.Systems
             {
                 PhysicsBody[] list = new PhysicsBody[bodies.Count];
                 bodies.CopyTo(list);
-
+                Entity ent = (location.UserData as Entity);
+                if (ent.Group != null && ent.Group.Equals("Enemi4es"))
+                    Console.WriteLine(ent.Group + "[" + ai.Targeting + "]: ");
                 //SORT BY TARGETING TYPE.
                 switch (ai.Targeting)
                 {

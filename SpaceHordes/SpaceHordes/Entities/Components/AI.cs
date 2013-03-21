@@ -21,6 +21,7 @@ namespace SpaceHordes.Entities.Components
         public AI(Body target, Func<Body, bool> behavior, string targetGroup = "", float searchRadius = 200f)
         {
             this.Target = target;
+            this.Targeting = Targeting.Closest;
             this.TargetGroup = targetGroup;
             this.SearchRadius = searchRadius;
             this.Behavior = behavior;
@@ -114,21 +115,23 @@ namespace SpaceHordes.Entities.Components
                     Body b = ent.GetComponent<Body>();
                     float distance = Vector2.Distance(b.Position, target.Position);
 
-                    Vector2 direction = b.Position - target.Position;
+                    Vector2 direction = target.Position - b.Position + ent.GetComponent<Inventory>().CurrentGun.GunOffsets[0];
                     direction.Normalize();
                     b.RotateTo(direction);
                     if (distance > shootDistance)
                     {
                         direction *= 5f;
-                        b.LinearVelocity = direction;
+                        b.LinearVelocity = direction + new Vector2((float)Math.Sin(distance) ); //Wavy motion
+
                     }
 
                     else
                     {
+                        b.LinearVelocity = new Vector2(MathHelper.SmoothStep(b.LinearVelocity.X, 0, 0.1f), MathHelper.SmoothStep(b.LinearVelocity.Y, 0, 0.1f));
                         ent.GetComponent<Inventory>().CurrentGun.BulletsToFire = true;
                     }
-
-                    return false;
+                    ent.Refresh();
+                    return true;
                 };
         }
 
