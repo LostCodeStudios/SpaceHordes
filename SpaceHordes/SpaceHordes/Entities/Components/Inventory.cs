@@ -1,5 +1,6 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -11,19 +12,62 @@ namespace SpaceHordes.Entities.Components
         WHITE
     }
 
+    public enum InvType
+    {
+        Player,
+        Turret,
+        Gunner
+    }
+
     /// <summary>
     /// Player inventory class
     /// </summary>
     public class Inventory : Component
     {
-        public Inventory(uint red = 0, uint green = 0, uint blue = 0, uint yellow = 0)
+        public InvType _type = InvType.Turret;
+
+        public Inventory(uint red = 0, uint green = 0, uint blue = 0, uint yellow = 0, InvType type = InvType.Turret, string key = "")
         {
-            RED = new Gun((int)red, 100, 1, "RedBullet");
-            GREEN = new Gun((int)green, 600, 1, "GreenBullet");
-            BLUE = new Gun((int)blue, 300, 1, "BlueBullet");
-            WHITE = new Gun(-1, 200, 1, "WhiteBullet");
-            _CurrentGunType = GunType.WHITE;
-            YELLOW = yellow;
+            _type = type;
+            if (type == InvType.Turret)
+            {
+                WHITE = new Gun(-1, 200, 1, "WhiteBullet");
+                _CurrentGunType = GunType.WHITE;
+            }
+            else if (type == InvType.Player)
+            {
+                RED = new Gun((int)red, 100, 1, "RedBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
+                GREEN = new Gun((int)green, 600, 1, "GreenBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
+                BLUE = new Gun((int)blue, 300, 1, "BlueBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
+                WHITE = new Gun(-1, 200, 1, "WhiteBullet", Vector2.UnitX * 2, -Vector2.UnitX * 2);
+                _CurrentGunType = GunType.WHITE;
+                YELLOW = yellow;
+            }
+            else if (type == InvType.Gunner)
+            {
+                List<Vector2> offsets = new List<Vector2>();
+
+                switch (key)
+                {
+                    case "graybulbwithsidegunthings":
+                        offsets.Add(new Vector2(14, 1));
+                        offsets.Add(new Vector2(14, 21));
+                        break;
+                    
+                    case "blueshipwithbulb":
+                        offsets.Add(new Vector2(22, 3));
+                        offsets.Add(new Vector2(22, 21));
+                        break;
+
+                    case "browntriangleship":
+                        offsets.Add(new Vector2(16, 3));
+                        offsets.Add(new Vector2(16, 19));
+                        break;
+                }
+
+                WHITE = new Gun(-1, 200, 1, "WhiteBullet", offsets.ToArray());
+                _CurrentGunType = GunType.WHITE;
+            }
         }
 
         public bool BuildMode = false;

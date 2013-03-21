@@ -54,6 +54,7 @@ namespace SpaceHordes.Entities.Systems
         public string ThugSprite = "";
 
         public string GunnerTemplate = "Gunner";
+        public string GunnerSprite = "";
 
         public string HunterTemplate = "Hunter";
         public string HunterSprite = "";
@@ -65,6 +66,7 @@ namespace SpaceHordes.Entities.Systems
         {
             MookSprite = "";
             ThugSprite = "";
+            GunnerSprite = "";
 
             GunnerTemplate = "Gunner";
             HunterTemplate = "Hunter";
@@ -168,8 +170,14 @@ namespace SpaceHordes.Entities.Systems
                         ((r.Next(1, 100) * ThugSpawnRate) > 90 ? 
                             difficulty * ThugSpawnRate : 0);
                 }
-                    
-                gunnersToSpawn = (GunnerSpawnRate != -1) ? ((GunnerSpawnRate == 0) ? (int)(difficulty / 9) : difficulty * (int)(GunnerSpawnRate/9)) : 0;
+
+                if (GunnerSpawnRate != -1)
+                {
+                    gunnersToSpawn = (GunnerSpawnRate == 0) ?
+                        ((r.Next(1, 100) * difficulty > 40) ? 1 : 0) :
+                        ((r.Next(1, 100) * GunnerSpawnRate) > 90 ?
+                            difficulty * GunnerSpawnRate : 0);
+                }
 
                 if (HunterSpawnRate != -1)
                 {
@@ -183,7 +191,7 @@ namespace SpaceHordes.Entities.Systems
                 
                 for (int i = 0; i < mooksToSpawn; i++)
                 {
-                    type = r.Next(5);
+                    type = r.Next(7);
                     if (string.IsNullOrEmpty(MookSprite))
                         World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>()).Refresh();
                     else
@@ -192,7 +200,7 @@ namespace SpaceHordes.Entities.Systems
 
                 for (int i = 0; i < thugsToSpawn; i++)
                 {
-                    type = r.Next(3);
+                    type = r.Next(5);
                     if (string.IsNullOrEmpty(ThugSprite))
                         World.CreateEntity(ThugTemplate, type, Base.GetComponent<Body>()).Refresh();
                     else
@@ -201,6 +209,11 @@ namespace SpaceHordes.Entities.Systems
 
                 for (int i = 0; i < gunnersToSpawn; i++)
                 {
+                    type = r.Next(5);
+                    if (string.IsNullOrEmpty(GunnerSprite))
+                        World.CreateEntity(GunnerTemplate, type).Refresh();
+                    else
+                        World.CreateEntity(GunnerTemplate, type, GunnerSprite).Refresh();
                 }
 
                 for (int i = 0; i < huntersToSpawn; i++)

@@ -50,7 +50,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Sprite
 
-            Sprite s = new Sprite(_SpriteSheet, "miniturret", 1);
+            Sprite s = new Sprite(_SpriteSheet, "miniturret", 0.4f);
             e.AddComponent<Sprite>(s);
 
             #endregion Sprite
