@@ -127,8 +127,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region AI/Health
 
-            AI shootingAi = e.AddComponent<AI>(new AI(null, 
-                AI.CreateShoot(e, ConvertUnits.ToSimUnits(4f), ConvertUnits.ToSimUnits(400)), "Structures"));
+            AI a = new AI(null,
+                AI.CreateShoot(e, ConvertUnits.ToSimUnits(4f), ConvertUnits.ToSimUnits(400)), "Structures");
+            AI shootingAi = e.AddComponent<AI>(a);
 
             e.AddComponent<Health>(new Health(1)).OnDeath +=
                 ent =>

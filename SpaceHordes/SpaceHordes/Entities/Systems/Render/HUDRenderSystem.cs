@@ -183,15 +183,13 @@ namespace SpaceHordes.Entities.Systems
                 int X = (int)ScreenHelper.Center.X;
                 int Y = (int)ScreenHelper.Center.Y;
                 float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
-                float Height = e.GetComponent<Sprite>().CurrentRectangle.Height + 10;
+                float Height = e.GetComponent<Sprite>().CurrentRectangle.Height;
 
                 Body body = e.GetComponent<Body>();
-                
-                RectangleF loc = new RectangleF(
+
+                Vector2 loc = new Vector2(
                     X + ConvertUnits.ToDisplayUnits(body.Position.X) - Width/2,
-                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height/2,
-                    100,
-                    100);
+                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height/2 - _Font.MeasureString(i.YELLOW.ToString()).Y);
 
 
 

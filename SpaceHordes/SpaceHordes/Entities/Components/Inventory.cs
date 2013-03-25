@@ -66,7 +66,7 @@ namespace SpaceHordes.Entities.Components
                         break;
                 }
 
-                WHITE = new Gun(-1, 200, 1, "EnemyBullet", InvType.Gunner, offsets.ToArray());
+                WHITE = new Gun(-1, 1000, 1, "EnemyBullet", InvType.Gunner, offsets.ToArray());
                 _CurrentGunType = GunType.WHITE;
             }
         }
