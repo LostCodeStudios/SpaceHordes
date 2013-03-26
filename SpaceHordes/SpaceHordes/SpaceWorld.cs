@@ -85,6 +85,7 @@ namespace SpaceHordes
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
 
             enemySpawnSystem.Surge = false;
+            DirectorSystem.ElapsedSurge = 0;
             HUDRenderSystem.SurgeWarning = false;
 
             //Draw Systems
@@ -395,6 +396,7 @@ namespace SpaceHordes
             Indices.Clear();
             //Set up player(s)
             if (args != null && (args[0] as PlayerIndex[]).Length > 0 && args[0] != null) //IF MULTIPLAYER
+            {
                 for (int i = 0; i < (args[0] as PlayerIndex[]).Length && i < 4; i++)
                 {
                     Entity e = CreateEntity("Player", (PlayerIndex)i);
@@ -403,6 +405,13 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     Players++;
                 }
+#if DEBUG
+                //Player 4 keyboard controlled
+                Entity c = CreateEntity("Player", (PlayerIndex)3);
+                c.Refresh();
+                Player.Add(c);
+#endif
+            }
             else //IF SINGLEPLAYER
             {
                 Entity e = CreateEntity("Player", (PlayerIndex.One));

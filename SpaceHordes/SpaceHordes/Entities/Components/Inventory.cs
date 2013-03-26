@@ -1,6 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using SpaceHordes.Entities.Systems;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -137,7 +138,7 @@ namespace SpaceHordes.Entities.Components
             e.AddComponent<Gun>(CurrentGun);
         }
 
-        public void GiveCrystals(Color color, int amount)
+        public void GiveCrystals(Color color, int amount, bool surgeCrystal = false)
         {
             if (color == Color.Red)
                 RED.Ammunition += amount;
@@ -152,13 +153,24 @@ namespace SpaceHordes.Entities.Components
                 YELLOW += (uint)amount;
 
             if (color == Color.Gray)
-                CurrentGun.PowerUp(5000, amount);
+            {
+                if (!surgeCrystal)
+                {
+                    CurrentGun.PowerUp(5000, amount);
+                }
+                else
+                {
+                    CurrentGun.PowerUp(DirectorSystem.SurgeTime - DirectorSystem.ElapsedSurge, amount);
+                }
+            }
         }
 
         public void GiveCrystals(Crystal crystal)
         {
             if (crystal != null)
-                GiveCrystals(crystal.Color, crystal.Amount);
+            {
+                GiveCrystals(crystal.Color, crystal.Amount, crystal.SurgeCrystal);
+            }
         }
     }
 }
