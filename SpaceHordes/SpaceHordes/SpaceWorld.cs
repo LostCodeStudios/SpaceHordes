@@ -84,6 +84,9 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
 
+            enemySpawnSystem.Surge = false;
+            HUDRenderSystem.SurgeWarning = false;
+
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);

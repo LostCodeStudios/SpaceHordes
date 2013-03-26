@@ -5,6 +5,7 @@ using SpaceHordes.Entities.Components;
 using System;
 using System.Collections.Generic;
 using SpaceHordes.Entities.Templates.Objects;
+using GameLibrary.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -232,6 +233,26 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
+            if (timesCalled == 1)
+            {
+                //SURGE
+                Surge = true;
+                HUDRenderSystem.SurgeWarning = true;
+
+                for (int i = 0; i < Players.Length; i++)
+                {
+                    SpawnCrystalFor(i);
+                }
+
+                SpawnRate = 2;
+
+                foreach (Entity e in TurretTemplate.Turrets)
+                {
+                    Inventory inv = e.GetComponent<Inventory>();
+                    inv.CurrentGun.PowerUp(SurgeTime, 3);
+                }
+            }
+
             if ((int)(elapsedMinutes) >= lastBoss || timesCalled == 100)
             {
                 
@@ -242,6 +263,12 @@ namespace SpaceHordes.Entities.Systems
                     //SURGE
                     Surge = true;
                     HUDRenderSystem.SurgeWarning = true;
+
+                    for (int i = 0; i < Players.Length; i++)
+                    {
+                        SpawnCrystalFor(i);
+                    }
+
                     SpawnRate = 2;
 
                     foreach (Entity e in TurretTemplate.Turrets)
@@ -291,6 +318,12 @@ namespace SpaceHordes.Entities.Systems
             }
 
             #endregion
+        }
+
+        private void SpawnCrystalFor(int index)
+        {
+            Vector2 poss = Base.GetComponent<ITransform>().Position;
+            world.CreateEntity("Crystal", poss, Color.Gray, 3, Players[index]);
         }
 
         public float ClampInverse(float value, float min, float max)
