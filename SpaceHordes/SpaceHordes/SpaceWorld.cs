@@ -44,7 +44,7 @@ namespace SpaceHordes
         {
             base.LoadContent(Content, args);
 
-            _font.LoadContent(Content, "Textures/gamefont");
+            _font.LoadContent(Content, "Textures/gamefont", 1f);
             hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
 #if DEBUG   //Debug render system
@@ -95,7 +95,7 @@ namespace SpaceHordes
             radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
                 new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
                     ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
-                    ExecutionType.Draw, 2);
+                    ExecutionType.Draw, 3);
             base.BuildSystems();
         }
 

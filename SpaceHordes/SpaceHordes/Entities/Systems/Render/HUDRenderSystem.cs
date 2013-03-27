@@ -100,9 +100,8 @@ namespace SpaceHordes.Entities.Systems
         {
             _SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            _SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
-
             base.Process();
+            _SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
 
             SpaceWorld w = world as SpaceWorld;
 
@@ -177,9 +176,6 @@ namespace SpaceHordes.Entities.Systems
             }
             else
             {
-                _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], buildMenuSource, Color.White);
-                _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[3] + selectionOffset, selectionSource, Color.White);
-
                 int X = (int)ScreenHelper.Center.X;
                 int Y = (int)ScreenHelper.Center.Y;
                 float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
@@ -188,13 +184,14 @@ namespace SpaceHordes.Entities.Systems
                 Body body = e.GetComponent<Body>();
 
                 Vector2 loc = new Vector2(
-                    X + ConvertUnits.ToDisplayUnits(body.Position.X) - Width/2,
-                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height/2 - _Font.MeasureString(i.YELLOW.ToString()).Y);
-
-
+                    X + ConvertUnits.ToDisplayUnits(body.Position.X) - Width / 2,
+                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height / 2 - _Font.MeasureString(i.YELLOW.ToString()).Y);
 
                 //Draw backing
                 _Font.DrawString(_SpriteBatch, loc, i.YELLOW.ToString());
+
+                _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], buildMenuSource, Color.White);
+                _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[3] + selectionOffset, selectionSource, Color.White);
 
                 box.X = topLeft.X + boxOffsets[4].X;
                 box.Y = topLeft.Y + boxOffsets[4].Y;

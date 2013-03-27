@@ -94,7 +94,9 @@ namespace SpaceHordes.Entities.Components
                 {
                     Body b = ent.GetComponent<Body>();
                     Vector2 distance = target.Position - b.Position;
-                    distance.Normalize();
+
+                    if (distance != Vector2.Zero)
+                        distance.Normalize();
                     distance *= speed;
 
                     if (target != null && target.LinearVelocity != distance && !ent.HasComponent<Slow>())
