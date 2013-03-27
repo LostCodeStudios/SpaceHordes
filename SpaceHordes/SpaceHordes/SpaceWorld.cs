@@ -395,9 +395,10 @@ namespace SpaceHordes
         {
             Indices.Clear();
             //Set up player(s)
-            if (args != null && (args[0] as PlayerIndex[]).Length > 0 && args[0] != null) //IF MULTIPLAYER
+            PlayerIndex[] index = args[0] as PlayerIndex[];
+            if (args != null && index.Length > 0 && index != null) //IF MULTIPLAYER
             {
-                for (int i = 0; i < (args[0] as PlayerIndex[]).Length && i < 4; i++)
+                for (int i = 0; i < index.Length && i < 4; i++)
                 {
                     Entity e = CreateEntity("Player", (PlayerIndex)i);
                     e.Refresh();
@@ -407,9 +408,14 @@ namespace SpaceHordes
                 }
 #if DEBUG
                 //Player 4 keyboard controlled
-                Entity c = CreateEntity("Player", (PlayerIndex)3);
-                c.Refresh();
-                Player.Add(c);
+                if (index.Length == 1)
+                {
+                    Entity c = CreateEntity("Player", (PlayerIndex)3);
+                    c.Refresh();
+                    Player.Add(c);
+                    Indices.Add(PlayerIndex.Four);
+                    Players++;
+                }
 #endif
             }
             else //IF SINGLEPLAYER

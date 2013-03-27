@@ -17,6 +17,7 @@ namespace SpaceHordes.Entities.Systems
         private Entity Boss;
         private Entity[] Players;
         public int[] RespawnTime;
+        int[] PlayerToSpawn;
 
         private double difficulty = 0;
 
@@ -101,14 +102,17 @@ namespace SpaceHordes.Entities.Systems
             this.Base = Base;
             this.Players = Players;
             this.RespawnTime = new int[4];
+            this.PlayerToSpawn = new int[4];
 
             for (int i = 0; i < Players.Length; i++)
             {
                 Entity e = Players[i];
-                e.GetComponent<Health>().OnDeath += x =>
+                int x = i;
+                e.GetComponent<Health>().OnDeath += z =>
                 {
                     int id = int.Parse(e.Tag.Replace("P", "")) - 1;
                     RespawnTime[id] = 3000;
+                    PlayerToSpawn[id] = x;
                 };
             }
         }
@@ -276,7 +280,7 @@ namespace SpaceHordes.Entities.Systems
 
 
 
-            for (int i = 0; i < Players.Length; i++)
+            for (int i = 0; i < RespawnTime.Length; i++)
             {
                 if (RespawnTime[i] > 0)
                 {
@@ -285,14 +289,14 @@ namespace SpaceHordes.Entities.Systems
                     if (RespawnTime[i] <= 0)
                     {
                         RespawnTime[i] = 0;
-                        Players[i] = World.CreateEntity("Player", (PlayerIndex)i);
-                        Entity e = Players[i];
+                        Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i);
+                        Entity e = Players[PlayerToSpawn[i]];
                         e.GetComponent<Health>().OnDeath += x =>
                         {
                             int id = int.Parse(e.Tag.Replace("P", "")) - 1;
                             RespawnTime[id] = 3000;
                         };
-                        Players[i].Refresh();
+                        Players[PlayerToSpawn[i]].Refresh();
                     }
                 }
             }
