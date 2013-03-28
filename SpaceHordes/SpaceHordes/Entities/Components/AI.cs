@@ -90,11 +90,13 @@ namespace SpaceHordes.Entities.Components
         public static Func<Body, bool> CreateFollow(Entity ent, float speed, bool rotateTo = true)
         {
             return
-                (target) =>
+                (target) =>///edward
                 {
                     Body b = ent.GetComponent<Body>();
                     Vector2 distance = target.Position - b.Position;
-                    distance.Normalize();
+
+                    if (distance != Vector2.Zero)
+                        distance.Normalize();
                     distance *= speed;
 
                     if (target != null && target.LinearVelocity != distance && !ent.HasComponent<Slow>())
@@ -103,6 +105,8 @@ namespace SpaceHordes.Entities.Components
                         if (rotateTo)
                             b.RotateTo(distance) ;
                     }
+
+                    Console.WriteLine("TARGET: " + (target.UserData as Entity).Group);
                     return false;
                 };
         }
@@ -130,7 +134,7 @@ namespace SpaceHordes.Entities.Components
                         ent.GetComponent<Inventory>().CurrentGun.BulletsToFire = true;
                     }
                     ent.Refresh();
-                    return true;
+                    return false;
                 };
         }
 

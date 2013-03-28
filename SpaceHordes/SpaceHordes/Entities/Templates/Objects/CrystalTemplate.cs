@@ -63,7 +63,14 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             b.Position = pos;
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
-            e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));
+            if (args.Length > 3)
+            {
+                e.AddComponent<Crystal>(new Crystal(color, (int)args[2], true));
+            }
+            else
+            {
+                e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));
+            }
             e.Group = "Crystals";
             e.Refresh();
             return e;

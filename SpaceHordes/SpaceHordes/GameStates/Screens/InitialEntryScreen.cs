@@ -239,8 +239,9 @@ namespace SpaceHordes.GameStates.Screens
 
             selectedChar = (int)MathHelper.Clamp((float)selectedChar, 0f, 2f);
 
-            if (accept.Evaluate(input, ControllingPlayer, out index))
+            if (!expired && accept.Evaluate(input, ControllingPlayer, out index))
             {
+                
                 parent.Initials.Add(Initials);
                 SetInitialsOf((PlayerIndex)ControllingPlayer, Initials);
                 ExitScreen();

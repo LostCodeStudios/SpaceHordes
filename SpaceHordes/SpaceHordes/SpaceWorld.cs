@@ -44,7 +44,7 @@ namespace SpaceHordes
         {
             base.LoadContent(Content, args);
 
-            _font.LoadContent(Content, "Textures/gamefont");
+            _font.LoadContent(Content, "Textures/gamefont", 1f);
             hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
 #if DEBUG   //Debug render system
@@ -84,6 +84,10 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
 
+            enemySpawnSystem.Surge = false;
+            DirectorSystem.ElapsedSurge = 0;
+            HUDRenderSystem.SurgeWarning = false;
+
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);
@@ -91,7 +95,7 @@ namespace SpaceHordes
             radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
                 new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
                     ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
-                    ExecutionType.Draw, 2);
+                    ExecutionType.Draw, 3);
             base.BuildSystems();
         }
 
@@ -391,8 +395,10 @@ namespace SpaceHordes
         {
             Indices.Clear();
             //Set up player(s)
-            if (args != null && (args[0] as PlayerIndex[]).Length > 0 && args[0] != null) //IF MULTIPLAYER
-                for (int i = 0; i < (args[0] as PlayerIndex[]).Length && i < 4; i++)
+            PlayerIndex[] index = args[0] as PlayerIndex[];
+            if (args != null && index.Length > 0 && index != null) //IF MULTIPLAYER
+            {
+                for (int i = 0; i < index.Length && i < 4; i++)
                 {
                     Entity e = CreateEntity("Player", (PlayerIndex)i);
                     e.Refresh();
@@ -400,6 +406,18 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     Players++;
                 }
+#if DEBUG
+                //Player 4 keyboard controlled
+                if (index.Length == 1)
+                {
+                    Entity c = CreateEntity("Player", (PlayerIndex)3);
+                    c.Refresh();
+                    Player.Add(c);
+                    Indices.Add(PlayerIndex.Four);
+                    Players++;
+                }
+#endif
+            }
             else //IF SINGLEPLAYER
             {
                 Entity e = CreateEntity("Player", (PlayerIndex.One));

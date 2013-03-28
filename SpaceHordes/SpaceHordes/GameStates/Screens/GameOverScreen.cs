@@ -143,7 +143,7 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     string names = "";
 
-                    for (int i = 0; i < initials.Count; i++)
+                    for (int i = 0; i < initials.Count; ++i)
                     {
                         names += initials[i];
                         if (i < initials.Count - 1)

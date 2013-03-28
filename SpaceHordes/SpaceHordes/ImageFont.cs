@@ -16,6 +16,12 @@ namespace SpaceHordes
 
         private int spaceWidth = 1;
 
+        public float Layer
+        {
+            get;
+            set;
+        }
+
         public int SpaceWidth
         {
             get { return spaceWidth; }
@@ -35,7 +41,7 @@ namespace SpaceHordes
             get { return letters[key]; }
         }
 
-        public void LoadContent(ContentManager content, string filename, Color boundingColor)
+        public void LoadContent(ContentManager content, string filename, Color boundingColor, float layer=0)
         {
             #region Getting Colors
 
@@ -125,11 +131,13 @@ namespace SpaceHordes
             letters.Add('.', rects[i]);
 
             #endregion Adding chars
+
+            Layer = layer;
         }
 
-        public void LoadContent(ContentManager content, string filename)
+        public void LoadContent(ContentManager content, string filename, float layer=0)
         {
-            LoadContent(content, filename, new Color(0, 255, 0));
+            LoadContent(content, filename, new Color(0, 255, 0), layer);
         }
 
         public void DrawChar(SpriteBatch spriteBatch, Vector2 position, char c)
@@ -139,7 +147,11 @@ namespace SpaceHordes
                 texture,
                 new Rectangle((int)position.X, (int)position.Y, source.Width, source.Height),
                 source,
-                Color.White);
+                Color.White,
+                0f,
+                Vector2.Zero,
+                SpriteEffects.None,
+                Layer);
         }
 
         public void DrawChar(SpriteBatch spriteBatch, Vector2 position, char c, float scale)
@@ -149,7 +161,11 @@ namespace SpaceHordes
                 texture,
                 new Rectangle((int)position.X, (int)position.Y, (int)(source.Width * scale), (int)(source.Height * scale)),
                 source,
-                Color.White);
+                Color.White,
+                0f,
+                Vector2.Zero,
+                SpriteEffects.None,
+                Layer);
         }
 
         public void DrawString(SpriteBatch spriteBatch, Vector2 position, string s)

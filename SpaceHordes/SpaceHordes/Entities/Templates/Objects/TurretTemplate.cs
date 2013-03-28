@@ -65,9 +65,9 @@ namespace SpaceHordes.Entities.Templates.Objects
                     Gun g = inv.CurrentGun;
                     g.BulletsToFire = true;
 
-                    if (_DirectorSystem.Surge)
+                    if (_DirectorSystem.Surge && g.Power == 1)
                     {
-                        g.PowerUp(_DirectorSystem.SurgeTime - _DirectorSystem.ElapsedSurge, 3);
+                        g.PowerUp(DirectorSystem.SurgeTime - DirectorSystem.ElapsedSurge, 3);
                     }
 
                     /* Aiming *\

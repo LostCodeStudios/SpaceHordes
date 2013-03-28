@@ -134,8 +134,11 @@ namespace SpaceHordes.Entities.Components
 
         public void PowerUp(int time, int power)
         {
-            Power = power;
-            PowerUpTime = time;
+            if (power > Power)
+            {
+                Power = power;
+                PowerUpTime = time;
+            }
         }
 
         public void UpdatePower(int elapsed)
