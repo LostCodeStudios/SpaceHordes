@@ -121,8 +121,7 @@ namespace SpaceHordes.Entities.Components
                     if (distance > shootDistance)
                     {
                         direction *= 5f;
-                        b.LinearVelocity = direction + new Vector2((float)Math.Sin(distance) ); //Wavy motion
-
+                        b.LinearVelocity = direction;
                     }
 
                     else
