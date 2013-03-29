@@ -5,6 +5,7 @@ using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceHordes.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -60,19 +61,23 @@ namespace SpaceHordes.Entities.Systems
             int Y = (int)ScreenHelper.Center.Y;
             if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && health.MaxHealth > 1 && e.Tag != "SmasherBall")
             {
-                float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
-                float Height = e.GetComponent<Sprite>().CurrentRectangle.Height + 10;
+                Sprite s = e.GetComponent<Sprite>();
+                float Width = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
+                float Height = s.CurrentRectangle.Height + 10;
+
+                float spriteWidth = (float)((s.CurrentRectangle.Width * Math.Cos(body.Rotation)) + (s.CurrentRectangle.Height * Math.Cos(Math.PI/2 - body.Rotation)));
+                float spriteHeight = (float)((s.CurrentRectangle.Height * Math.Sin(Math.PI - body.Rotation) + s.CurrentRectangle.Width * Math.Sin(body.Rotation)));
 
                 //Draw backing
                 _SpriteBatch.Draw(_BarTexture,
                     new Rectangle(
-                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)Width / 2,
+                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)spriteWidth / 2,
                         Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2,
                         (int)Width, 2), Color.DarkRed);
 
                 _SpriteBatch.Draw(_BarTexture,
                     new Rectangle(
-                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)Width / 2,
+                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)spriteWidth / 2,
                         Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2,
                         (int)((health.CurrentHealth / health.MaxHealth) * Width),
                             2), Color.Red);
