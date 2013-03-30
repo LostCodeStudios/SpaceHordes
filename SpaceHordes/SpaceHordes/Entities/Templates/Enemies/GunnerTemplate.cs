@@ -18,9 +18,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private static Random rbitch = new Random();
 
         private float shootdistance = 10f;
-
+        private static int gunners = 0;
         public GunnerTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
+            gunners = 0;
             _SpriteSheet = spriteSheet;
             _World = world;
         }
@@ -56,7 +57,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.51f + (float)type/1000f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.51f + (float)type/1000f + (float)gunners/1000000f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
@@ -164,6 +165,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #endregion
 
+            gunners++;
             e.Group = "Enemies";
             return e;
         }

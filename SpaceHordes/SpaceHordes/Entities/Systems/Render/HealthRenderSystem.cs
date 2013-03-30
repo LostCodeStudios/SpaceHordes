@@ -65,8 +65,10 @@ namespace SpaceHordes.Entities.Systems
                 float Width = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
                 float Height = s.CurrentRectangle.Height + 10;
 
-                float spriteWidth = (float)((s.CurrentRectangle.Width * Math.Cos(body.Rotation)) + (s.CurrentRectangle.Height * Math.Cos(Math.PI/2 - body.Rotation)));
-                float spriteHeight = (float)((s.CurrentRectangle.Height * Math.Sin(Math.PI - body.Rotation) + s.CurrentRectangle.Width * Math.Sin(body.Rotation)));
+                float rotation = (float)Math.Atan2(body.LinearVelocity.Y, body.LinearVelocity.X);
+
+                float spriteWidth = (float)Math.Abs((s.CurrentRectangle.Width * Math.Cos(rotation)) + (s.CurrentRectangle.Height * Math.Cos(Math.PI/2 - rotation)));
+                float spriteHeight = (float)Math.Abs((s.CurrentRectangle.Height * Math.Sin(Math.PI - rotation) + s.CurrentRectangle.Width * Math.Sin(rotation)));
 
                 //Draw backing
                 _SpriteBatch.Draw(_BarTexture,

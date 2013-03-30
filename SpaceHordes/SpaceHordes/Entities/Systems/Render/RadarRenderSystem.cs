@@ -53,9 +53,9 @@ namespace SpaceHordes.Entities.Systems
                     if (e.Group != null && e.Group == "Players")
                         DrawString(e.Tag, position, Color.Tan);
 
-#if DEBUG
-                    DrawString(position.ToString(), position, Color.Red);
-#endif
+//#if DEBUG
+//                    DrawString(position.ToString(), position, Color.Red);
+//#endif
                 }
             }
         }

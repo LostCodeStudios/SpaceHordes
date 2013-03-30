@@ -13,8 +13,10 @@ namespace SpaceHordes.Entities.Templates.Objects
         private EntityWorld _World;
         private SpriteSheet _SpriteSheet;
 
+        static int crystals = 0;
         public CrystalTemplate(EntityWorld World, SpriteSheet spriteSheet)
         {
+            crystals = 0;
             this._World = World;
             this._SpriteSheet = spriteSheet;
         }
@@ -30,6 +32,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             Vector2 pos = (Vector2)args[0];
             Color color = (Color)args[1];
             string source = "redcrystal";
+
             if (color == Color.Red)
                 source = "redcrystal";
             if (color == Color.Blue)
@@ -41,7 +44,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             if (color == Color.Gray)
                 source = "graycrystal";
 
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f + (float)crystals/10000f));
             Body b = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),

@@ -68,6 +68,13 @@ namespace SpaceHordes.Entities.Templates
 
             #endregion Sprite
 
+            #region Animation
+
+            if (Sprite.Source.Length > 1)
+                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
+
+            #endregion Animation
+
             #region Health
 
             e.AddComponent<Health>(new Health(1));
