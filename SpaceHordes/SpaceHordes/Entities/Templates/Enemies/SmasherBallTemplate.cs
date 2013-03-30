@@ -55,7 +55,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         }
                     return true;
                 };
-            bitch.Mass++;
+            ++bitch.Mass;
 
             Entity smasher = (args[0] as Entity);
 

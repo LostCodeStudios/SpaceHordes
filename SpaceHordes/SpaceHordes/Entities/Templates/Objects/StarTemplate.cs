@@ -29,7 +29,7 @@ namespace SpaceHordes.Entities.Templates
         {
             e.Group = "Stars";
             e.Tag = "Star" + stars.ToString();
-            stars++;
+            ++stars;
 
             #region Sprite
 
@@ -53,7 +53,7 @@ namespace SpaceHordes.Entities.Templates
                     bool topRight = false;
                     bool bottomLeft = false;
                     bool bottomRight = false;
-                    for (int i = 1; i <= nebulas; i++)
+                    for (int i = 1; i <= nebulas; ++i)
                     {
                         Vector2 avoid = nebulaLocs[nebulas - i];
 
@@ -109,7 +109,7 @@ namespace SpaceHordes.Entities.Templates
                     }
                 }
                 nebulaLocs[nebulas] = loc;
-                nebulas++;
+                ++nebulas;
 
                 #endregion Nebula Positioning
 

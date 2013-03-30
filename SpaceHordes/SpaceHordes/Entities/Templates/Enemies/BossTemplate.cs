@@ -101,7 +101,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         }
                     return false;
                 };
-            bitch.Mass++;
+            ++bitch.Mass;
 
             Vector2 pos = new Vector2(0, -1);
             pos.Normalize();
@@ -215,7 +215,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.Tag = "Boss" + spawned.ToString();
             e.Group = "Enemies";
 
-            spawned++;
+            ++spawned;
 
             #region Special Cases
 

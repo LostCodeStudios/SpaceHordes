@@ -56,7 +56,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Body b = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, b);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, b, 1f, Color.White, 0.52f + (float)type/1000f + (float)hunters/1000000f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, b, 1f, Color.White, 0.52f + (float)hunters/1000000f));
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             b.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             b.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
@@ -79,7 +79,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         }
                     return false;
                 };
-            b.Mass++;
+            ++b.Mass;
 
             Vector2 pos = new Vector2((float)(r.NextDouble() * 2) - 1, (float)(r.NextDouble() * 2) - 1);
             pos.Normalize();
@@ -158,7 +158,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             e.Tag = "Hunter" + hunters.ToString();
             e.Group = "Enemies";
-            hunters++;
+            
+            ++hunters;
             return e;
         }
     }

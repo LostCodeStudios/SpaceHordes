@@ -380,7 +380,7 @@ namespace SpaceHordes.Entities.Components
                         float minlambda = float.MaxValue;
 
                         List<Fixture> fl = data[i].body.FixtureList;
-                        for (int x = 0; x < fl.Count; x++)
+                        for (int x = 0; x < fl.Count; ++x)
                         {
                             Fixture f = fl[x];
                             RayCastInput ri;

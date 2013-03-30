@@ -100,7 +100,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (HighScoreScreen.IsHighScore(players.Length, score))
             {
-                for (int i = 0; i < players.Length; i++)
+                for (int i = 0; i < players.Length; ++i)
                 {
                     initialEntryScreens[i] = new InitialEntryScreen(screenLocations[i], this);
                     ScreenManager.AddScreen(initialEntryScreens[i], (PlayerIndex)i);

@@ -94,7 +94,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (multiplayer)
             {
-                for (int x = 0; x < 4; x++)
+                for (int x = 0; x < 4; ++x)
                 {
                     if (ScreenManager.Input.GamePadWasConnected[x])
                     {

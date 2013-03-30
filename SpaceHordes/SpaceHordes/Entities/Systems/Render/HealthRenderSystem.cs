@@ -30,9 +30,9 @@ namespace SpaceHordes.Entities.Systems
         {
             Color[] Colors = new Color[1 * 1];
 
-            for (int x = 0; x < 1; x++)
+            for (int x = 0; x < 1; ++x)
             {
-                for (int y = 0; y < 1; y++)
+                for (int y = 0; y < 1; ++y)
                 {
                     Colors[x + y * 1] = Color.White;
                 }
@@ -63,7 +63,6 @@ namespace SpaceHordes.Entities.Systems
             {
                 Sprite s = e.GetComponent<Sprite>();
                 float Width = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
-                float Height = s.CurrentRectangle.Height + 10;
 
                 float rotation = (float)Math.Atan2(body.LinearVelocity.Y, body.LinearVelocity.X);
 

@@ -40,7 +40,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 string toReturn = "";
 
-                for (int i = 0; i < initials.Length; i++)
+                for (int i = 0; i < initials.Length; ++i)
                     toReturn += initials[i].Text;
 
                 return toReturn;
@@ -134,7 +134,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
             string name = InitialsOf((PlayerIndex)ControllingPlayer);
 
-            for (int i = 0; i < initials.Length; i++)
+            for (int i = 0; i < initials.Length; ++i)
             {
                 initials[i] = new InitialEntryChar(name[i].ToString());
                 initials[i].Position = loc;
@@ -277,7 +277,7 @@ namespace SpaceHordes.GameStates.Screens
         public static void SetInitialsOf(PlayerIndex index, string value)
         {
             string[] initials = new string[4];
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 initials[i] = InitialsOf((PlayerIndex)i);
             }
@@ -289,7 +289,7 @@ namespace SpaceHordes.GameStates.Screens
             StorageContainer c = Container;
             StreamWriter writer = new StreamWriter(FilePath(c));
 #endif
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 writer.WriteLine("[" + ((PlayerIndex)i).ToString() + "]");
                 if (i != (int)index)
@@ -320,7 +320,7 @@ namespace SpaceHordes.GameStates.Screens
             StorageContainer c = Container;
             StreamWriter writer = new StreamWriter(FilePath(c));
 #endif
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 writer.WriteLine("[" + ((PlayerIndex)i).ToString() + "]");
                 writer.WriteLine(initials[i]);

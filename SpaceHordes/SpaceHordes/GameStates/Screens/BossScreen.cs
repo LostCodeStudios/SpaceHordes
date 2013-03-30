@@ -283,7 +283,7 @@ namespace SpaceHordes.GameStates.Screens
                 destination.Width = (int)(source.Width * scale);
                 destination.Height = (int)(source.Height * scale);
 
-                for (int x = 0; x < extra.Count(); x++)
+                for (int x = 0; x < extra.Count(); ++x)
                 {
                     if (extra[x] != Rectangle.Empty)
                     {
@@ -298,7 +298,7 @@ namespace SpaceHordes.GameStates.Screens
             destination.X += (int)(transitionOffset * ScreenHelper.Viewport.Width);
             spriteBatch.Draw(spriteSheet.Texture, destination, source, color);
 
-            for (int x = 0; x < extra.Count(); x++)
+            for (int x = 0; x < extra.Count(); ++x)
             {
                 if (extra[x] != Rectangle.Empty)
                 {
@@ -386,7 +386,7 @@ namespace SpaceHordes.GameStates.Screens
                 using (StreamReader reader = new StreamReader(FilePath(c)))
 #endif
                 {
-                    for (int x = 0; x < bosses.Length; x++)
+                    for (int x = 0; x < bosses.Length; ++x)
                     {
                         string next = reader.ReadLine();
 
@@ -429,7 +429,7 @@ namespace SpaceHordes.GameStates.Screens
             using (StreamWriter writer = new StreamWriter(FilePath(c)))
 #endif
             {
-                for (int i = 0; i < bosses.Count(); i++)
+                for (int i = 0; i < bosses.Count(); ++i)
                 {
                     writer.WriteLine(data[i].ToString());
                 }
@@ -471,7 +471,7 @@ namespace SpaceHordes.GameStates.Screens
 
             bool[] data = new bool[bosses.Length];
 
-            for (int i = 0; i < bosses.Length; i++)
+            for (int i = 0; i < bosses.Length; ++i)
             {
                 data[i] = false;
             }
@@ -483,7 +483,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             int index = 0;
 
-            for (index = 0; index < ClearedBosses.Count(); index++)
+            for (index = 0; index < ClearedBosses.Count(); ++index)
             {
                 if (bosses[index].BossName == bossName)
                     break;

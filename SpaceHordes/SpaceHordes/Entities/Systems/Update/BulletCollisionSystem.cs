@@ -31,7 +31,7 @@ namespace SpaceHordes.Entities.Systems
                 world.RayCast(
                     delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
                     {
-                        bullet.collisionChecked++;
+                        ++bullet.collisionChecked;
                         if (fix.Body.UserData is Entity)
                         {
                             if ((fix.Body.UserData as Entity).HasComponent<Health>()

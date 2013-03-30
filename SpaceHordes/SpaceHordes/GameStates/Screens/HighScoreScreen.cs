@@ -105,7 +105,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 string[] toReturn = new string[10];
 
-                for (int x = 0; x < 10; x++)
+                for (int x = 0; x < 10; ++x)
                     toReturn[x] = "NLN";
 
                 return toReturn;
@@ -141,7 +141,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 string[] toReturn = new string[10];
 
-                for (int x = 0; x < 10; x++)
+                for (int x = 0; x < 10; ++x)
                 {
                     toReturn[x] = "NLN, WHG";
                 }
@@ -176,7 +176,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 string[] toReturn = new string[10];
 
-                for (int x = 0; x < 10; x++)
+                for (int x = 0; x < 10; ++x)
                 {
                     toReturn[x] = "NLN, WHG, DNC";
                 }
@@ -211,7 +211,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 string[] toReturn = new string[10];
 
-                for (int x = 0; x < 10; x++)
+                for (int x = 0; x < 10; ++x)
                 {
                     toReturn[x] = "NLN, WHG, DNC, NKG";
                 }
@@ -342,7 +342,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (right.Evaluate(input, ControllingPlayer, out index))
             {
-                Players++;
+                ++Players;
             }
         }
 
@@ -383,7 +383,7 @@ namespace SpaceHordes.GameStates.Screens
                 scoreLocation.X += transitionOffset * 512;
 
             //Draw each menu entry in turn.
-            for (int i = 0; i < maxScores; i++)
+            for (int i = 0; i < maxScores; ++i)
             {
                 //Draw the initials and number
                 Color color = (i == selectedScore) ? Color.Yellow : Color.White;
@@ -430,7 +430,7 @@ namespace SpaceHordes.GameStates.Screens
             Dictionary<int, string[]> initials1 = new Dictionary<int, string[]>();
             Dictionary<int, long[]> scores1 = new Dictionary<int, long[]>();
 
-            for (int x = 1; x <= 4; x++)
+            for (int x = 1; x <= 4; ++x)
             {
                 string[] initials2;
                 long[] scores2;
@@ -447,7 +447,7 @@ namespace SpaceHordes.GameStates.Screens
             using (StreamWriter sw = new StreamWriter(FilePath(c)))
 #endif
             {
-                for (int x = 1; x <= 4; x++)
+                for (int x = 1; x <= 4; ++x)
                 {
                     if (x != players)
                     {
@@ -474,7 +474,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             writer.WriteLine("[" + players.ToString() + "]");
 
-            for (int x = 0; x < initials.Length; x++)
+            for (int x = 0; x < initials.Length; ++x)
             {
                 writer.WriteLine(initials[x]);
                 writer.WriteLine(scores[x]);
@@ -558,7 +558,7 @@ namespace SpaceHordes.GameStates.Screens
                                 loop = false;
                             }
                         }
-                        x++;
+                        ++x;
                     }
 
                     tr.Close();
@@ -572,7 +572,7 @@ namespace SpaceHordes.GameStates.Screens
                         {
                         }
 
-                        for (int x = 0; x < maxScores; x++)
+                        for (int x = 0; x < maxScores; ++x)
                         {
                             string initial = tr.ReadLine();
 
@@ -652,7 +652,7 @@ namespace SpaceHordes.GameStates.Screens
 
             int place = scores.Length - 1;
 
-            for (int i = 0; i < scores.Length; i++)
+            for (int i = 0; i < scores.Length; ++i)
             {
                 if (score > scores[i])
                 {

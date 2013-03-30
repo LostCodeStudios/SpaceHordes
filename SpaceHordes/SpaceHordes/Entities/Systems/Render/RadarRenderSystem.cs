@@ -92,7 +92,7 @@ namespace SpaceHordes.Entities.Systems
             const double increment = Math.PI * 2.0 / 32;
             double theta = 0.0;
 
-            for (int i = 0; i < 32; i++)
+            for (int i = 0; i < 32; ++i)
             {
                 Vector2 v1 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
                 Vector2 v2 = center +
@@ -120,7 +120,7 @@ namespace SpaceHordes.Entities.Systems
             Vector2 v0 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
             theta += increment;
 
-            for (int i = 1; i < 32 - 1; i++)
+            for (int i = 1; i < 32 - 1; ++i)
             {
                 Vector2 v1 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
                 Vector2 v2 = center +

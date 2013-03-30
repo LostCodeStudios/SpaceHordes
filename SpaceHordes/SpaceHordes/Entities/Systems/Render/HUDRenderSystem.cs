@@ -105,7 +105,7 @@ namespace SpaceHordes.Entities.Systems
 
             SpaceWorld w = world as SpaceWorld;
 
-            for (int i = 0; i < w.enemySpawnSystem.RespawnTime.Length; i++)
+            for (int i = 0; i < w.enemySpawnSystem.RespawnTime.Length; ++i)
             {
                 int time = w.enemySpawnSystem.RespawnTime[i];
                 if (time > 0)

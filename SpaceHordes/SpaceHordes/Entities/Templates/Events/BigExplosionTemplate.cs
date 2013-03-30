@@ -32,7 +32,7 @@ namespace SpaceHordes.Entities.Templates
 
             int[] size = new int[4];
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; ++i)
             {
                 size[i] = intensity / (i + 1);
                 float radius = 0;
@@ -43,7 +43,7 @@ namespace SpaceHordes.Entities.Templates
                 radius = ConvertUnits.ToSimUnits(radius);
                 Vector2 offset;
 
-                for (int j = 0; j < size[i]; j++)
+                for (int j = 0; j < size[i]; ++j)
                 {
                     double x = 2 * r.NextDouble() - 1;
                     double y = 2 * r.NextDouble() - 1;

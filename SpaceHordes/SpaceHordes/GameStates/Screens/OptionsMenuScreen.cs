@@ -192,14 +192,14 @@ namespace SpaceHordes.GameStates.Screens
         //TODO: Add events for each MenuEntry.
         private void sound_selected(object sender, EventArgs e)
         {
-            SoundVolume++;
+            ++SoundVolume;
 
             updateMenuEntryText();
         }
 
         private void music_selected(object sender, EventArgs e)
         {
-            MusicVolume++;
+            ++MusicVolume;
 
             updateMenuEntryText();
         }

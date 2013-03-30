@@ -11,14 +11,14 @@ namespace SpaceHordes.Entities.Templates
 
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {
-            for (int i = 0; i < starNum; i++)
+            for (int i = 0; i < starNum; ++i)
             {
                 Entity e = world.CreateEntity("Star", true);
                 e.Refresh();
                 stars.Add(e);
             }
 
-            for (int i = 0; i < nebNum; i++)
+            for (int i = 0; i < nebNum; ++i)
             {
                 Entity e = world.CreateEntity("Star", false);
                 e.Refresh();

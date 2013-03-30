@@ -398,13 +398,13 @@ namespace SpaceHordes
             PlayerIndex[] index = args[0] as PlayerIndex[];
             if (args != null && index.Length > 0 && index != null) //IF MULTIPLAYER
             {
-                for (int i = 0; i < index.Length && i < 4; i++)
+                for (int i = 0; i < index.Length && i < 4; ++i)
                 {
                     Entity e = CreateEntity("Player", (PlayerIndex)i);
                     e.Refresh();
                     Player.Add(e);
                     Indices.Add((PlayerIndex)i);
-                    Players++;
+                    ++Players;
                 }
 #if DEBUG
                 //Player 4 keyboard controlled
@@ -414,7 +414,7 @@ namespace SpaceHordes
                     c.Refresh();
                     Player.Add(c);
                     Indices.Add(PlayerIndex.Four);
-                    Players++;
+                    ++Players;
                 }
 #endif
             }

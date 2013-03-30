@@ -104,7 +104,7 @@ namespace SpaceHordes.Entities.Systems
             this.RespawnTime = new int[4];
             this.PlayerToSpawn = new int[4];
 
-            for (int i = 0; i < Players.Length; i++)
+            for (int i = 0; i < Players.Length; ++i)
             {
                 Entity e = Players[i];
                 int x = i;
@@ -121,13 +121,13 @@ namespace SpaceHordes.Entities.Systems
         {
             base.ProcessEntities(entities);
 
-            timesCalled++;
+            ++timesCalled;
             elapsedSeconds += .333f;
             intervalSeconds += .333f;
             elapsedMinutes += .333f / 60f;
 
             SpaceWorld w = world as SpaceWorld;
-            difficulty = ((elapsedMinutes)*(elapsedMinutes)) * w.Players;
+            difficulty = elapsedMinutes * w.Players;
 
             if (Surge)
             {
@@ -194,7 +194,7 @@ namespace SpaceHordes.Entities.Systems
                 //huntersToSpawn = (HunterSpawnRate != -1) ? ((HunterSpawnRate == 0) ? (int)(difficulty) : difficulty * (int)(HunterSpawnRate)) : 0;
                 destroyersToSpawn = (DestroyerSpawnRate != -1) ? ((DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : (int)difficulty * (int)(DestroyerSpawnRate / 30)) : 0;
                 
-                for (int i = 0; i < mooksToSpawn; i++)
+                for (int i = 0; i < mooksToSpawn; ++i)
                 {
                     type = r.Next(7);
                     if (string.IsNullOrEmpty(MookSprite))
@@ -203,7 +203,7 @@ namespace SpaceHordes.Entities.Systems
                         World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>(), MookSprite).Refresh();
                 }
 
-                for (int i = 0; i < thugsToSpawn; i++)
+                for (int i = 0; i < thugsToSpawn; ++i)
                 {
                     type = r.Next(5);
                     if (string.IsNullOrEmpty(ThugSprite))
@@ -212,7 +212,7 @@ namespace SpaceHordes.Entities.Systems
                         World.CreateEntity(ThugTemplate, type, Base.GetComponent<Body>(), ThugSprite).Refresh();
                 }
 
-                for (int i = 0; i < gunnersToSpawn; i++)
+                for (int i = 0; i < gunnersToSpawn; ++i)
                 {
                     type = r.Next(5);
                     if (string.IsNullOrEmpty(GunnerSprite))
@@ -221,7 +221,7 @@ namespace SpaceHordes.Entities.Systems
                         World.CreateEntity(GunnerTemplate, type, GunnerSprite).Refresh();
                 }
 
-                for (int i = 0; i < huntersToSpawn; i++)
+                for (int i = 0; i < huntersToSpawn; ++i)
                 {
                     type = r.Next(0, 3);
                     int target = r.Next(0, Players.Length);
@@ -231,13 +231,9 @@ namespace SpaceHordes.Entities.Systems
                     else
                         World.CreateEntity(HunterTemplate, type, b, HunterSprite).Refresh();
                 }
-
-                for (int i = 0; i < destroyersToSpawn; i++)
-                {
-                }
             }
 
-            if ((int)(elapsedMinutes) >= lastBoss || timesCalled == 100)
+            if ((int)(elapsedMinutes) >= lastBoss)
             {
                 
                 int chance = r.Next(1, 100);
@@ -248,7 +244,7 @@ namespace SpaceHordes.Entities.Systems
                     Surge = true;
                     HUDRenderSystem.SurgeWarning = true;
 
-                    for (int i = 0; i < Players.Length; i++)
+                    for (int i = 0; i < Players.Length; ++i)
                     {
                         SpawnCrystalFor(i);
                     }
@@ -262,7 +258,7 @@ namespace SpaceHordes.Entities.Systems
                     }
                     
 
-                    lastBoss++;
+                    ++lastBoss;
                 }
                 else
                 {
@@ -278,9 +274,7 @@ namespace SpaceHordes.Entities.Systems
 
             #region Player Respawn
 
-
-
-            for (int i = 0; i < RespawnTime.Length; i++)
+            for (int i = 0; i < RespawnTime.Length; ++i)
             {
                 if (RespawnTime[i] > 0)
                 {
