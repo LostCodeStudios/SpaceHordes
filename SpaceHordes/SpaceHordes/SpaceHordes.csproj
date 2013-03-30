@@ -126,6 +126,7 @@
     <Compile Include="Entities\Systems\Input\PlayerControlSystem.cs" />
     <Compile Include="Entities\Systems\Render\RadarRenderSystem.cs" />
     <Compile Include="Entities\Systems\Render\ScoreSystem.cs" />
+    <Compile Include="Entities\Systems\Update\PlayerClampSystem.cs" />
     <Compile Include="Entities\Systems\Update\SlowSystem.cs" />
     <Compile Include="Entities\Systems\Update\SmasherBallSystem.cs" />
     <Compile Include="Entities\Systems\Render\StarFieldRenderSystem.cs" />

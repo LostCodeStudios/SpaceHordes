@@ -83,7 +83,7 @@ namespace SpaceHordes
             scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
-
+            this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update);
             enemySpawnSystem.Surge = false;
             DirectorSystem.ElapsedSurge = 0;
             HUDRenderSystem.SurgeWarning = false;
