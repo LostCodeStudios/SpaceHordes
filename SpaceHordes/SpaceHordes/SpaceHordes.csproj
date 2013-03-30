@@ -153,8 +153,10 @@
     <Compile Include="GameStates\Screens\HighScoreScreen.cs" />
     <Compile Include="GameStates\Screens\InitialEntryChar.cs" />
     <Compile Include="GameStates\Screens\InitialEntryScreen.cs" />
+    <Compile Include="GameStates\Screens\IntroScreen.cs" />
     <Compile Include="GameStates\Screens\LoadingScreen.cs" />
     <Compile Include="GameStates\Screens\MainMenuScreen.cs" />
+    <Compile Include="GameStates\Screens\MessageDialog.cs" />
     <Compile Include="GameStates\Screens\OptionsMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PauseMenuScreen.cs" />
     <Compile Include="ImageFont.cs" />
