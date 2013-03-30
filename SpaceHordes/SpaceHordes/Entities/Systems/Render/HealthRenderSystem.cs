@@ -68,21 +68,23 @@ namespace SpaceHordes.Entities.Systems
                 float rotation = (float)Math.Atan2(body.LinearVelocity.Y, body.LinearVelocity.X);
 
                 float spriteWidth = (float)Math.Abs((s.CurrentRectangle.Width * Math.Cos(rotation)) + (s.CurrentRectangle.Height * Math.Cos(Math.PI/2 - rotation)));
-                float spriteHeight = (float)Math.Abs((s.CurrentRectangle.Height * Math.Sin(Math.PI - rotation) + s.CurrentRectangle.Width * Math.Sin(rotation)));
+                float spriteHeight = (float)Math.Abs((s.CurrentRectangle.Height * Math.Sin(MathHelper.ToDegrees((float)Math.PI - rotation)) + s.CurrentRectangle.Width * Math.Sin(MathHelper.ToDegrees(rotation))));
 
                 //Draw backing
                 _SpriteBatch.Draw(_BarTexture,
                     new Rectangle(
-                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)spriteWidth / 2,
-                        Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2,
+                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)Width / 2,
+                        Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)spriteHeight / 2,
                         (int)Width, 2), Color.DarkRed);
 
                 _SpriteBatch.Draw(_BarTexture,
                     new Rectangle(
-                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)spriteWidth / 2,
-                        Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2,
+                        X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)Width / 2,
+                        Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)spriteHeight / 2,
                         (int)((health.CurrentHealth / health.MaxHealth) * Width),
                             2), Color.Red);
+
+                Console.WriteLine("Velocity: " + body.LinearVelocity.ToString());
             }
             else
             {

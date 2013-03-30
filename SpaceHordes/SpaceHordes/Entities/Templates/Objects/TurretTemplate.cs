@@ -102,7 +102,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Health
 
-            e.AddComponent<Health>(new Health(1)).OnDeath +=
+            e.AddComponent<Health>(new Health(5)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
