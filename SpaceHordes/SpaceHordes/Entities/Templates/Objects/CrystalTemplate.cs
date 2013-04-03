@@ -55,7 +55,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                     {
                         Vector2 distance = target.Position - b.Position;
                         distance.Normalize();
-                        b.LinearVelocity = distance * new Vector2(20);
+                        b.LinearVelocity = distance * new Vector2(7);
                         return false;
                     }
                     else
