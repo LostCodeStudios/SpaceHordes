@@ -32,6 +32,8 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
             MenuEntry bossEntry = new MenuEntry("Bosses");
 
+            MenuEntry introEntry = new MenuEntry("Intro");
+
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
@@ -45,6 +47,7 @@ namespace SpaceHordes.GameStates.Screens
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
+            introEntry.Selected += IntroMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
@@ -53,6 +56,7 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(playMultiplayerMenuEntry);
             MenuEntries.Add(highScoresMenuEntry);
             MenuEntries.Add(bossEntry);
+            MenuEntries.Add(introEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
@@ -97,6 +101,15 @@ namespace SpaceHordes.GameStates.Screens
         public static void BossScreenExited(object sender, EventArgs e)
         {
             bossBackdrop.ExitScreen();
+        }
+
+        private void IntroMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
+            ScreenManager.AddScreen(bossBackdrop, ControllingPlayer);
+            IntroScreen intro = new IntroScreen();
+            intro.OnExit += new EventHandler(BossScreenExited);
+            ScreenManager.AddScreen(intro, e.PlayerIndex);
         }
 
         /// <summary>
