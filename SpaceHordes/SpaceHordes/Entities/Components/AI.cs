@@ -2,6 +2,7 @@
 using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using System;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -105,6 +106,32 @@ namespace SpaceHordes.Entities.Components
                         if (rotateTo)
                             b.RotateTo(distance) ;
                     }
+                    return false;
+                };
+        }
+
+        public static Func<Body, bool> CreateCannon(Entity ent)
+        {
+            float speed = 1f;
+            float shootDistance = ConvertUnits.ToSimUnits(700);
+
+            return
+                (target) =>
+                {
+                    Body b = ent.GetComponent<Body>();
+                    float distance = Vector2.Distance(b.Position, target.Position);
+
+                    if (distance < shootDistance)
+                    {
+                        Vector2 direction = target.Position - b.Position;
+                        direction.Normalize();
+                        b.RotateTo(direction);
+                        ent.GetComponent<Inventory>().CurrentGun.BulletsToFire = true;
+                    }
+                    
+                    b.LinearVelocity = new Vector2(0, speed);
+
+                    ent.Refresh();
                     return false;
                 };
         }

@@ -95,7 +95,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
 
             AI a = new AI(null,
-                AI.CreateShoot(e, ConvertUnits.ToSimUnits(4f), ConvertUnits.ToSimUnits(400)), "Structures");
+                AI.CreateCannon(e), "Players");
             AI shootingAi = e.AddComponent<AI>(a);
 
             e.AddComponent<Health>(new Health(50)).OnDeath +=
@@ -135,6 +135,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #endregion
 
+            e.AddComponent<Origin>(new Origin(args[1] as Entity));
+            
             ++cannons;
             e.Group = "Enemies";
             return e;

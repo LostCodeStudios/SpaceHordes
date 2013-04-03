@@ -80,7 +80,7 @@ namespace SpaceHordes.Entities.Systems
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        private int lastBoss = 2;
+        private int lastBoss = 0; //THIS SHOULD BE 1. IF NOT, DEBUG PURPOSES
 
         public bool Surge = false;
         int elapsedWarning = 0;
@@ -232,15 +232,9 @@ namespace SpaceHordes.Entities.Systems
                     else
                         World.CreateEntity(HunterTemplate, type, b, HunterSprite).Refresh();
                 }
-
-                if (timesCalled == 5)
-                {
-                    Vector2 position = new Vector2(0, -ScreenHelper.Viewport.Height/4);
-                    world.CreateEntity("Cannon", ConvertUnits.ToSimUnits(position)).Refresh();
-                }
             }
 
-            if ((int)(elapsedMinutes) >= lastBoss)
+            if ((int)(elapsedMinutes) > lastBoss)
             {
                 
                 int chance = r.Next(1, 100);
@@ -270,10 +264,10 @@ namespace SpaceHordes.Entities.Systems
                 else
                 {
                     //Boss.
-                    int tier = Math.Min((int)difficulty, 3);
+                    int tier = Math.Min((int)lastBoss, 3);
                     Boss = World.CreateEntity(BossTemplate, tier, Base.GetComponent<Body>());
                     Boss.Refresh();
-                    lastBoss++;
+                    ++lastBoss;
                 }
             }
 
