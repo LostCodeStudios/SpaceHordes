@@ -80,7 +80,7 @@ namespace SpaceHordes.Entities.Systems
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        private int lastBoss = 0; //THIS SHOULD BE 1. IF NOT, DEBUG PURPOSES
+        private int lastBoss = 1; //private int lastBoss = 0; //DEBUG PURPOSES
 
         public bool Surge = false;
         int elapsedWarning = 0;

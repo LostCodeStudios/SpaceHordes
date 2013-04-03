@@ -253,6 +253,15 @@ namespace SpaceHordes.GameStates.Screens
                 scale = 3f;
             }
 
+            else if (currentKey.Equals("brain"))
+            {
+                extraSource[0] = spriteSheet["blaster"][0];
+                extraSource[1] = spriteSheet["blaster"][0];
+                Point offset = new Point((int)ConvertUnits.ToDisplayUnits(2) * (int)scale, 0);
+                extra[0] = new Rectangle((destination.Center.X + offset.X) - extraSource[0].Width / 2, destination.Y, extraSource[0].Width * (int)scale, extraSource[0].Height * (int)scale);
+                extra[1] = new Rectangle((destination.Center.X + offset.X) - extraSource[1].Width / 2, destination.Y, extraSource[1].Width * (int)scale, extraSource[1].Height * (int)scale);
+            }
+
             else if (currentKey.Equals("blimp"))
             {
                 scale = 4.5f;
