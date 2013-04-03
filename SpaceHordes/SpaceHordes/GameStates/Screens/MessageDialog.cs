@@ -26,6 +26,8 @@ namespace GameLibrary.GameStates.Screens
             set { position = value; }
         }
 
+        public bool Visible = true;
+
         char[] phraseEnders;
 
         public MessageDialog(ImageFont font, Vector2 position, string message, TimeSpan letters, TimeSpan phrase, char[] phrases)
@@ -71,17 +73,19 @@ namespace GameLibrary.GameStates.Screens
 
         public bool Complete()
         {
-            return (toDraw == message);
+            return toDraw == message && Enabled;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            font.DrawString(spriteBatch, position, toDraw);
+            if (Visible)
+                font.DrawString(spriteBatch, position, toDraw);
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-            font.DrawString(spriteBatch, position + offset, toDraw);
+            if (Visible)
+                font.DrawString(spriteBatch, position + offset, toDraw);
         }
     }
 }

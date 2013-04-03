@@ -166,7 +166,7 @@ namespace SpaceHordes.GameStates.Screens
         #region Initialization
 
         //TODO: Hook up the MenuEntries with Event Handlers.
-        public OptionsMenuScreen()
+        public OptionsMenuScreen(bool ingame)
             : base("Options")
         {
             this.sound.Selected += sound_selected;
@@ -181,7 +181,8 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(this.sound);
             MenuEntries.Add(this.music);
 #if WINDOWS
-            MenuEntries.Add(this.fullScreen);
+            if (!ingame)
+                MenuEntries.Add(this.fullScreen);
 #endif
         }
 

@@ -56,7 +56,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
+            ScreenManager.AddScreen(new OptionsMenuScreen(true), e.PlayerIndex);
         }
 
         protected override void OnCancel(PlayerIndex playerIndex)

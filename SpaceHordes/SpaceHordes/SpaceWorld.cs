@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using System;
 using SpaceHordes.Entities.Templates.Events;
+using SpaceHordes.GameStates.Screens;
 
 namespace SpaceHordes
 {
@@ -24,15 +25,20 @@ namespace SpaceHordes
     /// </summary>
     public class SpaceWorld : World
     {
-        public SpaceWorld(Game game, SpriteSheet spriteSheet)
+        public GameplayScreen GameScreen;
+        public SpaceWorld(Game game, SpriteSheet spriteSheet, GameplayScreen screen, bool tutorial = false)
             : base(game, new Vector2(0, 0))
         {
+            Tutorial = tutorial;
+            GameScreen = screen;
             this._spriteSheet = spriteSheet;
-            this._font = new ImageFont();
+            this._Font = new ImageFont();
         }
 
 
         #region Initialization
+
+        public bool Tutorial = false;
 
         #region Content/Init
 
@@ -45,8 +51,9 @@ namespace SpaceHordes
         {
             base.LoadContent(Content, args);
 
-            _font.LoadContent(Content, "Textures/gamefont", 1f);
-            hudRenderSystem.LoadContent(_font, Content.Load<Texture2D>("Textures/HUD"));
+            _Font.LoadContent(Content, "Textures/gamefont", 1f);
+            _Font.SpaceWidth = 10;
+            hudRenderSystem.LoadContent(_Font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
 #if DEBUG   //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
@@ -496,7 +503,7 @@ namespace SpaceHordes
 
         private SpriteSheet _spriteSheet;
         private Texture2D _hud;
-        private ImageFont _font;
+        public ImageFont _Font;
         public int Players = 0;
 
         public static List<PlayerIndex> Indices = new List<PlayerIndex>();

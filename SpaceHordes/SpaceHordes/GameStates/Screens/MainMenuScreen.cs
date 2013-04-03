@@ -21,13 +21,15 @@ namespace SpaceHordes.GameStates.Screens
         {
             //Create our menu entries.
 #if WINDOWS
-            MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
+            MenuEntry playGameMenuEntry = new MenuEntry("Solo Defense");
 #endif
 
 #if XBOX
             MenuEntry playGameMenuEntry = new MenuEntry("Play Solo");
 #endif
-            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Play Multiplayer");
+            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Team Defense");
+
+            MenuEntry tutorialEntry = new MenuEntry("Tutorial");
 
             MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
             MenuEntry bossEntry = new MenuEntry("Bosses");
@@ -42,8 +44,10 @@ namespace SpaceHordes.GameStates.Screens
 
             //#if XBOX
             playMultiplayerMenuEntry.Selected += PlayMultiplayerMenuEntrySelected;
-
+            
             //#endif
+
+            tutorialEntry.Selected += PlayTutorialEntrySelected;
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
@@ -54,6 +58,7 @@ namespace SpaceHordes.GameStates.Screens
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(playMultiplayerMenuEntry);
+            MenuEntries.Add(tutorialEntry);
             MenuEntries.Add(highScoresMenuEntry);
             MenuEntries.Add(bossEntry);
             MenuEntries.Add(introEntry);
@@ -80,6 +85,11 @@ namespace SpaceHordes.GameStates.Screens
         private void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", true));
+        }
+
+        void PlayTutorialEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false, true));
         }
 
         private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
@@ -117,7 +127,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
+            ScreenManager.AddScreen(new OptionsMenuScreen(false), e.PlayerIndex);
         }
 
         /// <summary>

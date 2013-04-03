@@ -55,10 +55,12 @@ namespace SpaceHordes.GameStates.Screens
 
         #region Initialization
 
+        public bool tutorial;
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(string fontName, bool multiplayer)
+        public GameplayScreen(string fontName, bool multiplayer, bool tutorial = false)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -66,6 +68,8 @@ namespace SpaceHordes.GameStates.Screens
             this.multiplayer = multiplayer;
             this.fontName = fontName;
             gameFont = new ImageFont();
+
+            this.tutorial = tutorial;
 
             pauseAction = new InputAction(
                 new Buttons[] { Buttons.Start, Buttons.Back },
@@ -106,7 +110,7 @@ namespace SpaceHordes.GameStates.Screens
             #endregion Screen
 
             //World
-            World = new SpaceWorld(ScreenManager.Game, ScreenHelper.SpriteSheet);
+            World = new SpaceWorld(ScreenManager.Game, ScreenHelper.SpriteSheet, this, tutorial);
             World.Initialize();
             World.LoadContent(content, players.ToArray());
 
@@ -165,7 +169,8 @@ namespace SpaceHordes.GameStates.Screens
             if (IsActive)
             {
                 World.Update(gameTime); //Update the world.
-
+                if (World.enemySpawnSystem.CurrentDialog != null)
+                    World.enemySpawnSystem.CurrentDialog.Update(gameTime);
                 if (!World.Base.HasComponent<Health>())
                 {
                     EndGame();
@@ -188,16 +193,21 @@ namespace SpaceHordes.GameStates.Screens
             World.Draw(gameTime); //Draw the world.
 
             spriteBatch.Begin();
-            Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
-            gameFont.DrawString(
-                spriteBatch,
-                new Vector2(
-                    scoreLocation.X - scoreSize.X / 2,
-                    scoreLocation.Y),
-                score.ToString(),
-                scoreScale);
+            if (World.enemySpawnSystem.CurrentDialog != null)
+                World.enemySpawnSystem.CurrentDialog.Draw(spriteBatch);
+            if (!tutorial)
+            {
+                
+                Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
+                gameFont.DrawString(
+                    spriteBatch,
+                    new Vector2(
+                        scoreLocation.X - scoreSize.X / 2,
+                        scoreLocation.Y),
+                    score.ToString(),
+                    scoreScale);
+            }
             spriteBatch.End();
-
             if (TransitionPosition > 0 || pauseAlpha > 0)
             {
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
