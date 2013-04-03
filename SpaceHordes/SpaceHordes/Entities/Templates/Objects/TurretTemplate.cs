@@ -42,6 +42,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
                 Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
                 Body.FixedRotation = false;
+                Body.RotateTo((Body.Position));
 
                 Body.SleepingAllowed = false;
             }
