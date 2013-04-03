@@ -5,12 +5,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceHordes.Entities.Systems
 {
-    public class StarFieldRenderSystem : EntityProcessingSystem
+    public class StarFieldRenderSystem : GroupSystem
     {
         private SpriteBatch spriteBatch;
 
         public StarFieldRenderSystem(SpriteBatch spriteBatch)
-            : base(typeof(Sprite))
+            : base("Stars")
         {
             this.spriteBatch = spriteBatch;
         }
@@ -24,16 +24,13 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-            if (e.Group == "Stars")
-            {
-                Sprite s = e.GetComponent<Sprite>();
+            Sprite s = e.GetComponent<Sprite>();
 
-                spriteBatch.Draw(
-                    s.SpriteSheet.Texture,
-                    s.Origin,
-                    s.CurrentRectangle,
-                    Color.White);
-            }
+            spriteBatch.Draw(
+                s.SpriteSheet.Texture,
+                s.Origin,
+                s.CurrentRectangle,
+                Color.White);
         }
     }
 }
