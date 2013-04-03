@@ -121,6 +121,7 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("Boss", new BossTemplate(_spriteSheet, this));
             this.SetEntityTemplate("SmasherBall", new SmasherBallTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Cannon", new CannonTemplate(_spriteSheet, this));
 
             #endregion Bosses
 

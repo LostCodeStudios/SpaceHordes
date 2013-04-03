@@ -137,7 +137,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             if (colorchance > 90)
             {
                 crystalColor = Color.Gray;
-                amount = 6;
+                amount = 2;
             }
             e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
@@ -168,7 +168,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         {
                             _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
                         }
-                        ScoreSystem.GivePoints(3);
+                        ScoreSystem.GivePoints(10);
                     }
                 };
 

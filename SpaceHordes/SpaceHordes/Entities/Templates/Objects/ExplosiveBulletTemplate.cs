@@ -18,8 +18,12 @@ namespace SpaceHordes.Entities.Templates.Objects
     {
         World _World;
         SpriteSheet _SS;
+
+        static int num = 0;
+
         public ExplosiveBulletTemplate(World world, SpriteSheet ss)
         {
+            num = 0;
             this._World = world;
             this._SS = ss;
         }
@@ -36,7 +40,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             
             #region Sprite
             //Builds a sprite using "redshot3" (arbitrary). TODO: FIX DIS BITCH HELLA D
-            Sprite bulletSprite = e.AddComponent<Sprite>(new Sprite(_SS, "redspikeball"));
+            Sprite bulletSprite = e.AddComponent<Sprite>(new Sprite(_SS, "redspikeball", 0.54f + (float)num / 1000000f));
             #endregion
 
             #region Body
@@ -54,7 +58,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 6, 1, bitch);
 
             bitch.CollisionCategories = Category.Cat3;
-            bitch.CollidesWith = Category.Cat2;
+            bitch.CollidesWith = Category.Cat1;
             #endregion
 
             #region Health
@@ -68,6 +72,14 @@ namespace SpaceHordes.Entities.Templates.Objects
 
                 SoundManager.Play("Explosion1");
             };
+
+            bitch.OnCollision +=
+                (f1, f2, c) =>
+                {
+                    bulletHealth.SetHealth(f2.UserData as Entity, 0.0);
+                    return true;
+                };
+
             #endregion
 
             return e;

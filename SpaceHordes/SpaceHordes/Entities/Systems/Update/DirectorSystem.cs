@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using SpaceHordes.Entities.Templates.Objects;
 using GameLibrary.Entities.Components;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -230,6 +231,12 @@ namespace SpaceHordes.Entities.Systems
                         World.CreateEntity(HunterTemplate, type, b).Refresh();
                     else
                         World.CreateEntity(HunterTemplate, type, b, HunterSprite).Refresh();
+                }
+
+                if (timesCalled == 5)
+                {
+                    Vector2 position = new Vector2(0, -ScreenHelper.Viewport.Height/4);
+                    world.CreateEntity("Cannon", ConvertUnits.ToSimUnits(position)).Refresh();
                 }
             }
 

@@ -67,46 +67,55 @@ namespace SpaceHordes.Entities.Systems
                 else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     gun.BulletsToFire = true;
 
-#if DEBUG
-                if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation)*5, (float)Math.Sin(t.Rotation)*5), 1).Refresh();
-#endif
+//#if DEBUG
+//                if (Mouse.GetState().RightButton == ButtonState.Pressed)
+//                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation) * 5, (float)Math.Sin(t.Rotation) * 5), 1).Refresh();
+//#endif
             }
 
             //Fire bullets bro
             if (gun.Elapsed > gun.Interval / gun.Power && gun.BulletsToFire && gun.Ammunition > 0)
             {
-                if (gun.Ammunition == 0)
+                if (inv._type == InvType.Cannon)
                 {
-                    inv.CurrentGun = inv.WHITE;
+                    ITransform t = e.GetComponent<ITransform>();
+                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation) * 5, (float)Math.Sin(t.Rotation) * 5), 1).Refresh();
+                }
+                else
+                {
+                    if (gun.Ammunition == 0)
+                    {
+                        inv.CurrentGun = inv.WHITE;
+                    }
+
+                    foreach (Vector2 offset in gun.GunOffsets)
+                    {
+                        float rotation = transform.Rotation;
+                        float r_o = (float)Math.Atan2(offset.X, offset.Y);
+                        float r_a = (float)Math.Atan2(offset.Y, offset.X);
+
+                        Vector2 rotatedOffset = ConvertUnits.ToSimUnits(new Vector2((float)Math.Cos(r_a + rotation) * offset.Length(), (float)Math.Sin(r_a + rotation) * offset.Length()));
+                        Transform fireAt = new Transform(transform.Position + rotatedOffset, rotation);
+
+                        Entity bullet = world.CreateEntity(gun.BulletTemplateTag, fireAt);
+                        gun.BulletVelocity = bullet.GetComponent<IVelocity>().LinearVelocity;
+                        Bullet bb = bullet.GetComponent<Bullet>();
+                        bb.Firer = e;
+                        bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
+                        bullet.AddComponent<Bullet>(bb);
+                        bullet.Refresh();
+
+                        int shot = r.Next(1, 3);
+                        if (e.Group == "Structures" || e.Group == "Enemies")
+                            SoundManager.Play("Shot" + shot.ToString(), .25f);
+                        else
+                            SoundManager.Play("Shot" + shot.ToString());
+                    }
+
+
+                    gun.Ammunition--;
                 }
 
-                foreach (Vector2 offset in gun.GunOffsets)
-                {
-                    float rotation = transform.Rotation;
-                    float r_o = (float)Math.Atan2(offset.X, offset.Y);
-                    float r_a = (float)Math.Atan2(offset.Y, offset.X);
-
-                    Vector2 rotatedOffset = ConvertUnits.ToSimUnits(new Vector2((float)Math.Cos(r_a + rotation)*offset.Length(), (float)Math.Sin(r_a + rotation)*offset.Length())) ;
-                    Transform fireAt = new Transform(transform.Position + rotatedOffset, rotation);
-
-                    Entity bullet = world.CreateEntity(gun.BulletTemplateTag, fireAt);
-                    gun.BulletVelocity = bullet.GetComponent<IVelocity>().LinearVelocity;
-                    Bullet bb = bullet.GetComponent<Bullet>();
-                    bb.Firer = e;
-                    bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
-                    bullet.AddComponent<Bullet>(bb);
-                    bullet.Refresh();
-
-                    int shot = r.Next(1, 3);
-                    if (e.Group == "Structures" || e.Group == "Enemies")
-                        SoundManager.Play("Shot" + shot.ToString(), .25f);
-                    else
-                        SoundManager.Play("Shot" + shot.ToString());
-                }
-
-
-                gun.Ammunition--;
                 gun.BulletsToFire = false;
                 gun.Elapsed = 0;
             }
