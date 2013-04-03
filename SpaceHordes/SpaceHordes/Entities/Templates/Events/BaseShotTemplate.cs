@@ -15,7 +15,7 @@ namespace SpaceHordes.Entities.Templates.Events
         public static double ShotRatio = 0.22;
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {
-            Inventory inv = (args[0] as Inventory);
+            Inventory inv = (args[0] as Entity).GetComponent<Inventory>();
             List<Entity> rets = new List<Entity>();
 
             //If the bullet type is not white
@@ -30,6 +30,10 @@ namespace SpaceHordes.Entities.Templates.Events
                 {
                     Transform fireAt = new Transform(Vector2.Zero, (float)angle);
                     Entity bullet = world.CreateEntity(inv.CurrentGun.BulletTemplateTag, fireAt);
+                    Bullet bb = bullet.GetComponent<Bullet>();
+                    bb.Firer = (args[0] as Entity);
+                    bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
+                    bullet.AddComponent<Bullet>(bb);
                     bullet.Refresh();
 
 

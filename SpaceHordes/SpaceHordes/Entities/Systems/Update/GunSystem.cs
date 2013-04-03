@@ -69,7 +69,7 @@ namespace SpaceHordes.Entities.Systems
 
 #if DEBUG
                 if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                    world.CreateEntityGroup("BaseShot", "baseShot" , inv);
+                    world.CreateEntityGroup("BaseShot", "baseShot" , e);
 #endif
             }
 
