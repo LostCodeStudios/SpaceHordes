@@ -57,8 +57,8 @@ namespace SpaceHordes.Entities.Templates.Objects
                 ConvertUnits.ToSimUnits(bulletSprite.CurrentRectangle.Height/2),
                 6, 1, bitch);
 
-            bitch.CollisionCategories = Category.Cat3;
-            bitch.CollidesWith = Category.Cat1;
+            bitch.CollisionCategories = Category.Cat4;
+            bitch.CollidesWith = Category.Cat1 | Category.Cat3;
             #endregion
 
             #region Health
@@ -68,7 +68,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             ent =>
             {
                 Vector2 poss = e.GetComponent<ITransform>().Position;
-                _World.CreateEntityGroup("BigExplosion", "Explosions", bitch.Position, new Random().Next(0,10), e);
+                _World.CreateEntityGroup("BigExplosion", "Explosions", bitch.Position, 10, e);
 
                 SoundManager.Play("Explosion1");
             };

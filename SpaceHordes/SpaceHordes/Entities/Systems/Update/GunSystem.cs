@@ -79,7 +79,7 @@ namespace SpaceHordes.Entities.Systems
                 if (inv._type == InvType.Cannon)
                 {
                     ITransform t = e.GetComponent<ITransform>();
-                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation) * 5, (float)Math.Sin(t.Rotation) * 5), 1).Refresh();
+                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation) * 8, (float)Math.Sin(t.Rotation) * 8), 1).Refresh();
                 }
                 else
                 {

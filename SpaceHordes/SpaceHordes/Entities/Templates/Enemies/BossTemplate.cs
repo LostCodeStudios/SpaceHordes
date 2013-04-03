@@ -76,6 +76,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(8, 13);
                     break;
             }
+            type = 4;
+            tier = 1;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -182,7 +184,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                ent =>
                {
                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                   _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 50, ent);
+                   _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 25, ent);
 
                    int splodeSound = rbitch.Next(1, 5);
                    SoundManager.Play("Explosion" + splodeSound.ToString());
@@ -224,9 +226,19 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 _World.CreateEntity("SmasherBall", e).Refresh();
             }
 
+            if (spriteKey == "brain")
+            {
+                Vector2 offset = new Vector2(2, 0);
+                Vector2 position = bitch.Position + offset;
+                _World.CreateEntity("Cannon", position, e).Refresh();
+                position = bitch.Position - offset;
+                _World.CreateEntity("Cannon", position, e).Refresh();
+            }
+
             if (spriteKey == "eye")
             {
                 _World.enemySpawnSystem.MookSprite = "eyeshot";
+                _World.enemySpawnSystem.MookSpawnRate = 2;
                 _World.enemySpawnSystem.ThugSpawnRate = -1;
                 _World.enemySpawnSystem.GunnerSpawnRate = -1;
                 _World.enemySpawnSystem.HunterSpawnRate = -1;
