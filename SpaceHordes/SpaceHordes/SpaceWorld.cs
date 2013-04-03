@@ -15,6 +15,7 @@ using SpaceHordes.Entities.Templates.Objects;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using System;
+using SpaceHordes.Entities.Templates.Events;
 
 namespace SpaceHordes
 {
@@ -208,6 +209,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Barrier", new BarrierTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Mine", new MineTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
+            this.SetEntityGroupTemplate("BaseShot", new BaseShotTemplate());
 
             this.SetEntityTemplate("EnemyBullet", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1", 0.4f),

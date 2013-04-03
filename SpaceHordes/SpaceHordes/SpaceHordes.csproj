@@ -163,6 +163,7 @@
     <Compile Include="Entities\Templates\Enemies\HunterTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\SmasherBallTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\ThugTemplate.cs" />
+    <Compile Include="Entities\Templates\Events\BaseShotTemplate.cs" />
     <Compile Include="Entities\Templates\Events\BigExplosionTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\BarrierTemplate.cs" />
     <Compile Include="Entities\Templates\Objects\BaseTemplate.cs" />
