@@ -67,10 +67,8 @@ namespace SpaceHordes.Entities.Systems
                 else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     gun.BulletsToFire = true;
 
-#if DEBUG
-                if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                if (Mouse.GetState().RightButton == ButtonState.Pressed || GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger))
                     world.CreateEntityGroup("BaseShot", "baseShot" , e);
-#endif
             }
 
             //Fire bullets bro
