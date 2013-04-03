@@ -46,6 +46,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f + (float)crystals/10000f));
             Body b = e.AddComponent<Body>(new Body(_World, e));
+            b.IsBullet = true;
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),
                 (target) =>
@@ -54,7 +55,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                     {
                         Vector2 distance = target.Position - b.Position;
                         distance.Normalize();
-                        b.LinearVelocity = distance * new Vector2(7);
+                        b.LinearVelocity = distance * new Vector2(20);
                         return false;
                     }
                     else
