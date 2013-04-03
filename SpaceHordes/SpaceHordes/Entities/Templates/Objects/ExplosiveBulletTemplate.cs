@@ -50,8 +50,8 @@ namespace SpaceHordes.Entities.Templates.Objects
             bitch.LinearVelocity = (Vector2)args[1];
 
             FixtureFactory.AttachEllipse(
-                ConvertUnits.ToSimUnits(bulletSprite.CurrentRectangle.Width),
-                ConvertUnits.ToSimUnits(bulletSprite.CurrentRectangle.Height),
+                ConvertUnits.ToSimUnits(bulletSprite.CurrentRectangle.Width/2),
+                ConvertUnits.ToSimUnits(bulletSprite.CurrentRectangle.Height/2),
                 6, 1, bitch);
 
             bitch.CollisionCategories = Category.Cat3;
