@@ -44,7 +44,6 @@ namespace SpaceHordes.Entities.Templates.Objects
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
 
             bitch.BodyType = BodyType.Dynamic;
-            bitch.SleepingAllowed = false;
 
             bitch.Position = (Vector2)args[0];
             bitch.LinearVelocity = (Vector2)args[1];
@@ -61,6 +60,14 @@ namespace SpaceHordes.Entities.Templates.Objects
             #region Health
             //Creates health based off of the third parameter of the build entity.
             Health bulletHealth = e.AddComponent<Health>(new Health((int)args[2]));
+            bulletHealth.OnDeath +=
+            ent =>
+            {
+                Vector2 poss = e.GetComponent<ITransform>().Position;
+                _World.CreateEntityGroup("BigExplosion", "Explosions", bitch.Position, new Random().Next(0,10), e);
+
+                SoundManager.Play("Explosion1");
+            };
             #endregion
 
             return e;
