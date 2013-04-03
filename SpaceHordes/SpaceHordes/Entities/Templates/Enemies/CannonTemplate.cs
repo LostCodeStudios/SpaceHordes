@@ -11,56 +11,34 @@ using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
-    public class HunterTemplate : IEntityTemplate
+    public class CannonTemplate : IEntityTemplate
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
-        private static Random r = new Random();
-        private static int hunters = 0;
+        private static Random rbitch = new Random();
 
-        public HunterTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        private float shootdistance = 20f;
+        private static int cannons = 0;
+        public CannonTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
-            hunters = 0;
+            cannons = 0;
             _SpriteSheet = spriteSheet;
             _World = world;
         }
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
-            int type = (int)args[0];
-
-            #region Sprite
-
-            string spriteKey = "";
-            switch (type)
-            {
-                case 0:
-                    spriteKey = "graytriangleship";
-                    break;
-
-                case 1:
-                    spriteKey = "grayshipwithtwowings";
-                    break;
-
-                case 2:
-                    spriteKey = "brownplane";
-                    break;
-            }
-
-            if (args.Length > 2)
-                spriteKey = (string)args[2];
-
-            #endregion Sprite
 
             #region Body
+            string spriteKey = "blaster";
 
-            Body b = e.AddComponent<Body>(new Body(_World, e));
-            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, b);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, b, 1f, Color.White, 0.52f + (float)hunters/1000000f));
-            b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
-            b.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
-            b.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
-            b.OnCollision +=
+            Body bitch = e.AddComponent<Body>(new Body(_World, e));
+            FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.55f + (float)cannons / 1000000f));
+            bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
+            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
+            bitch.OnCollision +=
                 (f1, f2, c) =>
                 {
                     if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
@@ -77,44 +55,33 @@ namespace SpaceHordes.Entities.Templates.Enemies
                             {
                             }
                         }
-                    return false;
+                    return true;
                 };
-            ++b.Mass;
+            ++bitch.Mass;
 
-            Vector2 pos = new Vector2((float)(r.NextDouble() * 2) - 1, (float)(r.NextDouble() * 2) - 1);
-            pos.Normalize();
-            pos *= ScreenHelper.Viewport.Width;
-            pos = ConvertUnits.ToSimUnits(pos);
-            b.Position = pos;
+            bitch.Position = (Vector2)args[0];
 
             #endregion Body
-
-            #region Animation
-
-            if (s.Source.Count() > 1)
-                e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
-
-            #endregion Animation
 
             #region Crystal
 
             Color crystalColor = Color.Red;
-            int colorchance = r.Next(100);
-            int amount = 3;
+            int colorchance = rbitch.Next(100);
+            int amount = 5;
             if (colorchance > 50)
             {
                 crystalColor = Color.Yellow;
-                amount = 5;
+                amount = 10;
             }
             if (colorchance > 70)
             {
                 crystalColor = Color.Blue;
-                amount = 3;
+                amount = 5;
             }
             if (colorchance > 80)
             {
                 crystalColor = Color.Green;
-                amount = 1;
+                amount = 3;
             }
             if (colorchance > 90)
             {
@@ -127,16 +94,17 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region AI/Health
 
-            e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateFollow(e, 7), "Players"));
+            AI a = new AI(null,
+                AI.CreateShoot(e, ConvertUnits.ToSimUnits(4f), ConvertUnits.ToSimUnits(400)), "Structures");
+            AI shootingAi = e.AddComponent<AI>(a);
 
-            e.AddComponent<Health>(new Health(1)).OnDeath +=
+            e.AddComponent<Health>(new Health(50)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
+                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 10, ent);
 
-                    int splodeSound = r.Next(1, 5);
+                    int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
                     if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
@@ -150,16 +118,25 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         {
                             _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
                         }
-                        ScoreSystem.GivePoints(5);
+                        ScoreSystem.GivePoints(10);
+
+#if DEBUG
+                        Console.WriteLine("Cannon killed by " + ent.Tag);
+#endif
                     }
                 };
 
             #endregion AI/Health
 
-            e.Tag = "Hunter" + hunters.ToString();
+            #region Inventory
+
+            Inventory i = new Inventory(0, 0, 0, 0, InvType.Cannon, spriteKey);
+            e.AddComponent<Inventory>(i);
+
+            #endregion
+
+            ++cannons;
             e.Group = "Enemies";
-            
-            ++hunters;
             return e;
         }
     }

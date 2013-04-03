@@ -101,21 +101,21 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Color crystalColor = Color.Red;
             int colorchance = rbitch.Next(100);
-            int amount = 3;
+            int amount = 5;
             if (colorchance > 50)
             {
-                crystalColor = Color.Blue;
-                amount = 2;
+                crystalColor = Color.Yellow;
+                amount = 10;
             }
             if (colorchance > 70)
             {
-                crystalColor = Color.Green;
-                amount = 1;
+                crystalColor = Color.Blue;
+                amount = 5;
             }
             if (colorchance > 80)
             {
-                crystalColor = Color.Yellow;
-                amount = 5;
+                crystalColor = Color.Green;
+                amount = 3;
             }
             if (colorchance > 90)
             {
@@ -152,7 +152,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         {
                             _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
                         }
-                        ScoreSystem.GivePoints(1);
+                        ScoreSystem.GivePoints(25);
                     }
                 };
 

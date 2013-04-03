@@ -17,7 +17,8 @@ namespace SpaceHordes.Entities.Components
     {
         Player,
         Turret,
-        Gunner
+        Gunner,
+        Cannon
     }
 
     /// <summary>
@@ -68,6 +69,11 @@ namespace SpaceHordes.Entities.Components
                 }
 
                 WHITE = new Gun(-1, 1000, 1, "EnemyBullet", InvType.Gunner, offsets.ToArray());
+                _CurrentGunType = GunType.WHITE;
+            }
+            else if (type == InvType.Cannon)
+            {
+                WHITE = new Gun(-1, 2500, 1, "", InvType.Cannon, new Vector2[] {});
                 _CurrentGunType = GunType.WHITE;
             }
         }
