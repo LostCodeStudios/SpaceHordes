@@ -38,13 +38,6 @@ namespace GameLibrary.Entities.Systems
             ITransform transform = transformMapper.Get(e);
             Sprite sprite = spriteMapper.Get(e);
 
-            if (sprite.Source == null)
-            {
-                Console.WriteLine("DELETING E: " + e.Id);
-                e.Delete();
-            }
-            else
-
                 //Draw to sprite batch
                 spriteBatch.Draw(
                     sprite.SpriteSheet.Texture,
