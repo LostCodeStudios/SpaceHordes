@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordes", "SpaceHordes\SpaceHordes\SpaceHordes.csproj", "{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordesContent", "SpaceHordes\SpaceHordesContent\SpaceHordesContent.contentproj", "{71BABA76-B31F-40FB-B17B-C5AF74460BAA}"
@@ -13,6 +13,10 @@ Global
 		Debug|Windows Phone = Debug|Windows Phone
 		Debug|x86 = Debug|x86
 		Debug|Xbox 360 = Debug|Xbox 360
+		DEMO|Mixed Platforms = DEMO|Mixed Platforms
+		DEMO|Windows Phone = DEMO|Windows Phone
+		DEMO|x86 = DEMO|x86
+		DEMO|Xbox 360 = DEMO|Xbox 360
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|Windows Phone = Release|Windows Phone
 		Release|x86 = Release|x86
@@ -27,6 +31,12 @@ Global
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|x86.Build.0 = Debug|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Xbox 360.ActiveCfg = Debug|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Debug|Xbox 360.Build.0 = Debug|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.DEMO|Mixed Platforms.ActiveCfg = DEMO|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.DEMO|Mixed Platforms.Build.0 = DEMO|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.DEMO|Windows Phone.ActiveCfg = DEMO|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.DEMO|x86.ActiveCfg = DEMO|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.DEMO|x86.Build.0 = DEMO|x86
+		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.DEMO|Xbox 360.ActiveCfg = DEMO|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}.Release|Windows Phone.ActiveCfg = Release|x86
@@ -39,6 +49,11 @@ Global
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|Windows Phone.ActiveCfg = Debug|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|x86.ActiveCfg = Debug|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.DEMO|Mixed Platforms.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.DEMO|Mixed Platforms.Build.0 = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.DEMO|Windows Phone.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.DEMO|x86.ActiveCfg = Debug|x86
+		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.DEMO|Xbox 360.ActiveCfg = Debug|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|Windows Phone.ActiveCfg = Release|x86
 		{71BABA76-B31F-40FB-B17B-C5AF74460BAA}.Release|x86.ActiveCfg = Release|x86
@@ -49,6 +64,13 @@ Global
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|x86.ActiveCfg = Debug|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|x86.Build.0 = Debug|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|Mixed Platforms.ActiveCfg = DEMO|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|Mixed Platforms.Build.0 = DEMO|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|Mixed Platforms.Deploy.0 = DEMO|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|Windows Phone.ActiveCfg = DEMO|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|x86.ActiveCfg = DEMO|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|x86.Build.0 = DEMO|x86
+		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.DEMO|Xbox 360.ActiveCfg = DEMO|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Release|Mixed Platforms.Build.0 = Release|x86
 		{49BA83BF-05DF-400B-B33A-3CBE32443D04}.Release|Windows Phone.ActiveCfg = Release|x86

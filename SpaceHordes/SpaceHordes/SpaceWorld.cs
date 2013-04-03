@@ -220,6 +220,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
 
+            this.SetEntityTemplate("ExplosiveBullet", new ExplosiveBulletTemplate(this, _spriteSheet));
             #endregion Objects/Events
 
             #region Player

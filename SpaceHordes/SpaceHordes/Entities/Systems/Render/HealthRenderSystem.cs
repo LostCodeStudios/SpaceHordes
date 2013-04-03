@@ -83,7 +83,6 @@ namespace SpaceHordes.Entities.Systems
                         (int)((health.CurrentHealth / health.MaxHealth) * Width),
                             2), Color.Red);
 
-                Console.WriteLine("Velocity: " + body.LinearVelocity.ToString());
             }
             else
             {

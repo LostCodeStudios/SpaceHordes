@@ -105,8 +105,6 @@ namespace SpaceHordes.Entities.Components
                         if (rotateTo)
                             b.RotateTo(distance) ;
                     }
-
-                    Console.WriteLine("TARGET: " + (target.UserData as Entity).Group);
                     return false;
                 };
         }

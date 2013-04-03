@@ -65,8 +65,8 @@ namespace SpaceHordes.Entities.Systems
                 PhysicsBody[] list = new PhysicsBody[bodies.Count];
                 bodies.CopyTo(list);
                 Entity ent = (location.UserData as Entity);
-                if (ent.Group != null && ent.Group.Equals("Enemi4es"))
-                    Console.WriteLine(ent.Group + "[" + ai.Targeting + "]: ");
+
+
                 //SORT BY TARGETING TYPE.
                 switch (ai.Targeting)
                 {

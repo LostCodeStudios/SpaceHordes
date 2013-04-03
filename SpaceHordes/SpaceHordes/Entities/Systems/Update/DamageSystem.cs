@@ -40,9 +40,6 @@ namespace SpaceHordes.Entities.Systems
                 d.Uses--;
 
                 h.SetHealth(e, h.CurrentHealth - d.Amount);
-                Console.WriteLine(e.Id.ToString() + " takes " + d.Amount + " continuous damage");
-
-                //TODO: Add green sprite effect
             }
         }
     }

@@ -51,6 +51,7 @@ namespace SpaceHordes.Entities.Systems
             if (e.Group.Equals("Players"))
             {
                 gun.BulletsToFire = false;
+                ITransform t = e.GetComponent<ITransform>();
 
                 int index = int.Parse(e.Tag.Replace("P", "")) - 1;
                 PlayerIndex playerIndex = (PlayerIndex)index;
@@ -65,6 +66,11 @@ namespace SpaceHordes.Entities.Systems
 
                 else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     gun.BulletsToFire = true;
+
+#if DEBUG
+                if (Mouse.GetState().RightButton == ButtonState.Pressed)
+                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation)*5, (float)Math.Sin(t.Rotation)*5), 1).Refresh();
+#endif
             }
 
             //Fire bullets bro
