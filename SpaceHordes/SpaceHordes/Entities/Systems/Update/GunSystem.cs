@@ -69,7 +69,7 @@ namespace SpaceHordes.Entities.Systems
 
 #if DEBUG
                 if (Mouse.GetState().RightButton == ButtonState.Pressed)
-                    world.CreateEntity("ExplosiveBullet", t.Position, new Vector2((float)Math.Cos(t.Rotation)*5, (float)Math.Sin(t.Rotation)*5), 1).Refresh();
+                    world.CreateEntityGroup("BaseShot", "baseShot" , inv);
 #endif
             }
 
