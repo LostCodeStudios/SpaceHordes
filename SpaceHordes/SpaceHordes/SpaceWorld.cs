@@ -88,7 +88,7 @@ namespace SpaceHordes
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
-            scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(), ExecutionType.Update);
+            scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(this), ExecutionType.Update);
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
             this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update);
@@ -124,6 +124,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Thug", new ThugTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Hunter", new HunterTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Gunner", new GunnerTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("Destroyer", new DestroyerTemplate(_spriteSheet, this));
 
             #region Bosses
 

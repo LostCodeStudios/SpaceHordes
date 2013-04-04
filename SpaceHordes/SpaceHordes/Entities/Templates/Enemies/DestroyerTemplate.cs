@@ -11,17 +11,17 @@ using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
-    public class CannonTemplate : IEntityTemplate
+    public class DestroyerTemplate : IEntityTemplate
     {
         private SpriteSheet _SpriteSheet;
         private EntityWorld _World;
         private static Random rbitch = new Random();
 
         private float shootdistance = 20f;
-        private static int cannons = 0;
-        public CannonTemplate(SpriteSheet spriteSheet, EntityWorld world)
+        private static int destroyers = 0;
+        public DestroyerTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
-            cannons = 0;
+            destroyers = 0;
             _SpriteSheet = spriteSheet;
             _World = world;
         }
@@ -30,11 +30,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
         {
 
             #region Body
-            string spriteKey = "blaster";
+            string spriteKey = "redgrayblobship";
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.55f + (float)cannons / 1000000f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.55f + (float)destroyers / 1000000f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
@@ -59,7 +59,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 };
             ++bitch.Mass;
 
-            bitch.Position = (Vector2)args[0];
+            Vector2 pos = new Vector2((float)(rbitch.NextDouble() * 2) - 1, (float)(rbitch.NextDouble() * 2) - 1);
+            pos.Normalize();
+            pos *= ScreenHelper.Viewport.Width;
+            pos = ConvertUnits.ToSimUnits(pos);
+            bitch.Position = pos;
 
             #endregion Body
 
@@ -95,7 +99,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
 
             AI a = new AI(null,
-                AI.CreateCannon(e), "Players");
+                AI.CreateShoot(e, 2, ConvertUnits.ToSimUnits(400), true), "Players");
             AI shootingAi = e.AddComponent<AI>(a);
 
             e.AddComponent<Health>(new Health(50)).OnDeath +=
@@ -131,9 +135,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #endregion
 
-            e.AddComponent<Origin>(new Origin(args[1] as Entity));
-            
-            ++cannons;
+            ++destroyers;
             e.Group = "Enemies";
             return e;
         }

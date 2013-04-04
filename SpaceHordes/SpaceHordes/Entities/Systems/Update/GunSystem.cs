@@ -81,11 +81,6 @@ namespace SpaceHordes.Entities.Systems
                 }
                 else
                 {
-                    if (gun.Ammunition == 0)
-                    {
-                        inv.CurrentGun = inv.WHITE;
-                    }
-
                     foreach (Vector2 offset in gun.GunOffsets)
                     {
                         float rotation = transform.Rotation;
@@ -111,7 +106,11 @@ namespace SpaceHordes.Entities.Systems
                     }
 
 
-                    gun.Ammunition--;
+                    --gun.Ammunition;
+                    if (gun.Ammunition == 0)
+                    {
+                        inv.CurrentGun = inv.WHITE;
+                    }
                 }
 
                 gun.BulletsToFire = false;

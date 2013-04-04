@@ -7,17 +7,19 @@ namespace SpaceHordes.Entities.Systems
     public class ScoreSystem : IntervalEntitySystem
     {
         private Entity Base;
-
+        private static SpaceWorld _world;
         private static long pointsToGive;
 
         public static void GivePoints(int value)
         {
-            pointsToGive += value;
+            if (!_world.Tutorial)
+                pointsToGive += value;
         }
 
-        public ScoreSystem()
+        public ScoreSystem(SpaceWorld world)
             : base(100)
         {
+            _world = world;
             pointsToGive = 0;
         }
 

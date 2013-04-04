@@ -53,6 +53,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 case 4:
                     spriteKey = "graye";
                     break;
+
+                case 5:
+                    spriteKey = "satellite";
+                    break;
             }
 
             if (args.Length > 2)

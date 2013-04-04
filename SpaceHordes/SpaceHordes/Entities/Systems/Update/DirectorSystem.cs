@@ -100,6 +100,8 @@ namespace SpaceHordes.Entities.Systems
             "HERE ARE SOME TOUGHER ENEMIES. TRY OUT YOUR DIFFERENT GUNS.",
             "",
             "",
+            "",
+            "",
             "YOU CAN BUILD DEFENSES TO PROTECT YOUR BASE.",
             "PRESS Y TO ENTER AND LEAVE BUILD MODE.",
             "YOU CAN BUILD BARRIERS MINES AND TURRETS.",
@@ -114,7 +116,7 @@ namespace SpaceHordes.Entities.Systems
             "",
             "",
             "",
-            "GUNNERS WILL ATTEMPT TO DESTROY YOUR DEFENSES.",
+            "GUNNERS WILL ATTEMPT TO DESTROY YOUR DEFENSES. THEIR BULLETS WILL NOT HURT YOU.",
             "HUNTERS WILL FLY AFTER YOU.",
             "",
             "OCCASIONALLY YOU WILL FACE MASSIVE SURGES OF ENEMIES.",
@@ -220,28 +222,29 @@ namespace SpaceHordes.Entities.Systems
                 int thugsToSpawn = doubleToInt(difficulty / 50) * ThugSpawnRate;
                 int gunnersToSpawn = doubleToInt(difficulty / 100) * GunnerSpawnRate;
                 int huntersToSpawn = doubleToInt(difficulty / 75) * HunterSpawnRate;
+                int destroyersToSpawn = doubleToInt(difficulty / 300) * DestroyerSpawnRate;
                 spawnMooks(mooksToSpawn);
                 spawnThugs(thugsToSpawn);
                 spawnGunners(gunnersToSpawn);
                 spawnHunters(huntersToSpawn);
-            }
+                spawnDestroyers(destroyersToSpawn);
 
-            if ((int)(elapsedMinutes) > lastBoss)
-            {
-
-                int chance = r.Next(1, 100);
-
-                if (chance > 66)
+                if ((int)(elapsedMinutes) > lastBoss)
                 {
-                    //SURGE
-                    spawnSurge();
-                }
-                else
-                {
-                    //Boss.
-                    spawnBoss();
-                }
 
+                    int chance = r.Next(1, 100);
+
+                    if (chance > 66)
+                    {
+                        //SURGE
+                        spawnSurge();
+                    }
+                    else
+                    {
+                        //Boss.
+                        spawnBoss();
+                    }
+                }
                 #endregion Spawning
             }
             #endregion
@@ -277,15 +280,15 @@ namespace SpaceHordes.Entities.Systems
                             spawnThug();
                         }
 
-                        if (message == 27 || message == 28 || message == 29)
+                        if (message == 29 || message == 30 || message == 31)
                         {
                             spawnMooks(3);
                         }
 
-                        if (message == 30)
+                        if (message == 32)
                             spawnGunner();
 
-                        if (message == 31)
+                        if (message == 35)
                             spawnHunter();
 
                         if (message < tutorialMessages.Length)
@@ -340,6 +343,19 @@ namespace SpaceHordes.Entities.Systems
         }
 
         #region Spawn Helpers
+
+        private void spawnDestroyer()
+        {
+            world.CreateEntity(DestroyerTemplate).Refresh();
+        }
+
+        private void spawnDestroyers(int i)
+        {
+            for (; i > 0; --i)
+            {
+                spawnDestroyer();
+            }
+        }
 
         private void spawnCrystal(int index)
         {
@@ -399,7 +415,7 @@ namespace SpaceHordes.Entities.Systems
 
         private void spawnThug()
         {
-            int type = r.Next(5);
+            int type = r.Next(6);
             if (string.IsNullOrEmpty(ThugSprite))
                 World.CreateEntity(ThugTemplate, type, Base.GetComponent<Body>()).Refresh();
             else
@@ -474,16 +490,10 @@ namespace SpaceHordes.Entities.Systems
         /// <returns></returns>
         public int doubleToInt(double d)
         {
-            Console.WriteLine("d: " + d.ToString());
             double i = (int)d;
-            Console.WriteLine("i: " + i.ToString());
-
             float c = r.Next(0, 101) / 100f;
-            Console.WriteLine("c: " + c.ToString());
             if (c < d - i)
                 ++i;
-
-            Console.WriteLine("return: " + i.ToString());
             return (int)i;
         }
 
@@ -502,11 +512,15 @@ namespace SpaceHordes.Entities.Systems
 
         #endregion
 
+        #region Tutorial Helpers
+
         private void makeDialog(ImageFont font, string message)
         {
             Vector2 pos = new Vector2(ScreenHelper.Viewport.Width / 2 - font.MeasureString(message).X / 2, 0);
             CurrentDialog = new MessageDialog(font, pos, message, TimeSpan.FromSeconds(0.1), TimeSpan.FromSeconds(0.3));
             CurrentDialog.Enabled = true;
         }
+
+        #endregion
     }
 }
