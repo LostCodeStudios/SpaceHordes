@@ -27,17 +27,11 @@ namespace SpaceHordes.Entities.Systems
         private float elapsedSeconds;
         private float elapsedMinutes;
 
-        private int mooksToSpawn = 0;
-        private int thugsToSpawn = 0;
-        private int gunnersToSpawn = 0;
-        private int huntersToSpawn = 0;
-        private int destroyersToSpawn = 0;
-
-        public  int MookSpawnRate = 0;
-        public  int ThugSpawnRate = 0;
-        public  int GunnerSpawnRate = 0;
-        public  int HunterSpawnRate = 0;
-        public  int DestroyerSpawnRate = 0;
+        public  int MookSpawnRate = 1;
+        public  int ThugSpawnRate = 1;
+        public  int GunnerSpawnRate = 1;
+        public  int HunterSpawnRate = 1;
+        public  int DestroyerSpawnRate = 1;
 
         public  int SpawnRate
         {
@@ -82,6 +76,8 @@ namespace SpaceHordes.Entities.Systems
         private float intervalSeconds = 0f;
 
         private int lastBoss = 1; //private int lastBoss = 0; //DEBUG PURPOSES
+
+        #region Tutorial
         public MessageDialog CurrentDialog;
 
         string[] tutorialMessages = new string[]
@@ -129,7 +125,8 @@ namespace SpaceHordes.Entities.Systems
             "SEE IF YOU CAN PLAY ON YOUR OWN."
         };
 
-        int message = 38;
+        int message = 0;
+        #endregion
 
         public bool Surge = false;
         int elapsedWarning = 0;
@@ -197,7 +194,7 @@ namespace SpaceHordes.Entities.Systems
                 {
                     Surge = false;
                     ElapsedSurge = 0;
-                    SpawnRate = 0;
+                    SpawnRate = 1;
                 }
             }
 
@@ -219,73 +216,30 @@ namespace SpaceHordes.Entities.Systems
 
                 #region Spawning
 
-                //Every 5/3 seconds spawn
+                int mooksToSpawn = doubleToInt(difficulty / 7) * MookSpawnRate;
+                int thugsToSpawn = doubleToInt(difficulty / 50) * ThugSpawnRate;
+                int gunnersToSpawn = doubleToInt(difficulty / 100) * GunnerSpawnRate;
+                int huntersToSpawn = doubleToInt(difficulty / 75) * HunterSpawnRate;
+                spawnMooks(mooksToSpawn);
+                spawnThugs(thugsToSpawn);
+                spawnGunners(gunnersToSpawn);
+                spawnHunters(huntersToSpawn);
+            }
 
-                if (timesCalled % 5 == 0)
+            if ((int)(elapsedMinutes) > lastBoss)
+            {
+
+                int chance = r.Next(1, 100);
+
+                if (chance > 66)
                 {
-                    mooksToSpawn = (MookSpawnRate != -1) ? ((MookSpawnRate == 0) ? (int)difficulty : (int)difficulty * MookSpawnRate) : 0;
-                    if (ThugSpawnRate != -1)
-                    {
-                        thugsToSpawn = (ThugSpawnRate == 0) ?
-                            ((r.Next(1, 100) * (int)difficulty > 90) ? 1 : 0) :
-                            ((r.Next(1, 100) * ThugSpawnRate) > 90 ?
-                                (int)difficulty * ThugSpawnRate : 0);
-                    }
-
-                    if (GunnerSpawnRate != -1)
-                    {
-                        gunnersToSpawn = (GunnerSpawnRate == 0) ?
-                            ((r.Next(1, 100) * (int)difficulty > 40) ? 1 : 0) :
-                            ((r.Next(1, 100) * GunnerSpawnRate) > 90 ?
-                                (int)difficulty * GunnerSpawnRate : 0);
-                    }
-
-                    if (HunterSpawnRate != -1)
-                    {
-                        huntersToSpawn = (HunterSpawnRate == 0) ?
-                            ((r.Next(1, 100) * (int)difficulty > 90) ? 1 : 0) :
-                            ((r.Next(1, 100) * HunterSpawnRate) > 90 ?
-                                (int)difficulty * HunterSpawnRate : 0);
-                    }
-                    //huntersToSpawn = (HunterSpawnRate != -1) ? ((HunterSpawnRate == 0) ? (int)(difficulty) : difficulty * (int)(HunterSpawnRate)) : 0;
-                    destroyersToSpawn = (DestroyerSpawnRate != -1) ? ((DestroyerSpawnRate != 0) ? (int)(difficulty / 30) : (int)difficulty * (int)(DestroyerSpawnRate / 30)) : 0;
-
-                    for (int i = 0; i < mooksToSpawn; ++i)
-                    {
-                        spawnMook();
-                    }
-
-                    for (int i = 0; i < thugsToSpawn; ++i)
-                    {
-                        spawnThug();
-                    }
-
-                    for (int i = 0; i < gunnersToSpawn; ++i)
-                    {
-                        spawnGunner();
-                    }
-
-                    for (int i = 0; i < huntersToSpawn; ++i)
-                    {
-                        spawnHunter();
-                    }
+                    //SURGE
+                    spawnSurge();
                 }
-
-                if ((int)(elapsedMinutes) > lastBoss)
+                else
                 {
-
-                    int chance = r.Next(1, 100);
-
-                    if (chance > 66)
-                    {
-                        //SURGE
-                        spawnSurge();
-                    }
-                    else
-                    {
-                        //Boss.
-                        spawnBoss();
-                    }
+                    //Boss.
+                    spawnBoss();
                 }
 
                 #endregion Spawning
@@ -305,8 +259,7 @@ namespace SpaceHordes.Entities.Systems
                         makeDialog(font, tutorialMessages[message++]);
                         nextSeconds = 1000f;
                     }
-                    Console.WriteLine(tutorialMessages.Length + "\n");
-                    Console.WriteLine(message);
+
                     if (CurrentDialog.Complete() && message < tutorialMessages.Length)
                     {
                         nextSeconds = elapsedSeconds + 1.5f;
@@ -326,9 +279,7 @@ namespace SpaceHordes.Entities.Systems
 
                         if (message == 27 || message == 28 || message == 29)
                         {
-                            spawnMook();
-                            spawnMook();
-                            spawnMook();
+                            spawnMooks(3);
                         }
 
                         if (message == 30)
@@ -388,6 +339,14 @@ namespace SpaceHordes.Entities.Systems
             #endregion
         }
 
+        #region Spawn Helpers
+
+        private void spawnCrystal(int index)
+        {
+            Vector2 poss = Base.GetComponent<ITransform>().Position;
+            world.CreateEntity("Crystal", poss, Color.Gray, 3, Players[index], true);
+        }
+
         private void spawnBoss()
         {
             int tier = Math.Min((int)lastBoss, 3);
@@ -403,7 +362,7 @@ namespace SpaceHordes.Entities.Systems
 
             for (int i = 0; i < Players.Length; ++i)
             {
-                SpawnCrystalFor(i);
+                spawnCrystal(i);
             }
 
             SpawnRate = 2;
@@ -456,10 +415,76 @@ namespace SpaceHordes.Entities.Systems
                 World.CreateEntity(MookTemplate, type, Base.GetComponent<Body>(), MookSprite).Refresh();
         }
 
-        private void SpawnCrystalFor(int index)
+        private void spawnMooks(int i)
         {
-            Vector2 poss = Base.GetComponent<ITransform>().Position;
-            world.CreateEntity("Crystal", poss, Color.Gray, 3, Players[index], true);
+            for (; i > 0; --i)
+            {
+                spawnMook();
+            }
+        }
+
+        private void spawnThugs(int i)
+        {
+            for (; i > 0; --i)
+            {
+                spawnThug();
+            }
+        }
+
+        private void spawnGunners(int i)
+        {
+            for (; i > 0; --i)
+            {
+                spawnGunner();
+            }
+        }
+
+        private void spawnHunters(int i)
+        {
+            for (; i > 0; --i)
+            {
+                spawnHunter();
+            }
+        }
+
+        #endregion
+
+        #region Math Helpers
+
+        /// <summary>
+        /// Converts a float to an int, resolving the decimal d to become another whole based on d% chance.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public int floatToInt(float f)
+        {
+            float i = (int)f;
+
+            float c = r.Next(0, 101)/100f;
+            if (c < f - i)
+                ++i;
+
+            return (int)i;
+        }
+
+        /// <summary>
+        /// Converts a double to an int, resolving the decimal d to become another whole based on d% chance.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public int doubleToInt(double d)
+        {
+            Console.WriteLine("d: " + d.ToString());
+            double i = (int)d;
+            Console.WriteLine("i: " + i.ToString());
+
+            float c = r.Next(0, 101) / 100f;
+            Console.WriteLine("c: " + c.ToString());
+            if (c < d - i)
+                ++i;
+
+            Console.WriteLine("return: " + i.ToString());
+            return (int)i;
         }
 
         public float ClampInverse(float value, float min, float max)
@@ -474,6 +499,8 @@ namespace SpaceHordes.Entities.Systems
             else
                 return value;
         }
+
+        #endregion
 
         private void makeDialog(ImageFont font, string message)
         {

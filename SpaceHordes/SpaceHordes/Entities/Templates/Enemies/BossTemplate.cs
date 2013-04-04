@@ -238,20 +238,20 @@ namespace SpaceHordes.Entities.Templates.Enemies
             {
                 _World.enemySpawnSystem.MookSprite = "eyeshot";
                 _World.enemySpawnSystem.MookSpawnRate = 2;
-                _World.enemySpawnSystem.ThugSpawnRate = -1;
-                _World.enemySpawnSystem.GunnerSpawnRate = -1;
-                _World.enemySpawnSystem.HunterSpawnRate = -1;
-                _World.enemySpawnSystem.DestroyerSpawnRate = -1;
+                _World.enemySpawnSystem.ThugSpawnRate = 0;
+                _World.enemySpawnSystem.GunnerSpawnRate = 0;
+                _World.enemySpawnSystem.HunterSpawnRate = 0;
+                _World.enemySpawnSystem.DestroyerSpawnRate = 0;
             }
 
             if (spriteKey == "clawbossthing")
             {
                 _World.enemySpawnSystem.GunnerSprite = "8prongbrownthingwithfangs";
                 _World.enemySpawnSystem.ThugSprite = "minibrownclawboss";
-                _World.enemySpawnSystem.MookSpawnRate = -1;
+                _World.enemySpawnSystem.MookSpawnRate = 0;
                 _World.enemySpawnSystem.GunnerSpawnRate = 2;
-                _World.enemySpawnSystem.HunterSpawnRate = -1;
-                _World.enemySpawnSystem.DestroyerSpawnRate = -1;
+                _World.enemySpawnSystem.HunterSpawnRate = 0;
+                _World.enemySpawnSystem.DestroyerSpawnRate = 0;
             }
 
             #endregion Special Cases

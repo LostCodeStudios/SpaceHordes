@@ -193,7 +193,7 @@ namespace SpaceHordes.GameStates.Screens
             World.Draw(gameTime); //Draw the world.
 
             spriteBatch.Begin();
-            if (World.enemySpawnSystem.CurrentDialog != null)
+            if (tutorial && World.enemySpawnSystem.CurrentDialog != null)
                 World.enemySpawnSystem.CurrentDialog.Draw(spriteBatch);
             if (!tutorial)
             {
