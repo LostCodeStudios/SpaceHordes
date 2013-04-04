@@ -129,7 +129,7 @@ namespace SpaceHordes.Entities.Systems
             "SEE IF YOU CAN PLAY ON YOUR OWN."
         };
 
-        int message = 0;
+        int message = 38;
 
         public bool Surge = false;
         int elapsedWarning = 0;
@@ -203,7 +203,7 @@ namespace SpaceHordes.Entities.Systems
 
             #region REALGAME
 
-            if (!(World as SpaceWorld).Tutorial)
+            if (!w.Tutorial)
             {
                 #region Scoring
 
@@ -296,7 +296,7 @@ namespace SpaceHordes.Entities.Systems
 
             else
             {
-                ImageFont font = (World as SpaceWorld)._Font;
+                ImageFont font = w._Font;
 
                 if (message < tutorialMessages.Length)
                 {
@@ -305,11 +305,14 @@ namespace SpaceHordes.Entities.Systems
                         makeDialog(font, tutorialMessages[message++]);
                         nextSeconds = 1000f;
                     }
-                    if (CurrentDialog.Complete())
+                    Console.WriteLine(tutorialMessages.Length + "\n");
+                    Console.WriteLine(message);
+                    if (CurrentDialog.Complete() && message < tutorialMessages.Length)
                     {
                         nextSeconds = elapsedSeconds + 1.5f;
                         CurrentDialog.Enabled = false;
                     }
+
                     if (nextSeconds <= elapsedSeconds)
                     {
                         //Special cases
@@ -341,10 +344,15 @@ namespace SpaceHordes.Entities.Systems
                         }
                     }
                 }
-                else if (CurrentDialog.Complete() && nextSeconds < elapsedSeconds)
+                else if (CurrentDialog.Complete())
                 {
-                    (world as SpaceWorld).GameScreen.tutorial = false;
-                    (world as SpaceWorld).Tutorial = false;
+                    nextSeconds = elapsedSeconds + 2;
+                    CurrentDialog.Enabled = false;
+                }
+                else if (nextSeconds < elapsedSeconds)
+                {
+                    w.GameScreen.tutorial = false;
+                    w.Tutorial = false;
                     CurrentDialog.Visible = false;
                     elapsedMinutes = 1f;
                     elapsedSeconds = 60f;
