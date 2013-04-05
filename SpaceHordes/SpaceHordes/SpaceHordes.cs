@@ -800,9 +800,8 @@ namespace SpaceHordes
 
         private void SetSongs()
         {
-            MusicManager.AddSong("Bootleg", Content.Load<Song>("Music/Bootleg"));
             MusicManager.AddSong("Unending", Content.Load<Song>("Music/Unending"));
-            MusicManager.AddSong("Cephalopod", Content.Load<Song>("Music/Cephalopod"));
+            MusicManager.AddSong("Cephelopod", Content.Load<Song>("Music/Cephelopod"));
             MusicManager.AddSong("Ropocalypse", Content.Load<Song>("Music/Ropocalypse 2"));
             MusicManager.AddSong("SpaceLoop", Content.Load<Song>("Music/Space Fighter Loop"));
             MusicManager.AddSong("KickShock", Content.Load<Song>("Music/Kick Shock"));

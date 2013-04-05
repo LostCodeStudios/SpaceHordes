@@ -184,6 +184,10 @@ namespace SpaceHordes.GameStates.Screens
             if (!ingame)
                 MenuEntries.Add(this.fullScreen);
 #endif
+
+            SelectionChangeSound = "SelectChanged";
+            SelectionSound = "Selection";
+            CancelSound = "MenuCancel";
         }
 
         #endregion Initialization

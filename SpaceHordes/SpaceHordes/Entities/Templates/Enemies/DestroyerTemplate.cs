@@ -17,7 +17,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private EntityWorld _World;
         private static Random rbitch = new Random();
 
-        private float shootdistance = 20f;
         private static int destroyers = 0;
         public DestroyerTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
@@ -102,7 +101,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 AI.CreateShoot(e, 2, ConvertUnits.ToSimUnits(400), true), "Players");
             AI shootingAi = e.AddComponent<AI>(a);
 
-            e.AddComponent<Health>(new Health(50)).OnDeath +=
+            e.AddComponent<Health>(new Health(25)).OnDeath +=
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;

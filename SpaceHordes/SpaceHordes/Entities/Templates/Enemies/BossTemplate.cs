@@ -183,7 +183,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                ent =>
                {
                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                   _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 25, ent);
+                   _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
 
                    int splodeSound = rbitch.Next(1, 5);
                    SoundManager.Play("Explosion" + splodeSound.ToString());
@@ -208,7 +208,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                    }
 
                    _World.enemySpawnSystem.ResetTags();
-                   _World.enemySpawnSystem.SpawnRate = 0;
+                   _World.enemySpawnSystem.SpawnRate = 1;
                };
 
             #endregion AI/Health

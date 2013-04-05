@@ -440,7 +440,7 @@ namespace SpaceHordes
             }
 
             CreateEntityGroup("StarField", "Stars");
-        
+
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();

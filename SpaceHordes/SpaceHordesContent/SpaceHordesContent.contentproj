@@ -149,13 +149,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\Bootleg.mp3">
-      <Name>Bootleg</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Music\Unending.mp3">
       <Name>Unending</Name>
       <Importer>Mp3Importer</Importer>
@@ -163,8 +156,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\Cephalopod.mp3">
-      <Name>Cephalopod</Name>
+    <Compile Include="Music\Cephelopod.mp3">
+      <Name>Cephelopod</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>

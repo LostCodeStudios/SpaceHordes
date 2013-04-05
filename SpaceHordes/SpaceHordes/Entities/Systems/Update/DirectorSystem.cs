@@ -11,8 +11,23 @@ using GameLibrary.GameStates.Screens;
 
 namespace SpaceHordes.Entities.Systems
 {
+    enum MusicState
+    {
+        TransitionOn,
+        TransitionOff,
+        Transitioned
+    }
+
+    enum SongType
+    {
+        Loop,
+        Boss,
+        Surge
+    }
+
     public class DirectorSystem : IntervalEntitySystem
     {
+        #region Fields
         private Random r = new Random();
 
         private Entity Base;
@@ -22,10 +37,50 @@ namespace SpaceHordes.Entities.Systems
         int[] PlayerToSpawn;
 
         private double difficulty = 0;
+        public bool Surge = false;
+        int elapsedWarning = 0;
+        public static int ElapsedSurge = 0;
+        int warningTime = 3000;
+        public static int SurgeTime = 20000;
+        float nextSeconds = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
         private float elapsedSeconds;
         private float elapsedMinutes;
+        private int timesCalled = 0;
+        private float intervalSeconds = 0f;
+
+        private int lastBoss = 1;
+
+        #endregion
+
+        #region Song Tags
+
+        string[] loopSongs = new string[]
+        {
+            "SpaceLoop",
+        };
+
+        string[] bossSongs = new string[]
+        {
+            "Heartbeat",
+            "Ropocalypse"
+        };
+
+        string[] surgeSongs = new string[]
+        {
+            "Unending",
+            "Cephelopod",
+            "KickShock"
+        };
+
+        MusicState musicState = MusicState.Transitioned;
+        float tempVolume = 0f;
+        string nextSong = "";
+
+        #endregion
+
+        #region Spawn Rates
 
         public  int MookSpawnRate = 1;
         public  int ThugSpawnRate = 1;
@@ -44,6 +99,10 @@ namespace SpaceHordes.Entities.Systems
                 DestroyerSpawnRate = value;
             }
         }
+
+        #endregion
+
+        #region Enemy Tags
 
         public string MookTemplate = "Mook";
         public string MookSprite = "";
@@ -72,10 +131,7 @@ namespace SpaceHordes.Entities.Systems
             BossTemplate = "Boss";
         }
 
-        private int timesCalled = 0;
-        private float intervalSeconds = 0f;
-
-        private int lastBoss = 1; //private int lastBoss = 0; //DEBUG PURPOSES
+        #endregion
 
         #region Tutorial
         public MessageDialog CurrentDialog;
@@ -130,17 +186,11 @@ namespace SpaceHordes.Entities.Systems
         int message = 0;
         #endregion
 
-        public bool Surge = false;
-        int elapsedWarning = 0;
-        public static int ElapsedSurge = 0;
-        int warningTime = 3000;
-        public static int SurgeTime = 20000;
-        float nextSeconds = 0;
+        #region Initialization
 
         public DirectorSystem()
             : base(333)
         {
-            timesCalled = 0;
         }
 
         public void LoadContent(Entity Base, Entity[] Players)
@@ -169,36 +219,38 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
+        #endregion
+
+        /*********/
+        #region Processing
+
         protected override void ProcessEntities(Dictionary<int, Entity> entities)
         {
             base.ProcessEntities(entities);
+
+            SpaceWorld w = world as SpaceWorld;
+            difficulty = elapsedMinutes * w.Players;
 
             ++timesCalled;
             elapsedSeconds += .333f;
             intervalSeconds += .333f;
             elapsedMinutes += .333f / 60f;
 
-            SpaceWorld w = world as SpaceWorld;
-            difficulty = elapsedMinutes * w.Players;
-
             if (Surge)
             {
-                elapsedWarning += 333;
-                ElapsedSurge += 333;
-
-                if (elapsedWarning >= warningTime)
-                {
-                    HUDRenderSystem.SurgeWarning = false;
-                    elapsedWarning = 0; 
-                }
-
-                if (ElapsedSurge >= SurgeTime)
-                {
-                    Surge = false;
-                    ElapsedSurge = 0;
-                    SpawnRate = 1;
-                }
+                updateSurge();
             }
+
+            #region MUSIC
+
+            if (timesCalled == 1)
+            {
+                setCategory(SongType.Loop);
+            }
+
+            updateMusic();
+            
+            #endregion
 
             #region REALGAME
 
@@ -342,6 +394,33 @@ namespace SpaceHordes.Entities.Systems
             #endregion
         }
 
+        #endregion
+        /*********/
+
+        #region Helpers
+
+        private void updateSurge()
+        {
+            elapsedWarning += 333;
+            ElapsedSurge += 333;
+
+            if (elapsedWarning >= warningTime)
+            {
+                HUDRenderSystem.SurgeWarning = false;
+                elapsedWarning = 0;
+            }
+
+            if (ElapsedSurge >= SurgeTime)
+            {
+                Surge = false;
+                ElapsedSurge = 0;
+                SpawnRate = 1;
+                setCategory(SongType.Loop);
+            }
+        }
+
+        #endregion
+
         #region Spawn Helpers
 
         private void spawnDestroyer()
@@ -367,8 +446,15 @@ namespace SpaceHordes.Entities.Systems
         {
             int tier = Math.Min((int)lastBoss, 3);
             Boss = World.CreateEntity(BossTemplate, tier, Base.GetComponent<Body>());
+            Boss.GetComponent<Health>().OnDeath += new Action<Entity>(BossDeath);
             Boss.Refresh();
             ++lastBoss;
+            setCategory(SongType.Boss);
+        }
+
+        private void BossDeath(Entity e)
+        {
+            setCategory(SongType.Loop);
         }
 
         private void spawnSurge()
@@ -391,6 +477,7 @@ namespace SpaceHordes.Entities.Systems
 
 
             ++lastBoss;
+            setCategory(SongType.Surge);
         }
 
         private void spawnHunter()
@@ -519,6 +606,80 @@ namespace SpaceHordes.Entities.Systems
             Vector2 pos = new Vector2(ScreenHelper.Viewport.Width / 2 - font.MeasureString(message).X / 2, 0);
             CurrentDialog = new MessageDialog(font, pos, message, TimeSpan.FromSeconds(0.1), TimeSpan.FromSeconds(0.3));
             CurrentDialog.Enabled = true;
+        }
+
+        #endregion
+
+        #region Music Helpers
+
+        void updateMusic()
+        {
+            switch (musicState)
+            {
+                case MusicState.TransitionOff:
+                    MusicManager.Volume -= 0.1f;
+                    if (MusicManager.Volume <= 0)
+                    {
+                        MusicManager.Volume = 0;
+                        musicState = MusicState.TransitionOn;
+                        MusicManager.PlaySong(nextSong);
+                    }
+                    break;
+                case MusicState.TransitionOn:
+                    MusicManager.Volume += 0.1f;
+                    if (MusicManager.Volume >= tempVolume)
+                    {
+                        MusicManager.Volume = tempVolume;
+                        musicState = MusicState.Transitioned;
+                    }
+                    break;
+            }
+        }
+
+        private void setCategory(SongType type)
+        {
+            int song = 0;
+            string key = "";
+
+            switch (type)
+            {
+                case SongType.Loop:
+                    song = r.Next(0, loopSongs.Length);
+                    key = loopSongs[song];
+                    MusicManager.IsRepeating = true;
+                    break;
+
+                case SongType.Boss:
+                    song = r.Next(0, bossSongs.Length);
+                    key = bossSongs[song];
+                    MusicManager.IsRepeating = false;
+                    break;
+
+                case SongType.Surge:
+                    song = r.Next(0, surgeSongs.Length);
+                    key = surgeSongs[song];
+                    MusicManager.IsRepeating = false;
+                    break;
+            }
+
+            changeSong(key);
+        }
+
+        void changeSong(string songKey)
+        {
+            if (MusicManager.IsPlaying)
+            {
+                tempVolume = MusicManager.Volume;
+                musicState = MusicState.TransitionOff;
+                nextSong = songKey;
+            }
+            else
+            {
+                tempVolume = MusicManager.Volume;
+                MusicManager.Volume = 0;
+                musicState = MusicState.TransitionOn;
+                MusicManager.PlaySong(songKey);
+            }
         }
 
         #endregion

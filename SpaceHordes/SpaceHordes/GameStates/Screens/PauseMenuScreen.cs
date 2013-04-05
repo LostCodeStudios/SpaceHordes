@@ -33,6 +33,10 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(resumeGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
+
+            SelectionChangeSound = "SelectChanged";
+            SelectionSound = "Selection";
+            CancelSound = "MenuCancel";
         }
 
         #endregion Initialization

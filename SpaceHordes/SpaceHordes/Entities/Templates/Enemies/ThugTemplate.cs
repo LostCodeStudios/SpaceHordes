@@ -112,7 +112,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region Animation
 
-            if (s.Source.Count() > 1)
+            if (s.Source.Count() > 1 && spriteKey != "satellite")
                 e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 10));
 
             #endregion Animation
