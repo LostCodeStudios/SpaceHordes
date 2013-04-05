@@ -92,6 +92,7 @@ namespace SpaceHordes
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
             this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update);
+
             enemySpawnSystem.Surge = false;
             DirectorSystem.ElapsedSurge = 0;
             HUDRenderSystem.SurgeWarning = false;
@@ -230,6 +231,7 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("Explosion", new ExplosionTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
+            this.SetEntityGroupTemplate("BiggerExplosion", new BiggerExplosionTemplate(_spriteSheet));
 
             this.SetEntityTemplate("ExplosiveBullet", new ExplosiveBulletTemplate(this, _spriteSheet));
             #endregion Objects/Events

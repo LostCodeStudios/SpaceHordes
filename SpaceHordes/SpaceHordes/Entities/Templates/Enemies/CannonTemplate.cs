@@ -31,6 +31,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region Body
             string spriteKey = "blaster";
+            bool rotateTo = true;
+            if (args.Length > 2)
+            {
+                spriteKey = (string)args[2];
+                rotateTo = false;
+            }
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
@@ -94,8 +100,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region AI/Health
 
+            e.AddComponent<Origin>(new Origin(args[1] as Entity));
+
             AI a = new AI(null,
-                AI.CreateCannon(e), "Players");
+                AI.CreateCannon(e, rotateTo), "Players");
             AI shootingAi = e.AddComponent<AI>(a);
 
             e.AddComponent<Health>(new Health(50)).OnDeath +=
@@ -127,12 +135,14 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Inventory
 
             Inventory i = new Inventory(0, 0, 0, 0, InvType.Cannon, spriteKey);
+            if (spriteKey == "killerleftgun")
+            {
+                i.CurrentGun.GunOffsets.Add(new Vector2(54, -19));
+            }
             e.AddComponent<Inventory>(i);
 
             #endregion
 
-            e.AddComponent<Origin>(new Origin(args[1] as Entity));
-            
             ++cannons;
             e.Group = "Enemies";
             return e;

@@ -110,9 +110,8 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
-        public static Func<Body, bool> CreateCannon(Entity ent)
+        public static Func<Body, bool> CreateCannon(Entity ent, bool rotateTo = true)
         {
-            float speed = 1f;
             float shootDistance = ConvertUnits.ToSimUnits(700);
 
             return
@@ -125,11 +124,14 @@ namespace SpaceHordes.Entities.Components
                     {
                         Vector2 direction = target.Position - b.Position;
                         direction.Normalize();
-                        b.RotateTo(direction);
-                        ent.GetComponent<Inventory>().CurrentGun.BulletsToFire = true;
+                        if (rotateTo)
+                        {
+                            b.RotateTo(direction);
+                            ent.GetComponent<Inventory>().CurrentGun.BulletsToFire = true;
+                        }
                     }
-                    
-                    b.LinearVelocity = new Vector2(0, speed);
+
+                    b.LinearVelocity = ent.GetComponent<Origin>().Parent.GetComponent<Body>().LinearVelocity;
 
                     ent.Refresh();
                     return false;

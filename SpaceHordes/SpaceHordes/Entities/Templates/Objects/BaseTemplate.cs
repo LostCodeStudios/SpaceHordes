@@ -60,7 +60,7 @@ namespace SpaceHordes.Entities.Templates
             ent =>
             {
                 Vector2 poss = e.GetComponent<ITransform>().Position;
-                world.CreateEntityGroup("BigExplosion", "Explosions", poss, 50, e);
+                world.CreateEntityGroup("BigExplosion", "Explosions", poss, 25, e);
 
                 SoundManager.Play("Explosion1");
             };

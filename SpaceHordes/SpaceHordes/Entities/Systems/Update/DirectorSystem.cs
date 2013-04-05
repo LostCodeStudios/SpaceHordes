@@ -50,7 +50,7 @@ namespace SpaceHordes.Entities.Systems
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        private int lastBoss = 1;
+        private int lastBoss = 0;
 
         #endregion
 
@@ -444,7 +444,7 @@ namespace SpaceHordes.Entities.Systems
 
         private void spawnBoss()
         {
-            int tier = Math.Min((int)lastBoss, 3);
+            int tier = (int)MathHelper.Clamp(lastBoss, 1, 3);
             Boss = World.CreateEntity(BossTemplate, tier, Base.GetComponent<Body>());
             Boss.GetComponent<Health>().OnDeath += new Action<Entity>(BossDeath);
             Boss.Refresh();

@@ -32,22 +32,25 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
         private static int spawned = 0;
 
+        #region Boss Info
         private static BossInfo[] bosses = new BossInfo[]
         {
-            new BossInfo("smasher", "The Smasher"),
-            new BossInfo("greenbossship", "Big Green"),
-            new BossInfo("clawbossthing", "Clawdia"),
-            new BossInfo("eye", "The Oculus"),
-            new BossInfo("brain", "Father Brain"),
-            new BossInfo("bigredblobboss", "Big Red"),
-            new BossInfo("blimp", "Lead Zeppelin"),
-            new BossInfo("giantgraybossship", "Big Blue"),
-            new BossInfo("birdbody", "The Harbinger"),
-            new BossInfo("redgunship", "The Gunner"),
-            new BossInfo("flamer", "The Flamer"),
-            new BossInfo("massivebluemissile", "The Jabber-W0K"),
-            new BossInfo("killerhead", "The Destroyer")
+            new BossInfo("smasher", "The Smasher"), //0
+            new BossInfo("greenbossship", "Big Green"),  //1
+            new BossInfo("clawbossthing", "Clawdia"), //2
+            new BossInfo("eye", "The Oculus"), //3
+            new BossInfo("brain", "Father Brain"), //4
+            new BossInfo("redgunship", "The Gunner"), //5
+            new BossInfo("bigredblobboss", "Big Red"), //6
+            new BossInfo("blimp", "Lead Zeppelin"), //7
+            new BossInfo("giantgraybossship", "Big Blue"), //8
+            new BossInfo("birdbody", "The Harbinger"), //9
+            
+            new BossInfo("flamer", "The Flamer"), //10
+            new BossInfo("massivebluemissile", "The Jabber-W0K"), //11
+            new BossInfo("killerhead", "The Destroyer") //12
         };
+        #endregion
 
         public BossTemplate(SpriteSheet spriteSheet, SpaceWorld world)
         {
@@ -77,6 +80,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
+#if DEBUG
+            //type = 7;
+#endif
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -157,7 +163,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region AI/Health
 
             e.AddComponent<AI>(new AI((args[1] as Body),
-               AI.CreateFollow(e,1, false)));
+               AI.CreateFollow(e,1, false), "Base"));
 
             int points = 0;
             int health = 0;
@@ -183,7 +189,13 @@ namespace SpaceHordes.Entities.Templates.Enemies
                ent =>
                {
                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                   _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
+
+                   if (type < 9)
+                       _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
+                   else
+                   {
+                       _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, ent);
+                   }
 
                    int splodeSound = rbitch.Next(1, 5);
                    SoundManager.Play("Explosion" + splodeSound.ToString());
@@ -225,7 +237,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 _World.CreateEntity("SmasherBall", e).Refresh();
             }
 
-            if (spriteKey == "brain")
+            if (spriteKey == "brain" || spriteKey == "massivebluemissile")
             {
                 Vector2 offset = new Vector2(2, 0);
                 Vector2 position = bitch.Position + offset;
@@ -234,6 +246,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 _World.CreateEntity("Cannon", position, e).Refresh();
             }
 
+            if (spriteKey == "killerhead")
+            {
+                //Vector2 offset = new Vector2(2.5f, 0); //OH GOD WHAT DO I DO HERE
+                //Vector2 position = bitch.Position + offset;
+                //_World.CreateEntity("Cannon", position, e, "killerrightgun").Refresh();
+                //offset.X = -.5f;
+                //position = bitch.Position + offset;
+                //_World.CreateEntity("Cannon", position, e, "killerleftgun").Refresh();
+            }
             if (spriteKey == "eye")
             {
                 _World.enemySpawnSystem.MookSprite = "eyeshot";

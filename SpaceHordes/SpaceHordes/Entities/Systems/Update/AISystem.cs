@@ -20,6 +20,9 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             AI ai = e.GetComponent<AI>();
+            if (ai == null)
+                return; //temporary solution but what the fuck?
+
             if (ai.Target != null) //TODO: I got a NullReferenceException here because the entity seemed to be uninitialized. No tag, no group.
             {
                 if (World.EntityManager.GetEntity((ai.Target.UserData as Entity).Id) == null)
