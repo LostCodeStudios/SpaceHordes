@@ -233,9 +233,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         //Fire flame from random spot
 
                         int range = s.CurrentRectangle.Width / 2;
-                        Vector2 pos1 = bitch.Position + ConvertUnits.ToSimUnits(new Vector2(rbitch.Next(-range, range), 0));
+                        float posx = rbitch.Next(-range, range);
+                        Vector2 pos1 = bitch.Position + ConvertUnits.ToSimUnits(new Vector2(posx, 0));
 
-                        float x = 2 * (float)rbitch.NextDouble() - 1;
+                        float x = posx / range;
+                                
                         float y = 1;
 
                         Vector2 velocity = new Vector2(x, y);
