@@ -8,6 +8,7 @@ using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System.Collections.Generic;
+using System;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -15,6 +16,7 @@ namespace SpaceHordes.Entities.Templates
     {
         private World world;
         private SpriteSheet spriteSheet;
+        static Random r = new Random();
 
         public PlayerTemplate(World world, SpriteSheet spriteSheet)
         {
@@ -43,6 +45,7 @@ namespace SpaceHordes.Entities.Templates
                 ConvertUnits.ToSimUnits(spriteSheet.Animations[tag][0].Height / 2f),
                 6,
                 1,
+
                 Body);
 
             if (locations.Values.Count == 0)
@@ -57,7 +60,6 @@ namespace SpaceHordes.Entities.Templates
             Body.Mass += 2;
 
             Body.CollisionCategories = Category.Cat1;
-
             #endregion Body
 
             #region Sprite
@@ -77,7 +79,18 @@ namespace SpaceHordes.Entities.Templates
 
             #region Health
 
-            e.AddComponent<Health>(new Health(1));
+            Health h = new Health(1);
+            h.OnDeath +=
+                ent =>
+                {
+                    Vector2 poss = e.GetComponent<ITransform>().Position;
+                    world.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
+
+                    int splodeSound = r.Next(1, 5);
+                    SoundManager.Play("Explosion" + splodeSound.ToString());
+                };
+
+            e.AddComponent<Health>(h);
 
             #endregion Health
 

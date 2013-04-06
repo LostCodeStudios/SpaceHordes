@@ -80,9 +80,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
-#if DEBUG
-            //type = 7;
-#endif
+            type = 10;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -104,7 +102,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                             (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
                                 (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
                                 - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
-                            (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                            (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 
+                                (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
+                                - (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
                         }
                     return false;
                 };
@@ -115,11 +115,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos *= ScreenHelper.Viewport.Height;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
-
-            if (spriteKey == "massivebluemissile" || spriteKey == "flamer")
-            {
-                bitch.Rotation = MathHelper.ToRadians(90);
-            }
 
             #endregion Body
 
@@ -134,27 +129,32 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Color crystalColor = Color.Red;
             int colorchance = rbitch.Next(100);
-            int amount = 25;
+            int amount = 25 * tier;
             if (colorchance > 50)
             {
                 crystalColor = Color.Yellow;
-                amount = 35;
+                amount = 35 * tier;
             }
             if (colorchance > 70)
             {
                 crystalColor = Color.Blue;
-                amount = 15;
+                amount = 15 * tier;
                 
             }
             if (colorchance > 80)
             {
                 crystalColor = Color.Green;
-                amount = 10;
+                amount = 10 * tier;
             }
             if (colorchance > 90)
             {
                 crystalColor = Color.Gray;
                 amount = 3;
+            }
+            if (spriteKey == "flamer")
+            {
+                crystalColor = Color.Yellow;
+                amount = 300;
             }
             e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
@@ -170,8 +170,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             switch (tier)
             {
                 case 1:
-                    points = 100;
-                    health = 100;
+                    points = 300;
+                    health = 300;
                     break;
 
                 case 2:
@@ -185,43 +185,68 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
-            e.AddComponent<Health>(new Health(health)).OnDeath +=
-               ent =>
-               {
-                   Vector2 poss = e.GetComponent<ITransform>().Position;
+            Health h = new Health(health);
+            h.OnDeath +=
+                ent =>
+                {
+                    Vector2 poss = e.GetComponent<ITransform>().Position;
 
-                   if (type < 9)
-                       _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
-                   else
-                   {
-                       _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, ent);
-                   }
+                    if (type < 9)
+                        _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
+                    else
+                    {
+                        _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, ent);
+                    }
 
-                   int splodeSound = rbitch.Next(1, 5);
-                   SoundManager.Play("Explosion" + splodeSound.ToString());
+                    int splodeSound = rbitch.Next(1, 5);
+                    SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                   if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
-                   {
-                       if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
-                       {
-                           Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
-                           _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
-                       }
-                       else
-                       {
-                           _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
-                       }
-                   }
+                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
+                    {
+                        if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
+                        {
+                            Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
+                        }
+                        else
+                        {
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                        }
+                    }
 
-                   if (ent.Tag != "Base")
-                   {
-                       ScoreSystem.GivePoints(points);
-                       BossScreen.BossKilled(bosses[type].BossName);
-                   }
+                    if (ent.Tag != "Base")
+                    {
+                        ScoreSystem.GivePoints(points);
+                        BossScreen.BossKilled(bosses[type].BossName);
+                    }
 
-                   _World.enemySpawnSystem.ResetTags();
-                   _World.enemySpawnSystem.SpawnRate = 1;
-               };
+                    _World.enemySpawnSystem.ResetTags();
+                    _World.enemySpawnSystem.SpawnRate = 1;
+                };
+
+            if (spriteKey.Equals("flamer"))
+            {
+                h.OnDamage +=
+                    ent =>
+                    {
+
+                        //Fire flame from random spot
+
+                        int range = s.CurrentRectangle.Width / 2;
+                        Vector2 pos1 = bitch.Position + ConvertUnits.ToSimUnits(new Vector2(rbitch.Next(-range, range), 0));
+
+                        float x = 2 * (float)rbitch.NextDouble() - 1;
+                        float y = 1;
+
+                        Vector2 velocity = new Vector2(x, y);
+                        velocity.Normalize();
+                        velocity *= 7;
+
+                        _World.CreateEntity("Fire", pos1, velocity).Refresh();
+                    };
+            }
+
+            e.AddComponent<Health>(h);
 
             #endregion AI/Health
 
@@ -267,12 +292,17 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             if (spriteKey == "clawbossthing")
             {
-                _World.enemySpawnSystem.GunnerSprite = "8prongbrownthingwithfangs";
+                _World.enemySpawnSystem.MookSprite = "8prongbrownthingwithfangs";
                 _World.enemySpawnSystem.ThugSprite = "minibrownclawboss";
-                _World.enemySpawnSystem.MookSpawnRate = 0;
-                _World.enemySpawnSystem.GunnerSpawnRate = 2;
+                _World.enemySpawnSystem.MookSpawnRate = 2;
+                _World.enemySpawnSystem.GunnerSpawnRate = 0;
                 _World.enemySpawnSystem.HunterSpawnRate = 0;
                 _World.enemySpawnSystem.DestroyerSpawnRate = 0;
+            }
+
+            if (spriteKey == "flamer")
+            {
+                _World.enemySpawnSystem.SpawnRate = 0;
             }
 
             #endregion Special Cases

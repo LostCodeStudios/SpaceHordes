@@ -26,8 +26,7 @@ namespace SpaceHordes.GameStates.Screens
 
     public class BossScreen : GameScreen
     {
-        #region Fields
-
+        #region Boss Info
         private static BossInfo[] bosses = new BossInfo[]
         {
             new BossInfo("smasher", "The Smasher"),
@@ -44,6 +43,9 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("massivebluemissile", "The Jabber-W0K"),
             new BossInfo("killerhead", "The Destroyer")
         };
+        #endregion
+
+        #region Fields
 
         private ContentManager content;
         private SpriteSheet spriteSheet;
@@ -219,7 +221,7 @@ namespace SpaceHordes.GameStates.Screens
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             spriteBatch.Begin();
 
-            float scale = 5f;
+            float scale = 3.5f;
 
             Rectangle source = spriteSheet[currentKey][0];
             Vector2 spriteLoc = ScreenHelper.Center;
@@ -246,20 +248,6 @@ namespace SpaceHordes.GameStates.Screens
                 //bird contains two sprites so needs special draw handling
                 extraSource[0] = spriteSheet["birdhead"][2];
                 extra[0] = new Rectangle(destination.X + (int)(73 * scale), destination.Y + (int)(51 * scale), (int)(extraSource[0].Width * scale), (int)(extraSource[0].Height * scale));
-            }
-
-            else if (currentKey.Equals("flamer"))
-            {
-                scale = 3f;
-            }
-
-            else if (currentKey.Equals("brain"))
-            {
-                extraSource[0] = spriteSheet["blaster"][0];
-                extraSource[1] = spriteSheet["blaster"][0];
-                Point offset = new Point((int)ConvertUnits.ToDisplayUnits(2) * (int)scale, 0);
-                extra[0] = new Rectangle((destination.Center.X + offset.X) - extraSource[0].Width / 2, destination.Y, extraSource[0].Width * (int)scale, extraSource[0].Height * (int)scale);
-                extra[1] = new Rectangle((destination.Center.X + offset.X) - extraSource[1].Width / 2, destination.Y, extraSource[1].Width * (int)scale, extraSource[1].Height * (int)scale);
             }
 
             else if (currentKey.Equals("blimp"))
@@ -319,8 +307,8 @@ namespace SpaceHordes.GameStates.Screens
             string text = current ? bosses[index].BossName : "?????";
             Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width / 2 + (float)(transitionOffset * ScreenHelper.Viewport.Width), ScreenHelper.Viewport.Height * 0.80f);
             Vector2 size = ScreenManager.Font.MeasureString(text);
-            Vector2 origin = size / 2;
-            spriteBatch.DrawString(ScreenManager.Font, text, textDest, Color.White, 0f, origin, 1f, SpriteEffects.None, 0);
+            Vector2 textorigin = size / 2;
+            spriteBatch.DrawString(ScreenManager.Font, text, textDest, Color.White, 0f, textorigin, 1f, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 

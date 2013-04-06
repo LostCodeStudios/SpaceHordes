@@ -86,7 +86,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                                 (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
                                     (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
                                     - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
-                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity,
+                                    (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
+                                    - (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
                             }
                             catch
                             {

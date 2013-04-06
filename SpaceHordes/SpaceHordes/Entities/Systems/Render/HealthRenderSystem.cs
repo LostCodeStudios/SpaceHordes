@@ -59,7 +59,7 @@ namespace SpaceHordes.Entities.Systems
 
             int X = (int)ScreenHelper.Center.X;
             int Y = (int)ScreenHelper.Center.Y;
-            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && health.MaxHealth > 1 && e.Tag != "SmasherBall")
+            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && health.MaxHealth > 1 && e.Tag != "SmasherBall" && e.Group != "Fire")
             {
                 Sprite s = e.GetComponent<Sprite>();
                 float Width = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);

@@ -575,7 +575,7 @@ namespace SpaceHordes
 
             sourceRectangles.Add("massivebluemissile",
                 new Rectangle[] {
-                    new Rectangle(233, 291, 209, 45)
+                    new Rectangle(361, 932, 45, 209)
                 });
 
             sourceRectangles.Add("redgunship",
@@ -769,7 +769,7 @@ namespace SpaceHordes
 
             sourceRectangles.Add("flamer",
                 new Rectangle[] {
-                    new Rectangle(358, 930, 60, 186)
+                    new Rectangle(152, 1004, 184, 58)
                 });
 
             sheet.Animations = sourceRectangles;
