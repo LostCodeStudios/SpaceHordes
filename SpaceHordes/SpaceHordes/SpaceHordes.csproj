@@ -146,6 +146,7 @@
     <Compile Include="Entities\Systems\Update\DamageSystem.cs" />
     <Compile Include="Entities\Systems\Update\DirectorSystem.cs" />
     <Compile Include="Entities\Systems\Render\ExplosionSystem.cs" />
+    <Compile Include="Entities\Systems\Update\FireRemovalSystem.cs" />
     <Compile Include="Entities\Systems\Update\GunSystem.cs" />
     <Compile Include="Entities\Systems\Render\HealthRenderSystem.cs" />
     <Compile Include="Entities\Systems\Update\HealthSystem.cs" />

@@ -31,14 +31,11 @@ namespace SpaceHordes.GameStates.Screens
         {
             new BossInfo("smasher", "The Smasher"),
             new BossInfo("greenbossship", "Big Green"),
-            new BossInfo("clawbossthing", "Clawdia"),
+            new BossInfo("clawbossthing", "The Killer"),
             new BossInfo("eye", "The Oculus"),
             new BossInfo("brain", "Father Brain"),
-            new BossInfo("redgunship", "The Gunner"),
-            new BossInfo("bigredblobboss", "Big Red"),
-            new BossInfo("blimp", "Lead Zeppelin"),
-            new BossInfo("giantgraybossship", "Big Blue"),
-            new BossInfo("birdbody", "The Harbinger"),
+            new BossInfo("bigredblobboss", "The War Machine"),
+            new BossInfo("giantgraybossship", "The Mother Ship"),
             new BossInfo("flamer", "The Flamer"),
             new BossInfo("massivebluemissile", "The Jabber-W0K"),
             new BossInfo("killerhead", "The Destroyer")

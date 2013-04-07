@@ -3,6 +3,7 @@ using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using System;
 using GameLibrary.Helpers;
+using GameLibrary.Entities.Components;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -105,6 +106,47 @@ namespace SpaceHordes.Entities.Components
                         b.LinearVelocity = distance;
                         if (rotateTo)
                             b.RotateTo(distance) ;
+                    }
+                    return false;
+                };
+        }
+
+        public static Func<Body, bool> CreateFlamer(Entity ent, float speed, Body bitch, Sprite s, EntityWorld _World)
+        {
+            int times = 0;
+            return
+                (target) =>
+                {
+                    ++times;
+                    Body b = ent.GetComponent<Body>();
+                    Vector2 distance = target.Position - b.Position;
+
+                    if (distance != Vector2.Zero)
+                        distance.Normalize();
+                    distance *= speed;
+
+                    if (target != null && target.LinearVelocity != distance && !ent.HasComponent<Slow>())
+                    {
+                        b.LinearVelocity = distance;
+                    }
+
+                    if (times % 10 == 0)
+                    {
+                        int range = s.CurrentRectangle.Width / 2;
+                        float posx = -range;
+                        Vector2 pos1 = bitch.Position + ConvertUnits.ToSimUnits(new Vector2(posx, 0));
+                        Vector2 pos2 = bitch.Position - ConvertUnits.ToSimUnits(new Vector2(posx, 0));
+                        float x = posx / range;
+
+                        float y = 1;
+
+                        Vector2 velocity1 = new Vector2(x, y);
+                        velocity1.Normalize();
+                        velocity1 *= 7;
+                        Vector2 velocity2 = new Vector2(-velocity1.X, velocity1.Y);
+
+                        _World.CreateEntity("Fire", pos1, velocity1).Refresh();
+                        _World.CreateEntity("Fire", pos2, velocity2).Refresh();
                     }
                     return false;
                 };

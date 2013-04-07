@@ -37,18 +37,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
         {
             new BossInfo("smasher", "The Smasher"), //0
             new BossInfo("greenbossship", "Big Green"),  //1
-            new BossInfo("clawbossthing", "Clawdia"), //2
+            new BossInfo("clawbossthing", "The Killer"), //2
             new BossInfo("eye", "The Oculus"), //3
             new BossInfo("brain", "Father Brain"), //4
-            new BossInfo("redgunship", "The Gunner"), //5
-            new BossInfo("bigredblobboss", "Big Red"), //6
-            new BossInfo("blimp", "Lead Zeppelin"), //7
-            new BossInfo("giantgraybossship", "Big Blue"), //8
-            new BossInfo("birdbody", "The Harbinger"), //9
+            new BossInfo("bigredblobboss", "The War Machine"), //5
+            new BossInfo("giantgraybossship", "The Mother Ship"), //6
             
-            new BossInfo("flamer", "The Flamer"), //10
-            new BossInfo("massivebluemissile", "The Jabber-W0K"), //11
-            new BossInfo("killerhead", "The Destroyer") //12
+            new BossInfo("flamer", "The Flamer"), //7
+            new BossInfo("massivebluemissile", "The Jabber-W0K"), //8
+            new BossInfo("killerhead", "The Destroyer") //9
         };
         #endregion
 
@@ -73,14 +70,14 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(0, 4);
                     break;
                 case 2:
-                    type = rbitch.Next(5, 8);
+                    type = rbitch.Next(4, 7);
                     break;
                 case 3:
-                    type = rbitch.Next(8, 13);
+                    type = rbitch.Next(7, 10);
                     break;
             }
 
-            type = 10;
+            type = 7;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -162,8 +159,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region AI/Health
 
-            e.AddComponent<AI>(new AI((args[1] as Body),
-               AI.CreateFollow(e,1, false), "Base"));
+            if (spriteKey != "flamer")
+                e.AddComponent<AI>(new AI((args[1] as Body),
+                    AI.CreateFollow(e,1, false), "Base"));
+            else
+                e.AddComponent<AI>(new AI((args[1] as Body),
+                    AI.CreateFlamer(e, 0.5f, bitch, s, _World), "Base"));
 
             int points = 0;
             int health = 0;
