@@ -152,6 +152,39 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
+        public static Func<Body, bool> CreateWarMachine(Entity ent, float speed, Body bitch, Sprite s, EntityWorld _World)
+        {
+            int times = 0;
+
+            return
+                (target) =>
+                {
+                    ++times;
+
+                    Body b = ent.GetComponent<Body>();
+                    Vector2 distance = target.Position - b.Position;
+
+                    if (distance != Vector2.Zero)
+                        distance.Normalize();
+                    distance *= speed;
+
+                    if (target != null && target.LinearVelocity != distance && !ent.HasComponent<Slow>())
+                    {
+                        b.LinearVelocity = distance;
+                    }
+
+                    if (times % 100 == 0)
+                    {
+                        Vector2 velocity1 = new Vector2(0, 1);
+                        velocity1 *= 8f;
+
+                        _World.CreateEntity("ExplosiveBullet", bitch.Position, velocity1, 1 , "reddownmissile").Refresh();
+                    }
+
+                    return false;
+                };
+        }
+
         public static Func<Body, bool> CreateCannon(Entity ent, bool rotateTo = true)
         {
             float shootDistance = ConvertUnits.ToSimUnits(700);

@@ -42,7 +42,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
             new BossInfo("brain", "Father Brain"), //4
             new BossInfo("bigredblobboss", "The War Machine"), //5
             new BossInfo("giantgraybossship", "The Mother Ship"), //6
-            
             new BossInfo("flamer", "The Flamer"), //7
             new BossInfo("massivebluemissile", "The Jabber-W0K"), //8
             new BossInfo("killerhead", "The Destroyer") //9
@@ -77,7 +76,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
-            type = 7;
+            type = 5;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -159,12 +158,19 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region AI/Health
 
-            if (spriteKey != "flamer")
-                e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateFollow(e,1, false), "Base"));
-            else
+            if (spriteKey == "flamer")
                 e.AddComponent<AI>(new AI((args[1] as Body),
                     AI.CreateFlamer(e, 0.5f, bitch, s, _World), "Base"));
+
+            else if (spriteKey == "bigredblobboss")
+                e.AddComponent<AI>(new AI((args[1] as Body),
+                    AI.CreateWarMachine(e, 0.5f, bitch, s, _World), "Base"));
+
+            else
+                e.AddComponent<AI>(new AI((args[1] as Body),
+                    AI.CreateFollow(e,1, false), "Base"));
+            
+                
 
             int points = 0;
             int health = 0;

@@ -40,7 +40,12 @@ namespace SpaceHordes.Entities.Templates.Objects
             
             #region Sprite
             //Builds a sprite using "redshot3" (arbitrary). TODO: FIX DIS BITCH HELLA D
-            Sprite bulletSprite = e.AddComponent<Sprite>(new Sprite(_SS, "redspikeball", 0.54f + (float)num / 1000000f));
+            string spriteKey = "redspikeball";
+            if (args.Length > 3)
+            {
+                spriteKey = (string)args[3];
+            }
+            Sprite bulletSprite = e.AddComponent<Sprite>(new Sprite(_SS, spriteKey, 0.54f + (float)num / 1000000f));
             #endregion
 
             #region Body

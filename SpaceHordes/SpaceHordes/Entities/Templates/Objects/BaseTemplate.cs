@@ -56,7 +56,12 @@ namespace SpaceHordes.Entities.Templates
 
             e.AddComponent<Score>(new Score());
 
-            e.AddComponent<Health>(new Health(10)).OnDeath +=
+            int health = 10;
+#if DEBUG
+            health = 10000;
+#endif
+
+            e.AddComponent<Health>(new Health(health)).OnDeath +=
             ent =>
             {
                 Vector2 poss = e.GetComponent<ITransform>().Position;
