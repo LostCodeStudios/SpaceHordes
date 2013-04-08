@@ -44,5 +44,25 @@ namespace GameLibrary.Helpers
         {
             MediaPlayer.Stop();
         }
+
+        public static bool IsPlaying
+        {
+            get
+            {
+                return MediaPlayer.State == MediaState.Playing;
+            }
+        }
+
+        public static bool IsRepeating
+        {
+            get
+            {
+                return MediaPlayer.IsRepeating;
+            }
+            set
+            {
+                MediaPlayer.IsRepeating = value;
+            }
+        }
     }
 }

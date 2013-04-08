@@ -148,10 +148,18 @@ namespace GameLibrary
             get { return "GameLibrary"; }
         }
 
+        private float _Speed;
         public float Speed
         {
-            set;
-            get;
+            set
+            {
+                _Speed = value;
+                SoundManager.Pitch = (1 / _Speed) - 1;
+            }
+            get
+            {
+                return _Speed;
+            }
         }
 
         #endregion Properties

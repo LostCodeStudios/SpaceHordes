@@ -160,7 +160,7 @@ namespace GameLibrary.Entities.Components
             {
                 if (_Index < 0)
                     _Index = 0;
-
+                if (Source!= null)
                 _Index = value % (Source.Count());
             }
         }

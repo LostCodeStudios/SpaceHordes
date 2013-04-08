@@ -19,10 +19,20 @@ namespace GameLibrary.Helpers
             }
         }
 
+        private static float _Pitch;
+        public static float Pitch
+        {
+            get { return _Pitch; }
+            set
+            {
+                _Pitch = MathHelper.Clamp(value, -1f, 1f);
+            }
+        }
+
         public static void Play(string soundKey, float volume = 1f)
         {
             if (sounds.ContainsKey(soundKey) && Volume > 0f)
-                sounds[soundKey].Play(Volume * volume, 0f, 0f);
+                sounds[soundKey].Play(Volume * volume, Pitch, 0f);
         }
 
         public static void Add(string soundKey, SoundEffect sound)
