@@ -35,15 +35,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
         #region Boss Info
         private static BossInfo[] bosses = new BossInfo[]
         {
-            new BossInfo("smasher", "The Smasher"), //0
+            new BossInfo("smasher", "The Smasher"), //0 //Fully implemented
             new BossInfo("greenbossship", "Big Green"),  //1
-            new BossInfo("clawbossthing", "The Killer"), //2
-            new BossInfo("eye", "The Oculus"), //3
-            new BossInfo("brain", "Father Brain"), //4
-            new BossInfo("bigredblobboss", "The War Machine"), //5
-            new BossInfo("giantgraybossship", "The Mother Ship"), //6
-            new BossInfo("flamer", "The Flamer"), //7
-            new BossInfo("massivebluemissile", "The Jabber-W0K"), //8
+            new BossInfo("clawbossthing", "The Killer"), //2 //Fully implemented
+            new BossInfo("eye", "The Oculus"), //3 //Fully implemented
+            new BossInfo("brain", "Father Brain"), //4 //Fully implemented
+            new BossInfo("bigredblobboss", "The War Machine"), //5 //Fully implemented //Bullets need to damage the base
+            new BossInfo("giantgraybossship", "The Mother Ship"), //6 //Fully implemented
+            new BossInfo("flamer", "The Flamer"), //7 //Fully implemented //Bullets need to damage the base
+            new BossInfo("massivebluemissile", "The Jabber-W0K"), //8 //Fully implemented
             new BossInfo("killerhead", "The Destroyer") //9
         };
         #endregion
@@ -76,7 +76,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     break;
             }
 
-            type = 5;
+            type = 7;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
