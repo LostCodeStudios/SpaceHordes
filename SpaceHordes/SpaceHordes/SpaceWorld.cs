@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using SpaceHordes.Entities.Templates.Events;
 using SpaceHordes.GameStates.Screens;
+using GameLibrary.Dependencies.Physics.Dynamics;
 
 namespace SpaceHordes
 {
@@ -416,6 +417,11 @@ namespace SpaceHordes
                 for (int i = 0; i < index.Length && i < 4; ++i)
                 {
                     Entity e = CreateEntity("Player", (PlayerIndex)i);
+                    Body bitch = e.GetComponent<Body>();
+                    this.ContactManager.OnBroadphaseCollision +=
+                        new BroadphaseDelegate(this.SlowMow);
+
+
                     e.Refresh();
                     Player.Add(e);
                     Indices.Add((PlayerIndex)i);
@@ -448,6 +454,8 @@ namespace SpaceHordes
             Base = this.CreateEntity("Base");
             Base.Refresh();
             enemySpawnSystem.LoadContent(Base, Player.ToArray());
+
+            
         }
 
         #endregion Entities
@@ -466,7 +474,25 @@ namespace SpaceHordes
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 Speed += 0.01f;
 #endif
+            if (slowmotion)
+                Speed = MathHelper.SmoothStep(Speed, 2, 0.01f);
+            else
+                Speed =  MathHelper.SmoothStep(Speed, 1, 0.01f);
+
+
             
+        }
+
+        public void SlowMow(ref FixtureProxy x, ref FixtureProxy z)
+        {
+            Entity c = (z.Fixture.Body.UserData as Entity);
+            if (c != null && c.Group != null && c.Group == "Players")
+                slowmow++;
+            if (slowmow > 10)
+            {
+                Console.WriteLine("slomo");
+                slowmotion = true;
+            }
         }
         #endregion Functioning Loop
 
@@ -509,6 +535,8 @@ namespace SpaceHordes
         private Texture2D _hud;
         public ImageFont _Font;
         public int Players = 0;
+        int slowmow = 0;
+        bool slowmotion = false;
 
         public static List<PlayerIndex> Indices = new List<PlayerIndex>();
 

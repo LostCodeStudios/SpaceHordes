@@ -75,7 +75,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(7, 10);
                     break;
             }
-
             type = 7;
             spriteKey = bosses[type].SpriteKey;
 
@@ -198,7 +197,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
 
-                    if (type < 9)
+                    if (type < 6)
                         _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
                     else
                     {

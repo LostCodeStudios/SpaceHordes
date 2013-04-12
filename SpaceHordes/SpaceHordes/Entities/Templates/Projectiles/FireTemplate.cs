@@ -46,18 +46,20 @@ namespace SpaceHordes.Entities.Templates.Objects
             //Creates a body based off of the position and velocity supplied in the args list.
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
 
-            bitch.BodyType = BodyType.Kinematic;
+            bitch.BodyType = BodyType.Dynamic;
 
             bitch.Position = (Vector2)args[0];
             bitch.LinearVelocity = (Vector2)args[1];
             bitch.RotateTo(bitch.LinearVelocity);
+            bitch.IsBullet = true;
+            bitch.SleepingAllowed = false;
 
             FixtureFactory.AttachEllipse(
                 ConvertUnits.ToSimUnits(fireSprite.CurrentRectangle.Width / 2),
                 ConvertUnits.ToSimUnits(fireSprite.CurrentRectangle.Height / 2),
                 6, 1, bitch);
 
-            bitch.CollisionCategories = Category.Cat5;
+            bitch.CollisionCategories = Category.Cat4;
             bitch.CollidesWith = Category.Cat1 | Category.Cat3;
             bitch.OnCollision +=
                 (f1, f2, c) =>
@@ -65,9 +67,13 @@ namespace SpaceHordes.Entities.Templates.Objects
                     if (f2.Body.UserData != null && f2.Body.UserData is Entity)
                         if ((f2.Body.UserData as Entity).Group != "Crystals")
                         {
-                            (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
-                                (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                - 3);
+                            try
+                            {
+                                (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
+                                    (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
+                                    - 3);
+                            }
+                            catch { } //Lol nullreferenceexception bitch
                         }
                     return false;
                 };

@@ -567,6 +567,8 @@ namespace SpaceHordes.Entities.Systems
             if (c < f - i)
                 ++i;
 
+           
+
             return (int)i;
         }
 
