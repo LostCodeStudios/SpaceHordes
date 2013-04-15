@@ -62,7 +62,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Sprite
 
-            Sprite s = new Sprite(_SpriteSheet, "barrier", 0.6f + barriers/100000);
+            Sprite s = new Sprite(_SpriteSheet, "barrier", 0.6f + barriers/10000);
             e.AddComponent<Sprite>(s);
 
             #endregion Sprite
