@@ -105,7 +105,7 @@ namespace SpaceHordes.Entities.Components
                     {
                         b.LinearVelocity = distance;
                         if (rotateTo)
-                            b.RotateTo(distance) ;
+                            b.RotateTo(distance);
                     }
                     return false;
                 };
@@ -178,7 +178,7 @@ namespace SpaceHordes.Entities.Components
                         Vector2 velocity1 = new Vector2(0, 1);
                         velocity1 *= 8f;
 
-                        _World.CreateEntity("ExplosiveBullet", bitch.Position, velocity1, 1 , "reddownmissile").Refresh();
+                        _World.CreateEntity("ExplosiveBullet", bitch.Position, velocity1, 1, "reddownmissile").Refresh();
                     }
 
                     return false;
@@ -239,61 +239,6 @@ namespace SpaceHordes.Entities.Components
                     return false;
                 };
         }
-
-        #endregion Behaviors
     }
-
-    ////TODO: DEPRICATE
-    //public class AI : Component
-    //{
-    //    private Body target;
-    //    private Behavior behavior;
-    //    private Targeting targeting;
-
-    //    public event Action TargetChangedEvent;
-
-    //    public Body Target
-    //    {
-    //        get { return target; }
-    //        set
-    //        {
-    //            if (TargetChangedEvent != null)
-    //                TargetChangedEvent();
-    //            target = value;
-    //        }
-    //    }
-
-    //    public Behavior Behavior
-    //    {
-    //        get { return behavior; }
-    //        set { behavior = value; }
-    //    }
-
-    //    public Targeting Targeting
-    //    {
-    //        get { return targeting; }
-    //        set { targeting = value; }
-    //    }
-
-    //    public float SearchRadius
-    //    {
-    //        get;
-    //        set;
-    //    }
-
-    //    public string HostileGroup
-    //    {
-    //        get;
-    //        set;
-    //    }
-
-    //    public AI()
-    //    {
-    //    }
-
-    //    public AI(Body target)
-    //    {
-    //        Target = target;
-    //    }
-    //}
+        #endregion Behaviors
 }

@@ -59,7 +59,7 @@ namespace SpaceHordes.Entities.Systems
 
             int X = (int)ScreenHelper.Center.X;
             int Y = (int)ScreenHelper.Center.Y;
-            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && health.MaxHealth > 1 && e.Tag != "SmasherBall" && e.Group != "Fire")
+            if (e.HasComponent<Sprite>() && e.GetComponent<Sprite>().Source != null && health.MaxHealth > 1 && e.Tag != "SmasherBall" && e.Group != "Fire" && e.Group == "Boss" || e.Group == "Base")
             {
                 Sprite s = e.GetComponent<Sprite>();
                 float Width = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
@@ -67,7 +67,7 @@ namespace SpaceHordes.Entities.Systems
                 float rotation = (float)Math.Atan2(body.LinearVelocity.Y, body.LinearVelocity.X);
 
                 float spriteWidth = (float)Math.Abs((s.CurrentRectangle.Width * Math.Cos(rotation)) + (s.CurrentRectangle.Height * Math.Cos(Math.PI/2 - rotation)));
-                float spriteHeight = (float)Math.Abs((s.CurrentRectangle.Height * Math.Sin(MathHelper.ToDegrees((float)Math.PI - rotation)) + s.CurrentRectangle.Width * Math.Sin(MathHelper.ToDegrees(rotation))));
+                float spriteHeight = 7 + (float)Math.Abs((s.CurrentRectangle.Height * Math.Sin(MathHelper.ToDegrees((float)Math.PI - rotation)) + s.CurrentRectangle.Width * Math.Sin(MathHelper.ToDegrees(rotation))));
 
                 //Draw backing
                 _SpriteBatch.Draw(_BarTexture,

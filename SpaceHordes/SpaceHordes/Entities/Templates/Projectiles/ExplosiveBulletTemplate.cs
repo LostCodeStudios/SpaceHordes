@@ -36,7 +36,7 @@ namespace SpaceHordes.Entities.Templates.Objects
         /// <returns></returns>
         public Entity BuildEntity(Entity e, params object[] args)
         {
-            e.Group = "Enemies";
+            e.Group = "Bullets";
             
             #region Sprite
             //Builds a sprite using "redshot3" (arbitrary). TODO: FIX DIS BITCH HELLA D

@@ -75,7 +75,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(7, 10);
                     break;
             }
-
             type = 7;
             spriteKey = bosses[type].SpriteKey;
 
@@ -88,7 +87,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, spriteKey != "bigredblobboss" ? 0.5f + (float)type/10000f : 0.55f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
-            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
+            bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat6;
             bitch.OnCollision +=
                 (f1, f2, c) =>
                 {
@@ -150,7 +149,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             if (spriteKey == "flamer")
             {
                 crystalColor = Color.Yellow;
-                amount = 300;
+                amount = 150;
             }
             e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
@@ -198,7 +197,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
 
-                    if (type < 9)
+                    if (type < 6)
                         _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
                     else
                     {
