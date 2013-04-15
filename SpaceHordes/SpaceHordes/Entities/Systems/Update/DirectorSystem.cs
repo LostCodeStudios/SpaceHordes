@@ -50,7 +50,7 @@ namespace SpaceHordes.Entities.Systems
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        private int lastBoss = 0;
+        private int lastBoss = 1;
 
         #endregion
 
@@ -283,7 +283,7 @@ namespace SpaceHordes.Entities.Systems
 
                 if ((int)(elapsedMinutes) > lastBoss)
                 {
-
+#if !DEMO
                     int chance = r.Next(1, 100);
 
                     if (chance > 66)
@@ -296,7 +296,12 @@ namespace SpaceHordes.Entities.Systems
                         //Boss.
                         spawnBoss();
                     }
+#else
+                    spawnSurge();
+#endif
                 }
+                
+
                 #endregion Spawning
             }
             #endregion
