@@ -204,6 +204,7 @@ namespace SpaceHordes.GameStates.Screens
                     ScreenManager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
                     ScreenManager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
                     ExitScreen();
+                    SoundManager.Play("MenuCancel");
                 }
             }
 

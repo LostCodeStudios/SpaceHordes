@@ -324,6 +324,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 if (index != bosses.Count() - 1)
                 {
+                    SoundManager.Play("SelectChanged");
                     string key = bosses[index + 1].SpriteKey;
                     ExitScreen();
                     BossScreen newS = new BossScreen(spriteSheet);
@@ -340,6 +341,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 if (index != 0)
                 {
+                    SoundManager.Play("SelectChanged");
                     string key = bosses[index - 1].SpriteKey;
                     ExitScreen();
                     BossScreen newS = new BossScreen(spriteSheet);
@@ -357,6 +359,7 @@ namespace SpaceHordes.GameStates.Screens
                 ExitScreen();
                 nextIndex = -1;
                 CallExit();
+                SoundManager.Play("MenuCancel");
             }
         }
 

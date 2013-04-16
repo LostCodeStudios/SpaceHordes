@@ -333,15 +333,18 @@ namespace SpaceHordes.GameStates.Screens
             if (menuCancel.Evaluate(input, ControllingPlayer, out index))
             {
                 ExitScreen();
+                SoundManager.Play("MenuCancel");
             }
 
             if (left.Evaluate(input, ControllingPlayer, out index))
             {
+                SoundManager.Play("SelectChanged");
                 Players--;
             }
 
             if (right.Evaluate(input, ControllingPlayer, out index))
             {
+                SoundManager.Play("SelectChanged");
                 ++Players;
             }
         }

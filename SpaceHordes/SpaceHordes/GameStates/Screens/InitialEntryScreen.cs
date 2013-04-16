@@ -106,8 +106,8 @@ namespace SpaceHordes.GameStates.Screens
                 true);
 
             accept = new InputAction(
-                new Buttons[] { Buttons.Start },
-                new Keys[] { Keys.Enter },
+                new Buttons[] { Buttons.Start , Buttons.A },
+                new Keys[] { Keys.Enter, Keys.Space },
                 true);
         }
 

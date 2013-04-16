@@ -133,6 +133,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 ExitScreen();
                 CallExit();
+                SoundManager.Play("MenuCancel");
             }
         }
     }

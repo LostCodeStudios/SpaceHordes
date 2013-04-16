@@ -418,6 +418,7 @@ namespace SpaceHordes.Entities.Systems
         private void updateTimes()
         {
             elapsedSeconds += secPerCall;
+            intervalSeconds += secPerCall;
             elapsedMinutes += minPerCall;
 
             if (SpawnState == SpawnState.Surge)
@@ -444,10 +445,12 @@ namespace SpaceHordes.Entities.Systems
                     {
                         spawnWave();
                     }
+#if !DEMO
                     else if (waves % 2 == 0)
                     {
                         SpawnState = SpawnState.Boss;
                     }
+#endif
                     else
                     {
                         if (SpawnState == SpawnState.Surge)
