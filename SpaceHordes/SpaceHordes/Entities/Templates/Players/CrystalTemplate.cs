@@ -51,7 +51,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),
                 (target) =>
                 {
-                    if ((target.UserData as Entity).DeletingState != true)
+                    if ((target.UserData as Entity).GetComponent<Health>().IsAlive)
                     {
                         Vector2 distance = target.Position - b.Position;
                         distance.Normalize();
@@ -60,8 +60,8 @@ namespace SpaceHordes.Entities.Templates.Objects
                     }
                     else
                     {
-                        e.Delete();
-                        return true;
+                        //e.Delete();
+                        return false;
                     }
                 }));
 
