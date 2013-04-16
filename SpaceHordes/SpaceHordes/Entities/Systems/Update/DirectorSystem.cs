@@ -25,6 +25,14 @@ namespace SpaceHordes.Entities.Systems
         Surge
     }
 
+    public enum SpawnState
+    {
+        Wave,
+        Surge,
+        Boss,
+        Peace
+    }
+
     public class DirectorSystem : IntervalEntitySystem
     {
         #region Fields
@@ -37,20 +45,29 @@ namespace SpaceHordes.Entities.Systems
         int[] PlayerToSpawn;
 
         private double difficulty = 0;
-        public bool Surge = false;
+        public SpawnState SpawnState = SpawnState.Peace;
+        int waves = 0;
+
         int elapsedWarning = 0;
-        public static int ElapsedSurge = 0;
         int warningTime = 3000;
-        public static int SurgeTime = 20000;
+        public static float[] StateDurations = new float[]
+        {
+            45f,
+            30f,
+            0f,
+            15f
+        };
+
+        public static int ElapsedSurge = 0;
         float nextSeconds = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
-        private float elapsedSeconds;
-        private float elapsedMinutes;
+        private float elapsedSeconds; private float secPerCall = 0.333f;
+        private float elapsedMinutes; private float minPerCall = 0.333f / 60;
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        private int lastBoss = 1;
+        private int bossTier = 1;
 
         #endregion
 
@@ -191,6 +208,7 @@ namespace SpaceHordes.Entities.Systems
         public DirectorSystem()
             : base(333)
         {
+            ElapsedSurge = 0;
         }
 
         public void LoadContent(Entity Base, Entity[] Players)
@@ -229,21 +247,26 @@ namespace SpaceHordes.Entities.Systems
             base.ProcessEntities(entities);
 
             SpaceWorld w = world as SpaceWorld;
-            difficulty = elapsedMinutes * w.Players;
-
-            ++timesCalled;
-            elapsedSeconds += .333f;
-            intervalSeconds += .333f;
-            elapsedMinutes += .333f / 60f;
-
-            if (Surge)
+            
+            switch (SpawnState)
             {
-                updateSurge();
+                case SpawnState.Wave:
+                    difficulty = (waves + elapsedMinutes) * w.Players;
+                    break;
+                case SpawnState.Surge:
+                    difficulty = 2 * (waves + elapsedMinutes) * w.Players;
+                    break;
+                case SpawnState.Boss:
+                    difficulty = 0.5f * (waves + elapsedMinutes) * w.Players;
+                    break;
+                case SpawnState.Peace:
+                    difficulty = 0f;
+                    break;
             }
 
             #region MUSIC
 
-            if (timesCalled == 1)
+            if (timesCalled == 0)
             {
                 setCategory(SongType.Loop);
             }
@@ -262,7 +285,7 @@ namespace SpaceHordes.Entities.Systems
 
                 if (intervalSeconds >= 1)
                 {
-                    ScoreSystem.GivePoints(10 * (int)difficulty);
+                    ScoreSystem.GivePoints(10);
                     intervalSeconds = 0;
                 }
 
@@ -281,24 +304,9 @@ namespace SpaceHordes.Entities.Systems
                 spawnHunters(huntersToSpawn);
                 spawnDestroyers(destroyersToSpawn);
 
-                if ((int)(elapsedMinutes) > lastBoss)
+                if (SpawnState == SpawnState.Boss && (Boss == null || (!Boss.HasComponent<Health>() || !Boss.GetComponent<Health>().IsAlive)))
                 {
-#if !DEMO
-                    int chance = r.Next(1, 100);
-
-                    if (chance > 66)
-                    {
-                        //SURGE
-                        spawnSurge();
-                    }
-                    else
-                    {
-                        //Boss.
-                        spawnBoss();
-                    }
-#else
-                    spawnSurge();
-#endif
+                    spawnBoss();
                 }
                 
 
@@ -397,6 +405,9 @@ namespace SpaceHordes.Entities.Systems
             }
 
             #endregion
+
+            updateTimes();
+            ++timesCalled;
         }
 
         #endregion
@@ -404,23 +415,72 @@ namespace SpaceHordes.Entities.Systems
 
         #region Helpers
 
-        private void updateSurge()
+        private void updateTimes()
         {
-            elapsedWarning += 333;
-            ElapsedSurge += 333;
+            elapsedSeconds += secPerCall;
+            elapsedMinutes += minPerCall;
 
-            if (elapsedWarning >= warningTime)
+            if (SpawnState == SpawnState.Surge)
+                ElapsedSurge += 333;
+
+            if (!String.IsNullOrEmpty(HUDRenderSystem.SurgeWarning))
             {
-                HUDRenderSystem.SurgeWarning = false;
-                elapsedWarning = 0;
+                elapsedWarning += 333;
+                if (elapsedWarning >= warningTime)
+                {
+                    HUDRenderSystem.SurgeWarning = "";
+                    elapsedWarning = 0;
+                }
             }
 
-            if (ElapsedSurge >= SurgeTime)
+            if (SpawnState != SpawnState.Boss)
             {
-                Surge = false;
-                ElapsedSurge = 0;
-                SpawnRate = 1;
-                setCategory(SongType.Loop);
+                if (elapsedSeconds >= StateDurations[(int)SpawnState])
+                {
+                    elapsedSeconds = 0f;
+                    elapsedMinutes = 0f;
+
+                    if (SpawnState == SpawnState.Peace)
+                    {
+                        spawnWave();
+                    }
+                    else if (waves % 2 == 0)
+                    {
+                        SpawnState = SpawnState.Boss;
+                    }
+                    else
+                    {
+                        if (SpawnState == SpawnState.Surge)
+                            setCategory(SongType.Loop);
+
+                        SpawnState = SpawnState.Peace;
+                    }
+                }
+            }
+            else
+            {
+                if (Boss != null && !Boss.GetComponent<Health>().IsAlive)
+                {
+                    elapsedSeconds = 0f;
+                    elapsedMinutes = 0f;
+
+                    SpawnState = SpawnState.Peace;
+                    setCategory(SongType.Loop);
+                }
+            }
+        }
+
+        private void spawnWave()
+        {
+            waves++;
+
+            int chance = r.Next(0, 101);
+            if (chance > 80)
+                spawnSurge();
+            else
+            {
+                SpawnState = SpawnState.Wave;
+                HUDRenderSystem.SurgeWarning = "Wave " + waves.ToString() + " Approaching";
             }
         }
 
@@ -449,39 +509,37 @@ namespace SpaceHordes.Entities.Systems
 
         private void spawnBoss()
         {
-            int tier = (int)MathHelper.Clamp(lastBoss, 1, 3);
+            int tier = (int)MathHelper.Clamp(bossTier++, 1, 3);
             Boss = World.CreateEntity(BossTemplate, tier, Base.GetComponent<Body>());
             Boss.GetComponent<Health>().OnDeath += new Action<Entity>(BossDeath);
             Boss.Refresh();
-            ++lastBoss;
             setCategory(SongType.Boss);
         }
 
         private void BossDeath(Entity e)
         {
+            elapsedSeconds = 0f;
+            elapsedMinutes = 0f;
+            SpawnState = SpawnState.Peace;
             setCategory(SongType.Loop);
         }
 
         private void spawnSurge()
         {
-            Surge = true;
-            HUDRenderSystem.SurgeWarning = true;
+            HUDRenderSystem.SurgeWarning = "Surge";
 
             for (int i = 0; i < Players.Length; ++i)
             {
                 spawnCrystal(i);
             }
 
-            SpawnRate = 2;
-
             foreach (Entity e in TurretTemplate.Turrets)
             {
                 Inventory inv = e.GetComponent<Inventory>();
-                inv.CurrentGun.PowerUp(SurgeTime, 3);
+                inv.CurrentGun.PowerUp((int)StateDurations[(int)SpawnState.Surge] * 1000, 3);
             }
 
-
-            ++lastBoss;
+            SpawnState = SpawnState.Surge;
             setCategory(SongType.Surge);
         }
 

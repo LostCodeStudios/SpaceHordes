@@ -94,9 +94,6 @@ namespace SpaceHordes
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
             this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update);
             SystemManager.SetSystem(new FireRemovalSystem(), ExecutionType.Update);
-            enemySpawnSystem.Surge = false;
-            DirectorSystem.ElapsedSurge = 0;
-            HUDRenderSystem.SurgeWarning = false;
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);

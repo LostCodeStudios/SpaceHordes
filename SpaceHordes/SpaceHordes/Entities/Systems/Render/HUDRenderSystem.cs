@@ -36,11 +36,12 @@ namespace SpaceHordes.Entities.Systems
 
         #endregion Locations
 
-        public static bool SurgeWarning = false;
+        public static string SurgeWarning = "";
 
         public HUDRenderSystem()
             : base("Players")
         {
+            SurgeWarning = "";
             ApplyScaling();
         }
 
@@ -118,9 +119,16 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
-            if (SurgeWarning)
+            if (!string.IsNullOrEmpty(SurgeWarning))
             {
-                _SpriteBatch.Draw(_Hud, warningLocation, warningSource, Color.White);
+                if (SurgeWarning.Equals("Surge"))
+                    _SpriteBatch.Draw(_Hud, warningLocation, warningSource, Color.White);
+                else
+                {
+                    Vector2 warnDim = _Font.MeasureString(SurgeWarning);
+                    RectangleF loc = new RectangleF(ScreenHelper.Center.X - warnDim.X / 2, ScreenHelper.Center.Y - warnDim.Y * 6, warnDim.X, warnDim.Y);
+                    _Font.DrawString(_SpriteBatch, loc, SurgeWarning);
+                }
             }
 
             _SpriteBatch.End();

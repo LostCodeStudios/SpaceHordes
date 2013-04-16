@@ -166,7 +166,7 @@ namespace SpaceHordes.Entities.Components
                 }
                 else
                 {
-                    CurrentGun.PowerUp(DirectorSystem.SurgeTime - DirectorSystem.ElapsedSurge, amount);
+                    CurrentGun.PowerUp((int)DirectorSystem.StateDurations[(int)SpawnState.Surge] * 1000 - DirectorSystem.ElapsedSurge, amount);
                 }
             }
         }
