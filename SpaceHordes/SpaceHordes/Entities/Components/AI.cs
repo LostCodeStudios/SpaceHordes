@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System;
 using GameLibrary.Helpers;
 using GameLibrary.Entities.Components;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -111,6 +112,53 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
+        public static Func<Body, bool> CreateSinDownards(Entity ent, float speed, float sideTime, EntityWorld world)
+        {
+            float time = 0f;
+
+            return
+                (target) =>
+                {
+                    if (time > sideTime)
+                    {
+                        
+                        time = 0f;
+                    }
+
+                    Body b = ent.GetComponent<Body>();
+                    float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width/2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
+
+                    b.Position = new Vector2(x, b.Position.Y + speed * world.Delta/1000);
+
+                    time += (float)world.Delta/1000;
+                    return false;
+                };
+        }
+
+        public static Func<Body, bool> CreateKiller(Entity ent, float speed, float sideTime, EntityWorld world)
+        {
+            float time = 0f;
+
+            return
+                (target) =>
+                {
+                    if (time > sideTime)
+                    {
+                        time = 0f;
+                    }
+
+                    Body b = ent.GetComponent<Body>();
+                    float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
+
+                    b.Position = new Vector2(x, b.Position.Y + speed * world.Delta / 1000);
+
+                    time += (float)world.Delta / 1000;
+                    ent.GetComponent<Children>().CallChildren(b);
+
+                    return false;
+                };
+        }
+
         public static Func<Body, bool> CreateFlamer(Entity ent, float speed, Body bitch, Sprite s, EntityWorld _World)
         {
             int times = 0;
@@ -152,35 +200,82 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
-        public static Func<Body, bool> CreateWarMachine(Entity ent, float speed, Body bitch, Sprite s, EntityWorld _World)
+        public static Func<Body, bool> CreateKillerGun(Entity ent, Entity origin, Vector2 offs, float shotTime, float shootTime, float nonShot, Sprite s, EntityWorld _World)
         {
-            int times = 0;
+            bool shot = false;
+            float shotttt = 0f;
+            float time = 0f;
 
             return
                 (target) =>
                 {
-                    ++times;
-
                     Body b = ent.GetComponent<Body>();
-                    Vector2 distance = target.Position - b.Position;
+                    Body b2 = origin.GetComponent<Body>();
 
-                    if (distance != Vector2.Zero)
-                        distance.Normalize();
-                    distance *= speed;
+                    b.Position = b2.Position + offs;
 
-                    if (target != null && target.LinearVelocity != distance && !ent.HasComponent<Slow>())
+                    if (shot)
                     {
-                        b.LinearVelocity = distance;
+                        if (shotttt > shotTime)
+                        {
+                            shotttt = 0f;
+
+                            Vector2 offset = ConvertUnits.ToSimUnits(new Vector2(0, 50));
+
+                            float rot = (float)Math.PI / 2;
+
+                            Transform fireAt = new Transform(b.Position + offset, rot);
+
+                            _World.CreateEntity("KillerBullet", fireAt).Refresh();
+                        }
+                        if (time > shootTime)
+                        {
+                            time = 0f;
+                            shot = false;
+                        }
+                    }
+                    else
+                    {
+                        if (time > nonShot)
+                        {
+                            time = 0f;
+                            shot = true;
+                        }
                     }
 
-                    if (times % 100 == 0)
+                    shotttt += (float)_World.Delta / 1000;
+                    time += (float)_World.Delta / 1000;
+                    return false;
+                };
+        }
+
+        public static Func<Body, bool> CreateWarMachine(Entity ent, float speed, Body bitch, float sideTime, float shootTime, Sprite s, EntityWorld _World)
+        {
+            float shotTime = 0f;
+            float time = 0f;
+
+            return
+                (target) =>
+                {
+                    if (time > sideTime)
+                        time = 0f;
+
+                    Body b = ent.GetComponent<Body>();
+                    float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
+
+                    b.Position = new Vector2(x, b.Position.Y + speed * _World.Delta / 1000);
+
+                    if (shotTime > shootTime)
                     {
+                        shotTime = 0f;
                         Vector2 velocity1 = new Vector2(0, 1);
                         velocity1 *= 8f;
 
                         _World.CreateEntity("ExplosiveBullet", bitch.Position, velocity1, 1, "reddownmissile").Refresh();
                     }
 
+                    shotTime += (float)_World.Delta / 1000;
+                    time += (float)_World.Delta / 1000;
                     return false;
                 };
         }

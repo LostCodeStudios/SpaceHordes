@@ -9,6 +9,7 @@ using SpaceHordes.Entities.Systems;
 using SpaceHordes.GameStates.Screens;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -75,7 +76,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(7, 10);
                     break;
             }
-            type = 7;
+            //type = 9;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -110,7 +111,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos *= ScreenHelper.Viewport.Height;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
-
+            bitch.SleepingAllowed = false;
             #endregion Body
 
             #region Animation
@@ -163,11 +164,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             else if (spriteKey == "bigredblobboss")
                 e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateWarMachine(e, 0.5f, bitch, s, _World), "Base"));
+                    AI.CreateWarMachine(e, 0.5f, bitch, 10f, 1f, s, _World), "Base"));
+
+            else if (spriteKey == "killerhead")
+                e.AddComponent<AI>(new AI((args[1] as Body),
+                    AI.CreateKiller(e, 0.5f, 10f, _World), "Base"));
 
             else
                 e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateFollow(e,1, false), "Base"));
+                    AI.CreateFollow(e, 1, false), "Base"));
             
                 
 
@@ -270,7 +275,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 _World.CreateEntity("SmasherBall", e).Refresh();
             }
 
-            if (spriteKey == "brain" || spriteKey == "massivebluemissile")
+            if (spriteKey == "brain")
             {
                 Vector2 offset = new Vector2(2, 0);
                 Vector2 position = bitch.Position + offset;
@@ -279,33 +284,44 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 _World.CreateEntity("Cannon", position, e).Refresh();
             }
 
+            if (spriteKey == "massivebluemissile")
+            {
+                _World.enemySpawnSystem.ThugSprite = "bluemissile";
+                _World.enemySpawnSystem.SpawnRate = 0;
+                _World.enemySpawnSystem.ThugSpawnRate = 3;
+            }
+
             if (spriteKey == "killerhead")
             {
-                //Vector2 offset = new Vector2(2.5f, 0); //OH GOD WHAT DO I DO HERE
-                //Vector2 position = bitch.Position + offset;
-                //_World.CreateEntity("Cannon", position, e, "killerrightgun").Refresh();
-                //offset.X = -.5f;
-                //position = bitch.Position + offset;
-                //_World.CreateEntity("Cannon", position, e, "killerleftgun").Refresh();
+                List<Entity> children = new List<Entity>();
+                Vector2 offset = new Vector2(2.85f, -0.6f);
+                Vector2 position = bitch.Position + offset;
+                Entity x;
+                x = _World.CreateEntity("KillerGun", position, e, "killerrightgun", offset, e);
+                x.Refresh();
+                children.Add(x);
+                offset.X = -3.15f;
+                position = bitch.Position + offset;
+                x = _World.CreateEntity("KillerGun", position, e, "killerleftgun", offset);
+                x.Refresh();
+                children.Add(x);
+                e.AddComponent<Children>(new Children(children));
             }
+
             if (spriteKey == "eye")
             {
                 _World.enemySpawnSystem.MookSprite = "eyeshot";
+                _World.enemySpawnSystem.SpawnRate = 0;
                 _World.enemySpawnSystem.MookSpawnRate = 2;
-                _World.enemySpawnSystem.ThugSpawnRate = 0;
-                _World.enemySpawnSystem.GunnerSpawnRate = 0;
-                _World.enemySpawnSystem.HunterSpawnRate = 0;
-                _World.enemySpawnSystem.DestroyerSpawnRate = 0;
             }
 
             if (spriteKey == "clawbossthing")
             {
                 _World.enemySpawnSystem.MookSprite = "8prongbrownthingwithfangs";
                 _World.enemySpawnSystem.ThugSprite = "minibrownclawboss";
+                _World.enemySpawnSystem.SpawnRate = 0;
                 _World.enemySpawnSystem.MookSpawnRate = 2;
-                _World.enemySpawnSystem.GunnerSpawnRate = 0;
-                _World.enemySpawnSystem.HunterSpawnRate = 0;
-                _World.enemySpawnSystem.DestroyerSpawnRate = 0;
+                _World.enemySpawnSystem.ThugSpawnRate = 2;
             }
 
             if (spriteKey == "flamer")

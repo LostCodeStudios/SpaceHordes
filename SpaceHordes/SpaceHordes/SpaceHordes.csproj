@@ -128,9 +128,11 @@
   <ItemGroup>
     <Compile Include="Entities\Components\AI.cs" />
     <Compile Include="Entities\Components\Bullet.cs" />
+    <Compile Include="Entities\Components\Children.cs" />
     <Compile Include="Entities\Components\Crystal.cs" />
     <Compile Include="Entities\Components\Damage.cs" />
     <Compile Include="Entities\Components\Explosive.cs" />
+    <Compile Include="Entities\Components\Function.cs" />
     <Compile Include="Entities\Components\Gun.cs" />
     <Compile Include="Entities\Components\Health.cs" />
     <Compile Include="Entities\Components\Inventory.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Entities\Templates\Enemies\DestroyerTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\GunnerTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\HunterTemplate.cs" />
+    <Compile Include="Entities\Templates\Enemies\KillerGunTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\SmasherBallTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\ThugTemplate.cs" />
     <Compile Include="Entities\Templates\Projectiles\BaseShotTemplate.cs" />

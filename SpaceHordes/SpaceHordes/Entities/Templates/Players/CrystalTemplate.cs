@@ -60,7 +60,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                     }
                     else
                     {
-                        //e.Delete();
+                        e.Delete();
                         return false;
                     }
                 }));

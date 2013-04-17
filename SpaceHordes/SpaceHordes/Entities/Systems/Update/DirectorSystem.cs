@@ -268,6 +268,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (timesCalled == 0)
             {
+                //spawnBoss();
                 setCategory(SongType.Loop);
             }
 
@@ -276,9 +277,9 @@ namespace SpaceHordes.Entities.Systems
             #endregion
 
             #region REALGAME
-
             if (!w.Tutorial)
             {
+
                 #region Scoring
 
                 Score s = Base.GetComponent<Score>();
@@ -418,7 +419,9 @@ namespace SpaceHordes.Entities.Systems
         private void updateTimes()
         {
             elapsedSeconds += secPerCall;
-            intervalSeconds += secPerCall;
+            if (SpawnState == SpawnState.Wave || SpawnState == SpawnState.Surge)
+                intervalSeconds += secPerCall;
+
             elapsedMinutes += minPerCall;
 
             if (SpawnState == SpawnState.Surge)
@@ -478,12 +481,12 @@ namespace SpaceHordes.Entities.Systems
             waves++;
 
             int chance = r.Next(0, 101);
-            if (chance > 80)
+            if (waves > 2 &&  chance > 80)
                 spawnSurge();
             else
             {
                 SpawnState = SpawnState.Wave;
-                HUDRenderSystem.SurgeWarning = "Wave " + waves.ToString() + " Approaching";
+                HUDRenderSystem.SurgeWarning = "Wave " + waves.ToString();
             }
         }
 
@@ -517,6 +520,7 @@ namespace SpaceHordes.Entities.Systems
             Boss.GetComponent<Health>().OnDeath += new Action<Entity>(BossDeath);
             Boss.Refresh();
             setCategory(SongType.Boss);
+            HUDRenderSystem.SurgeWarning = "Boss Approaching";
         }
 
         private void BossDeath(Entity e)

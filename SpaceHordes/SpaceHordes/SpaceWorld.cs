@@ -130,6 +130,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("Boss", new BossTemplate(_spriteSheet, this));
             this.SetEntityTemplate("SmasherBall", new SmasherBallTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Cannon", new CannonTemplate(_spriteSheet, this));
+            this.SetEntityTemplate("KillerGun", new KillerGunTemplate(_spriteSheet, this));
 
             #endregion Bosses
 
@@ -217,11 +218,17 @@ namespace SpaceHordes
             this.SetEntityTemplate("Mine", new MineTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("BaseShot", new BaseShotTemplate());
-
+            
             this.SetEntityTemplate("EnemyBullet", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1", 0.4f),
                 new Velocity(new Vector2(12), 0f),
                 new Bullet(1, "Structures", null
+                    )));
+
+            this.SetEntityTemplate("KillerBullet", new BulletTemplate(
+                new Sprite(_spriteSheet, "redshot3"),
+                new Velocity(new Vector2(20), 0f),
+                new Bullet(3, "Players", null
                     )));
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
@@ -424,7 +431,7 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     ++Players;
                 }
-#if DEBUG
+//#if DEBUG
                 //Player 4 keyboard controlled
                 if (index.Length == 1)
                 {
@@ -434,7 +441,7 @@ namespace SpaceHordes
                     Indices.Add(PlayerIndex.Four);
                     ++Players;
                 }
-#endif
+//#endif
             }
             else //IF SINGLEPLAYER
             {
@@ -487,8 +494,8 @@ namespace SpaceHordes
                 slowmow++;
             if (slowmow > 10)
             {
-                Console.WriteLine("slomo");
-                slowmotion = true;
+                //Console.WriteLine("slomo");
+                //slowmotion = true;
             }
         }
         #endregion Functioning Loop
