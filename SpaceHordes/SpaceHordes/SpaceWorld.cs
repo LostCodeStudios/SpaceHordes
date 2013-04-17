@@ -431,7 +431,7 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     ++Players;
                 }
-//#if DEBUG
+#if DEBUG
                 //Player 4 keyboard controlled
                 if (index.Length == 1)
                 {
@@ -441,7 +441,7 @@ namespace SpaceHordes
                     Indices.Add(PlayerIndex.Four);
                     ++Players;
                 }
-//#endif
+#endif
             }
             else //IF SINGLEPLAYER
             {

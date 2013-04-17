@@ -41,11 +41,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
             new BossInfo("clawbossthing", "The Killer"), //2 //Fully implemented
             new BossInfo("eye", "The Oculus"), //3 //Fully implemented
             new BossInfo("brain", "Father Brain"), //4 //Fully implemented
-            new BossInfo("bigredblobboss", "The War Machine"), //5 //Fully implemented //Bullets need to damage the base
+            new BossInfo("bigredblobboss", "The War Machine"), //5 //Fully implemented
             new BossInfo("giantgraybossship", "The Mother Ship"), //6 //Fully implemented
-            new BossInfo("flamer", "The Flamer"), //7 //Fully implemented //Bullets need to damage the base
+            new BossInfo("flamer", "The Flamer"), //7 //Fully implemented
             new BossInfo("massivebluemissile", "The Jabber-W0K"), //8 //Fully implemented
-            new BossInfo("killerhead", "The Destroyer") //9
+            new BossInfo("killerhead", "The Destroyer") //9 //Fully implemented
         };
         #endregion
 
@@ -76,7 +76,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(7, 10);
                     break;
             }
-            //type = 9;
+            type = 7;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -163,12 +163,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     AI.CreateFlamer(e, 0.5f, bitch, s, _World), "Base"));
 
             else if (spriteKey == "bigredblobboss")
-                e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateWarMachine(e, 0.5f, bitch, 10f, 1f, s, _World), "Base"));
+                e.AddComponent<AI>(new AI(null,
+                    AI.CreateWarMachine(e, 0.5f, bitch, 10f, 0.7f, s, _World)));
 
             else if (spriteKey == "killerhead")
-                e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateKiller(e, 0.5f, 10f, _World), "Base"));
+                e.AddComponent<AI>(new AI(null,
+                    AI.CreateKiller(e, 0.5f, 10f, _World)));
 
             else
                 e.AddComponent<AI>(new AI((args[1] as Body),

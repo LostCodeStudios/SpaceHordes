@@ -268,7 +268,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (timesCalled == 0)
             {
-                //spawnBoss();
+                spawnBoss();
                 setCategory(SongType.Loop);
             }
 
