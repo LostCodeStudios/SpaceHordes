@@ -66,7 +66,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             Entity o = args[1] as Entity;
             e.AddComponent<Origin>(new Origin(o));
 
-            Function f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 3.5f, 2f, s, _World));
+            Function f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 1f, 0.5f, s, _World));
 
             e.AddComponent<Function>(f);
 
@@ -86,17 +86,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 };
 
             #endregion AI/Health
-
-            #region Inventory
-
-            Inventory i = new Inventory(0, 0, 0, 0, InvType.Cannon, spriteKey);
-            if (spriteKey == "killerleftgun")
-            {
-                i.CurrentGun.GunOffsets.Add(new Vector2(54, -19));
-            }
-            e.AddComponent<Inventory>(i);
-
-            #endregion
 
             e.Group = "Enemies";
             return e;

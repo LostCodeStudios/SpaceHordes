@@ -134,80 +134,6 @@ namespace SpaceHordes
 
             #endregion Bosses
 
-            #region Enemy Bullets
-
-            this.SetEntityTemplate("BBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "blueshot1"),
-                new Velocity(new Vector2(5), 0f),
-                new Bullet(1, "Players", e => e.AddComponent<Slow>(new Slow(10, 1f, 5.0f, new Vector2(4), 0.0f))
-                    )));
-            this.SetEntityTemplate("BBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "blueshot2"),
-                new Velocity(new Vector2(5), 0f),
-                new Bullet(2, "Players", e => e.AddComponent<Slow>(new Slow(20, 1f, 5.0f, new Vector2(4), 0.0f))
-                    )));
-            this.SetEntityTemplate("BBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "blueshot3"),
-                new Velocity(new Vector2(5), 0f),
-                new Bullet(3, "Players", e => e.AddComponent<Slow>(new Slow(30, 1f, 5.0f, new Vector2(4), 0.0f))
-                    )));
-
-            this.SetEntityTemplate("GBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot1"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(2, "Players", null
-                    )));
-
-            this.SetEntityTemplate("GBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot2"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(4, "Players", null
-                    )));
-
-            this.SetEntityTemplate("GBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "greenshot3"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(6, "Players", null
-                    )));
-
-            this.SetEntityTemplate("RBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "redshot1"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(4, "Players", null
-                    )));
-
-            this.SetEntityTemplate("RBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "redshot2"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(8, "Players", null
-                    )));
-
-            this.SetEntityTemplate("RBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "redshot3"),
-                new Velocity(new Vector2(6), 0f),
-                new Bullet(12, "Players", null
-                    )));
-
-            this.SetEntityTemplate("WBullet1", new BulletTemplate(
-                new Sprite(_spriteSheet, "whiteshot1"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(1, "Players", null
-                    )));
-
-            this.SetEntityTemplate("WBullet2", new BulletTemplate(
-                new Sprite(_spriteSheet, "whiteshot2"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(2, "Players", null
-                    )));
-
-            this.SetEntityTemplate("WBullet3", new BulletTemplate(
-                new Sprite(_spriteSheet, "whiteshot3"),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(3, "Players", null
-                    )));
-
-            #endregion Enemy Bullets
-
             #endregion Enemies
 
             #region Objects/Events
@@ -229,6 +155,24 @@ namespace SpaceHordes
                 new Sprite(_spriteSheet, "redshot3"),
                 new Velocity(new Vector2(20), 0f),
                 new Bullet(3, "Players", null
+                    )));
+
+            this.SetEntityTemplate("BigGreenBullet", new BulletTemplate(
+                new Sprite(_spriteSheet, "greenshot3", 0f),
+                new Velocity(new Vector2(40), 0f),
+                new Bullet(12, "Players",
+                    e =>
+                    {
+                        Sprite s = e.GetComponent<Sprite>();
+                        s.Color = Color.Green;
+
+                        if (!e.HasComponent<SpriteEffect>())
+                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
+                        else
+                            e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
+                        e.AddComponent<Damage>(new Damage(3, 10, 1500));
+                        e.Refresh();
+                    }
                     )));
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
@@ -254,7 +198,7 @@ namespace SpaceHordes
                 new Velocity(new Vector2(15), 0f),
                 new Bullet(1, "Enemies", e =>
                     {
-                        e.AddComponent<Slow>(new Slow(500, 1f, 5.0f, new Vector2(4), 0.0f));
+                        e.AddComponent<Slow>(new Slow(100, 1f, 5.0f, new Vector2(4), 0.0f));
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = new Color(0, 0, 255);
 
@@ -273,7 +217,7 @@ namespace SpaceHordes
                 new Velocity(new Vector2(15), 0f),
                 new Bullet(2, "Enemies", e =>
                     {
-                        e.AddComponent<Slow>(new Slow(1000, 1f, 5.0f, new Vector2(4), 0.0f));
+                        e.AddComponent<Slow>(new Slow(200, 1f, 5.0f, new Vector2(4), 0.0f));
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Blue;
                         if (!e.HasComponent<SpriteEffect>())
@@ -291,7 +235,7 @@ namespace SpaceHordes
                 new Velocity(new Vector2(15), 0f),
                 new Bullet(3, "Enemies", e =>
                     {
-                        e.AddComponent<Slow>(new Slow(1500, 1f, 5.0f, new Vector2(4), 0.0f));
+                        e.AddComponent<Slow>(new Slow(300, 1f, 5.0f, new Vector2(4), 0.0f));
                         Sprite s = e.GetComponent<Sprite>();
                         s.Color = Color.Blue;
 

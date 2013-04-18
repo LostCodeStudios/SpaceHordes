@@ -128,9 +128,13 @@ namespace SpaceHordes.Entities.Components
                     Body b = ent.GetComponent<Body>();
                     float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width/2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
 
-                    b.Position = new Vector2(x, b.Position.Y + speed * world.Delta/1000);
+                    if (!ent.HasComponent<Slow>())
+                    {
+                        b.Position = new Vector2(x, b.Position.Y + speed * world.Delta/1000);
 
-                    time += (float)world.Delta/1000;
+                    
+                        time += (float)world.Delta / 1000;
+                    }
                     return false;
                 };
         }
@@ -150,10 +154,14 @@ namespace SpaceHordes.Entities.Components
                     Body b = ent.GetComponent<Body>();
                     float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
 
-                    b.Position = new Vector2(x, b.Position.Y + speed * world.Delta / 1000);
+                    if (!ent.HasComponent<Slow>())
+                    {
+                        b.Position = new Vector2(x, b.Position.Y + speed * world.Delta / 1000);
 
-                    time += (float)world.Delta / 1000;
-                    ent.GetComponent<Children>().CallChildren(b);
+                    
+                        time += (float)world.Delta / 1000;
+                        ent.GetComponent<Children>().CallChildren(b);
+                    }
 
                     return false;
                 };
@@ -243,8 +251,11 @@ namespace SpaceHordes.Entities.Components
                         }
                     }
 
-                    shotttt += (float)_World.Delta / 1000;
-                    time += (float)_World.Delta / 1000;
+                    if (!ent.HasComponent<Slow>())
+                    {
+                        shotttt += (float)_World.Delta / 1000;
+                        time += (float)_World.Delta / 1000;
+                    }
                     return false;
                 };
         }
@@ -263,7 +274,7 @@ namespace SpaceHordes.Entities.Components
                     Body b = ent.GetComponent<Body>();
                     float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
 
-                    b.Position = new Vector2(x, b.Position.Y + speed * _World.Delta / 1000);
+                    
 
                     if (shotTime > shootTime)
                     {
@@ -274,8 +285,74 @@ namespace SpaceHordes.Entities.Components
                         _World.CreateEntity("ExplosiveBullet", bitch.Position, velocity1, 1, "reddownmissile").Refresh();
                     }
 
-                    shotTime += (float)_World.Delta / 1000;
+                    if (!ent.HasComponent<Slow>())
+                    {
+                        b.Position = new Vector2(x, b.Position.Y + speed * _World.Delta / 1000);
+                        shotTime += (float)_World.Delta / 1000;
+                        time += (float)_World.Delta / 1000;
+                    }
+                    return false;
+                };
+        }
+
+        public static Func<Body, bool> CreateBigGreen(Entity ent, float speed, float sideTime, float shootTime, float shotTime, float nonShoot, Sprite s, EntityWorld _World)
+        {
+            bool shot = false;
+            float shotttt = 0f;
+            float time = 0f;
+            float ttttime = 0f;
+
+            return
+                (target) =>
+                {
+                    if (ttttime > sideTime)
+                    {
+                        ttttime = 0f;
+                    }
+
+                    Body b = ent.GetComponent<Body>();
+                    float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * ttttime)));
+
+                    
+
                     time += (float)_World.Delta / 1000;
+
+                    if (shot)
+                    {
+                        if (shotttt > shotTime)
+                        {
+                            shotttt = 0f;
+
+                            Vector2 offset = ConvertUnits.ToSimUnits(new Vector2(0, 25));
+
+                            float rot = (float)Math.PI / 2;
+
+                            Transform fireAt = new Transform(b.Position + offset, rot);
+
+                            _World.CreateEntity("BigGreenBullet", fireAt).Refresh();
+                        }
+                        if (time > shootTime)
+                        {
+                            time = 0f;
+                            shot = false;
+                        }
+                    }
+                    else
+                    {
+                        if (time > nonShoot)
+                        {
+                            time = 0f;
+                            shot = true;
+                        }
+                    }
+
+                    if (!ent.HasComponent<Slow>())
+                    {
+                        b.Position = new Vector2(x, b.Position.Y + speed * _World.Delta / 1000);
+                        shotttt += (float)_World.Delta / 1000;
+                        time += (float)_World.Delta / 1000;
+                        ttttime += (float)_World.Delta / 1000;
+                    }
                     return false;
                 };
         }

@@ -76,7 +76,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(7, 10);
                     break;
             }
-            type = 7;
+            type = 9;
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -97,10 +97,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         {
                             (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
                                 (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
-                            (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 
-                                (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                - (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
+                                - (f1.Body.UserData as Entity).GetComponent<Health>().MaxHealth);
                         }
                     return false;
                 };
@@ -168,7 +165,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             else if (spriteKey == "killerhead")
                 e.AddComponent<AI>(new AI(null,
-                    AI.CreateKiller(e, 0.5f, 10f, _World)));
+                    AI.CreateKiller(e, 0.5f, 20f, _World)));
+
+            else if (spriteKey == "greenbossship")
+                e.AddComponent<AI>(new AI(null,
+                    AI.CreateBigGreen(e, 0.5f, 10f, 2f, 0.05f, 3.5f, s, _World)));
 
             else
                 e.AddComponent<AI>(new AI((args[1] as Body),
