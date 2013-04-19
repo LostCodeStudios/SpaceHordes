@@ -121,6 +121,8 @@ namespace SpaceHordes
             SetSourceRectangles(ScreenHelper.SpriteSheet);
             SetSoundEffects();
             SetSongs();
+
+            MusicManager.PlaySong("Title");
         }
 
         /// <summary>
