@@ -149,13 +149,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\Unending.mp3">
-      <Name>Unending</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Music\Cephelopod.mp3">
       <Name>Cephelopod</Name>
       <Importer>Mp3Importer</Importer>
@@ -163,22 +156,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Music\Ropocalypse 2.mp3">
-      <Name>Ropocalypse 2</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Music\Space Fighter Loop.mp3">
       <Name>Space Fighter Loop</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Music\Kick Shock.mp3">
-      <Name>Kick Shock</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
@@ -222,6 +201,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Music\DST-2ndBallad.mp3">
+      <Name>DST-2ndBallad</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Music\DST-4Tran.mp3">
+      <Name>DST-4Tran</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Music\DST-AngryMod.mp3">
+      <Name>DST-AngryMod</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="Music\DST-Azimuth.mp3">
+      <Name>DST-Azimuth</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
     <Content Include="Sounds\150222__killkhan__menu-select.wav">
       <Name>150222__killkhan__menu-select</Name>
       <Importer>WavImporter</Importer>

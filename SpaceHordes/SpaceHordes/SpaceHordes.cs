@@ -800,12 +800,13 @@ namespace SpaceHordes
 
         private void SetSongs()
         {
-            MusicManager.AddSong("Unending", Content.Load<Song>("Music/Unending"));
             MusicManager.AddSong("Cephelopod", Content.Load<Song>("Music/Cephelopod"));
-            MusicManager.AddSong("Ropocalypse", Content.Load<Song>("Music/Ropocalypse 2"));
-            MusicManager.AddSong("SpaceLoop", Content.Load<Song>("Music/Space Fighter Loop"));
-            MusicManager.AddSong("KickShock", Content.Load<Song>("Music/Kick Shock"));
+            MusicManager.AddSong("Title", Content.Load<Song>("Music/Space Fighter Loop"));
             MusicManager.AddSong("Heartbeat", Content.Load<Song>("Music/In a Heartbeat"));
+            MusicManager.AddSong("SpaceLoop", Content.Load<Song>("Music/DST-2ndBallad"));
+            MusicManager.AddSong("4Tran", Content.Load<Song>("Music/DST-4Tran"));
+            MusicManager.AddSong("Azimuth", Content.Load<Song>("Music/DST-Azimuth"));
+            MusicManager.AddSong("AngryMod", Content.Load<Song>("Music/DST-AngryMod"));
         }
 
         #endregion Music

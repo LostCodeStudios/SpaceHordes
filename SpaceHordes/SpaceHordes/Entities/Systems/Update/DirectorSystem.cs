@@ -76,19 +76,19 @@ namespace SpaceHordes.Entities.Systems
         string[] loopSongs = new string[]
         {
             "SpaceLoop",
+            "Azimuth"
         };
 
         string[] bossSongs = new string[]
         {
             "Heartbeat",
-            "Ropocalypse"
+            "4Tran"
         };
 
         string[] surgeSongs = new string[]
         {
-            "Unending",
             "Cephelopod",
-            "KickShock"
+            "AngryMod"
         };
 
         MusicState musicState = MusicState.Transitioned;
@@ -268,7 +268,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (timesCalled == 0)
             {
-                spawnBoss();
+                //spawnBoss();
                 setCategory(SongType.Loop);
             }
 

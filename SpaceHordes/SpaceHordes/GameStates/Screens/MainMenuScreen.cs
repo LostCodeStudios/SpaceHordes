@@ -20,6 +20,7 @@ namespace SpaceHordes.GameStates.Screens
             : base(text)
         {
             //Create our menu entries.
+            MusicManager.PlaySong("Title");
 #if WINDOWS
             MenuEntry playGameMenuEntry = new MenuEntry("Solo Defense");
 #endif

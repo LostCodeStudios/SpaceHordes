@@ -76,7 +76,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     type = rbitch.Next(7, 10);
                     break;
             }
+#if DEBUG
             type = 9;
+#endif
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
