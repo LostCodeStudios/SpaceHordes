@@ -68,6 +68,7 @@ namespace GameLibrary.Entities.Systems
                 else
                 {
                     e.AddComponent<Sprite>(se.OldSprite);
+                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<SpriteEffect>());
                 }
                 e.Refresh();
             }

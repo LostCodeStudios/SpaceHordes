@@ -40,7 +40,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<Sprite>(s);
 
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
-            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
+            bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
             bitch.OnCollision +=
                 (f1, f2, c) =>
