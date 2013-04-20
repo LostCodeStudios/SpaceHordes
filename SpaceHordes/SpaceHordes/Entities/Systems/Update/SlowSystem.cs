@@ -1,5 +1,6 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Render;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 
@@ -12,7 +13,7 @@ namespace SpaceHordes.Entities.Systems
         private ComponentMapper<Slow> slowMapper;
 
         public SlowSystem()
-            : base(typeof(IVelocity), typeof(IDamping))
+            : base(typeof(IVelocity), typeof(Slow))
         {
         }
 
@@ -23,6 +24,25 @@ namespace SpaceHordes.Entities.Systems
             slowMapper = new ComponentMapper<Slow>(world);
         }
 
+        public override void Added(Entity e)
+        {
+            Slow slow = e.GetComponent<Slow>();
+            if (e.HasComponent<Sprite>())
+            {
+                Sprite s = e.GetComponent<Sprite>();
+                s.Color = Color.LightBlue;
+
+                if (!e.HasComponent<SpriteEffect>())
+                    e.AddComponent<SpriteEffect>(new SpriteEffect(s, slow.Elapsed));
+                else
+                {
+                    e.GetComponent<SpriteEffect>().AddEffect(s, slow.Elapsed);
+                }
+                e.Refresh();
+            } 
+            base.Added(e);
+        }
+
         public override void Process(Entity e)
         {
             Slow slow = slowMapper.Get(e);
@@ -31,16 +51,11 @@ namespace SpaceHordes.Entities.Systems
                 slow.Elapsed--;
                 if (slow.Elapsed <= 0)
                 {
-                    Sprite s = e.GetComponent<Sprite>();
-                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
-                    s.Color = Color.White;
-                    e.AddComponent<Sprite>(s);
                     e.RemoveComponent<Slow>(slow);
 
                     if (e.HasComponent<AI>())
                     {
                         AI a = e.GetComponent<AI>();
-                        a.Target = a.Target;
                         e.RemoveComponent<AI>(e.GetComponent<AI>());
                         e.AddComponent<AI>(a);
                     }
@@ -61,18 +76,6 @@ namespace SpaceHordes.Entities.Systems
                     damping.LinearDamping = slow.LinearSlowRate;
                 else
                     damping.LinearDamping = 0;
-
-                if (e.HasComponent<Sprite>())
-                {
-                    Sprite s = e.GetComponent<Sprite>();
-                    if (s.Color != Color.Blue)
-                    {
-                        e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
-                        s.Color = Color.LightBlue;
-                        e.AddComponent<Sprite>(s);
-                        e.Refresh();
-                    }
-                }
             }
         }
     }

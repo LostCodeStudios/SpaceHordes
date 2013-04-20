@@ -107,6 +107,8 @@ namespace SpaceHordes.Entities.Components
                         b.LinearVelocity = distance;
                         if (rotateTo)
                             b.RotateTo(distance);
+                        else
+                            b.AngularVelocity = (float)Math.PI * 4; 
                     }
                     return false;
                 };

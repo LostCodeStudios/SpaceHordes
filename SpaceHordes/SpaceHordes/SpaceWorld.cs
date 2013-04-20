@@ -79,7 +79,7 @@ namespace SpaceHordes
             //Update Systems
             gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
             damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update);
-            bulletRemovalSystem = this.SystemManager.SetSystem(new BulletRemovalSystem(this.Camera), ExecutionType.Update);
+            bulletRemovalSystem = this.SystemManager.SetSystem(new EntityRemovalSystem(this.Camera), ExecutionType.Update);
             bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
             healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
             enemySpawnSystem = this.SystemManager.SetSystem(new DirectorSystem(), ExecutionType.Update);
@@ -199,17 +199,6 @@ namespace SpaceHordes
                 new Bullet(1, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(100, 1f, 5.0f, new Vector2(4), 0.0f));
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = new Color(0, 0, 255);
-
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
-                        else
-                        {
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 500);
-                        }
-
-                        e.Refresh();
                     }
                     )));
             this.SetEntityTemplate("BlueBullet2", new BulletTemplate(
@@ -218,16 +207,6 @@ namespace SpaceHordes
                 new Bullet(2, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(200, 1f, 5.0f, new Vector2(4), 0.0f));
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Blue;
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
-                        else
-                        {
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 1000);
-                        }
-
-                        e.Refresh();
                     }
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
@@ -236,16 +215,6 @@ namespace SpaceHordes
                 new Bullet(3, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(300, 1f, 5.0f, new Vector2(4), 0.0f));
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Blue;
-
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
-                        else
-                        {
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
-                        }
-                        e.Refresh();
                     }
                     )));
 
@@ -451,7 +420,7 @@ namespace SpaceHordes
         //Update Systems
         private GunSystem gunSystem;
 
-        private BulletRemovalSystem bulletRemovalSystem;
+        private EntityRemovalSystem bulletRemovalSystem;
         private BulletCollisionSystem bulletCollisionSystem;
 
         //HealthRenderSystem healthRenderSystem;
