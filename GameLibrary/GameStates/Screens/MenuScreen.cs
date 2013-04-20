@@ -103,6 +103,12 @@ namespace GameLibrary.GameStates.Screens
 
         #endregion Initialization
 
+        MouseState lastState;
+        bool prevMouseCheck()
+        {
+            if (lastState == null) return false;
+            return (lastState.LeftButton == ButtonState.Pressed) ? false : true;
+        }
         #region Handle Input
 
         /// <summary>
@@ -115,16 +121,19 @@ namespace GameLibrary.GameStates.Screens
 
             foreach (MenuEntry entry in MenuEntries)
             {
-                if (input.MouseHoverIn(entry.ClickRectangle))
+                if (input.MouseHoverIn(entry.ClickRectangle) && selectedEntry != MenuEntries.IndexOf(entry))
                 {
                     selectedEntry = MenuEntries.IndexOf(entry);
+                    if (!string.IsNullOrEmpty(selectionChangeSound))
+                        SoundManager.Play(selectionChangeSound);
                 }
-                if (input.LeftButtonDownIn(entry.ClickRectangle))
+                if (input.LeftButtonDownIn(entry.ClickRectangle) && prevMouseCheck())
                 {
                     OnSelectEntry(selectedEntry, PlayerIndex.One);
                 }
             }
 
+            lastState = input.CurrentMouseState;
 #endif
 
 #if XBOX || WINDOWS

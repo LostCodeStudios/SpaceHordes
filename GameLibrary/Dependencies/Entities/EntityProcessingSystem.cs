@@ -27,7 +27,8 @@ namespace GameLibrary.Dependencies.Entities
         {
             foreach (Entity item in entities.Values)
             {
-                Process(item);
+                if(item != null)
+                    Process(item);
             }
         }
     }

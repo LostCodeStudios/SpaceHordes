@@ -33,7 +33,6 @@ namespace GameLibrary.Entities.Systems
             lock (e)
             {
                 seMapper.Get(e).OldSprite = sMapper.Get(e);
-                e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
                 e.AddComponent<Sprite>(seMapper.Get(e).TopEffect);
                 e.Refresh();
             }
@@ -63,14 +62,11 @@ namespace GameLibrary.Entities.Systems
 
             foreach (Sprite ss in toRemove)
             {
-                e.RemoveComponent(ComponentTypeManager.GetTypeFor<Sprite>());
                 se.Remove(ss);
                 if (se.HasEffects())
                     e.AddComponent<Sprite>(seMapper.Get(e).TopEffect);
                 else
                 {
-                    e.RemoveComponent(ComponentTypeManager.GetTypeFor<SpriteEffect>());
-                    e.RemoveComponent<Sprite>(ss);
                     e.AddComponent<Sprite>(se.OldSprite);
                 }
                 e.Refresh();

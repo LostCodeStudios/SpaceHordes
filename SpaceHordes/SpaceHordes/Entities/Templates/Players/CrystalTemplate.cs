@@ -51,7 +51,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),
                 (target) =>
                 {
-                    if ((target.UserData as Entity).GetComponent<Health>().IsAlive)
+                    if ((target.UserData as Entity).GetComponent<Health>().IsAlive && target.Position != b.Position)
                     {
                         Vector2 distance = target.Position - b.Position;
                         distance.Normalize();

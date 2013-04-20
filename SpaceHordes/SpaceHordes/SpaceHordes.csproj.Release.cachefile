@@ -9,7 +9,6 @@ Content\Textures\Hiscore.xnb
 Content\Textures\spritesheet.xnb
 Content\Textures\gamefont.xnb
 Content\Textures\HUD.xnb
-Content\Textures\Face1.xnb
 Content\Sounds\Explosion1.xnb
 Content\Sounds\Explosion2.xnb
 Content\Sounds\Explosion3.xnb
@@ -17,6 +16,8 @@ Content\Sounds\Explosion4.xnb
 Content\Sounds\pickup.xnb
 Content\Sounds\shot.xnb
 Content\Sounds\shot2.xnb
+Content\Music\Space Fighter Loop.xnb
+Content\Music\In a Heartbeat.xnb
 Content\Sounds\SpaceElephant.xnb
 Content\Sounds\Blip_Select69.xnb
 Content\Sounds\Blip_Select81.xnb
@@ -24,16 +25,17 @@ Content\Sounds\Blip_Select90.xnb
 Content\Sounds\BirdSound.Wav.xnb
 Content\Sounds\50557__broumbroum__sf3-sfx-menu-back.xnb
 Content\Sounds\50561__broumbroum__sf3-sfx-menu-select.xnb
-Content\Music\Unending.xnb
+Content\Textures\Face1.xnb
 Content\Music\Cephelopod.xnb
-Content\Music\Ropocalypse 2.xnb
-Content\Music\Space Fighter Loop.xnb
-Content\Music\Kick Shock.xnb
-Content\Music\In a Heartbeat.xnb
-Content\Music\Unending.wma
-Content\Music\Cephelopod.wma
-Content\Music\Ropocalypse 2.wma
+Content\Music\DST-2ndBallad.xnb
+Content\Music\DST-4Tran.xnb
+Content\Music\DST-AngryMod.xnb
+Content\Music\DST-Azimuth.xnb
 Content\Music\Space Fighter Loop.wma
-Content\Music\Kick Shock.wma
 Content\Music\In a Heartbeat.wma
+Content\Music\Cephelopod.wma
+Content\Music\DST-2ndBallad.wma
+Content\Music\DST-4Tran.wma
+Content\Music\DST-AngryMod.wma
+Content\Music\DST-Azimuth.wma
 Content\Textures\spritesheet.bmp

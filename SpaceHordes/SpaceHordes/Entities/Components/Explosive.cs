@@ -96,6 +96,7 @@ namespace SpaceHordes.Entities.Components
             world.QueryAABB(
                 fixture =>
                 {
+                    if(shapeCount < shapes.Length-1)
                     shapes[shapeCount++] = fixture;
 
                     // Continue the query.
