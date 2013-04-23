@@ -142,7 +142,7 @@
     <Compile Include="Entities\Systems\Render\BaseAnimationSystem.cs" />
     <Compile Include="Entities\Systems\Render\BossAnimationSystem.cs" />
     <Compile Include="Entities\Systems\Update\BulletCollisionSystem.cs" />
-    <Compile Include="Entities\Systems\Update\BulletRemovalSystem.cs" />
+    <Compile Include="Entities\Systems\Update\EntityRemovalSystem.cs" />
     <Compile Include="Entities\Systems\Update\AISystem.cs" />
     <Compile Include="Entities\Systems\Update\CrystalMovementSystem.cs" />
     <Compile Include="Entities\Systems\Update\DamageSystem.cs" />
