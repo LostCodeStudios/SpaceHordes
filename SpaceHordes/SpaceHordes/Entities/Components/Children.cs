@@ -20,7 +20,7 @@ namespace SpaceHordes.Entities.Components
         {
             foreach (Entity e in children)
             {
-                if (e != null && e.HasComponent<Health>() && e.GetComponent<Health>().IsAlive)
+                if (e != null && e.HasComponent<Function>())
                 {
                     Function f = e.GetComponent<Function>();
 

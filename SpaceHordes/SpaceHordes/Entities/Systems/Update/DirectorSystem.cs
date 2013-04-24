@@ -449,7 +449,7 @@ namespace SpaceHordes.Entities.Systems
                         spawnWave();
                     }
 #if !DEMO
-                    else if (waves % 2 == 0)
+                    else if (waves % 1 == 0)
                     {
                         SpawnState = SpawnState.Boss;
                     }

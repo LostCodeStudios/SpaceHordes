@@ -51,6 +51,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
         public BossTemplate(SpriteSheet spriteSheet, SpaceWorld world)
         {
+            spawned = 0;
             _SpriteSheet = spriteSheet;
             _World = world;
         }
@@ -62,20 +63,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #region Sprite
 
             string spriteKey = "";
-            int type = 0;
-
-            switch (tier)
-            {
-                case 1:
-                    type = rbitch.Next(0, 4);
-                    break;
-                case 2:
-                    type = rbitch.Next(4, 7);
-                    break;
-                case 3:
-                    type = rbitch.Next(7, 10);
-                    break;
-            }
+            int type = spawned;
 #if DEBUG
             type = 9;
 #endif
