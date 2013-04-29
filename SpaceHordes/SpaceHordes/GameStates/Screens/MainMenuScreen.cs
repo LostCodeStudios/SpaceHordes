@@ -21,13 +21,8 @@ namespace SpaceHordes.GameStates.Screens
         {
             //Create our menu entries.
             MusicManager.PlaySong("Title");
-#if WINDOWS
-            MenuEntry playGameMenuEntry = new MenuEntry("Solo Defense");
-#endif
 
-#if XBOX
-            MenuEntry playGameMenuEntry = new MenuEntry("Play Solo");
-#endif
+            MenuEntry playGameMenuEntry = new MenuEntry("Solo Defense");
             MenuEntry playMultiplayerMenuEntry = new MenuEntry("Team Defense");
 
             MenuEntry tutorialEntry = new MenuEntry("Tutorial");
@@ -58,7 +53,7 @@ namespace SpaceHordes.GameStates.Screens
 
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
-#if (!WINDOWS && !DEMO) || DEBUG
+#if (XBOX && !DEMO) || DEBUG
             MenuEntries.Add(playMultiplayerMenuEntry);
 #endif
             MenuEntries.Add(highScoresMenuEntry);

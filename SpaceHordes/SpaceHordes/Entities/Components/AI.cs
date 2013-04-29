@@ -210,7 +210,7 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
-        public static Func<Body, bool> CreateKillerGun(Entity ent, Entity origin, Vector2 offs, float shotTime, float shootTime, float nonShot, Sprite s, EntityWorld _World)
+        public static Func<Body, bool> CreateKillerGun(Entity ent, Entity origin, Vector2 offs, float shotTime, float shootTime, float nonShot, Sprite s, EntityWorld _World, bool shit = false)
         {
             bool shot = false;
             float shotttt = 0f;
@@ -232,6 +232,8 @@ namespace SpaceHordes.Entities.Components
 
                             Vector2 offset = ConvertUnits.ToSimUnits(new Vector2(0, 50));
 
+                            if (shit)
+                                offset.X = ConvertUnits.ToSimUnits(6);
                             float rot = (float)Math.PI / 2;
 
                             Transform fireAt = new Transform(b.Position + offset, rot);

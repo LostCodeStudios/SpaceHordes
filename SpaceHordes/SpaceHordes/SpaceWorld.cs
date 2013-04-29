@@ -324,7 +324,7 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     ++Players;
                 }
-#if DEBUG
+#if !DEBUG
                 //Player 4 keyboard controlled
                 if (index.Length == 1)
                 {

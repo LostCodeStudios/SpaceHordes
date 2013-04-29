@@ -153,23 +153,23 @@ namespace SpaceHordes.Entities.Systems
         #region Tutorial
         public MessageDialog CurrentDialog;
 
+#if XBOX
         string[] tutorialMessages = new string[]
         {
             "WELCOME TO SPACE HORDES.",
             "MOVE WITH THE LEFT ANALOG STICK.",
-            "AIM WITH RIGHT STICK AND SHOOT WITH RIGHT TRIGGER.",
+            "AIM WITH RIGHT STICK AND HOLD DOWN THE RIGHT TRIGGER TO SHOOT.",
             "AN ENEMY SHIP IS COMING. YOU CAN SEE IT ON THE RADAR.",
             "SHOOT IT BEFORE IT HITS YOUR BASE.",
             "ENEMIES DROP CRYSTALS WHICH ARE USED AS AMMO.",
-            "GRAY CRYSTALS ARE POWERUPS.",
+            "GRAY CRYSTALS ENHANCE YOUR GUNS.",
             "",
             "YOU HAVE 4 GUN TYPES: RED GREEN BLUE AND WHITE.",
-            "RED BULLETS ARE FASTER.",
-            "BLUE BULLETS FREEZE ENEMIES.",
-            "GREEN BULLETS DO POISON DAMAGE.",
-            "WHITE BULLETS USE NO AMMO.",
-            "SELECT GUN TYPES BY PRESSING THE BUTTON WITH THEIR COLOR: A B OR X.",
-            "RESELECT WHITE BULLETS BY PRESSING THE BUTTON OF THE GUN YOU HAVE CURRENTLY SELECTED.",
+            "BLUE BULLETS FREEZE ENEMIES. PRESS X TO SELECT.",
+            "GREEN BULLETS DO POISON DAMAGE. PRESS A TO SELECT.",
+            "RED BULLETS ARE FASTER. PRESS B TO SELECT.",
+            "WHITE BULLETS USE NO AMMO. SELECT BY PRESSING THE BUTTON OF YOUR CURRENT GUN.",
+            "YOUR STATUS BAR SHOWS HOW MANY YOU HAVE IN EACH GUN.",
             "HERE ARE SOME TOUGHER ENEMIES. TRY OUT YOUR DIFFERENT GUNS.",
             "",
             "",
@@ -177,29 +177,75 @@ namespace SpaceHordes.Entities.Systems
             "",
             "YOU CAN BUILD DEFENSES TO PROTECT YOUR BASE.",
             "PRESS Y TO ENTER AND LEAVE BUILD MODE.",
-            "YOU CAN BUILD BARRIERS MINES AND TURRETS.",
-            "PRESS X TO BUILD A BARRIER.",
-            "PRESS A TO BUILD A TURRET.",
-            "PRESS B TO BUILD A MINE.",
-            "BUILDING DEFENSES USES UP YELLOW CRYSTALS.",
-            "YOU CAN SEE HOW MANY YOU HAVE ABOVE YOUR SHIP.",
-            "THE COSTS OF DEFENSES ARE SHOWN ON YOUR STATUS BAR WHILE IN BUILD MODE.",
+            "IN BUILD MODE YOU CAN BUILD 3 TYPES OF DEFENSES.",
+            "BARRIERS STOP ENEMIES. PRESS X TO BUILD.",
+            "TURRETS SHOOT ENEMIES. PRESS A TO BUILD.",
+            "MINES EXPLODE ON CONTACT WITH ENEMIES. PRESS B TO BUILD.",
+            "YOU CANNOT SWITCH GUNS WHILE IN BUILD MODE.",
+            "BUILDING DEFENSES USES UP YELLOW CRYSTALS. THE COSTS OF DEFENSES ARE SHOWN ON YOUR STATUS BAR WHILE IN BUILD MODE.",
+            "YOU CAN SEE HOW MANY YELLOW CRYSTALS YOU HAVE ABOVE YOUR SHIP.",
+            "",
             "BUILD SOME DEFENSES TO SEE HOW THEY WORK IN ACTION.",
             "",
             "",
             "",
             "",
-            "GUNNERS WILL ATTEMPT TO DESTROY YOUR DEFENSES. THEIR BULLETS WILL NOT HURT YOU.",
-            "HUNTERS WILL FLY AFTER YOU.",
+            "THE OBJECT OF THE GAME IS TO DEFEND YOUR BASE.",
+            "YOU WILL RESPAWN AFTER 3 SECONDS EVERY TIME YOU DIE.",
+            "YOUR CRYSTALS ARE REPLENISHED AFTER RESPAWNING BUT YOUR DEFENSES ARE DESTROYED EVERY TIME YOU DIE.
+            "IF YOU ARE ABOUT TO LOSE YOU CAN SELECT ONE OF YOUR SPECIAL GUNS AND PRESS LEFT TRIGGER.",
+            "THIS WILL SPEND ALL THE CRYSTALS YOU HAVE SELECTED AND THE BASE WILL SHOOT A RING OF BULLETS TO CLEAR THE SCREEN.",
             "",
-            "OCCASIONALLY YOU WILL FACE MASSIVE SURGES OF ENEMIES.",
-            "IF YOU ARE ABOUT TO LOSE YOU HAVE ONE MORE OPTION.",
-            "PRESS LEFT TRIGGER TO USE A POWERFUL EMERGENCY ATTACK.",
-            "THIS WILL SPEND ALL THE CRYSTALS YOU HAVE SELECTED.",
             "NOW YOU HAVE LEARNED ALMOST EVERYTHING THERE IS TO KNOW.",
             "SEE IF YOU CAN PLAY ON YOUR OWN."
         };
-
+#endif
+#if WINDOWS
+        string[] tutorialMessages = new string[]
+        {
+            "WELCOME TO SPACE HORDES.",
+            "MOVE WITH W A S D.",
+            "AIM WITH THE MOUSE AND CLICK TO SHOOT.",
+            "AN ENEMY SHIP IS COMING. YOU CAN SEE IT ON THE RADAR.",
+            "SHOOT IT BEFORE IT HITS YOUR BASE.",
+            "ENEMIES DROP CRYSTALS WHICH ARE USED AS AMMO.",
+            "GRAY CRYSTALS ENHANCE YOUR GUNS.",
+            "",
+            "YOU HAVE 4 GUN TYPES: RED GREEN BLUE AND WHITE.",
+            "BLUE BULLETS FREEZE ENEMIES. SELECT WITH 1.",
+            "GREEN BULLETS DO POISON DAMAGE. SELECT WITH 2.",
+            "RED BULLETS ARE FASTER. SELECT WITH 3.",
+            "WHITE BULLETS USE NO AMMO. SELECT BY PRESSING THE KEY OF YOUR CURRENT GUN.",
+            "HERE ARE SOME TOUGHER ENEMIES. TRY OUT YOUR DIFFERENT GUNS.",
+            "",
+            "",
+            "",
+            "",
+            "YOU CAN BUILD DEFENSES TO PROTECT YOUR BASE.",
+            "PRESS 4 TO ENTER AND LEAVE BUILD MODE.",
+            "IN BUILD MODE YOU CAN BUILD 3 TYPES OF DEFENSES.",
+            "BARRIERS STOP ENEMIES. BUILD WITH 1.",
+            "TURRETS SHOOT ENEMIES. BUILD WITH 2.",
+            "MINES EXPLODE ON CONTACT WITH ENEMIES. BUILD WITH 3.",
+            "YOU CANNOT SWITCH GUNS WHILE IN BUILD MODE.",
+            "BUILDING DEFENSES USES UP YELLOW CRYSTALS. THE COSTS OF DEFENSES ARE SHOWN ON YOUR STATUS BAR WHILE IN BUILD MODE.",
+            "YOU CAN SEE HOW MANY YELLOW CRYSTALS YOU HAVE ABOVE YOUR SHIP.",
+            "",
+            "BUILD SOME DEFENSES TO SEE HOW THEY WORK IN ACTION.",
+            "",
+            "",
+            "",
+            "",
+            "THE OBJECT OF THE GAME IS TO DEFEND YOUR BASE.",
+            "YOU WILL RESPAWN AFTER 3 SECONDS EVERY TIME YOU DIE.",
+            "YOUR CRYSTALS ARE REPLENISHED AFTER RESPAWNING BUT YOUR DEFENSES ARE DESTROYED EVERY TIME YOU DIE.",
+            "IF YOU ARE ABOUT TO LOSE YOU CAN SELECT ONE OF YOUR SPECIAL GUNS AND RIGHT CLICK.",
+            "THIS WILL SPEND ALL THE CRYSTALS YOU HAVE SELECTED AND THE BASE WILL SHOOT A RING OF BULLETS TO CLEAR THE SCREEN.",
+            "",
+            "NOW YOU HAVE LEARNED ALMOST EVERYTHING THERE IS TO KNOW.",
+            "SEE IF YOU CAN PLAY ON YOUR OWN."
+        };
+#endif
         int message = 0;
         #endregion
 
@@ -376,7 +422,7 @@ namespace SpaceHordes.Entities.Systems
                     CurrentDialog.Visible = false;
                     elapsedMinutes = 1f;
                     elapsedSeconds = 60f;
-                    Base.GetComponent<Health>().SetHealth(Base, 10);
+                    Base.GetComponent<Health>().SetHealth(Base, Base.GetComponent<Health>().MaxHealth);
                 }
             }
 
@@ -419,59 +465,62 @@ namespace SpaceHordes.Entities.Systems
         private void updateTimes()
         {
             elapsedSeconds += secPerCall;
-            if (SpawnState == SpawnState.Wave || SpawnState == SpawnState.Surge)
-                intervalSeconds += secPerCall;
-
             elapsedMinutes += minPerCall;
 
-            if (SpawnState == SpawnState.Surge)
-                ElapsedSurge += 333;
-
-            if (!String.IsNullOrEmpty(HUDRenderSystem.SurgeWarning))
+            if (!(world as SpaceWorld).Tutorial)
             {
-                elapsedWarning += 333;
-                if (elapsedWarning >= warningTime)
-                {
-                    HUDRenderSystem.SurgeWarning = "";
-                    elapsedWarning = 0;
-                }
-            }
+                if (SpawnState == SpawnState.Wave || SpawnState == SpawnState.Surge)
+                    intervalSeconds += secPerCall;
 
-            if (SpawnState != SpawnState.Boss)
-            {
-                if (elapsedSeconds >= StateDurations[(int)SpawnState])
-                {
-                    elapsedSeconds = 0f;
-                    elapsedMinutes = 0f;
+                if (SpawnState == SpawnState.Surge)
+                    ElapsedSurge += 333;
 
-                    if (SpawnState == SpawnState.Peace)
+                if (!String.IsNullOrEmpty(HUDRenderSystem.SurgeWarning))
+                {
+                    elapsedWarning += 333;
+                    if (elapsedWarning >= warningTime)
                     {
-                        spawnWave();
+                        HUDRenderSystem.SurgeWarning = "";
+                        elapsedWarning = 0;
                     }
+                }
+
+                if (SpawnState != SpawnState.Boss)
+                {
+                    if (elapsedSeconds >= StateDurations[(int)SpawnState])
+                    {
+                        elapsedSeconds = 0f;
+                        elapsedMinutes = 0f;
+
+                        if (SpawnState == SpawnState.Peace)
+                        {
+                            spawnWave();
+                        }
 #if !DEMO
                     else if (waves % 2 == 0)
                     {
                         SpawnState = SpawnState.Boss;
                     }
 #endif
-                    else
-                    {
-                        if (SpawnState == SpawnState.Surge)
-                            setCategory(SongType.Loop);
+                        else
+                        {
+                            if (SpawnState == SpawnState.Surge)
+                                setCategory(SongType.Loop);
 
-                        SpawnState = SpawnState.Peace;
+                            SpawnState = SpawnState.Peace;
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (Boss != null && !Boss.GetComponent<Health>().IsAlive)
+                else
                 {
-                    elapsedSeconds = 0f;
-                    elapsedMinutes = 0f;
+                    if (Boss != null && !Boss.GetComponent<Health>().IsAlive)
+                    {
+                        elapsedSeconds = 0f;
+                        elapsedMinutes = 0f;
 
-                    SpawnState = SpawnState.Peace;
-                    setCategory(SongType.Loop);
+                        SpawnState = SpawnState.Peace;
+                        setCategory(SongType.Loop);
+                    }
                 }
             }
         }
