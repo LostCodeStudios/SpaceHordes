@@ -1,6 +1,5 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
-using GameLibrary.Entities.Components.Render;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 
@@ -32,12 +31,12 @@ namespace SpaceHordes.Entities.Systems
                 Sprite s = e.GetComponent<Sprite>();
                 s.Color = Color.LightBlue;
 
-                if (!e.HasComponent<SpriteEffect>())
-                    e.AddComponent<SpriteEffect>(new SpriteEffect(s, slow.Elapsed));
-                else
-                {
-                    e.GetComponent<SpriteEffect>().AddEffect(s, slow.Elapsed);
-                }
+                //if (!e.HasComponent<SpriteEffect>())
+                //    e.AddComponent<SpriteEffect>(new SpriteEffect(s, slow.Elapsed));
+                //else
+                //{
+                //    e.GetComponent<SpriteEffect>().AddEffect(s, slow.Elapsed);
+                //}
                 e.Refresh();
             } 
             base.Added(e);

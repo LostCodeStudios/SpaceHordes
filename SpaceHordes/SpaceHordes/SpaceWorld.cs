@@ -2,7 +2,6 @@
 using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
-using GameLibrary.Entities.Components.Render;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -230,13 +229,7 @@ namespace SpaceHordes
                 new Bullet(1, "Enemies",
                     e =>
                     {
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Green;
 
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
-                        else
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 500);
                         e.AddComponent<Damage>(new Damage(6, 0.5f));
                         e.Refresh();
                     }
@@ -248,13 +241,7 @@ namespace SpaceHordes
                 new Bullet(3, "Enemies",
                     e =>
                     {
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Green;
 
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
-                        else
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 1000);
                         e.AddComponent<Damage>(new Damage(6, 1f));
                         e.Refresh();
                     }
@@ -266,13 +253,6 @@ namespace SpaceHordes
                 new Bullet(5, "Enemies",
                     e =>
                     {
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Green;
-
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
-                        else
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
                         e.AddComponent<Damage>(new Damage(6, 1.5f));
                         e.Refresh();
                     }
