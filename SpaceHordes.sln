@@ -1,6 +1,5 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2012
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordes", "SpaceHordes\SpaceHordes\SpaceHordes.csproj", "{BFFD3B23-612C-4FDF-ADF7-3341C7B6576B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceHordesContent", "SpaceHordes\SpaceHordesContent\SpaceHordesContent.contentproj", "{71BABA76-B31F-40FB-B17B-C5AF74460BAA}"
