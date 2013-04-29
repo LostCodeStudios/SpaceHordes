@@ -6,21 +6,17 @@ namespace SpaceHordes.Entities.Components
     {
         #region Fields
 
-        public int Amount;
-        public int Interval;
-        public int Elapsed;
-        public int Uses;
+        public double DamagePerSecond;
+        public float Seconds;
 
         #endregion Fields
 
         #region Constructor
 
-        public Damage(int amount, int uses, int interval)
+        public Damage(double dps, float sec)
         {
-            Amount = amount;
-            Uses = uses;
-            Interval = interval;
-            Elapsed = 0;
+            DamagePerSecond = dps;
+            Seconds = sec;
         }
 
         #endregion Constructor

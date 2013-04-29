@@ -1,6 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using SpaceHordes.Entities.Components;
 using System;
+using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -26,21 +27,18 @@ namespace SpaceHordes.Entities.Systems
             Damage d = e.GetComponent<Damage>();
             Health h = e.GetComponent<Health>();
 
-            if (d.Uses == 0)
+            if (d.Seconds <= 0)
             {
                 e.RemoveComponent<Damage>(d);
                 e.Refresh();
+
                 return;
             }
 
-            d.Elapsed += 33;
-            if (d.Elapsed > d.Interval)
-            {
-                d.Elapsed = 0;
-                d.Uses--;
+            d.Seconds -= (float)world.Delta / 1000;
 
-                h.SetHealth(e, h.CurrentHealth - d.Amount);
-            }
+            h.SetHealth(e, h.CurrentHealth - d.DamagePerSecond * (world.Delta / 1000));
+            world.CreateEntity("GREEENFAIRY", e).Refresh();
         }
     }
 }

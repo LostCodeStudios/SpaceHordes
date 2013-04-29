@@ -160,19 +160,7 @@ namespace SpaceHordes
             this.SetEntityTemplate("BigGreenBullet", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot3", 0f),
                 new Velocity(new Vector2(40), 0f),
-                new Bullet(12, "Players",
-                    e =>
-                    {
-                        Sprite s = e.GetComponent<Sprite>();
-                        s.Color = Color.Green;
-
-                        if (!e.HasComponent<SpriteEffect>())
-                            e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
-                        else
-                            e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
-                        e.AddComponent<Damage>(new Damage(3, 10, 1500));
-                        e.Refresh();
-                    }
+                new Bullet(12, "Players", null
                     )));
 
             this.SetEntityTemplate("Star", new StarTemplate(_spriteSheet));
@@ -195,7 +183,7 @@ namespace SpaceHordes
             float bulletLayer = 0.4f;
             this.SetEntityTemplate("BlueBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot1", bulletLayer),
-                new Velocity(new Vector2(15), 0f),
+                new Velocity(new Vector2(30), 0f),
                 new Bullet(1, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(100, 1f, 5.0f, new Vector2(4), 0.0f));
@@ -203,7 +191,7 @@ namespace SpaceHordes
                     )));
             this.SetEntityTemplate("BlueBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot2", bulletLayer),
-                new Velocity(new Vector2(15), 0f),
+                new Velocity(new Vector2(30), 0f),
                 new Bullet(2, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(200, 1f, 5.0f, new Vector2(4), 0.0f));
@@ -211,7 +199,7 @@ namespace SpaceHordes
                     )));
             this.SetEntityTemplate("BlueBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "blueshot3", bulletLayer),
-                new Velocity(new Vector2(15), 0f),
+                new Velocity(new Vector2(30), 0f),
                 new Bullet(3, "Enemies", e =>
                     {
                         e.AddComponent<Slow>(new Slow(300, 1f, 5.0f, new Vector2(4), 0.0f));
@@ -220,26 +208,26 @@ namespace SpaceHordes
 
             this.SetEntityTemplate("RedBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot1", bulletLayer),
-                new Velocity(new Vector2(40), 0f),
+                new Velocity(new Vector2(30), 0f),
                 new Bullet(1, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot2", bulletLayer),
-                new Velocity(new Vector2(40), 0f),
+                new Velocity(new Vector2(30), 0f),
                 new Bullet(2, "Enemies", null
                     )));
 
             this.SetEntityTemplate("RedBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "redshot3", bulletLayer),
-                new Velocity(new Vector2(40), 0f),
+                new Velocity(new Vector2(30), 0f),
                 new Bullet(3, "Enemies", null
                     )));
 
             this.SetEntityTemplate("GreenBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot1", bulletLayer),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(4, "Enemies",
+                new Velocity(new Vector2(30), 0f),
+                new Bullet(1, "Enemies",
                     e =>
                     {
                         Sprite s = e.GetComponent<Sprite>();
@@ -249,15 +237,15 @@ namespace SpaceHordes
                             e.AddComponent<SpriteEffect>(new SpriteEffect(s, 500));
                         else
                             e.GetComponent<SpriteEffect>().AddEffect(s, 500);
-                        e.AddComponent<Damage>(new Damage(1, 3, 500));
+                        e.AddComponent<Damage>(new Damage(6, 0.5f));
                         e.Refresh();
                     }
                     )));
 
             this.SetEntityTemplate("GreenBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot2", bulletLayer),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(8, "Enemies",
+                new Velocity(new Vector2(30), 0f),
+                new Bullet(3, "Enemies",
                     e =>
                     {
                         Sprite s = e.GetComponent<Sprite>();
@@ -267,15 +255,15 @@ namespace SpaceHordes
                             e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1000));
                         else
                             e.GetComponent<SpriteEffect>().AddEffect(s, 1000);
-                        e.AddComponent<Damage>(new Damage(2, 5, 1000));
+                        e.AddComponent<Damage>(new Damage(6, 1f));
                         e.Refresh();
                     }
                     )));
 
             this.SetEntityTemplate("GreenBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "greenshot3", bulletLayer),
-                new Velocity(new Vector2(40), 0f),
-                new Bullet(12, "Enemies",
+                new Velocity(new Vector2(30), 0f),
+                new Bullet(5, "Enemies",
                     e =>
                     {
                         Sprite s = e.GetComponent<Sprite>();
@@ -285,27 +273,27 @@ namespace SpaceHordes
                             e.AddComponent<SpriteEffect>(new SpriteEffect(s, 1500));
                         else
                             e.GetComponent<SpriteEffect>().AddEffect(s, 1500);
-                        e.AddComponent<Damage>(new Damage(3, 10, 1500));
+                        e.AddComponent<Damage>(new Damage(6, 1.5f));
                         e.Refresh();
                     }
                     )));
 
             this.SetEntityTemplate("WhiteBullet1", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1", bulletLayer),
-                new Velocity(new Vector2(12), 0f),
-                new Bullet(1, "Enemies", null
+                new Velocity(new Vector2(15), 0f),
+                new Bullet(0.5, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet2", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot2", bulletLayer),
-                new Velocity(new Vector2(12), 0f),
-                new Bullet(2, "Enemies", null
+                new Velocity(new Vector2(15), 0f),
+                new Bullet(1, "Enemies", null
                     )));
 
             this.SetEntityTemplate("WhiteBullet3", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot3", bulletLayer),
-                new Velocity(new Vector2(12), 0f),
-                new Bullet(3, "Enemies", null
+                new Velocity(new Vector2(15), 0f),
+                new Bullet(1.5, "Enemies", null
                     )));
 
             #endregion Player Bullets

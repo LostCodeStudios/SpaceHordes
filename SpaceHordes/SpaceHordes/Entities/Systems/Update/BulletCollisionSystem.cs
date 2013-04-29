@@ -40,6 +40,7 @@ namespace SpaceHordes.Entities.Systems
                                 (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
                                     (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
                                 e.Delete(); //Remove bullet
+                                world.CreateEntity("Explosion", 0f, particle.Position, fix.Body.UserData, 1).Refresh();
 
                                 if (bullet.OnBulletHit != null)
                                 {
