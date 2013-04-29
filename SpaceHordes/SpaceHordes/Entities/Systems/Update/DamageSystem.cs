@@ -38,7 +38,7 @@ namespace SpaceHordes.Entities.Systems
             d.Seconds -= (float)world.Delta / 1000;
 
             h.SetHealth(e, h.CurrentHealth - d.DamagePerSecond * (world.Delta / 1000));
-            world.CreateEntity("GREEENFAIRY", e).Refresh();
+            world.CreateEntity("GREENFAIRY", e).Refresh();
         }
     }
 }

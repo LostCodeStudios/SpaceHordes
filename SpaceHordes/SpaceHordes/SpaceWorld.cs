@@ -169,6 +169,8 @@ namespace SpaceHordes
             this.SetEntityGroupTemplate("BigExplosion", new BigExplosionTemplate(_spriteSheet));
             this.SetEntityGroupTemplate("BiggerExplosion", new BiggerExplosionTemplate(_spriteSheet));
 
+            this.SetEntityTemplate("GREENFAIRY", new FairySparkleTemplateLol(this, _spriteSheet));
+
             this.SetEntityTemplate("ExplosiveBullet", new ExplosiveBulletTemplate(this, _spriteSheet));
             this.SetEntityTemplate("Fire", new FireTemplate(this, _spriteSheet));
             #endregion Objects/Events
