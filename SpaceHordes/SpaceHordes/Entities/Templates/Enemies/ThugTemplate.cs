@@ -163,7 +163,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players") || (ent as Entity).Group == "Structures")
+                    if (ent != null && ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players") || (ent as Entity).Group == "Structures")
                     {
                         if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
                         {
