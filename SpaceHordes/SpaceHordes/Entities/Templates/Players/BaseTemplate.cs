@@ -58,7 +58,7 @@ namespace SpaceHordes.Entities.Templates
 
             int health = 30;
 #if DEBUG
-            health = 10000;
+            health = 1000000;
 #endif
 
             e.AddComponent<Health>(new Health(health)).OnDeath +=
