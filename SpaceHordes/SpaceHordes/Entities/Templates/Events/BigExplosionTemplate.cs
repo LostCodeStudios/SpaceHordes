@@ -52,7 +52,7 @@ namespace SpaceHordes.Entities.Templates
                     offset.Normalize();
                     offset *= radius;
 
-                    world.CreateEntity("Explosion", 0.05f * (i + 1), center + offset, ent, (i + 1)).Refresh();
+                    world.CreateEntity("Explosion", 0.05f * (i + 1), center + offset, ent, (i + 1), (Vector2)args[3]).Refresh();
                 }
             }
 

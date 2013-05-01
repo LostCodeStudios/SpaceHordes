@@ -107,7 +107,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 1).Refresh();
+                    _World.CreateEntity("Explosion", 0.5f, poss, ent, 2, Vector2.Zero).Refresh();
 
                     int splodeSound = 1;
                     SoundManager.Play("Explosion" + splodeSound.ToString());
