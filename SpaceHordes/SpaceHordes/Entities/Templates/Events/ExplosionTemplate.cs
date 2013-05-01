@@ -4,6 +4,7 @@ using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -30,10 +31,12 @@ namespace SpaceHordes.Entities.Templates
 
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, 1));
             Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Once, 5));
-            ITransform i = e.AddComponent<ITransform>(new Transform((Vector2)args[1], 0f));
+            //ITransform i = e.AddComponent<ITransform>(new Transform((Vector2)args[1], 0f));
+
+            Particle p = e.AddComponent<Particle>(new Particle(e, (Vector2)args[1], 0f, (Vector2)args[4], 0f));
             e.Group = "Explosions";
 
-            Explode((Entity)args[2], 1, i.Position, 3, magnitude);
+            Explode((Entity)args[2], 1, p.Position, 3, magnitude);
 
             return e;
         }

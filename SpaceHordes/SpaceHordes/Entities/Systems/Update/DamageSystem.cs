@@ -2,6 +2,9 @@
 using SpaceHordes.Entities.Components;
 using System;
 using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Entities.Components;
+using Microsoft.Xna.Framework;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -21,6 +24,7 @@ namespace SpaceHordes.Entities.Systems
         {
             base.Process();
         }
+        Random r = new Random();
 
         public override void Process(Entity e)
         {
@@ -38,7 +42,12 @@ namespace SpaceHordes.Entities.Systems
             d.Seconds -= (float)world.Delta / 1000;
 
             h.SetHealth(e, h.CurrentHealth - d.DamagePerSecond * (world.Delta / 1000));
-            world.CreateEntity("GREENFAIRY", e).Refresh();
+
+            Sprite s = e.GetComponent<Sprite>();
+
+            double mes = Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height / 4);
+            Vector2 offset = new Vector2((float)((r.NextDouble() * 2 - 1) * mes), (float)((r.NextDouble() * 2 - 1) * mes));
+            world.CreateEntity("GREENFAIRY", e, ConvertUnits.ToSimUnits(offset)).Refresh();
         }
     }
 }
