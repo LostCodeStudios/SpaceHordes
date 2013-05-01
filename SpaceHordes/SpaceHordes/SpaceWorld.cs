@@ -357,14 +357,10 @@ namespace SpaceHordes
             //SPEED UP FOR DEBUG LOL
 #if DEBUG
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && Speed >= 0.01f)
-                Speed -= 0.01f;
+                Speed -= 0.001f;
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                Speed += 0.01f;
+                Speed += 0.001f;
 #endif
-            if (slowmotion)
-                Speed = MathHelper.SmoothStep(Speed, 2, 0.01f);
-            else
-                Speed =  MathHelper.SmoothStep(Speed, 1, 0.01f);
 
 
             
