@@ -97,7 +97,7 @@ namespace SpaceHordes
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);
-            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw);
+            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Update);
             radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
                 new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
                     ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
@@ -314,16 +314,16 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     ++Players;
                 }
-#if !DEBUG
+#if !DEBUG 
                 //Player 4 keyboard controlled
-                if (index.Length == 1)
-                {
+                //if (index.Length == 1)
+                //{
                     Entity c = CreateEntity("Player", (PlayerIndex)3);
                     c.Refresh();
                     Player.Add(c);
                     Indices.Add(PlayerIndex.Four);
                     ++Players;
-                }
+                //}
 #endif
             }
             else //IF SINGLEPLAYER
@@ -356,7 +356,7 @@ namespace SpaceHordes
 
             //SPEED UP FOR DEBUG LOL
 #if DEBUG
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && Speed >= 0.4f)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && Speed >= 0.01f)
                 Speed -= 0.01f;
             else if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 Speed += 0.01f;

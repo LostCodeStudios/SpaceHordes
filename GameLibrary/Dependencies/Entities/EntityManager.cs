@@ -77,7 +77,6 @@ namespace GameLibrary.Dependencies.Entities
             activeEntities.Set(e.Id, null);
             if (e.HasComponent<Body>())
                 world.RemoveBody(e.GetComponent<Body>());
-            if (!string.IsNullOrEmpty(e.Tag))
                 world.TagManager.Unregister(e.Tag);
             e.TypeBits = 0;
 

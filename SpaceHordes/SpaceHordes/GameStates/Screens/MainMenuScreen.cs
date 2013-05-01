@@ -53,7 +53,7 @@ namespace SpaceHordes.GameStates.Screens
 
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
-#if (XBOX && !DEMO) || DEBUG
+#if !(XBOX && !DEMO) || DEBUG
             MenuEntries.Add(playMultiplayerMenuEntry);
 #endif
             MenuEntries.Add(highScoresMenuEntry);

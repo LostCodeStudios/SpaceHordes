@@ -2,6 +2,7 @@
 using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -17,20 +18,15 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process()
         {
-            spriteBatch.Begin();
             base.Process();
-            spriteBatch.End();
         }
+        Random r = new Random();
 
         public override void Process(Entity e)
         {
-            Sprite s = e.GetComponent<Sprite>();
+            ITransform t = e.GetComponent<ITransform>();
+            t.Position = new Vector2((float)Math.Cos(t.Rotation), (float)Math.Sin(t.Rotation)) * t.Position.Length();
 
-            spriteBatch.Draw(
-                s.SpriteSheet.Texture,
-                s.Origin,
-                s.CurrentRectangle,
-                Color.White);
         }
     }
 }

@@ -2,6 +2,7 @@
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
+using GameLibrary.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -11,22 +12,22 @@ namespace SpaceHordes.Entities.Systems
     internal class EntityRemovalSystem : ParallelEntityProcessingSystem
     {
         private Camera camera;
-        private ComponentMapper<Particle> TransformMapper;
+        private ComponentMapper<ITransform> TransformMapper;
 
         public EntityRemovalSystem(Camera camera)
-            : base(typeof(Particle))
+            : base(typeof(ITransform))
         {
             this.camera = camera;
         }
 
         public override void Initialize()
         {
-            TransformMapper = new ComponentMapper<Particle>(world);
+            TransformMapper = new ComponentMapper<ITransform>(world);
         }
 
         public override void Process(Entity e)
         {
-            Particle t = TransformMapper.Get(e);
+            ITransform t = TransformMapper.Get(e);
             if(Vector2.Distance(t.Position, Vector2.Zero) > ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width)*2 + 1)
             {
                 e.Delete();
