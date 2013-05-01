@@ -6,8 +6,8 @@ namespace SpaceHordes.Entities.Templates
     public class StarFieldTemplate : IEntityGroupTemplate
     {
         private List<Entity> stars = new List<Entity>();
-        private static int starNum = 100;
-        private static int nebNum = 3;
+        private static int starNum = 400;
+        private static int nebNum = 12;
 
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {

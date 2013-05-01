@@ -31,6 +31,7 @@ namespace SpaceHordes.Entities.Templates.Events
                     Transform fireAt = new Transform(Vector2.Zero, (float)angle);
                     Entity bullet = world.CreateEntity(inv.CurrentGun.BulletTemplateTag, fireAt);
                     Bullet bb = bullet.GetComponent<Bullet>();
+                    bb.Firer = null;
                     bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
                     bullet.AddComponent<Bullet>(bb);
                     bullet.Refresh();

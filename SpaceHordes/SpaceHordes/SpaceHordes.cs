@@ -57,11 +57,11 @@ namespace SpaceHordes
 
 #endif
 
-        #endregion Fields
+        #endregion Fields 
 
         #region Initalization
 
-        public SpaceHordes()
+        public   SpaceHordes()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -71,13 +71,13 @@ namespace SpaceHordes
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
-            graphics.ApplyChanges();
 
-           //graphics.PreferredBackBufferWidth = 1920; //I have to be able to run in release mode from my home computer. So yeah.
-           // graphics.PreferredBackBufferHeight = 1080;
+
+            //graphics.PreferredBackBufferWidth = 1920; //I have to be able to run in release mode from my home computer. So yeah.
+            //graphics.PreferredBackBufferHeight = 1080;
 
             IsFixedTimeStep = true;
-
+            graphics.ApplyChanges();
             Components.Add(new GamerServicesComponent(this));
         }
 

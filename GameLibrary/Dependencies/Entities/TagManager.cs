@@ -17,12 +17,13 @@ namespace GameLibrary.Dependencies.Entities
         {
             System.Diagnostics.Debug.Assert(e != null);
             System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(tag));
+            if (entityByTag.ContainsKey(tag))
+                entityByTag.Remove(tag);
             entityByTag.Add(tag, e);
         }
 
         internal void Unregister(String tag)
         {
-            System.Diagnostics.Debug.Assert(!String.IsNullOrEmpty(tag));
             entityByTag.Remove(tag);
         }
 

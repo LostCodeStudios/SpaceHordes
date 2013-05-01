@@ -257,7 +257,7 @@ namespace GameLibrary.Dependencies.Entities
             {
                 Grow();
             }
-
+            if(size < data.Length)
             data[size++] = o;
         }
 
