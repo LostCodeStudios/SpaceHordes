@@ -66,7 +66,7 @@ namespace GameLibrary.Dependencies.Entities
             return null;
         }
 
-        public void AddTrigger(Trigger Trigger, bool evaluateNow = false)
+        public void AddTrigger(Trigger Trigger, bool evaluateNow)
         {
             lock (entrylock)
             {

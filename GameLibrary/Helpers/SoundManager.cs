@@ -29,7 +29,12 @@ namespace GameLibrary.Helpers
             }
         }
 
-        public static void Play(string soundKey, float volume = 1f)
+        public static void Play(string soundKey)
+        {
+            Play(soundKey, 1);
+        }
+
+        public static void Play(string soundKey, float volume)
         {
             if (sounds.ContainsKey(soundKey) && Volume > 0f)
                 sounds[soundKey].Play(Volume * volume, Pitch, 0f);

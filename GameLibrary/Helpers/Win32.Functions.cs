@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if WINDOWS
+
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -542,3 +544,5 @@ namespace GameLibrary.Helpers
         public static readonly IntPtr InvalidHandleValue = new IntPtr(-1);
     }
 }
+
+#endif

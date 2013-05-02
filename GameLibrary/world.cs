@@ -77,11 +77,11 @@ namespace GameLibrary
         protected virtual void BuildSystems()
         {
             //Default Systems
-            _MovementSystem = this.SystemManager.SetSystem(new ParticleMovementSystem(), ExecutionType.Update);
+            _MovementSystem = this.SystemManager.SetSystem(new ParticleMovementSystem(), ExecutionType.Update, 0);
 
             //Render System
             _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
-            _AnimationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update);
+            _AnimationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update, 0);
 
 #if DEBUG && WINDOWS
             _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);

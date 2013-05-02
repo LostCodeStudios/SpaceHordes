@@ -26,10 +26,7 @@ namespace GameLibrary.Dependencies.Entities
             this.world = world;
         }
 
-        public T SetSystem<T>(T system, ExecutionType execType) where T : EntitySystem
-        {
-            return this.SetSystem<T>(system, execType, 0);
-        }
+
         public T SetSystem<T>(T system, ExecutionType execType, int layer) where T : EntitySystem
         {
             system.World = world;

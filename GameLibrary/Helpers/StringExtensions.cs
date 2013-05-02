@@ -10,7 +10,7 @@ namespace GameLibrary.Helpers
             return r.Replace(s, string.Empty);
         }
 
-        public static string AddLeadingString(this string s, int indent, string prefix = "")
+        public static string AddLeadingString(this string s, int indent, string prefix)
         {
             Regex r = new Regex(@"^", RegexOptions.Multiline);
             string ind = new string(' ', indent);

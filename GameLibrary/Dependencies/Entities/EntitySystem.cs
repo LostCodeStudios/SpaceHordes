@@ -64,7 +64,7 @@ namespace GameLibrary.Dependencies.Entities
         {
         }
 
-#if DEBUG
+#if DEBUG && WINDOWS
         public long UpdateTime = 0;
         private Stopwatch w = new Stopwatch();
 #endif

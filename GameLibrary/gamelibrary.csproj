@@ -145,14 +145,20 @@
     <Compile Include="GameStates\ScreenManager.cs" />
     <Compile Include="GameStates\Screens\MenuEntry.cs" />
     <Compile Include="GameStates\Screens\MenuScreen.cs" />
-    <Compile Include="Helpers\Debug\DebugCommand.cs" />
-    <Compile Include="Helpers\Debug\DebugCommandManager.cs" />
-    <Compile Include="Helpers\Debug\DebugCommands\ExecCommand.cs" />
-    <Compile Include="Helpers\Debug\DebugCommands\ScopeCommands.cs" />
+    <Compile Include="Helpers\Debug\Debug Commands\ExecCommand.cs" />
+    <Compile Include="Helpers\Debug\Debug Commands\ScopeCommands.cs" />
+    <Compile Include="Helpers\Debug\DebugCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\Debug\DebugCommandManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Helpers\Debug\DebugConsole.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Helpers\Drawing\AssetCreator.cs" />
     <Compile Include="Helpers\Drawing\Camera.cs" />
     <Compile Include="Helpers\ConvertUnits.cs" />
-    <Compile Include="Helpers\Debug\DebugConsole.cs" />
     <Compile Include="Helpers\Debug\DebugView.cs" />
     <Compile Include="Helpers\Drawing\LineBatch.cs" />
     <Compile Include="Helpers\Drawing\PrimitiveBatch.cs" />

@@ -7,10 +7,6 @@ namespace GameLibrary.Dependencies.Entities
         private Func<BlackBoard, TriggerState, bool> Condition;
         private Action<TriggerState> onFire;
 
-        public SimpleTrigger(String Name, Func<BlackBoard, TriggerState, bool> Condition) : this(Name, Condition, null)
-        {
-
-        }
         public SimpleTrigger(String Name, Func<BlackBoard, TriggerState, bool> Condition, Action<TriggerState> onFire)
         {
             this.WorldPropertiesMonitored.Add(Name);
