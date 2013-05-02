@@ -67,7 +67,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             e.AddComponent<Origin>(new Origin(o));
             Function f;
             if (spriteKey == "killerleftgun")
-                f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 1f, 0.5f, s, _World));
+                f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 1f, 0.5f, s, _World, false));
             else
                 f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 1f, 0.5f, s, _World, true));
             e.AddComponent<Function>(f);

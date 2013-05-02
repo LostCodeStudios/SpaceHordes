@@ -56,7 +56,7 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Properties
 
 #if XBOX
-        public StorageContainer Container
+        public StorageContainer MyContainer
         {
             get
             {

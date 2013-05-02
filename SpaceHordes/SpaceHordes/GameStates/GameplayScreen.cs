@@ -57,10 +57,15 @@ namespace SpaceHordes.GameStates.Screens
 
         public bool tutorial;
 
+        public GameplayScreen(string fontName, bool multiplayer)
+            : this (fontName, multiplayer, false)
+        {
+        }
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(string fontName, bool multiplayer, bool tutorial = false)
+        public GameplayScreen(string fontName, bool multiplayer, bool tutorial)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -86,7 +91,7 @@ namespace SpaceHordes.GameStates.Screens
 
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
-            gameFont.LoadContent(Content, fontName);
+            gameFont.LoadContent(Content, fontName, 0f);
             gameFont.SpaceWidth = 8;
             gameFont.CharSpaceWidth = 1;
 

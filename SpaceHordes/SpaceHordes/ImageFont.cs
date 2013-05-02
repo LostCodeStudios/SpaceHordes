@@ -41,7 +41,12 @@ namespace SpaceHordes
             get { return letters[key]; }
         }
 
-        public void LoadContent(ContentManager content, string filename, Color boundingColor, float layer=0)
+        public void LoadContent(ContentManager content, string filename, Color boundingColor)
+        {
+            LoadContent(content, filename, boundingColor, 0);
+        }
+
+        public void LoadContent(ContentManager content, string filename, Color boundingColor, float layer)
         {
             #region Getting Colors
 
@@ -135,7 +140,7 @@ namespace SpaceHordes
             Layer = layer;
         }
 
-        public void LoadContent(ContentManager content, string filename, float layer=0)
+        public void LoadContent(ContentManager content, string filename, float layer)
         {
             LoadContent(content, filename, new Color(0, 255, 0), layer);
         }

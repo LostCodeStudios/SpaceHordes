@@ -21,7 +21,22 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class AI : Component
     {
-        public AI(Body target, Func<Body, bool> behavior, string targetGroup = "", float searchRadius = 200f)
+        public AI(Body target, Func<Body, bool> behavior, float searchRadius)
+            : this(target, behavior, "", searchRadius)
+        {
+        }
+
+        public AI(Body target, Func<Body, bool> behavior, string targetGroup)
+            : this(target, behavior, targetGroup, 200f)
+        {
+        }
+
+        public AI(Body target, Func<Body, bool> behavior)
+            : this(target, behavior, "", 200f)
+        {
+        }
+        
+        public AI(Body target, Func<Body, bool> behavior, string targetGroup, float searchRadius)
         {
             this.Target = target;
             this.Targeting = Targeting.Closest;
@@ -90,7 +105,7 @@ namespace SpaceHordes.Entities.Components
         /// <param name="speed"></param>
         /// <param name="rotateTo"></param>
         /// <returns></returns>
-        public static Func<Body, bool> CreateFollow(Entity ent, float speed, bool rotateTo = true)
+        public static Func<Body, bool> CreateFollow(Entity ent, float speed, bool rotateTo)
         {
             return
                 (target) =>///edward
@@ -210,7 +225,7 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
-        public static Func<Body, bool> CreateKillerGun(Entity ent, Entity origin, Vector2 offs, float shotTime, float shootTime, float nonShot, Sprite s, EntityWorld _World, bool shit = false)
+        public static Func<Body, bool> CreateKillerGun(Entity ent, Entity origin, Vector2 offs, float shotTime, float shootTime, float nonShot, Sprite s, EntityWorld _World, bool shit)
         {
             bool shot = false;
             float shotttt = 0f;
@@ -361,7 +376,7 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
-        public static Func<Body, bool> CreateCannon(Entity ent, bool rotateTo = true)
+        public static Func<Body, bool> CreateCannon(Entity ent, bool rotateTo)
         {
             float shootDistance = ConvertUnits.ToSimUnits(700);
 
@@ -389,7 +404,7 @@ namespace SpaceHordes.Entities.Components
                 };
         }
 
-        public static Func<Body, bool> CreateShoot(Entity ent, float speed, float shootDistance, bool rotateTo = true)
+        public static Func<Body, bool> CreateShoot(Entity ent, float speed, float shootDistance, bool rotateTo)
         {
             return
                 (target) =>

@@ -58,7 +58,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region AI/GUN
 
-            Inventory inv = e.AddComponent<Inventory>(new Inventory(0, 0, 0, 0));
+            Inventory inv = e.AddComponent<Inventory>(new Inventory());
 
             AI ai = e.AddComponent<AI>(new AI(null,
                 (target) => //AI FUNCTION

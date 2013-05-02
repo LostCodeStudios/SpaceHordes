@@ -25,7 +25,7 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Fields
 
 #if XBOX
-        public StorageContainer Container
+        public StorageContainer MyContainer
         {
             get
             {
@@ -56,7 +56,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
             }
         }
-
+        #if WINDOWS
         /// <summary>
         /// The path of the scores text file
         /// </summary>
@@ -64,15 +64,10 @@ namespace SpaceHordes.GameStates.Screens
         {
             get
             {
-#if WINDOWS
                 return FolderPath + @"\settings.txt";
-#endif
-
-#if XBOX
-                return "";
-#endif
             }
         }
+#endif
 
         public static int SoundVolume
         {

@@ -243,7 +243,7 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Static Properties
 
 #if XBOX
-        public StorageContainer Container
+        public StorageContainer MyContainer
         {
             get
             {

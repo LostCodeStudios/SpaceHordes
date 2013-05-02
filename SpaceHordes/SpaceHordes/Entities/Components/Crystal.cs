@@ -10,7 +10,12 @@ namespace SpaceHordes.Entities.Components
 
         public int Amount;
 
-        public Crystal(Color color, int amount, bool surgeCrystal = false)
+        public Crystal(Color color, int amount)
+            : this(color, amount, false)
+        {
+        }
+
+        public Crystal(Color color, int amount, bool surgeCrystal)
         {
             Color = color;
             Amount = amount;

@@ -26,7 +26,12 @@ namespace SpaceHordes
     public class SpaceWorld : World
     {
         public GameplayScreen GameScreen;
-        public SpaceWorld(Game game, SpriteSheet spriteSheet, GameplayScreen screen, bool tutorial = false)
+
+        public SpaceWorld(Game game, SpriteSheet spriteSheet, GameplayScreen screen)
+            : this(game, spriteSheet, screen, false)
+        { }
+
+        public SpaceWorld(Game game, SpriteSheet spriteSheet, GameplayScreen screen, bool tutorial)
             : base(game, new Vector2(0, 0))
         {
             Tutorial = tutorial;
@@ -76,28 +81,28 @@ namespace SpaceHordes
         protected override void BuildSystems()
         {
             //Update Systems
-            gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update);
-            damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update);
-            bulletRemovalSystem = this.SystemManager.SetSystem(new EntityRemovalSystem(this.Camera), ExecutionType.Update);
-            bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update);
-            healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update);
-            enemySpawnSystem = this.SystemManager.SetSystem(new DirectorSystem(), ExecutionType.Update);
-            slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update);
-            enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update);
-            playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update);
-            explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update);
-            this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update);
-            this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update);
-            scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(this), ExecutionType.Update);
-            this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update);
-            SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update);
-            this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update);
-            SystemManager.SetSystem(new FireRemovalSystem(), ExecutionType.Update);
+            gunSystem = this.SystemManager.SetSystem(new GunSystem(), ExecutionType.Update, 0);
+            damageSystem = this.SystemManager.SetSystem(new DamageSystem(), ExecutionType.Update, 0);
+            bulletRemovalSystem = this.SystemManager.SetSystem(new EntityRemovalSystem(this.Camera), ExecutionType.Update, 0);
+            bulletCollisionSystem = this.SystemManager.SetSystem(new BulletCollisionSystem(), ExecutionType.Update, 0);
+            healthSystem = this.SystemManager.SetSystem<HealthSystem>(new HealthSystem(), ExecutionType.Update, 0);
+            enemySpawnSystem = this.SystemManager.SetSystem(new DirectorSystem(), ExecutionType.Update, 0);
+            slowSystem = this.SystemManager.SetSystem(new SlowSystem(), ExecutionType.Update, 0);
+            enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update, 0);
+            playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update, 0);
+            explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update, 0);
+            this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update, 0);
+            this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update, 0);
+            scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(this), ExecutionType.Update, 0);
+            this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update, 0);
+            SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update, 0);
+            this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update, 0);
+            SystemManager.SetSystem(new FireRemovalSystem(), ExecutionType.Update, 0);
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);
-            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Update);
+            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Update, 0);
             radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
                 new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
                     ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),

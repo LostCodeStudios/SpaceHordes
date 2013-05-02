@@ -28,7 +28,12 @@ namespace SpaceHordes.Entities.Components
     {
         public InvType _type = InvType.Turret;
 
-        public Inventory(uint red = 0, uint green = 0, uint blue = 0, uint yellow = 0, InvType type = InvType.Turret, string key = "")
+        public Inventory()
+            : this(0, 0, 0, 0, InvType.Turret, "")
+        {
+        }
+
+        public Inventory(uint red, uint green, uint blue, uint yellow, InvType type, string key)
         {
             _type = type;
             if (type == InvType.Turret)
@@ -144,7 +149,12 @@ namespace SpaceHordes.Entities.Components
             e.AddComponent<Gun>(CurrentGun);
         }
 
-        public void GiveCrystals(Color color, int amount, bool surgeCrystal = false)
+        public void GiveCrystals(Color color, int amount)
+        {
+            GiveCrystals(color, amount, false);
+        }
+        
+        public void GiveCrystals(Color color, int amount, bool surgeCrystal)
         {
             if (color == Color.Red)
                 RED.Ammunition += amount;
