@@ -42,13 +42,15 @@ namespace SpaceHordes.Entities.Systems
                                 (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
                                     (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
                                 e.Delete(); //Remove bullet
-                                world.CreateEntity("Explosion", 0f, particle.Position, fix.Body.UserData, 1, fix.Body.LinearVelocity).Refresh();
 
                                 if (bullet.OnBulletHit != null)
                                 {
                                     //Do bullet effects here........... Maybe a call back?{
                                     bullet.OnBulletHit(fix.Body.UserData as Entity);
                                 }
+
+                                if (!(fix.Body.UserData as Entity).HasComponent<Health>() || (fix.Body.UserData as Entity).GetComponent<Health>().IsAlive)
+                                    world.CreateEntity("Explosion", 0f, particle.Position, fix.Body.UserData, 1, fix.Body.LinearVelocity, fix.Body.UserData).Refresh();
                             }
                         }
                         return 0;

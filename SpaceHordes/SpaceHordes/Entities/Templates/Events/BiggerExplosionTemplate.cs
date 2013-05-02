@@ -45,7 +45,7 @@ namespace SpaceHordes.Entities.Templates
                 offset.Normalize();
                 offset *= radius;
 
-                world.CreateEntityGroup("BigExplosion", "Explosions", center + offset, 15, ent, (Vector2)args[3]);
+                world.CreateEntityGroup("BigExplosion", "Explosions", center + offset, 15, ent);
             }
 
             return explosions.ToArray();

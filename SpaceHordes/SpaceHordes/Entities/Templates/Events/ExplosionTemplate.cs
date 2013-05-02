@@ -33,7 +33,10 @@ namespace SpaceHordes.Entities.Templates
             Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Once, 5));
             //ITransform i = e.AddComponent<ITransform>(new Transform((Vector2)args[1], 0f));
 
-            Particle p = e.AddComponent<Particle>(new Particle(e, (Vector2)args[1], 0f, (Vector2)args[4], 0f));
+            if (power == 1)
+                e.AddComponent<Origin>(new Origin(args[5] as Entity));
+
+            Particle p = e.AddComponent<Particle>(new Particle(e, (Vector2)args[1], 0f, (args.Length > 4) ? (Vector2)args[4] : Vector2.Zero, 0f));
             e.Group = "Explosions";
 
             Explode((Entity)args[2], 1, p.Position, 3, magnitude);

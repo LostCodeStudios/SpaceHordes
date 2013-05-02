@@ -194,10 +194,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     Vector2 poss = e.GetComponent<ITransform>().Position;
 
                     if (type < 6)
-                        _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent, e.GetComponent<IVelocity>().LinearVelocity);
+                        _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent);
                     else
                     {
-                        _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, ent, e.GetComponent<IVelocity>().LinearVelocity);
+                        _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, ent);
                     }
 
                     int splodeSound = rbitch.Next(1, 5);

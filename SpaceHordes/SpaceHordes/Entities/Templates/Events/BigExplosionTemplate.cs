@@ -32,13 +32,13 @@ namespace SpaceHordes.Entities.Templates
 
             int[] size = new int[4];
 
-            for (int i = 0; i < 4; ++i)
+            for (int i = 1; i < 4; ++i)
             {
                 size[i] = intensity / (i + 1);
                 float radius = 0;
                 for (int k = 4 - i; k > i; k--)
                 {
-                    radius += spriteSheet["splosion" + k.ToString()][0].Width / 3;
+                    radius += spriteSheet["splosion" + k.ToString()][0].Width / 2;
                 }
                 radius = ConvertUnits.ToSimUnits(radius);
                 Vector2 offset;
@@ -52,7 +52,7 @@ namespace SpaceHordes.Entities.Templates
                     offset.Normalize();
                     offset *= radius;
 
-                    world.CreateEntity("Explosion", 0.05f * (i + 1), center + offset, ent, (i + 1), (Vector2)args[3]).Refresh();
+                    world.CreateEntity("Explosion", 0.05f * (i + 1), center + offset, ent, (i + 1)).Refresh();
                 }
             }
 

@@ -33,7 +33,10 @@ namespace SpaceHordes.Entities.Systems
 
                 if (!parent.HasComponent<Body>() || !parent.GetComponent<Health>().IsAlive)
                 {
-                    e.GetComponent<Health>().SetHealth(e, 0);
+                    if (e.HasComponent<Health>())
+                        e.GetComponent<Health>().SetHealth(e, 0);
+                    else
+                        e.Delete();
                 }
             }
 
