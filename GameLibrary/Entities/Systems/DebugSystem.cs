@@ -1,4 +1,5 @@
-﻿using GameLibrary.Dependencies.Entities;
+﻿#if WINDOWS
+using GameLibrary.Dependencies.Entities;
 using GameLibrary.Helpers;
 using GameLibrary.Helpers.Debug;
 using Microsoft.Xna.Framework;
@@ -100,3 +101,4 @@ namespace GameLibrary.Entities.Systems
         #endregion Fields
     }
 }
+#endif

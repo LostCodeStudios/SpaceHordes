@@ -20,7 +20,7 @@ namespace SpaceHordes.Entities.Components
         }
 
         public Bullet(double damage)
-            : this(damage, "", delegate(Entity e) { })
+            : this(damage, "", e =>{ })
         {
         }
 

@@ -46,6 +46,7 @@
     <Optimize>false</Optimize>
     <DefineConstants>DEBUG;TRACE;XBOX;XBOX360</DefineConstants>
     <XnaCompressContent>true</XnaCompressContent>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Xbox 360' ">
     <OutputPath>bin\Xbox 360\Release</OutputPath>
@@ -149,7 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\GameLib\GameLibrary\Xbox 360 Copy of GameLibrary.csproj">
-      <Project>{d809d4fa-103b-4331-964a-8aebded58985}</Project>
+      <Project>{51383F7E-F728-4518-AD78-F786A1C84540}</Project>
       <Name>Xbox 360 Copy of GameLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\SpaceHordesContent\SpaceHordesContent.contentproj">
@@ -216,24 +217,19 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
-    <Reference Include="PresentationFramework" />
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Core">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <Private>False</Private>
     </Reference>
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

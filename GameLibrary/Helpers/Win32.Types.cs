@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WINDOWS
+using System;
 using System.Runtime.InteropServices;
 
 namespace GameLibrary.Helpers
@@ -412,3 +413,4 @@ namespace GameLibrary.Helpers
         }
     }
 }
+#endif

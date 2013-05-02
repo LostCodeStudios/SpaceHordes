@@ -59,7 +59,7 @@ namespace GameLibrary
         /// <param name="Content"></param>
         public virtual void LoadContent(ContentManager Content, params object[] args)
         {
-#if DEBUG   //Debug render system
+#if DEBUG && WINDOWS//Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content);
 #endif
 
@@ -83,7 +83,7 @@ namespace GameLibrary
             _RenderSystem = this.SystemManager.SetSystem(new RenderSystem(SpriteBatch, this.Camera), ExecutionType.Draw, 0);
             _AnimationSystem = this.SystemManager.SetSystem(new AnimationSystem(), ExecutionType.Update);
 
-#if DEBUG
+#if DEBUG && WINDOWS
             _DebugSystem = this.SystemManager.SetSystem(new DebugSystem(this), ExecutionType.Draw, 1);
 #endif
         }
@@ -173,7 +173,9 @@ namespace GameLibrary
 
         protected AnimationSystem _AnimationSystem;
         protected ParticleMovementSystem _MovementSystem;
+#if WINDOWS
         protected DebugSystem _DebugSystem;
+#endif
 
         #endregion Fields
 
