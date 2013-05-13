@@ -90,22 +90,22 @@ namespace SpaceHordes.GameStates.Screens
             #region Screen
 
             if (content == null)
-                content = new ContentManager(ScreenManager.Game.Services, "Content");
+                content = new ContentManager(Manager.Game.Services, "Content");
             gameFont.LoadContent(Content, fontName, 0f);
             gameFont.SpaceWidth = 8;
             gameFont.CharSpaceWidth = 1;
 
-            scoreLocation = new Vector2(ScreenHelper.Center.X, 0);
+            scoreLocation = new Vector2(ScreenHelper.Center.X, ScreenHelper.TitleSafeArea.Y);
             scoreScale = 1f;
 
-            spriteBatch = ScreenManager.SpriteBatch;
+            spriteBatch = Manager.SpriteBatch;
             List<PlayerIndex> players = new List<PlayerIndex>();
 
             if (multiplayer)
             {
                 for (int x = 0; x < 4; ++x)
                 {
-                    if (ScreenManager.Input.GamePadWasConnected[x])
+                    if (Manager.Input.GamePadWasConnected[x])
                     {
                         players.Add((PlayerIndex)x);
                     }
@@ -115,11 +115,11 @@ namespace SpaceHordes.GameStates.Screens
             #endregion Screen
 
             //World
-            World = new SpaceWorld(ScreenManager.Game, ScreenHelper.SpriteSheet, this, tutorial);
+            World = new SpaceWorld(Manager.Game, ScreenHelper.SpriteSheet, this, tutorial);
             World.Initialize();
             World.LoadContent(content, players.ToArray());
 
-            ScreenManager.Game.ResetElapsedTime();
+            Manager.Game.ResetElapsedTime();
             World.Base.GetComponent<Health>().OnDeath +=
                 (x) =>
                 {
@@ -190,7 +190,7 @@ namespace SpaceHordes.GameStates.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
+            Manager.GraphicsDevice.Clear(ClearOptions.Target,
                 Color.Black, 0, 0);
 
             World.Draw(gameTime); //Draw the world.
@@ -215,7 +215,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
 
-                ScreenManager.FadeBackBufferToBlack(alpha);
+                Manager.FadeBackBufferToBlack(alpha);
             }
         }
 
@@ -248,7 +248,7 @@ namespace SpaceHordes.GameStates.Screens
             if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
             {
                 MusicManager.Pause();
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                Manager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
 
 #endif
@@ -262,7 +262,7 @@ namespace SpaceHordes.GameStates.Screens
 
         private void GameOver()
         {
-            ScreenManager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score), ControllingPlayer);
+            Manager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score), ControllingPlayer);
             ExitScreen();
             MusicManager.Stop();
         }

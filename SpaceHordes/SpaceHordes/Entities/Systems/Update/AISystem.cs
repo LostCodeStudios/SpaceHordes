@@ -26,10 +26,14 @@ namespace SpaceHordes.Entities.Systems
             {
                 if (World.EntityManager.GetEntity((ai.Target.UserData as Entity).Id) == null)
                     ai.Target = null;
-                else if (ai.Target != null && (ai.Target.UserData as Entity) != null && !ai.Behavior(ai.Target)) //Run ai behavior, if behavior returns true look for new target.
+                else if (!(!ai.Recalculate && ai.Calculated) && ai.Target != null && (ai.Target.UserData as Entity) != null && !ai.Behavior(ai.Target)) //Run ai behavior, if behavior returns true look for new target.
+                {
+                    ai.Calculated = true;
                     return;
+                }
             }
 
+            ai.Calculated = true;
             ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
 
             e.Refresh();
@@ -45,17 +49,19 @@ namespace SpaceHordes.Entities.Systems
         {
             //find all fixtures in world around the location.
             AABB aabb = new AABB(location.Position, ai.SearchRadius, ai.SearchRadius);
+#if WINDOWS
             HashSet<PhysicsBody> bodies = new HashSet<PhysicsBody>();
+#else
+            List<PhysicsBody> bodies = new List<PhysicsBody>();
+#endif
 
             world.QueryAABB(x =>
             {
-
                 if (x.Body.BodyId != location.BodyId)
                 {
 
                     if (string.IsNullOrEmpty(ai.TargetGroup) || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group))
                     {
-
                         bodies.Add(x.Body);
                     }
                 }
@@ -74,23 +80,18 @@ namespace SpaceHordes.Entities.Systems
                 {
                     case Targeting.Closest:
                         return ClosestEntity(location.Position, list).GetComponent<Body>();
-                        break;
 
                     case Targeting.Strongest:
                         return StrongestEntity(list).GetComponent<Body>();
-                        break;
 
                     case Targeting.Weakest:
                         return WeakestEntity(list).GetComponent<Body>();
-                        break;
 
                     case Targeting.None:
                         return null;
-                        break;
 
                     default:
                         return null;
-                        break;
                 }
             }
             else

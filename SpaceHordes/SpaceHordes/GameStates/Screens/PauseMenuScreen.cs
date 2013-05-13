@@ -51,8 +51,8 @@ namespace SpaceHordes.GameStates.Screens
             BackgroundScreen background = new BackgroundScreen("Textures/hiscore", TransitionType.Fade);
             MainMenuScreen mainMenu = new MainMenuScreen("Space Hordes");
 
-            ScreenManager.AddScreen(background, ControllingPlayer);
-            ScreenManager.AddScreen(mainMenu, ControllingPlayer);
+            Manager.AddScreen(background, ControllingPlayer);
+            Manager.AddScreen(mainMenu, ControllingPlayer);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new OptionsMenuScreen(true), e.PlayerIndex);
+            Manager.AddScreen(new OptionsMenuScreen(true), e.PlayerIndex);
         }
 
         protected override void OnCancel(PlayerIndex playerIndex)

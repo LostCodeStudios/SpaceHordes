@@ -82,19 +82,19 @@ namespace SpaceHordes.GameStates.Screens
             //off, it is time to actually perform the load.
             if (otherScreensAreGone)
             {
-                ScreenManager.RemoveScreen(this);
+                Manager.RemoveScreen(this);
 
                 foreach (GameScreen screen in screensToLoad)
                 {
                     if (screen != null)
-                        ScreenManager.AddScreen(screen, ControllingPlayer);
+                        Manager.AddScreen(screen, ControllingPlayer);
                 }
             }
 
             // Once the load has finished, we use ResetElapsedTime to tell
             // the  game timing mechanism that we have just finished a very
             // long frame, and that it should not try to catch up.
-            ScreenManager.Game.ResetElapsedTime();
+            Manager.Game.ResetElapsedTime();
         }
 
         public override void Draw(GameTime gameTime)
@@ -105,7 +105,7 @@ namespace SpaceHordes.GameStates.Screens
             // screens to be gone: in order for the transition to look good we must
             // have actually drawn a frame without them before we perform the load.
             if ((ScreenState == ScreenState.Active) &&
-                (ScreenManager.GetScreens().Length == 1))
+                (Manager.GetScreens().Length == 1))
             {
                 otherScreensAreGone = true;
             }
@@ -118,13 +118,13 @@ namespace SpaceHordes.GameStates.Screens
             // to bother drawing the message.
             if (loadingIsSlow)
             {
-                SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-                SpriteFont font = ScreenManager.Font;
+                SpriteBatch spriteBatch = Manager.SpriteBatch;
+                SpriteFont font = Manager.Font;
 
                 const string message = "Loading...";
 
                 //Center the text in the viewport.
-                Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
+                Viewport viewport = Manager.GraphicsDevice.Viewport;
                 Vector2 viewportSize = new Vector2(viewport.Width, viewport.Height);
                 Vector2 textSize = font.MeasureString(message);
                 Vector2 textPosition = (viewportSize - textSize) / 2;

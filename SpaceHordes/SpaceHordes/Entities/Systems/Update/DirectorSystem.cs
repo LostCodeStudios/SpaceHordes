@@ -297,13 +297,13 @@ namespace SpaceHordes.Entities.Systems
             switch (SpawnState)
             {
                 case SpawnState.Wave:
-                    difficulty = (waves + elapsedMinutes) * w.Players /2f;
+                    difficulty = 4 * (waves + elapsedMinutes);
                     break;
                 case SpawnState.Surge:
-                    difficulty = (waves + elapsedMinutes) * w.Players;
+                    difficulty = 2 * (waves + elapsedMinutes);
                     break;
                 case SpawnState.Boss:
-                    difficulty = 0.25f * (waves + elapsedMinutes) * w.Players;
+                    difficulty = 0.25f * (waves + elapsedMinutes);
                     break;
                 case SpawnState.Peace:
                     difficulty = 0f;
@@ -325,7 +325,6 @@ namespace SpaceHordes.Entities.Systems
             #region REALGAME
             if (!w.Tutorial)
             {
-
                 #region Scoring
 
                 Score s = Base.GetComponent<Score>();
@@ -724,7 +723,7 @@ namespace SpaceHordes.Entities.Systems
 
         private void makeDialog(ImageFont font, string message)
         {
-            Vector2 pos = new Vector2(ScreenHelper.Viewport.Width / 2 - font.MeasureString(message).X / 2, 0);
+            Vector2 pos = new Vector2(ScreenHelper.Viewport.Width / 2 - font.MeasureString(message).X / 2, ScreenHelper.TitleSafeArea.Y);
             CurrentDialog = new MessageDialog(font, pos, message, TimeSpan.FromSeconds(0.1), TimeSpan.FromSeconds(0.3));
             CurrentDialog.Enabled = true;
         }

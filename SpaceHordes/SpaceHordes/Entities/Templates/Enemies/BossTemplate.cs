@@ -163,9 +163,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             else
                 e.AddComponent<AI>(new AI((args[1] as Body),
-                    AI.CreateFollow(e, 1, false), "Base"));
-            
-                
+                    AI.CreateFollow(e, 1, false), "Base", false));
 
             int points = 0;
             int health = 0;
@@ -173,7 +171,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             {
                 case 1:
                     points = 300;
-                    health = 300;
+                    health = 150;
                     break;
 
                 case 2:

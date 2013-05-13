@@ -15,7 +15,7 @@ namespace SpaceHordes.GameStates.Screens
             //Draw the selected entry in yellow, and others in white.
             Color color = isSelected ? Color.Yellow : Color.White;
 
-            ScreenManager screenManager = screen.ScreenManager;
+            ScreenManager screenManager = screen.Manager;
             SpriteBatch spriteBatch = screenManager.SpriteBatch;
             SpriteFont font = screenManager.InitialEntryFont;
 

@@ -1,6 +1,11 @@
 ﻿using GameLibrary.GameStates.Screens;
 using System;
 using System.IO;
+#if XBOX
+using Microsoft.Xna.Framework.Storage;
+using GameLibrary.GameStates;
+#endif
+
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -25,25 +30,18 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Fields
 
 #if XBOX
-        public StorageContainer MyContainer
+        public static StorageContainer MyContainer
         {
             get
             {
-                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
-            }
-        }
-
-        public string FilePath(Container which)
-        {
-            get
-            {
-                return Path.Combine(which.Path, "settings.txt";
+                return ScreenManager.GetContainer();
             }
         }
 #endif
 
         #region Static Properties
 
+#if WINDOWS
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -51,12 +49,9 @@ namespace SpaceHordes.GameStates.Screens
         {
             get
             {
-#if WINDOWS
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
-#endif
             }
         }
-        #if WINDOWS
         /// <summary>
         /// The path of the scores text file
         /// </summary>
@@ -296,43 +291,46 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
 #if XBOX
-            StorageContainer c = Container;
+            StorageContainer c = MyContainer;
 
-            if (!File.Exists(FilePath(c)))
-                WriteInitialSettings();
-
-            using (TextReader tr = new StreamReader(FilePath(c)))
+            if (!c.FileExists("settings.txt"))
             {
-                while (tr.ReadLine() != "[Sound]")
-                {
-                }
+                c.Dispose();
+                WriteInitialSettings();
+                c = MyContainer;
+            }
 
-                sound = int.Parse(tr.ReadLine());
+            TextReader tr = new StreamReader(c.OpenFile("settings.txt", FileMode.Open));
 
-                while (tr.ReadLine() != "[Music]")
-                {
-                }
+            while (tr.ReadLine() != "[Sound]")
+            {
+            }
 
-                music = int.Parse(tr.ReadLine());
+            sound = int.Parse(tr.ReadLine());
 
-                while (tr.ReadLine() != "[FullScreen]")
-                {
-                }
+            while (tr.ReadLine() != "[Music]")
+            {
+            }
 
-                switch (tr.ReadLine())
-                {
-                    case "On":
-                        fullscreen = true;
-                        break;
+            music = int.Parse(tr.ReadLine());
 
-                    case "Off":
-                        fullscreen = false;
-                        break;
+            while (tr.ReadLine() != "[FullScreen]")
+            {
+            }
 
-                    default:
-                        fullscreen = false;
-                        break;
-                }
+            switch (tr.ReadLine())
+            {
+                case "On":
+                    fullscreen = true;
+                    break;
+
+                case "Off":
+                    fullscreen = false;
+                    break;
+
+                default:
+                    fullscreen = false;
+                    break;
             }
             fullscreen = true;
             c.Dispose();
@@ -342,33 +340,32 @@ namespace SpaceHordes.GameStates.Screens
         public static void WriteSettings(int sound, int music, bool fullscreen)
         {
 #if WINDOWS
-            using (StreamWriter writer = new StreamWriter(FilePath))
-            {
+            StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            using (StreamWriter writer = new StreamWriter(FilePath(c))
-            {
+            StorageContainer c = MyContainer;
+            StreamWriter writer = new StreamWriter(c.OpenFile("settings.txt", FileMode.Open));
+            
 #endif
-                writer.WriteLine("[Sound]");
-                writer.WriteLine(sound);
+            writer.WriteLine("[Sound]");
+            writer.WriteLine(sound);
 
-                writer.WriteLine("[Music]");
-                writer.WriteLine(music);
+            writer.WriteLine("[Music]");
+            writer.WriteLine(music);
 
-                writer.WriteLine("[FullScreen]");
+            writer.WriteLine("[FullScreen]");
 
-                switch (fullscreen)
-                {
-                    case true:
-                        writer.WriteLine("On");
-                        break;
+            switch (fullscreen)
+            {
+                case true:
+                    writer.WriteLine("On");
+                    break;
 
-                    case false:
-                        writer.WriteLine("Off");
-                        break;
-                }
+                case false:
+                    writer.WriteLine("Off");
+                    break;
             }
+            writer.Close();
 #if XBOX
             c.Dispose();
 #endif
@@ -376,10 +373,11 @@ namespace SpaceHordes.GameStates.Screens
 
         public static void WriteInitialSettings()
         {
+#if WINDOWS
             if (!Directory.Exists(FolderPath))
                 Directory.CreateDirectory(FolderPath);
 
-#if WINDOWS
+
             if (!File.Exists(FilePath))
             {
                 using (FileStream fs = File.Create(FilePath))
@@ -389,14 +387,12 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            if (!File.Exists(FilePath(c)))
+            StorageContainer c = MyContainer;
+            if (!c.FileExists("settings.txt"))
             {
-                using (FileStream fs = File.Create(FilePath(c)))
-                {
-                    fs.Close();
-                }
+                c.CreateFile("settings.txt");
             }
+            c.Dispose();
 #endif
 
             WriteSettings(10, 10, true);

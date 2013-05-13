@@ -9,7 +9,7 @@ namespace SpaceHordes.Entities.Systems
     /// <summary>
     /// Checks if Transforms have gone off of the screen.
     /// </summary>
-    internal class EntityRemovalSystem : ParallelEntityProcessingSystem
+    internal class EntityRemovalSystem : EntityProcessingSystem//ParallelEntityProcessingSystem
     {
         private Camera camera;
         private ComponentMapper<ITransform> TransformMapper;
@@ -28,7 +28,8 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             ITransform t = TransformMapper.Get(e);
-            if(Vector2.Distance(t.Position, Vector2.Zero) > ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width)*2 + 1)
+            float bound = (e.Group != "Bullets") ? ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) * 2 + 1 : ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 2;
+            if(Vector2.Distance(t.Position, Vector2.Zero) > bound)
             {
                 e.Delete();
             }

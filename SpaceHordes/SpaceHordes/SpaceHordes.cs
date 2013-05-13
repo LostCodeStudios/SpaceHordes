@@ -10,6 +10,7 @@ using SpaceHordes.GameStates.Screens;
 using System;
 using System.Collections.Generic;
 using SpaceHordes.Entities.Systems;
+using Microsoft.Xna.Framework.Storage;
 
 /***Some documentation notes:
  * From this point, herein, standard regions for classes must be use and stuff. lol.
@@ -53,8 +54,9 @@ namespace SpaceHordes
 
 #if XBOX
         private IAsyncResult result;
+        bool needResult = true;
         private bool needStorageDevice = true;
-
+        int debug = 0;
 #endif
 
         #endregion Fields 
@@ -109,8 +111,9 @@ namespace SpaceHordes
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+#if WINDOWS
             ApplySettings();
-
+#endif
             base.LoadContent();
 
             // TODO: use this.Content to load your game content here
@@ -149,25 +152,29 @@ namespace SpaceHordes
 
             //UPDATE
             // Set the request flag
-            if ((!Guide.IsVisible) && (needStorageDevice == false))
+            if (needStorageDevice)
             {
-                needStorageDevice = true;
-                result = StorageDevice.BeginShowSelector(
-                        PlayerIndex.One, null, null);
-            }
-
-            // If a save is pending, save as soon as the
-            // storage device is chosen
-            if ((needStorageDevice) && (result.IsCompleted))
-            {
-                StorageDevice device = StorageDevice.EndShowSelector(result);
-                if (device != null && device.IsConnected)
+                if (needResult)
                 {
-                    screenManager.StorageDevice = device;
+                    result = StorageDevice.BeginShowSelector(
+                            PlayerIndex.One, null, null);
+                    needResult = false;
                 }
 
-                // Reset the request flag
-                needStorageDevice = false;
+                if (result != null && result.IsCompleted)
+                {
+                    StorageDevice device = StorageDevice.EndShowSelector(result);
+                    if (device != null && device.IsConnected)
+                    {
+                        ScreenManager.Storage = device;
+                        ApplySettings();
+                        needStorageDevice = false;
+                    }
+                    else
+                    {
+                        throw new Exception("Storage bad");
+                    }
+                }
             }
 #endif
 
@@ -187,11 +194,13 @@ namespace SpaceHordes
             base.Draw(gameTime);
         }
 
+#if WINDOWS
         protected override void OnExiting(object sender, EventArgs args)
         {
             Win32.ConsoleLibrary.FreeConsole();
             base.OnExiting(sender, args);
         }
+#endif
 
         #endregion Update & Draw
 
@@ -787,8 +796,8 @@ namespace SpaceHordes
             SoundManager.Add("Explosion2", Content.Load<SoundEffect>("Sounds/Explosion2"));
             SoundManager.Add("Explosion3", Content.Load<SoundEffect>("Sounds/Explosion3"));
             SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
-            SoundManager.Add("SelectChanged", Content.Load<SoundEffect>("Sounds/50561__broumbroum__sf3-sfx-menu-select"));
-            SoundManager.Add("MenuCancel", Content.Load<SoundEffect>("Sounds/50557__broumbroum__sf3-sfx-menu-back"));
+            SoundManager.Add("SelectChanged", Content.Load<SoundEffect>("Sounds/Menu Select"));
+            SoundManager.Add("MenuCancel", Content.Load<SoundEffect>("Sounds/Menu Back"));
             //SoundManager.Add("Selection", Content.Load<SoundEffect>("Sounds/150222__killkhan__menu-select"));
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));

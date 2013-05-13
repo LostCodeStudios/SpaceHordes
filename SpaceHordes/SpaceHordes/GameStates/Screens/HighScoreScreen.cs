@@ -4,6 +4,9 @@ using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+#if XBOX
+using Microsoft.Xna.Framework.Storage;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,6 +65,7 @@ namespace SpaceHordes.GameStates.Screens
 
         #region Static Properties
 
+#if WINDOWS
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -71,10 +75,6 @@ namespace SpaceHordes.GameStates.Screens
             {
 #if WINDOWS
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
-#endif
-
-#if XBOX
-                return "";
 #endif
             }
         }
@@ -89,12 +89,10 @@ namespace SpaceHordes.GameStates.Screens
 #if WINDOWS
                 return FolderPath + @"\scores.txt";
 #endif
-
-#if XBOX
-                return "";
-#endif
             }
         }
+
+#endif
 
         /// <summary>
         /// The default initials in the high score screen.
@@ -243,19 +241,11 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Static Properties
 
 #if XBOX
-        public StorageContainer MyContainer
+        public static StorageContainer MyContainer
         {
             get
             {
-                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
-            }
-        }
-
-        public string FilePath(Container which)
-        {
-            get
-            {
-                return Path.Combine(which.Path, "scores.txt";
+                return ScreenManager.GetContainer();
             }
         }
 #endif
@@ -300,8 +290,20 @@ namespace SpaceHordes.GameStates.Screens
             ReadScores(players, out initials, out scores);
 #endif
 #if XBOX
+            Players = players;
+            StorageContainer c = MyContainer;
+            if (!c.FileExists("scores.txt"))
+            {
+                c.Dispose();
+                WriteInitialScores();
+            }
+            else
+            {
+                c.Dispose();
+            }
 
-            //
+
+            ReadScores(players, out initials, out scores);
 #endif
         }
 
@@ -360,10 +362,10 @@ namespace SpaceHordes.GameStates.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            GraphicsDevice graphics = ScreenManager.GraphicsDevice;
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont font = ScreenManager.Font;
-            SpriteFont titleFont = ScreenManager.TitleFont;
+            GraphicsDevice graphics = Manager.GraphicsDevice;
+            SpriteBatch spriteBatch = Manager.SpriteBatch;
+            SpriteFont font = Manager.Font;
+            SpriteFont titleFont = Manager.TitleFont;
 
             spriteBatch.Begin();
 
@@ -443,31 +445,28 @@ namespace SpaceHordes.GameStates.Screens
             }
 
 #if WINDOWS
-            using (StreamWriter sw = new StreamWriter(FilePath))
+            StreamWriter sw = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            using (StreamWriter sw = new StreamWriter(FilePath(c)))
+            StorageContainer c = MyContainer;
+            StreamWriter sw = new StreamWriter(c.OpenFile("scores.txt", FileMode.Open));
 #endif
+            for (int x = 1; x <= 4; ++x)
             {
-                for (int x = 1; x <= 4; ++x)
+                if (x != players)
                 {
-                    if (x != players)
-                    {
-                        //put initials1 rows into 1d array
+                    //put initials1 rows into 1d array
 
-                        WriteScores(x, initials1[x], scores1[x], sw);
-                    }
-
-                    else
-                    {
-                        WriteScores(players, initials, scores, sw);
-                    }
+                    WriteScores(x, initials1[x], scores1[x], sw);
                 }
 
-                sw.Close();
+                else
+                {
+                    WriteScores(players, initials, scores, sw);
+                }
             }
 
+            sw.Close();
 #if XBOX
             c.Dispose();
 #endif
@@ -503,15 +502,12 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            if (!File.Exists(FilePath(c)))
+            StorageContainer c = MyContainer;
+            if (!c.FileExists("scores.text"))
             {
-                using (FileStream fs = File.Create(FilePath(c)))
-                {
-                    fs.Close();
-                }
+                c.OpenFile("scores.txt", FileMode.Create);
+                c.Dispose();
             }
-            c.Dispose();
 #endif
 
             WriteScores(1, FirstInitials1, FirstScores1);
@@ -532,63 +528,65 @@ namespace SpaceHordes.GameStates.Screens
 #if WINDOWS
             if (File.Exists(FilePath))
             {
-                using (TextReader tr = new StreamReader(FilePath))
+                TextReader tr = new StreamReader(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            if (File.Exists(FilePath(c)))
+            StorageContainer c = MyContainer;
+            if (c.FileExists("scores.txt"))
             {
-                using (TextReader tr = new StreamReader(FilePath(c)))
+                TextReader tr = new StreamReader(c.OpenFile("scores.txt", FileMode.Open));
 #endif
+                int x = 1;
+                while (x <= 4)
                 {
-                    int x = 1;
-                    while (x <= 4)
+                    bool loop = true;
+
+                    while (loop)
                     {
-                        bool loop = true;
+                        string line = tr.ReadLine();
 
-                        while (loop)
+                        if (line == null)
                         {
-                            string line = tr.ReadLine();
-
-                            if (line == null)
-                            {
-                                loop = false;
-                            }
-
-                            else if (line == "[" + x.ToString() + "]")
-                            {
-                                tags[x - 1] = "[" + x.ToString() + "]";
-                                loop = false;
-                            }
+                            loop = false;
                         }
-                        ++x;
-                    }
 
-                    tr.Close();
+                        else if (line == "[" + x.ToString() + "]")
+                        {
+                            tags[x - 1] = "[" + x.ToString() + "]";
+                            loop = false;
+                        }
+                    }
+                    ++x;
                 }
+
+                tr.Close();
 
                 if (tags.Contains<string>("[" + players.ToString() + "]"))
                 {
-                    using (TextReader tr = new StreamReader(FilePath))
+#if WINDOWS
+                    TextReader r = new StreamReader(FilePath);
+#endif
+#if XBOX
+                    TextReader r = new StreamReader(c.OpenFile("scores.txt", FileMode.OpenOrCreate));
+#endif
                     {
-                        while (tr.ReadLine() != "[" + players.ToString() + "]")
+                        while (r.ReadLine() != "[" + players.ToString() + "]")
                         {
                         }
 
-                        for (int x = 0; x < maxScores; ++x)
+                        for (int y = 0; y < maxScores; ++y)
                         {
-                            string initial = tr.ReadLine();
+                            string initial = r.ReadLine();
 
-                            initials[x] = initial;
+                            initials[y] = initial;
 
-                            long score = long.Parse(tr.ReadLine());
-                            scores[x] = score;
+                            long score = long.Parse(r.ReadLine());
+                            scores[y] = score;
                         }
 
-                        tr.Close();
+                        r.Close();
                     }
                 }
-
                 else
                 {
                     switch (players)
@@ -614,11 +612,20 @@ namespace SpaceHordes.GameStates.Screens
                             break;
                     }
                 }
-
+            }
+            else
+            {
 #if XBOX
                 c.Dispose();
 #endif
+                WriteInitialScores();
+                ReadScores(players, out initials, out scores);
+                return;
             }
+
+#if XBOX
+            c.Dispose();
+#endif
         }
 
         /// <summary>
@@ -638,8 +645,8 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
 #if XBOX
-            StorageContainer c = Container;
-            if (!File.Exists(FilePath(c)))
+            StorageContainer c = MyContainer;
+            if (!c.FileExists("scores.txt"))
             {
                 WriteInitialScores();
             }

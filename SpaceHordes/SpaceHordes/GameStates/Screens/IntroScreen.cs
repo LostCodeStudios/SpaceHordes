@@ -50,7 +50,7 @@ namespace SpaceHordes.GameStates.Screens
         public override void Activate()
         {
             if (content == null)
-                content = new ContentManager(ScreenManager.Game.Services, "Content");
+                content = new ContentManager(Manager.Game.Services, "Content");
 
             ImageFont font = new ImageFont();
             font.LoadContent(content, "Textures/gamefont", 1f);
@@ -97,7 +97,7 @@ namespace SpaceHordes.GameStates.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            ScreenManager.SpriteBatch.Begin();
+            Manager.SpriteBatch.Begin();
 
             Vector2 faceDim = new Vector2(face.Width*3, face.Height*3);
 
@@ -109,7 +109,7 @@ namespace SpaceHordes.GameStates.Screens
 
             Rectangle location = new Rectangle((int)(ScreenHelper.Viewport.Width / 2 - faceDim.X / 2) + (int)faceOffs.X, (int)(ScreenHelper.Viewport.Height / 2.5 - faceDim.Y / 2) + (int)faceOffs.Y, (int)faceDim.X, (int)faceDim.Y);
 
-            ScreenManager.SpriteBatch.Draw(face, location, Color.White);
+            Manager.SpriteBatch.Draw(face, location, Color.White);
 
             foreach (MessageDialog d in dialogs)
             {
@@ -117,9 +117,9 @@ namespace SpaceHordes.GameStates.Screens
                 if (ScreenState == ScreenState.TransitionOff)
                     transitionOffset = new Vector2(-ScreenHelper.Viewport.Width*(1-TransitionAlpha),0);
 
-                d.Draw(ScreenManager.SpriteBatch, transitionOffset);
+                d.Draw(Manager.SpriteBatch, transitionOffset);
             }
-            ScreenManager.SpriteBatch.End();
+            Manager.SpriteBatch.End();
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)

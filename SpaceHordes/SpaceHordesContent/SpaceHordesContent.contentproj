@@ -221,18 +221,18 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
-    <Content Include="Sounds\150222__killkhan__menu-select.wav">
+    <None Include="Sounds\150222__killkhan__menu-select.wav">
       <Name>150222__killkhan__menu-select</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
-    </Content>
-    <Compile Include="Sounds\50557__broumbroum__sf3-sfx-menu-back.wav">
-      <Name>50557__broumbroum__sf3-sfx-menu-back</Name>
+    </None>
+    <Compile Include="Sounds\Menu Back.wav">
+      <Name>Menu Back</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="Sounds\50561__broumbroum__sf3-sfx-menu-select.wav">
-      <Name>50561__broumbroum__sf3-sfx-menu-select</Name>
+    <Compile Include="Sounds\Menu Select.wav">
+      <Name>Menu Select</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

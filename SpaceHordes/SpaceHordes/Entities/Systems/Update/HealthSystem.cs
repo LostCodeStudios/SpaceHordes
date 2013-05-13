@@ -26,6 +26,9 @@ namespace SpaceHordes.Entities.Systems
         {
             Health h = healthMapper.Get(e);
 
+            if (h == null)
+                return;
+
             if (e.HasComponent<Origin>())
             {
                 Origin o = e.GetComponent<Origin>();
@@ -45,8 +48,6 @@ namespace SpaceHordes.Entities.Systems
                 h.SetHealth(e, 0);
                 e.Delete();
             }
-
-
         }
     }
 }

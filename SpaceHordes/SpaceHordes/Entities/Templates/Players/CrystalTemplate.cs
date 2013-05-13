@@ -48,22 +48,22 @@ namespace SpaceHordes.Entities.Templates.Objects
             Body b = e.AddComponent<Body>(new Body(_World, e));
             b.IsBullet = true;
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
-            e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(),
-                (target) =>
-                {
-                    if ((target.UserData as Entity).HasComponent<Health>() && (target.UserData as Entity).GetComponent<Health>().IsAlive && target.Position != b.Position)
-                    {
-                        Vector2 distance = target.Position - b.Position;
-                        distance.Normalize();
-                        b.LinearVelocity = distance * new Vector2(7);
-                        return false;
-                    }
-                    else
-                    {
-                        e.Delete();
-                        return false;
-                    }
-                }));
+            //e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(), //AI was severely lagging the game.
+            //    (target) =>
+            //    {
+            //        if ((target.UserData as Entity).HasComponent<Health>() && (target.UserData as Entity).GetComponent<Health>().IsAlive && target.Position != b.Position)
+            //        {
+            //            Vector2 distance = target.Position - b.Position;
+            //            distance.Normalize();
+            //            b.LinearVelocity = distance * new Vector2(7);
+            //            return false;
+            //        }
+            //        else
+            //        {
+            //            e.Delete();
+            //            return false;
+            //        }
+            //    }));
 
             b.Position = pos;
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;

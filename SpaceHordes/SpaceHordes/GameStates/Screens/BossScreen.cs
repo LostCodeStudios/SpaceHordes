@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+#if XBOX
+using Microsoft.Xna.Framework.Storage;
+#endif
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -56,10 +59,13 @@ namespace SpaceHordes.GameStates.Screens
         private InputAction previous;
         private InputAction cancel;
 
+        bool[] data;
+
         #endregion Fields
 
         #region Static Properties
 
+#if WINDOWS
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -69,10 +75,6 @@ namespace SpaceHordes.GameStates.Screens
             {
 #if WINDOWS
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
-#endif
-
-#if XBOX
-                return "";
 #endif
             }
         }
@@ -87,13 +89,10 @@ namespace SpaceHordes.GameStates.Screens
 #if WINDOWS
                 return FolderPath + @"\bosses.txt";
 #endif
-
-#if XBOX
-                return "";
-#endif
             }
         }
 
+#endif
         public static bool[] ClearedBosses
         {
             get { return clearedBosses; }
@@ -109,19 +108,11 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Static Properties
 
 #if XBOX
-        public StorageContainer MyContainer
+        public static StorageContainer MyContainer
         {
             get
             {
-                return ScreenManager.StorageDevice.OpenContainer("SpaceHordes");
-            }
-        }
-
-        public string FilePath(Container which)
-        {
-            get
-            {
-                return Path.Combine(which.Path, "bosses.txt";
+                return ScreenManager.GetContainer();
             }
         }
 #endif
@@ -171,12 +162,14 @@ namespace SpaceHordes.GameStates.Screens
                     Keys.Escape
                 },
                 true);
+
+            data = ReadData();
         }
 
         public override void Activate()
         {
             if (content == null)
-                content = new ContentManager(ScreenManager.Game.Services, "Content");
+                content = new ContentManager(Manager.Game.Services, "Content");
         }
 
         /// <summary>
@@ -198,7 +191,6 @@ namespace SpaceHordes.GameStates.Screens
 
         public override void Draw(GameTime gameTime)
         {
-            bool[] data = ReadData();
             bool current = data[index];
 
             float transitionOffset = TransitionPosition;
@@ -215,7 +207,7 @@ namespace SpaceHordes.GameStates.Screens
                     transitionOffset *= (index > nextIndex) ? 1 : -1;
             }
 
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            SpriteBatch spriteBatch = Manager.SpriteBatch;
             spriteBatch.Begin();
 
             float scale = 3.5f;
@@ -303,9 +295,9 @@ namespace SpaceHordes.GameStates.Screens
 
             string text = current ? bosses[index].BossName : "?????";
             Vector2 textDest = new Vector2(ScreenHelper.Viewport.Width / 2 + (float)(transitionOffset * ScreenHelper.Viewport.Width), ScreenHelper.Viewport.Height * 0.80f);
-            Vector2 size = ScreenManager.Font.MeasureString(text);
+            Vector2 size = Manager.Font.MeasureString(text);
             Vector2 textorigin = size / 2;
-            spriteBatch.DrawString(ScreenManager.Font, text, textDest, Color.White, 0f, textorigin, 1f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(Manager.Font, text, textDest, Color.White, 0f, textorigin, 1f, SpriteEffects.None, 0);
             spriteBatch.End();
         }
 
@@ -333,7 +325,7 @@ namespace SpaceHordes.GameStates.Screens
                     newS.lastIndex = index;
                     newS.currentKey = key;
                     newS.OnExit += MainMenuScreen.BossScreenExited;
-                    ScreenManager.AddScreen(newS, ControllingPlayer);
+                    Manager.AddScreen(newS, ControllingPlayer);
                 }
             }
 
@@ -350,7 +342,7 @@ namespace SpaceHordes.GameStates.Screens
                     newS.lastIndex = index;
                     newS.currentKey = key;
                     newS.OnExit += MainMenuScreen.BossScreenExited;
-                    ScreenManager.AddScreen(newS, ControllingPlayer);
+                    Manager.AddScreen(newS, ControllingPlayer);
                 }
             }
 
@@ -374,66 +366,65 @@ namespace SpaceHordes.GameStates.Screens
 #if WINDOWS
             if (File.Exists(FilePath))
             {
-                using (StreamReader reader = new StreamReader(FilePath))
+                StreamReader reader = new StreamReader(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            if (File.Exists(FilePath(c))
+            StorageContainer c = MyContainer;
+            if (c.FileExists("bosses.txt"))
             {
-                using (StreamReader reader = new StreamReader(FilePath(c)))
+                StreamReader reader = new StreamReader(c.OpenFile("bosses.txt", FileMode.Open));
 #endif
+                for (int x = 0; x < bosses.Length; ++x)
                 {
-                    for (int x = 0; x < bosses.Length; ++x)
+                    string next = reader.ReadLine();
+
+                    switch (next)
                     {
-                        string next = reader.ReadLine();
+                        case "True":
+                            data.Add(true);
+                            break;
 
-                        switch (next)
-                        {
-                            case "True":
-                                data.Add(true);
-                                break;
+                        case "False":
+                            data.Add(false);
+                            break;
 
-                            case "False":
-                                data.Add(false);
-                                break;
-
-                            default:
-                                data.Add(false);
-                                break;
-                        }
+                        default:
+                            data.Add(false);
+                            break;
                     }
                 }
+
+                reader.Close();
+#if XBOX
+                c.Dispose();
+#endif
             }
             else
             {
+#if XBOX
+                c.Dispose();
+#endif
                 WriteInitialData();
                 return ReadData();
             }
-
-#if XBOX
-            c.Dispose();
-#endif
             return data.ToArray();
         }
 
         public static void WriteData(bool[] data)
         {
 #if WINDOWS
-            using (StreamWriter writer = new StreamWriter(FilePath))
+            StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            using (StreamWriter writer = new StreamWriter(FilePath(c)))
+            StorageContainer c = MyContainer;
+            StreamWriter writer = new StreamWriter(c.OpenFile("bosses.txt", FileMode.Open));
 #endif
+            for (int i = 0; i < bosses.Count(); ++i)
             {
-                for (int i = 0; i < bosses.Count(); ++i)
-                {
-                    writer.WriteLine(data[i].ToString());
-                }
-
-                writer.Close();
+                writer.WriteLine(data[i].ToString());
             }
 
+            writer.Close();
 #if XBOX
             c.Dispose();
 #endif
@@ -455,15 +446,11 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            StorageContainer c = Container;
-            if (!File.Exists(FilePath(c)))
+            StorageContainer c = MyContainer;
+            if (!c.FileExists("bosses.txt"))
             {
-                using (FileStream fs = File.Create(FilePath(C)))
-                {
-                    fs.Close();
-                }
+                c.OpenFile("bosses.txt", FileMode.Create);
             }
-            c.Dispose();
 #endif
 
             bool[] data = new bool[bosses.Length];
@@ -472,7 +459,9 @@ namespace SpaceHordes.GameStates.Screens
             {
                 data[i] = false;
             }
-
+#if XBOX
+            c.Dispose();
+#endif
             WriteData(data);
         }
 

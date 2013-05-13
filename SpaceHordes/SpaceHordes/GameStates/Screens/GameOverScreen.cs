@@ -83,8 +83,8 @@ namespace SpaceHordes.GameStates.Screens
                     viewport.Center.X, viewport.Center.Y - viewport.Height * 0.1f);
             }
 
-            titleFont = ScreenManager.TitleFont;
-            textFont = ScreenManager.Font;
+            titleFont = Manager.TitleFont;
+            textFont = Manager.Font;
 
             subtitleLocation = new Vector2(
                 viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y / 2);
@@ -103,7 +103,7 @@ namespace SpaceHordes.GameStates.Screens
                 for (int i = 0; i < players.Length; ++i)
                 {
                     initialEntryScreens[i] = new InitialEntryScreen(screenLocations[i], this);
-                    ScreenManager.AddScreen(initialEntryScreens[i], (PlayerIndex)i);
+                    Manager.AddScreen(initialEntryScreens[i], (PlayerIndex)i);
                 }
             }
         }
@@ -150,9 +150,9 @@ namespace SpaceHordes.GameStates.Screens
                             names += ", ";
                     }
 
-                    ScreenManager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
-                    ScreenManager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
-                    ScreenManager.AddScreen(new HighScoreScreen(players.Length, HighScoreScreen.AddScore(players.Length, names, score)), ControllingPlayer);
+                    Manager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
+                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
+                    Manager.AddScreen(new HighScoreScreen(players.Length, HighScoreScreen.AddScore(players.Length, names, score)), ControllingPlayer);
                     ExitScreen();
                     expired = true;
                 }
@@ -163,7 +163,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             base.Draw(gameTime);
 
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            SpriteBatch spriteBatch = Manager.SpriteBatch;
             Color titleColor = new Color(100, 77, 45) * TransitionAlpha;
 
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
@@ -201,8 +201,8 @@ namespace SpaceHordes.GameStates.Screens
 
                 if (cancel.Evaluate(input, ControllingPlayer, out index))
                 {
-                    ScreenManager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
-                    ScreenManager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
+                    Manager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
+                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
                     ExitScreen();
                     SoundManager.Play("MenuCancel");
                 }

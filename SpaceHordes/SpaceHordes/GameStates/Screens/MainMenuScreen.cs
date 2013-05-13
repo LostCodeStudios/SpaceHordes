@@ -3,6 +3,7 @@ using GameLibrary.Helpers;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using System;
+using GameLibrary.GameStates;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -53,7 +54,7 @@ namespace SpaceHordes.GameStates.Screens
 
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
-#if !(XBOX && !DEMO) || DEBUG
+#if (XBOX && !DEMO) || DEBUG
             MenuEntries.Add(playMultiplayerMenuEntry);
 #endif
             MenuEntries.Add(highScoresMenuEntry);
@@ -81,22 +82,22 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false));
+            LoadingScreen.Load(Manager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false));
         }
 
         private void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", true));
+            LoadingScreen.Load(Manager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", true));
         }
 
         void PlayTutorialEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false, true));
+            LoadingScreen.Load(Manager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false, true));
         }
 
         private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
+            Manager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
         }
 
         private static BackgroundScreen bossBackdrop;
@@ -104,10 +105,10 @@ namespace SpaceHordes.GameStates.Screens
         private void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
-            ScreenManager.AddScreen(bossBackdrop, ControllingPlayer);
+            Manager.AddScreen(bossBackdrop, ControllingPlayer);
             BossScreen bosses = new BossScreen(ScreenHelper.SpriteSheet);
             bosses.OnExit += new EventHandler(BossScreenExited);
-            ScreenManager.AddScreen(bosses, e.PlayerIndex);
+            Manager.AddScreen(bosses, e.PlayerIndex);
         }
 
         public static void BossScreenExited(object sender, EventArgs e)
@@ -118,10 +119,10 @@ namespace SpaceHordes.GameStates.Screens
         private void IntroMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
-            ScreenManager.AddScreen(bossBackdrop, ControllingPlayer);
+            Manager.AddScreen(bossBackdrop, ControllingPlayer);
             IntroScreen intro = new IntroScreen();
             intro.OnExit += new EventHandler(BossScreenExited);
-            ScreenManager.AddScreen(intro, e.PlayerIndex);
+            Manager.AddScreen(intro, e.PlayerIndex);
         }
 
         /// <summary>
@@ -129,7 +130,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void OptionsMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new OptionsMenuScreen(false), e.PlayerIndex);
+            Manager.AddScreen(new OptionsMenuScreen(false), e.PlayerIndex);
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
-            ScreenManager.Game.Exit();
+            Manager.Game.Exit();
         }
 
         #endregion Events

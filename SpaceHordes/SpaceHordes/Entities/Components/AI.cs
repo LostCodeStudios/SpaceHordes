@@ -46,6 +46,12 @@ namespace SpaceHordes.Entities.Components
             Notify = (x, y) => { return; };
         }
 
+        public AI(Body target, Func<Body, bool> behavior, string targetGroup, bool recalculate)
+            : this(target, behavior, targetGroup, 200f)
+        {
+            Recalculate = recalculate;
+        }
+
         #region Properties
 
         /// <summary>
@@ -95,6 +101,9 @@ namespace SpaceHordes.Entities.Components
         /// </summary>
         public Action<string, Entity> Notify;
 
+        public bool Recalculate = true;
+        public bool Calculated = false;
+
         #endregion Fields
 
         #region Behaviors
@@ -108,7 +117,7 @@ namespace SpaceHordes.Entities.Components
         public static Func<Body, bool> CreateFollow(Entity ent, float speed, bool rotateTo)
         {
             return
-                (target) =>///edward
+                (target) =>
                 {
                     Body b = ent.GetComponent<Body>();
                     Vector2 distance = target.Position - b.Position;
@@ -122,9 +131,10 @@ namespace SpaceHordes.Entities.Components
                         b.LinearVelocity = distance;
                         if (rotateTo)
                             b.RotateTo(distance);
-                        else if( ent.Tag ==null|| !ent.Tag.Contains("Boss"))
-                            b.AngularVelocity = (float)Math.PI * 4; 
+                        else if (ent.Tag == null || !ent.Tag.Contains("Boss"))
+                            b.AngularVelocity = (float)Math.PI * 4;
                     }
+
                     return false;
                 };
         }

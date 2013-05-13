@@ -44,18 +44,17 @@ namespace SpaceHordes.Entities.Systems
                     position += new Vector2(_RadarBounds.X, _RadarBounds.Y);
 
                     //DRAW
-                    Color drawColor = Color.White;
-                    if (e.HasComponent<Crystal>())
-                        drawColor = e.GetComponent<Crystal>().Color;
+                    Color drawColor;
+                    if (e.Group == "Player")
+                        drawColor = Color.Green;
+                    else if (e.Group == "Structures")
+                        drawColor = Color.Silver;
+                    else if (e.Group == "Base")
+                        drawColor = Color.Gray;
+                    else
+                        drawColor = Color.Red;
+
                     DrawSolidCircle(position, 0.5f * b.Mass, Vector2.Zero, drawColor);
-
-                    //PLAYER ID
-                    if (e.Group != null && e.Group == "Players")
-                        DrawString(e.Tag, position, Color.Tan);
-
-//#if DEBUG
-//                    DrawString(position.ToString(), position, Color.Red);
-//#endif
                 }
             }
         }
