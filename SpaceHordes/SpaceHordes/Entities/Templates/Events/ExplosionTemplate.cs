@@ -38,7 +38,7 @@ namespace SpaceHordes.Entities.Templates
 
             Particle p = e.AddComponent<Particle>(new Particle(e, (Vector2)args[1], 0f, (args.Length > 4) ? (Vector2)args[4] : Vector2.Zero, 0f));
             e.Group = "Explosions";
-
+            
             Explode((Entity)args[2], 1, p.Position, 3, magnitude);
 
             return e;

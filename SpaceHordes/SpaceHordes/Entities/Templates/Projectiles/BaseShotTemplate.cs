@@ -13,7 +13,13 @@ namespace SpaceHordes.Entities.Templates.Events
     class BaseShotTemplate : IEntityGroupTemplate
     {
         public static double ShotRatio = 0.22;
-        public static double MaxShot = 30;
+#if XBOX
+        public static double MaxShot = 50;
+#endif
+
+#if WINDOWS
+        public static double MaxShot = 500;
+#endif
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {
             Inventory inv = (args[0] as Entity).GetComponent<Inventory>();
@@ -25,9 +31,12 @@ namespace SpaceHordes.Entities.Templates.Events
                 int shot = 1;
                 SoundManager.Play("Shot" + shot.ToString(), .25f);
                 //Shoot bullets out from base at an even division of the circle * a shot ratio
+
+                double max = Math.PI * 2;
+                double step = (Math.PI * 2 * ShotRatio) / (Math.Min((double)inv.CurrentGun.Ammunition, MaxShot));
                 for (double angle = 0;
-                    angle < Math.PI * 2;
-                    angle += (Math.PI * 2 * ShotRatio) / (Math.Min((double)inv.CurrentGun.Ammunition, MaxShot)))
+                    angle < max;
+                    angle += step)
                 {
                     Transform fireAt = new Transform(Vector2.Zero, (float)angle);
                     Entity bullet = world.CreateEntity(inv.CurrentGun.BulletTemplateTag, fireAt);

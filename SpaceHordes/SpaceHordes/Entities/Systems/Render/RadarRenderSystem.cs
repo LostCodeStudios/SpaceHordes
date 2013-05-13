@@ -45,12 +45,14 @@ namespace SpaceHordes.Entities.Systems
 
                     //DRAW
                     Color drawColor;
-                    if (e.Group == "Player")
+                    if (e.Group == "Players")
                         drawColor = Color.Green;
                     else if (e.Group == "Structures")
                         drawColor = Color.Silver;
                     else if (e.Group == "Base")
                         drawColor = Color.Gray;
+                    else if (e.Group == "Crystals")
+                        drawColor = e.GetComponent<Crystal>().Color;
                     else
                         drawColor = Color.Red;
 

@@ -29,19 +29,16 @@ namespace SpaceHordes.Entities.Templates
             Vector2 center = (Vector2)args[0];
             int intensity = (int)args[1];
             Entity ent = (Entity)args[2];
-
+            Vector2 velocity = (Vector2)args[3];
             world.CreateEntityGroup("BigExplosion", "Explosions", center, 15, ent);
 
-            for (int i = 0; i < intensity; ++i)
+            double max = Math.PI * 2;
+            double step = (Math.PI * 2) / intensity;
+            for (double angle = 0; angle < max; angle += step)
             {
                 float radius = 75;
                 radius = ConvertUnits.ToSimUnits(radius);
-                Vector2 offset;
-
-                double x = 2 * r.NextDouble() - 1;
-                double y = 2 * r.NextDouble() - 1;
-
-                offset = new Vector2((float)x, (float)y);
+                Vector2 offset = new Vector2(radius * (float)Math.Cos(angle), radius * (float)Math.Sin(angle));
                 offset.Normalize();
                 offset *= radius;
 

@@ -159,7 +159,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 ent =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 10, e);
+                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, e);
 
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
@@ -169,11 +169,11 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
                         {
                             Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
-                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2, e.GetComponent<IVelocity>().LinearVelocity);
                         }
                         else
                         {
-                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent, e.GetComponent<IVelocity>().LinearVelocity);
                         }
                         ScoreSystem.GivePoints(10);
                     }

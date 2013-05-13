@@ -13,6 +13,8 @@ namespace SpaceHordes.Entities.Systems
     {
         private Camera camera;
         private ComponentMapper<ITransform> TransformMapper;
+        float bound; 
+        float bulletBound;
 
         public EntityRemovalSystem(Camera camera)
             : base(typeof(ITransform))
@@ -23,13 +25,15 @@ namespace SpaceHordes.Entities.Systems
         public override void Initialize()
         {
             TransformMapper = new ComponentMapper<ITransform>(world);
+            bound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) * 2 + 1;
+            bulletBound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 2 + 1;
         }
 
         public override void Process(Entity e)
         {
             ITransform t = TransformMapper.Get(e);
-            float bound = (e.Group != "Bullets") ? ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) * 2 + 1 : ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 2;
-            if(Vector2.Distance(t.Position, Vector2.Zero) > bound)
+                
+            if(Vector2.Distance(t.Position, Vector2.Zero) > (e.Group == "Bullets" ? bulletBound : bound))
             {
                 e.Delete();
             }

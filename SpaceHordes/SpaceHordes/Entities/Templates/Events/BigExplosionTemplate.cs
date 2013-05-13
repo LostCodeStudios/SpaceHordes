@@ -29,6 +29,7 @@ namespace SpaceHordes.Entities.Templates
             Vector2 center = (Vector2)args[0];
             int intensity = (int)args[1];
             Entity ent = (Entity)args[2];
+            Vector2 velocity = (Vector2)args[3];
 
             int[] size = new int[4];
 
@@ -36,23 +37,20 @@ namespace SpaceHordes.Entities.Templates
             {
                 size[i] = intensity / (i + 1);
                 float radius = 0;
-                for (int k = 4 - i; k > i; k--)
+                for (int k = 5 - i; k > i; k--)
                 {
-                    radius += spriteSheet["splosion" + k.ToString()][0].Width / 2;
+                    radius += (float)spriteSheet["splosion" + k.ToString()][0].Width / (k == i + 1 && i == 2 ? 2f : 3f);
                 }
                 radius = ConvertUnits.ToSimUnits(radius);
                 Vector2 offset;
 
-                for (int j = 0; j < size[i]; ++j)
+                double max = Math.PI * 2;
+                double step = (Math.PI * 2) / (double)size[i];
+                for (double angle = 0; angle < max; angle += step)
                 {
-                    double x = 2 * r.NextDouble() - 1;
-                    double y = 2 * r.NextDouble() - 1;
+                    offset = new Vector2(radius * (float)Math.Cos(angle), radius * (float)Math.Sin(angle));
 
-                    offset = new Vector2((float)x, (float)y);
-                    offset.Normalize();
-                    offset *= radius;
-
-                    world.CreateEntity("Explosion", 0.05f * (i + 1), center + offset, ent, (i + 1)).Refresh();
+                    world.CreateEntity("Explosion", 0.05f * (i + 1), center + offset, ent, (i + 1), velocity).Refresh();
                 }
             }
 

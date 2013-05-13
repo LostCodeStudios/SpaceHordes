@@ -60,7 +60,7 @@ namespace SpaceHordes
             _Font.SpaceWidth = 10;
             hudRenderSystem.LoadContent(_Font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
-#if DEBUG   //Debug render system
+#if DEBUG && WINDOWS //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
                  new KeyValuePair<string, object>("Player", this.Player[0].GetComponent<Body>()),
