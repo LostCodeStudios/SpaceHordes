@@ -45,6 +45,17 @@ namespace SpaceHordes.Entities.Systems
         int[] PlayerToSpawn;
 
         private double difficulty = 0;
+
+#if WINDOWS
+        private int maxMooks = 4;
+        private int maxThugs = 1;
+#endif
+
+#if XBOX
+        private int maxMooks = 3;
+        private int maxThugs = 1;
+#endif
+
         public SpawnState SpawnState = SpawnState.Peace;
         int waves = 0;
 
@@ -340,8 +351,8 @@ namespace SpaceHordes.Entities.Systems
                 #region Spawning
 
                 int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
-                int mooksToSpawn = doubleToInt(difficulty / 7) * MookSpawnRate;
-                int thugsToSpawn = doubleToInt(difficulty / 50) * ThugSpawnRate;
+                int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, maxMooks);
+                int thugsToSpawn = Math.Min(doubleToInt(difficulty / 50) * ThugSpawnRate, maxThugs);
                 int gunnersToSpawn = doubleToInt((double)structs / 50) * GunnerSpawnRate;
                 int huntersToSpawn = doubleToInt((double)Players.Length / 75) * HunterSpawnRate;
                 int destroyersToSpawn = doubleToInt((double)Players.Length / 300) * DestroyerSpawnRate;

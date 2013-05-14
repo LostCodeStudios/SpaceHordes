@@ -36,6 +36,14 @@ namespace SpaceHordes.Entities.Templates
             string tag = "Player" + ((int)((PlayerIndex)args[0]) + 1);
             e.Tag = "P" + ((int)((PlayerIndex)args[0]) + 1);
 
+            try
+            {
+                int playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
+            }
+            catch
+            {
+                throw new FormatException("Yeah fuck you" + e.Tag);
+            }
             #region Body
 
             //Set up initial body

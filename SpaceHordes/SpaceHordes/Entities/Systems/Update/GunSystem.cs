@@ -53,7 +53,16 @@ namespace SpaceHordes.Entities.Systems
                 gun.BulletsToFire = false;
                 ITransform t = e.GetComponent<ITransform>();
 
-                int index = int.Parse(e.Tag.Replace("P", "")) - 1;
+
+                int index;
+                try
+                {
+                    index = int.Parse(e.Tag.Replace("P", "")) - 1;
+                }
+                catch
+                {
+                    return;
+                }
                 PlayerIndex playerIndex = (PlayerIndex)index;
                 GamePadState padState = GamePad.GetState(playerIndex);
                 KeyboardState keyState = Keyboard.GetState();

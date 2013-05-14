@@ -26,7 +26,7 @@ namespace SpaceHordes.Entities.Systems
         {
             TransformMapper = new ComponentMapper<ITransform>(world);
             bound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) * 2 + 1;
-            bulletBound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 2 + 1;
+            bulletBound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 1.5f;
         }
 
         public override void Process(Entity e)

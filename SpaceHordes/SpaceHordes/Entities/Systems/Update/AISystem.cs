@@ -19,6 +19,9 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
+            if (e.HasComponent<AI>())
+                return;
+
             AI ai = e.GetComponent<AI>();
 
 

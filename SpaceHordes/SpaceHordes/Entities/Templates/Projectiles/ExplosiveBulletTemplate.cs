@@ -72,7 +72,6 @@ namespace SpaceHordes.Entities.Templates.Objects
             bulletHealth.OnDeath +=
             ent =>
             {
-                Vector2 poss = e.GetComponent<ITransform>().Position;
                 _World.CreateEntityGroup("BigExplosion", "Explosions", bitch.Position, 10, e, e.GetComponent<IVelocity>().LinearVelocity);
 
                 SoundManager.Play("Explosion1");
