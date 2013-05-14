@@ -44,7 +44,7 @@ namespace SpaceHordes.Entities.Components
             else if (type == InvType.Player)
             {
                 RED = new Gun((int)red, 100, 1, "RedBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
-                GREEN = new Gun((int)green, 600, 1, "GreenBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
+                GREEN = new Gun((int)green, 200, 1, "GreenBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
                 BLUE = new Gun((int)blue, 300, 1, "BlueBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
                 WHITE = new Gun(-1, 200, 1, "WhiteBullet", InvType.Player, Vector2.UnitY, -Vector2.UnitY * 3);
 

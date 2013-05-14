@@ -13,7 +13,6 @@ namespace SpaceHordes.Entities.Templates
     {
         private World world;
         private SpriteSheet spriteSheet;
-        private Entity junkRock;
 
         public BaseTemplate(World world, SpriteSheet spriteSheet)
         {
@@ -33,7 +32,7 @@ namespace SpaceHordes.Entities.Templates
                 FixtureFactory.AttachEllipse(//Add a basic bounding box (rectangle status)
                     ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Width / 2f),
                     ConvertUnits.ToSimUnits(spriteSheet.Animations["base"][0].Height / 2f),
-                    20,
+                    15,
                     1,
                     Body);
                 Body.Position = ConvertUnits.ToSimUnits(new Vector2(0, 0));
@@ -69,6 +68,8 @@ namespace SpaceHordes.Entities.Templates
 
                 SoundManager.Play("Explosion1");
             };
+
+            e.AddComponent<HealthRender>(new HealthRender());
 
             return e;
         }

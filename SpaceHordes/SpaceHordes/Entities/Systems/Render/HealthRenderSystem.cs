@@ -19,7 +19,7 @@ namespace SpaceHordes.Entities.Systems
         private ComponentMapper<Body> bodyMapper;
 
         public HealthRenderSystem(SpriteBatch spriteBatch)
-            : base(typeof(Health), typeof(Body))
+            : base(typeof(HealthRender))
         {
             this._SpriteBatch = spriteBatch;
             _BarTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);

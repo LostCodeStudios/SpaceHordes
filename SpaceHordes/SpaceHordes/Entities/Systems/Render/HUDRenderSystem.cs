@@ -18,14 +18,14 @@ namespace SpaceHordes.Entities.Systems
         #region Locations
 
         private static Vector2 hudDimmensions;
-        private static Vector2 radarDimmensions;
+        //private static Vector2 radarDimmensions;
         private static Vector2 warningDimmensions;
         private static Rectangle[] hudLocations;
-        private static Rectangle radarLocation;
-        public static Rectangle RadarScreenLocation;
+        //private static Rectangle radarLocation;
+        //public static Rectangle RadarScreenLocation;
         private static Rectangle warningLocation;
 
-        private static Rectangle radarSource;
+        //private static Rectangle radarSource;
         private static Rectangle hudSource;
         private static Rectangle buildMenuSource;
         private static Rectangle selectionSource;
@@ -50,28 +50,28 @@ namespace SpaceHordes.Entities.Systems
             #region HUD Specifications
 
             hudDimmensions = new Vector2(96, 51);
-            float radarScale = 2.6f;
-            radarDimmensions = new Vector2(86, 50) * radarScale;
+            //float radarScale = 2.6f;
+            //radarDimmensions = new Vector2(86, 50) * radarScale;
             warningDimmensions = new Vector2(173, 76);
 
             hudLocations = new Rectangle[]
             {
-                new Rectangle((int)(ScreenHelper.Viewport.Width / 6), ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-                new Rectangle((int)ScreenHelper.Third.X, ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-                new Rectangle((int)(ScreenHelper.Third.X * 2 - hudDimmensions.X), ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
-                new Rectangle((int)((ScreenHelper.Viewport.Width / 6) * 5 - hudDimmensions.X), ScreenHelper.Viewport.Height - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
+                new Rectangle(ScreenHelper.TitleSafeArea.X, ScreenHelper.TitleSafeArea.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.TitleSafeArea.Right - (int)hudDimmensions.X, ScreenHelper.TitleSafeArea.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.TitleSafeArea.X, ScreenHelper.TitleSafeArea.Bottom - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.TitleSafeArea.Right - (int)hudDimmensions.X, ScreenHelper.TitleSafeArea.Bottom - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
             };
 
-            float topRadarPadding = 4f * radarScale;
-            float leftRadarPadding = topRadarPadding;
-            float rightRadarPadding = topRadarPadding;
-            float bottomRadarPadding = 5f * radarScale;
+            //float topRadarPadding = 4f * radarScale;
+            //float leftRadarPadding = topRadarPadding;
+            //float rightRadarPadding = topRadarPadding;
+            //float bottomRadarPadding = 5f * radarScale;
 
-            radarLocation = new Rectangle((int)ScreenHelper.Center.X - (int)radarDimmensions.X / 2, ScreenHelper.Viewport.Height - (int)radarDimmensions.Y, (int)radarDimmensions.X, (int)radarDimmensions.Y);
-            RadarScreenLocation = new Rectangle((int)(radarLocation.Location.X + leftRadarPadding), (int)(radarLocation.Location.Y + topRadarPadding), (int)(radarLocation.Width - (rightRadarPadding + leftRadarPadding)), (int)(radarLocation.Height - (bottomRadarPadding + topRadarPadding)));
+            //radarLocation = new Rectangle((int)ScreenHelper.Center.X - (int)radarDimmensions.X / 2, ScreenHelper.Viewport.Height - (int)radarDimmensions.Y, (int)radarDimmensions.X, (int)radarDimmensions.Y);
+            //RadarScreenLocation = new Rectangle((int)(radarLocation.Location.X + leftRadarPadding), (int)(radarLocation.Location.Y + topRadarPadding), (int)(radarLocation.Width - (rightRadarPadding + leftRadarPadding)), (int)(radarLocation.Height - (bottomRadarPadding + topRadarPadding)));
             warningLocation = new Rectangle((int)(ScreenHelper.Center.X - warningDimmensions.X / 2), (int)(ScreenHelper.Center.Y - warningDimmensions.Y * 2), (int)warningDimmensions.X, (int)warningDimmensions.Y);
 
-            radarSource = new Rectangle(0, 0, 86, 50);
+            //radarSource = new Rectangle(0, 0, 86, 50);
             hudSource = new Rectangle(86, 0, 96, 51);
             buildMenuSource = new Rectangle(181, 0, 96, 51);
             selectionSource = new Rectangle(277, 0, 26, 26);
@@ -102,7 +102,7 @@ namespace SpaceHordes.Entities.Systems
             _SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             base.Process();
-            _SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
+            //_SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
 
             SpaceWorld w = world as SpaceWorld;
 

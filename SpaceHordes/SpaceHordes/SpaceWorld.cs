@@ -68,7 +68,7 @@ namespace SpaceHordes
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 
 #endif
-            radarRenderSystem.LoadContent(Content);
+            //radarRenderSystem.LoadContent(Content);
         }
 
         #endregion Content/Init
@@ -91,22 +91,21 @@ namespace SpaceHordes
             enemyMovementSystem = this.SystemManager.SetSystem(new AISystem(), ExecutionType.Update, 0);
             playerControlSystem = this.SystemManager.SetSystem(new PlayerControlSystem(5f), ExecutionType.Update, 0);
             explosionSystem = this.SystemManager.SetSystem(new ExplosionSystem(), ExecutionType.Update, 0);
-            this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update, 0);
+            //this.SystemManager.SetSystem(new CrystalMovementSystem(), ExecutionType.Update, 0);
             this.SystemManager.SetSystem(new BaseAnimationSystem(0.10f, 10), ExecutionType.Update, 0);
             scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(this), ExecutionType.Update, 0);
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update, 0);
             SystemManager.SetSystem(new BossAnimationSystem(this), ExecutionType.Update, 0);
             this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update, 0);
-            SystemManager.SetSystem(new FireRemovalSystem(), ExecutionType.Update, 0);
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);
             starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Update, 0);
-            radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
-                new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
-                    ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
-                    ExecutionType.Draw, 3);
+            //radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
+            //    new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
+            //        ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
+            //        ExecutionType.Draw, 3);
             base.BuildSystems();
         }
 
@@ -319,7 +318,7 @@ namespace SpaceHordes
                     Indices.Add((PlayerIndex)i);
                     ++Players;
                 }
-#if DEBUG 
+#if DEBUG && WINDOWS
                 //Player 4 keyboard controlled
                 //if (index.Length == 1)
                 //{

@@ -86,14 +86,16 @@ namespace SpaceHordes.Entities.Systems
 
         public void DrawCircle(Vector2 center, float radius, Color color)
         {
+            
             if (!_PrimBatch.IsReady())
             {
                 throw new InvalidOperationException("BeginCustomDraw must be called before drawing anything.");
             }
-            const double increment = Math.PI * 2.0 / 32;
+            int num = Math.Max((int)radius * 2, 5);
+            double increment = Math.PI * 2.0 / num;
             double theta = 0.0;
 
-            for (int i = 0; i < 32; ++i)
+            for (int i = 0; i < num; ++i)
             {
                 Vector2 v1 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
                 Vector2 v2 = center +
@@ -113,30 +115,31 @@ namespace SpaceHordes.Entities.Systems
             {
                 throw new InvalidOperationException("BeginCustomDraw must be called before drawing anything.");
             }
-            const double increment = Math.PI * 2.0 / 32;
+            int num = Math.Max((int)radius * 2, 5);
+            double increment = Math.PI * 2.0 / num;
             double theta = 0.0;
 
-            Color colorFill = color * 0.5f;
+            //Color colorFill = color * 0.5f;
 
             Vector2 v0 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
             theta += increment;
 
-            for (int i = 1; i < 32 - 1; ++i)
+            for (int i = 1; i < num - 1; ++i)
             {
                 Vector2 v1 = center + radius * new Vector2((float)Math.Cos(theta), (float)Math.Sin(theta));
                 Vector2 v2 = center +
                              radius *
                              new Vector2((float)Math.Cos(theta + increment), (float)Math.Sin(theta + increment));
 
-                _PrimBatch.AddVertex(v0, colorFill, PrimitiveType.TriangleList);
-                _PrimBatch.AddVertex(v1, colorFill, PrimitiveType.TriangleList);
-                _PrimBatch.AddVertex(v2, colorFill, PrimitiveType.TriangleList);
+                _PrimBatch.AddVertex(v0, color, PrimitiveType.TriangleList);
+                _PrimBatch.AddVertex(v1, color, PrimitiveType.TriangleList);
+                _PrimBatch.AddVertex(v2, color, PrimitiveType.TriangleList);
 
                 theta += increment;
             }
-            DrawCircle(center, radius, color);
+            //DrawCircle(center, radius, color);
 
-            DrawSegment(center, center + axis * radius, color);
+            //DrawSegment(center, center + axis * radius, color);
         }
 
         public void DrawSegment(Vector2 start, Vector2 end, Color color)

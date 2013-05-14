@@ -33,7 +33,13 @@ namespace SpaceHordes.Entities.Systems
         {
             ITransform t = TransformMapper.Get(e);
                 
-            if(Vector2.Distance(t.Position, Vector2.Zero) > (e.Group == "Bullets" ? bulletBound : bound))
+            if(Vector2.Distance(t.Position, Vector2.Zero) > (e.Group == "Bullets" || e.Group == "Fire" ? bulletBound : bound))
+            {
+                e.Delete();
+                return;
+            }
+
+            if (e.HasComponent<Components.Timer>() && e.GetComponent<Components.Timer>().Update(world.Delta))
             {
                 e.Delete();
             }

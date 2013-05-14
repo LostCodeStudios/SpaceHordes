@@ -125,7 +125,9 @@ namespace SpaceHordes
             SetSoundEffects();
             SetSongs();
 
+#if WINDOWS
             MusicManager.PlaySong("Title");
+#endif
         }
 
         /// <summary>
@@ -154,7 +156,7 @@ namespace SpaceHordes
             // Set the request flag
             if (needStorageDevice)
             {
-                if (needResult)
+                if (!Guide.IsVisible && needResult)
                 {
                     result = StorageDevice.BeginShowSelector(
                             PlayerIndex.One, null, null);
@@ -168,6 +170,7 @@ namespace SpaceHordes
                     {
                         ScreenManager.Storage = device;
                         ApplySettings();
+                        MusicManager.PlaySong("Title");
                         needStorageDevice = false;
                     }
                     else

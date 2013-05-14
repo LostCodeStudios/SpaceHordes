@@ -30,7 +30,7 @@ namespace SpaceHordes.Entities.Templates
             int intensity = (int)args[1];
             Entity ent = (Entity)args[2];
             Vector2 velocity = (Vector2)args[3];
-            world.CreateEntityGroup("BigExplosion", "Explosions", center, 15, ent);
+            world.CreateEntityGroup("BigExplosion", "Explosions", center, 15, ent, velocity);
 
             double max = Math.PI * 2;
             double step = (Math.PI * 2) / intensity;
@@ -42,7 +42,7 @@ namespace SpaceHordes.Entities.Templates
                 offset.Normalize();
                 offset *= radius;
 
-                world.CreateEntityGroup("BigExplosion", "Explosions", center + offset, 15, ent);
+                world.CreateEntityGroup("BigExplosion", "Explosions", center + offset, 15, ent, velocity);
             }
 
             return explosions.ToArray();

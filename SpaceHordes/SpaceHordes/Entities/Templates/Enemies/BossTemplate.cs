@@ -65,7 +65,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             string spriteKey = "";
             int type = spawned;
 #if DEBUG
-            type = 9;
+            type = 7;
 #endif
             spriteKey = bosses[type].SpriteKey;
 
@@ -144,6 +144,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #endregion Crystal
 
             #region AI/Health
+
+            e.AddComponent<HealthRender>(new HealthRender());
 
             if (spriteKey == "flamer")
                 e.AddComponent<AI>(new AI((args[1] as Body),

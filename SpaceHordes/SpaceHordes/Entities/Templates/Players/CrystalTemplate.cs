@@ -33,6 +33,8 @@ namespace SpaceHordes.Entities.Templates.Objects
             Color color = (Color)args[1];
             string source = "redcrystal";
 
+            e.AddComponent<Components.Timer>(new Components.Timer(10));
+
             if (color == Color.Red)
                 source = "redcrystal";
             if (color == Color.Blue)
@@ -47,26 +49,23 @@ namespace SpaceHordes.Entities.Templates.Objects
             Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f + (float)crystals/10000f));
             Body b = e.AddComponent<Body>(new Body(_World, e));
             b.IsBullet = true;
-            FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 2), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 2), 4, 1f, b);
-            //e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(), //AI was severely lagging the game.
-            //    (target) =>
-            //    {
-            //        if ((target.UserData as Entity).HasComponent<Health>() && (target.UserData as Entity).GetComponent<Health>().IsAlive && target.Position != b.Position)
-            //        {
-            //            Vector2 distance = target.Position - b.Position;
-            //            distance.Normalize();
-            //            b.LinearVelocity = distance * new Vector2(7);
-            //            return false;
-            //        }
-            //        else
-            //        {
-            //            e.Delete();
-            //            return false;
-            //        }
-            //    }));
+            FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 1.5), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 1.5), 3, 1f, b);
 
             b.Position = pos;
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+
+            e.GetComponent<Body>().OnCollision +=
+                (f1, f2, c) =>
+                {
+                    if ((f2.Body.UserData as Entity).Group == "Players")
+                    {
+                        (f2.Body.UserData as Entity).GetComponent<Inventory>().GiveCrystals((f1.Body.UserData as Entity).GetComponent<Crystal>());
+                        (f1.Body.UserData as Entity).Delete();
+                        SoundManager.Play("Pickup1");
+                    }
+                    return false;
+                };
+
             if (args.Length > 3)
             {
                 e.AddComponent<Crystal>(new Crystal(color, (int)args[2], true));

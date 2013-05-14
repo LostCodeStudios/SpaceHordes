@@ -14,7 +14,7 @@ namespace SpaceHordes.Entities.Templates.Objects
         private EntityWorld _World;
 
         private float distFromPlayer = 20f;
-        static int barriers = 0;
+        public static int barriers = 0;
 
         public BarrierTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {

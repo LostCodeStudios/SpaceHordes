@@ -20,6 +20,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
         public TurretTemplate(SpriteSheet spriteSheet, DirectorSystem directorSystem, EntityWorld world)
         {
+            Turrets.Clear();
             _SpriteSheet = spriteSheet;
             _DirectorSystem = directorSystem;
             _World = world;

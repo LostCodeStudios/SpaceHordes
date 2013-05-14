@@ -36,6 +36,14 @@ namespace SpaceHordes.Entities.Systems
             ai.Calculated = true;
             ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
 
+            if (ai.Target == null && e.Group != "Structures")
+            {
+                if (e.HasComponent<Health>())
+                    e.GetComponent<Health>().SetHealth(null, 0);
+                else
+                    e.Delete();
+            }
+
             e.Refresh();
         }
 

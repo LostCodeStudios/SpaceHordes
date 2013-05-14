@@ -14,7 +14,7 @@ namespace SpaceHordes.Entities.Templates.Events
     {
         public static double ShotRatio = 0.22;
 #if XBOX
-        public static double MaxShot = 50;
+        public static double MaxShot = 40;
 #endif
 
 #if WINDOWS

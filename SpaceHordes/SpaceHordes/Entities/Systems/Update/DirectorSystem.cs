@@ -297,7 +297,7 @@ namespace SpaceHordes.Entities.Systems
             switch (SpawnState)
             {
                 case SpawnState.Wave:
-                    difficulty = 4 * (waves + elapsedMinutes);
+                    difficulty = (waves + elapsedMinutes);
                     break;
                 case SpawnState.Surge:
                     difficulty = 2 * (waves + elapsedMinutes);
@@ -339,11 +339,12 @@ namespace SpaceHordes.Entities.Systems
 
                 #region Spawning
 
+                int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
                 int mooksToSpawn = doubleToInt(difficulty / 7) * MookSpawnRate;
                 int thugsToSpawn = doubleToInt(difficulty / 50) * ThugSpawnRate;
-                int gunnersToSpawn = doubleToInt(difficulty / 100) * GunnerSpawnRate;
-                int huntersToSpawn = doubleToInt(difficulty / 75) * HunterSpawnRate;
-                int destroyersToSpawn = doubleToInt(difficulty / 300) * DestroyerSpawnRate;
+                int gunnersToSpawn = doubleToInt((double)structs / 50) * GunnerSpawnRate;
+                int huntersToSpawn = doubleToInt((double)Players.Length / 75) * HunterSpawnRate;
+                int destroyersToSpawn = doubleToInt((double)Players.Length / 300) * DestroyerSpawnRate;
                 spawnMooks(mooksToSpawn);
                 spawnThugs(thugsToSpawn);
                 spawnGunners(gunnersToSpawn);

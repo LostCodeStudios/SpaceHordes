@@ -3,8 +3,9 @@ using System;
 using System.IO;
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
-using GameLibrary.GameStates;
 #endif
+using GameLibrary.GameStates;
+using GameLibrary.Helpers;
 
 
 namespace SpaceHordes.GameStates.Screens
@@ -64,59 +65,34 @@ namespace SpaceHordes.GameStates.Screens
         }
 #endif
 
+        static int soundVol;
         public static int SoundVolume
         {
             get
             {
-                int sound;
-                int music;
-                bool fullscreen;
-
-                ReadSettings(out sound, out music, out fullscreen);
-
-                return sound;
+                return soundVol;
             }
 
             set
             {
-                int sound;
-                int music;
-                bool fullscreen;
-
-                ReadSettings(out sound, out music, out fullscreen);
-
-                int amount = value % 11;
-                WriteSettings(amount, music, fullscreen);
-
-                SpaceHordes.ApplySettings();
+                soundVol = value % 11;
+                SoundManager.Volume = (float)soundVol / 10;
             }
         }
 
+        static int musicVol;
         public static int MusicVolume
         {
             get
             {
-                int sound;
-                int music;
-                bool fullscreen;
-
-                ReadSettings(out sound, out music, out fullscreen);
-
-                return music;
+                return musicVol;
             }
 
             set
             {
-                int sound;
-                int music;
-                bool fullscreen;
+                musicVol = value % 11;
 
-                ReadSettings(out sound, out music, out fullscreen);
-
-                int amount = value % 11;
-                WriteSettings(sound, amount, fullscreen);
-
-                SpaceHordes.ApplySettings();
+                MusicManager.Volume = (float)musicVol / 10;
             }
         }
 
@@ -166,6 +142,8 @@ namespace SpaceHordes.GameStates.Screens
             this.fullScreen.Selected += fullScreen_selected;
 #endif
 
+            bool fullsc;
+            ReadSettings(out soundVol, out musicVol, out fullsc);
             updateMenuEntryText();
 
             MenuEntries.Add(this.sound);
@@ -197,6 +175,19 @@ namespace SpaceHordes.GameStates.Screens
             ++MusicVolume;
 
             updateMenuEntryText();
+        }
+
+        private void onExit(object sender, EventArgs e)
+        {
+            int sound;
+            int music;
+            bool fullscreen;
+
+            ReadSettings(out sound, out music, out fullscreen);
+
+            WriteSettings(soundVol, musicVol, fullscreen);
+
+            SpaceHordes.ApplySettings();
         }
 
 #if WINDOWS
