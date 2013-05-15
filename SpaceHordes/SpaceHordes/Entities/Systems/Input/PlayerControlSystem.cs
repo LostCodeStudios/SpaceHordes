@@ -70,8 +70,10 @@ namespace SpaceHordes.Entities.Systems
             }
             catch
             {
+                Console.WriteLine("Tag: " + e.Tag);
                 return;
             }
+
             PlayerIndex index = (PlayerIndex)playerIndex;
             GamePadState pad = padState[playerIndex];
             GamePadState lastPad = lastPadState[playerIndex];

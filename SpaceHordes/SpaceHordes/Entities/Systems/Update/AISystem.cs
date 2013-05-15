@@ -19,19 +19,29 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-            if (e.HasComponent<AI>())
+            if (!e.HasComponent<AI>())
                 return;
 
             AI ai = e.GetComponent<AI>();
 
+            bool behavior;
 
             if (ai.Target != null) 
             {
                 if (World.EntityManager.GetEntity((ai.Target.UserData as Entity).Id) == null)
                     ai.Target = null;
-                else if (!(!ai.Recalculate && ai.Calculated) && ai.Target != null && (ai.Target.UserData as Entity) != null && !ai.Behavior(ai.Target)) //Run ai behavior, if behavior returns true look for new target.
+                else if (!(!ai.Recalculate && ai.Calculated) && ai.Target != null && (ai.Target.UserData as Entity) != null && !(behavior = ai.Behavior(ai.Target))) //Run ai behavior, if behavior returns true look for new target.
                 {
                     ai.Calculated = true;
+
+                    if (ai.Target == null && e.Group != "Structures")
+                    {
+                        if (e.HasComponent<Health>())
+                            e.GetComponent<Health>().SetHealth(null, 0);
+                        else
+                            e.Delete();
+                    }
+
                     return;
                 }
             }

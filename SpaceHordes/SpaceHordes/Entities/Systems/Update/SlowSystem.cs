@@ -2,6 +2,8 @@
 using GameLibrary.Entities.Components;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using System;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -10,6 +12,7 @@ namespace SpaceHordes.Entities.Systems
         private ComponentMapper<IVelocity> velocityMapper;
         private ComponentMapper<IDamping> dampingMapper;
         private ComponentMapper<Slow> slowMapper;
+        static Random r = new Random();
 
         public SlowSystem()
             : base(typeof(IVelocity), typeof(Slow))
@@ -31,12 +34,6 @@ namespace SpaceHordes.Entities.Systems
                 Sprite s = e.GetComponent<Sprite>();
                 s.Color = Color.LightBlue;
 
-                //if (!e.HasComponent<SpriteEffect>())
-                //    e.AddComponent<SpriteEffect>(new SpriteEffect(s, slow.Elapsed));
-                //else
-                //{
-                //    e.GetComponent<SpriteEffect>().AddEffect(s, slow.Elapsed);
-                //}
                 e.Refresh();
             } 
             base.Added(e);
@@ -75,6 +72,12 @@ namespace SpaceHordes.Entities.Systems
                     damping.LinearDamping = slow.LinearSlowRate;
                 else
                     damping.LinearDamping = 0;
+
+                Sprite s = e.GetComponent<Sprite>();
+
+            double mes = Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height / 4);
+            Vector2 offset = new Vector2((float)((r.NextDouble() * 2 - 1) * mes), (float)((r.NextDouble() * 2 - 1) * mes));
+            world.CreateEntity("FrostParticle", e, ConvertUnits.ToSimUnits(offset)).Refresh();
             }
         }
     }

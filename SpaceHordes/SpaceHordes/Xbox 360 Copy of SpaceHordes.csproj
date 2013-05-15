@@ -109,6 +109,7 @@
     <Compile Include="Entities\Templates\Enemies\SmasherBallTemplate.cs" />
     <Compile Include="Entities\Templates\Enemies\ThugTemplate.cs" />
     <Compile Include="Entities\Templates\Events\FairySparkleTemplateLol.cs" />
+    <Compile Include="Entities\Templates\Events\FrostParticleTemplate.cs" />
     <Compile Include="Entities\Templates\Projectiles\BaseShotTemplate.cs" />
     <Compile Include="Entities\Templates\Events\BigExplosionTemplate.cs" />
     <Compile Include="Entities\Templates\Events\BiggerExplosionTemplate.cs" />

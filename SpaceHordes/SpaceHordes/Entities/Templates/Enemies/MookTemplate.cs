@@ -18,6 +18,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private static Random r = new Random();
         private static int mooks = 0;
 
+        public static float dist = (float)ScreenHelper.Viewport.Width / 1.75f;
+
         public MookTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             mooks = 0;
@@ -99,7 +101,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Vector2 pos = new Vector2((float)(r.NextDouble() * 2) - 1, (float)(r.NextDouble() * 2) - 1);
             pos.Normalize();
-            pos *= ScreenHelper.Viewport.Width;
+            pos *= dist;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
 
@@ -158,15 +160,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
                     if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
                     {
-                        if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
-                        {
-                            Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
-                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
-                        }
-                        else
-                        {
-                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
-                        }
+                        _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount);
+
                         ScoreSystem.GivePoints(1);
                     }
                 };

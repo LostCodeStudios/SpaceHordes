@@ -47,8 +47,8 @@ namespace SpaceHordes.Entities.Systems
         private double difficulty = 0;
 
 #if WINDOWS
-        private int maxMooks = 4;
-        private int maxThugs = 1;
+        private int maxMooks = 1;
+        private double maxThugs = 0.1;
 #endif
 
 #if XBOX
@@ -351,8 +351,8 @@ namespace SpaceHordes.Entities.Systems
                 #region Spawning
 
                 int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
-                int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, maxMooks);
-                int thugsToSpawn = Math.Min(doubleToInt(difficulty / 50) * ThugSpawnRate, maxThugs);
+                int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, maxMooks * MookSpawnRate);
+                int thugsToSpawn = Math.Min(doubleToInt(difficulty / 50) * ThugSpawnRate, doubleToInt(maxThugs) * ThugSpawnRate);
                 int gunnersToSpawn = doubleToInt((double)structs / 50) * GunnerSpawnRate;
                 int huntersToSpawn = doubleToInt((double)Players.Length / 75) * HunterSpawnRate;
                 int destroyersToSpawn = doubleToInt((double)Players.Length / 300) * DestroyerSpawnRate;
@@ -573,10 +573,14 @@ namespace SpaceHordes.Entities.Systems
             world.CreateEntity("Crystal", poss, Color.Gray, 3, Players[index], true);
         }
 
+        public void SpawnCrystal(Vector2 position, Color color, int amount, int index)
+        {
+            world.CreateEntity("Crystal", position, color, amount, Players[index], true);
+        }
+
         private void spawnBoss()
         {
-            int tier = (int)MathHelper.Clamp(bossTier++, 1, 3);
-            Boss = World.CreateEntity(BossTemplate, tier, Base.GetComponent<Body>());
+            Boss = World.CreateEntity(BossTemplate, Base.GetComponent<Body>());
             Boss.GetComponent<Health>().OnDeath += new Action<Entity>(BossDeath);
             Boss.Refresh();
             setCategory(SongType.Boss);

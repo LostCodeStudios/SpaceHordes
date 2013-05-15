@@ -58,14 +58,18 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
-            int tier = (int)args[0];
+            int tier = 1;
+            if (spawned > 2)
+                tier = 2;
+            if (spawned > 5)
+                tier = 3;
 
             #region Sprite
 
             string spriteKey = "";
             int type = spawned;
 #if DEBUG
-            type = 7;
+            type = 9;
 #endif
             spriteKey = bosses[type].SpriteKey;
 
@@ -113,47 +117,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #endregion Animation
 
-            #region Crystal
-
-            Color crystalColor = Color.Red;
-            int colorchance = rbitch.Next(100);
-            int amount = 25 * tier;
-            if (colorchance > 50)
-            {
-                crystalColor = Color.Yellow;
-                amount = 35 * tier;
-            }
-            if (colorchance > 70)
-            {
-                crystalColor = Color.Blue;
-                amount = 15 * tier;
-                
-            }
-            if (colorchance > 80)
-            {
-                crystalColor = Color.Green;
-                amount = 10 * tier;
-            }
-            if (colorchance > 90)
-            {
-                crystalColor = Color.Gray;
-                amount = 3;
-            }
-            if (spriteKey == "flamer")
-            {
-                crystalColor = Color.Yellow;
-                amount = 150;
-            }
-            e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
-
-            #endregion Crystal
-
             #region AI/Health
 
             e.AddComponent<HealthRender>(new HealthRender());
 
             if (spriteKey == "flamer")
-                e.AddComponent<AI>(new AI((args[1] as Body),
+                e.AddComponent<AI>(new AI((args[0] as Body),
                     AI.CreateFlamer(e, 0.5f, bitch, s, _World), "Base"));
 
             else if (spriteKey == "bigredblobboss")
@@ -169,11 +138,14 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     AI.CreateBigGreen(e, 0.5f, 10f, 2f, 0.05f, 3.5f, s, _World)));
 
             else
-                e.AddComponent<AI>(new AI((args[1] as Body),
+                e.AddComponent<AI>(new AI((args[0] as Body),
                     AI.CreateFollow(e, 1, false), "Base", false));
 
             int points = 0;
             int health = 0;
+
+            
+
             switch (tier)
             {
                 case 1:
@@ -194,34 +166,64 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Health h = new Health(health);
             h.OnDeath +=
-                ent =>
+                blarg =>
                 {
                     Vector2 poss = e.GetComponent<ITransform>().Position;
 
                     if (type < 6)
-                        _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, ent, e.GetComponent<IVelocity>().LinearVelocity);
+                        _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, blarg, e.GetComponent<IVelocity>().LinearVelocity);
                     else
                     {
-                        _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, ent, e.GetComponent<IVelocity>().LinearVelocity);
+                        _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, blarg, e.GetComponent<IVelocity>().LinearVelocity);
                     }
 
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
 
-                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
+                    if (blarg is Entity && (blarg as Entity).Group != null && ((blarg as Entity).Group == "Players" || (blarg as Entity).Group == "Structures"))
                     {
-                        if ((ent as Entity).Group == "Structures" && ((ent as Entity).HasComponent<Origin>()))
+                        for (int m = 0; m < (_World as SpaceWorld).Players; ++m)
                         {
-                            Entity e2 = (ent as Entity).GetComponent<Origin>().Parent;
-                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, e2);
-                        }
-                        else
-                        {
-                            _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount, ent);
+                            Entity ent = (_World as SpaceWorld).Player.ToArray()[m];
+                            for (int cry = 0; cry < 5; ++cry)
+                            {
+                                Color crystalColor = Color.Red;
+                                int colorchance = rbitch.Next(100);
+                                int amount = 25 * tier;
+                                if (colorchance > 50)
+                                {
+                                    crystalColor = Color.Yellow;
+                                    amount = 35 * tier;
+                                }
+                                if (colorchance > 70)
+                                {
+                                    crystalColor = Color.Blue;
+                                    amount = 15 * tier;
+
+                                }
+                                if (colorchance > 80)
+                                {
+                                    crystalColor = Color.Green;
+                                    amount = 10 * tier;
+                                }
+                                if (colorchance > 90)
+                                {
+                                    crystalColor = Color.Gray;
+                                    amount = 3;
+                                }
+                                Vector2 p = e.GetComponent<ITransform>().Position;
+                                float range = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
+                                float x = 2 * (float)rbitch.NextDouble() - 1;
+                                float y = 2 * (float)rbitch.NextDouble() - 1;
+                                Vector2 offs = ConvertUnits.ToSimUnits(new Vector2(x, y) * range);
+                                p += offs;
+
+                                (_World as SpaceWorld).enemySpawnSystem.SpawnCrystal(p, crystalColor, amount, m);
+                            }
                         }
                     }
 
-                    if (ent.Tag != "Base")
+                    if (blarg.Tag != "Base")
                     {
                         ScoreSystem.GivePoints(points);
                         BossScreen.BossKilled(bosses[type].BossName);

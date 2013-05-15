@@ -27,7 +27,7 @@ namespace SpaceHordes.Entities.Templates
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {
             Vector2 center = (Vector2)args[0];
-            int intensity = (int)args[1];
+            int intensity = 15;
             Entity ent = (Entity)args[2];
             Vector2 velocity = (Vector2)args[3];
 

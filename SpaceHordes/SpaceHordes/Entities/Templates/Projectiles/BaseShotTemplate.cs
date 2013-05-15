@@ -32,6 +32,9 @@ namespace SpaceHordes.Entities.Templates.Events
                 SoundManager.Play("Shot" + shot.ToString(), .25f);
                 //Shoot bullets out from base at an even division of the circle * a shot ratio
 
+                int pow = inv.CurrentGun.Power;
+                inv.CurrentGun.Power = 3; //POWER 3 BASE SHOT BITCH
+
                 double max = Math.PI * 2;
                 double step = (Math.PI * 2 * ShotRatio) / (Math.Min((double)inv.CurrentGun.Ammunition, MaxShot));
                 for (double angle = 0;
@@ -39,18 +42,19 @@ namespace SpaceHordes.Entities.Templates.Events
                     angle += step)
                 {
                     Transform fireAt = new Transform(Vector2.Zero, (float)angle);
+                    
                     Entity bullet = world.CreateEntity(inv.CurrentGun.BulletTemplateTag, fireAt);
+
                     Bullet bb = bullet.GetComponent<Bullet>();
                     bb.Firer = null;
                     bullet.RemoveComponent<Bullet>(bullet.GetComponent<Bullet>());
                     bullet.AddComponent<Bullet>(bb);
                     bullet.Refresh();
 
-
-
                     rets.Add( bullet);
                 }
                 inv.CurrentGun.Ammunition = 0;
+                inv.CurrentGun.Power = pow;
             }
             return rets.ToArray();
         }

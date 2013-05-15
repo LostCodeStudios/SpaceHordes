@@ -246,7 +246,7 @@ namespace SpaceHordes.Entities.Components
                 {
                     Body b = ent.GetComponent<Body>();
                     Body b2 = origin.GetComponent<Body>();
-
+                    b.RotateTo(Vector2.UnitX);
                     b.Position = b2.Position + offs;
 
                     if (shot)
@@ -263,6 +263,7 @@ namespace SpaceHordes.Entities.Components
 
                             Transform fireAt = new Transform(b.Position + offset, rot);
 
+                            SoundManager.Play("Shot1");
                             _World.CreateEntity("KillerBullet", fireAt).Refresh();
                         }
                         if (time > shootTime)
@@ -311,6 +312,7 @@ namespace SpaceHordes.Entities.Components
                         Vector2 velocity1 = new Vector2(0, 1);
                         velocity1 *= 8f;
 
+                        SoundManager.Play("Shot2");
                         _World.CreateEntity("ExplosiveBullet", bitch.Position, velocity1, 1, "reddownmissile").Refresh();
                     }
 
@@ -358,6 +360,7 @@ namespace SpaceHordes.Entities.Components
 
                             Transform fireAt = new Transform(b.Position + offset, rot);
 
+                            SoundManager.Play("Shot1");
                             _World.CreateEntity("BigGreenBullet", fireAt).Refresh();
                         }
                         if (time > shootTime)

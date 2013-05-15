@@ -140,7 +140,15 @@ namespace SpaceHordes.Entities.Systems
             if (i._type != InvType.Player)
                 return;
 
-            int playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
+            int playerIndex;
+            try
+            {
+                playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
+            }
+            catch
+            {
+                return;
+            }
             int playerNum = playerIndex + 1;
 
             Vector2 topLeft = new Vector2(hudLocations[playerIndex].X, hudLocations[playerIndex].Y);

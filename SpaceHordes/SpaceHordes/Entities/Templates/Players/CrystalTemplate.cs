@@ -68,7 +68,13 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             if (args.Length > 3)
             {
+                e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));
+                e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(), AI.CreateFollow(e, 5f, false)));
+            }
+            else if (args.Length > 4)
+            {
                 e.AddComponent<Crystal>(new Crystal(color, (int)args[2], true));
+                e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(), AI.CreateFollow(e, 5f, false)));
             }
             else
             {

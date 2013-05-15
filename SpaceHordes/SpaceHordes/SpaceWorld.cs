@@ -174,7 +174,7 @@ namespace SpaceHordes
             this.SetEntityGroupTemplate("BiggerExplosion", new BiggerExplosionTemplate(_spriteSheet));
 
             this.SetEntityTemplate("GREENFAIRY", new FairySparkleTemplateLol(this, _spriteSheet));
-
+            this.SetEntityTemplate("FrostParticle", new FrostParticleTemplate(this, _spriteSheet));
             this.SetEntityTemplate("ExplosiveBullet", new ExplosiveBulletTemplate(this, _spriteSheet));
             this.SetEntityTemplate("Fire", new FireTemplate(this, _spriteSheet));
             #endregion Objects/Events
@@ -366,8 +366,15 @@ namespace SpaceHordes
                 Speed += 0.001f;
 #endif
 
+            List<Body> toRemove = new List<Body>();
+            foreach (Body b in BodyList)
+            {
+                if (b.UserData == null || !(b.UserData is Entity))
+                    toRemove.Add(b);
+            }
 
-            
+            foreach (Body b in toRemove)
+                BodyList.Remove(b);
         }
 
         public void SlowMow(ref FixtureProxy x, ref FixtureProxy z)
