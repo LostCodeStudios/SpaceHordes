@@ -36,7 +36,7 @@ namespace SpaceHordes.Entities.Systems
     public class DirectorSystem : IntervalEntitySystem
     {
         #region Fields
-        private Random r = new Random();
+        private static Random r = new Random();
 
         private Entity Base;
         private Entity Boss;
@@ -52,8 +52,8 @@ namespace SpaceHordes.Entities.Systems
 #endif
 
 #if XBOX
-        private int maxMooks = 3;
-        private int maxThugs = 1;
+        private int maxMooks = 1;
+        private double maxThugs = 0.1;
 #endif
 
         public SpawnState SpawnState = SpawnState.Peace;
@@ -816,6 +816,35 @@ namespace SpaceHordes.Entities.Systems
                 musicState = MusicState.TransitionOn;
                 MusicManager.PlaySong(songKey);
             }
+        }
+
+        #endregion
+
+        #region Crystal Color Gen
+
+        //static Random r = new Random();
+        public static Color CrystalColor()
+        {
+            Color crystalColor = Color.Red;
+            int colorchance = r.Next(100);
+            if (colorchance > 22)
+            {
+                crystalColor = Color.Yellow;
+            }
+            if (colorchance > 44)
+            {
+                crystalColor = Color.Blue;
+            }
+            if (colorchance > 66)
+            {
+                crystalColor = Color.Green;
+            }
+            if (colorchance > 90)
+            {
+                crystalColor = Color.Gray;
+            }
+
+            return crystalColor;
         }
 
         #endregion

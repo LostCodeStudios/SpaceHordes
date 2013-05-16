@@ -14,17 +14,22 @@ namespace SpaceHordes.GameStates.Screens
     {
         #region Initialization
 
+        public MainMenuScreen(string text)
+            : this(text, false)
+        {
+        }
+
         /// <summary>
         /// Constructor fills in the menu contents.
         /// </summary>
-        public MainMenuScreen(string text)
+        public MainMenuScreen(string text, bool music)
             : base(text)
         {
             //Create our menu entries.
-            MusicManager.PlaySong("Title");
+            if (music)
+                MusicManager.PlaySong("Title");
 
-            MenuEntry playGameMenuEntry = new MenuEntry("Solo Defense");
-            MenuEntry playMultiplayerMenuEntry = new MenuEntry("Team Defense");
+            MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
 
             MenuEntry tutorialEntry = new MenuEntry("Tutorial");
 
@@ -39,11 +44,6 @@ namespace SpaceHordes.GameStates.Screens
             //Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
 
-            //#if XBOX
-            playMultiplayerMenuEntry.Selected += PlayMultiplayerMenuEntrySelected;
-            
-            //#endif
-
             tutorialEntry.Selected += PlayTutorialEntrySelected;
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
@@ -54,9 +54,6 @@ namespace SpaceHordes.GameStates.Screens
 
             //Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
-#if (XBOX && !DEMO) || DEBUG
-            MenuEntries.Add(playMultiplayerMenuEntry);
-#endif
             MenuEntries.Add(highScoresMenuEntry);
 
 
@@ -82,17 +79,12 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(Manager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false));
-        }
-
-        private void PlayMultiplayerMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            LoadingScreen.Load(Manager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", true));
+            Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont", false), null);
         }
 
         void PlayTutorialEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(Manager, false, e.PlayerIndex, new GameplayScreen("Textures/gamefont", false, true));
+            Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont", true), null);
         }
 
         private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)

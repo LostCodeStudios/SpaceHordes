@@ -39,6 +39,8 @@ namespace SpaceHordes.GameStates.Screens
         private TimeSpan elapsed = TimeSpan.Zero;
         private TimeSpan beforeGameOver = TimeSpan.FromSeconds(1);
 
+        List<PlayerIndex> playerIndices = new List<PlayerIndex>();
+
         #endregion Fields
 
         #region Properties
@@ -57,20 +59,14 @@ namespace SpaceHordes.GameStates.Screens
 
         public bool tutorial;
 
-        public GameplayScreen(string fontName, bool multiplayer)
-            : this (fontName, multiplayer, false)
-        {
-        }
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(string fontName, bool multiplayer, bool tutorial)
+        public GameplayScreen(string fontName, bool tutorial, params PlayerIndex[] players)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
-            this.multiplayer = multiplayer;
             this.fontName = fontName;
             gameFont = new ImageFont();
 
@@ -80,6 +76,11 @@ namespace SpaceHordes.GameStates.Screens
                 new Buttons[] { Buttons.Start, Buttons.Back },
                 new Keys[] { Keys.Escape },
                 true);
+
+            foreach (PlayerIndex idx in players)
+            {
+                playerIndices.Add(idx);
+            }
         }
 
         /// <summary>
@@ -99,25 +100,13 @@ namespace SpaceHordes.GameStates.Screens
             scoreScale = 1f;
 
             spriteBatch = Manager.SpriteBatch;
-            List<PlayerIndex> players = new List<PlayerIndex>();
-
-            if (multiplayer)
-            {
-                for (int x = 0; x < 4; ++x)
-                {
-                    if (Manager.Input.GamePadWasConnected[x])
-                    {
-                        players.Add((PlayerIndex)x);
-                    }
-                }
-            }
 
             #endregion Screen
 
             //World
             World = new SpaceWorld(Manager.Game, ScreenHelper.SpriteSheet, this, tutorial);
             World.Initialize();
-            World.LoadContent(content, players.ToArray());
+            World.LoadContent(content, playerIndices.ToArray());
 
             Manager.Game.ResetElapsedTime();
             World.Base.GetComponent<Health>().OnDeath +=
@@ -232,26 +221,40 @@ namespace SpaceHordes.GameStates.Screens
             if (input == null)
                 throw new ArgumentNullException("input");
 
-            int playerIndex = (int)ControllingPlayer.Value;
-
-            GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
-
-            bool gamePadDisconnected = !gamePadState.IsConnected &&
-                input.GamePadWasConnected[playerIndex];
-
-#if WINDOWS || XBOX
-
-            PlayerIndex playerI;
-            if (input.CurrentKeyboardStates[0].IsKeyDown(Keys.Delete))
-                GameOver();
-
-            if (pauseAction.Evaluate(input, ControllingPlayer, out playerI) || gamePadDisconnected)
+            bool gamePadDisconnected = false;
+            PlayerIndex disc;
+            foreach (PlayerIndex index in playerIndices)
             {
-                MusicManager.Pause();
-                Manager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                if (!GamePad.GetState(index).IsConnected)
+                {
+                    gamePadDisconnected = true;
+                    disc = index;
+                }
             }
 
-#endif
+            PlayerIndex playerI;
+
+            if (pauseAction.Evaluate(input, null, out playerI) || gamePadDisconnected)
+            {
+                MusicManager.Pause();
+                List<GameScreen> remove = new List<GameScreen>();
+                foreach (GameScreen screen in Manager.GetScreens())
+                {
+                    if (screen is BackgroundScreen)
+                        remove.Add(screen);
+                }
+
+                foreach (GameScreen screen in remove)
+                {
+                    Manager.RemoveScreen(screen);
+                }
+
+                PlayerIndex? idx = playerI;
+                if (gamePadDisconnected)
+                    idx = null;
+
+                Manager.AddScreen(new PauseMenuScreen(), idx);
+            }
 
             mouseLoc = input.MouseLocation;
         }
@@ -262,7 +265,17 @@ namespace SpaceHordes.GameStates.Screens
 
         private void GameOver()
         {
-            Manager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score), ControllingPlayer);
+            List<GameScreen> remove = new List<GameScreen>();
+            foreach (GameScreen screen in Manager.GetScreens())
+            {
+                remove.Add(screen);
+            }
+
+            foreach (GameScreen screen in remove)
+            {
+                Manager.RemoveScreen(screen);
+            }
+            Manager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score), null);
             ExitScreen();
             MusicManager.Stop();
         }

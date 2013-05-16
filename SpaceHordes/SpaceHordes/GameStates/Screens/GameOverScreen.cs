@@ -151,8 +151,8 @@ namespace SpaceHordes.GameStates.Screens
                     }
 
                     Manager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
-                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
-                    Manager.AddScreen(new HighScoreScreen(players.Length, HighScoreScreen.AddScore(players.Length, names, score)), ControllingPlayer);
+                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), null);
+                    Manager.AddScreen(new HighScoreScreen(players.Length, HighScoreScreen.AddScore(players.Length, names, score)), null);
                     ExitScreen();
                     expired = true;
                 }
@@ -202,7 +202,7 @@ namespace SpaceHordes.GameStates.Screens
                 if (cancel.Evaluate(input, ControllingPlayer, out index))
                 {
                     Manager.AddScreen(new BackgroundScreen("Textures/hiscore", TransitionType.Fade), ControllingPlayer);
-                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), ControllingPlayer);
+                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), null);
                     ExitScreen();
                     SoundManager.Play("MenuCancel");
                 }

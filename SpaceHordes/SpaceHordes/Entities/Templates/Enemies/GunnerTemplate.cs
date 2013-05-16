@@ -99,29 +99,10 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region Crystal
 
-            Color crystalColor = Color.Red;
-            int colorchance = rbitch.Next(100);
+            Color crystalColor = DirectorSystem.CrystalColor();
             int amount = 5;
-            if (colorchance > 50)
-            {
-                crystalColor = Color.Yellow;
-                amount = 10;
-            }
-            if (colorchance > 70)
-            {
-                crystalColor = Color.Blue;
-                amount = 5;
-            }
-            if (colorchance > 80)
-            {
-                crystalColor = Color.Green;
-                amount = 3;
-            }
-            if (colorchance > 90)
-            {
-                crystalColor = Color.Gray;
+            if (crystalColor == Color.Gray)
                 amount = 2;
-            }
             e.AddComponent<Crystal>(new Crystal(crystalColor, amount));
 
             #endregion Crystal

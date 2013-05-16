@@ -52,7 +52,7 @@ namespace SpaceHordes.GameStates.Screens
             MainMenuScreen mainMenu = new MainMenuScreen("Space Hordes");
 
             Manager.AddScreen(background, ControllingPlayer);
-            Manager.AddScreen(mainMenu, ControllingPlayer);
+            Manager.AddScreen(mainMenu, null);
         }
 
         /// <summary>

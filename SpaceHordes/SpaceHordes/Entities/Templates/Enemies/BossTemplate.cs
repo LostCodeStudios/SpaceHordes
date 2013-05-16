@@ -187,30 +187,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
                             Entity ent = (_World as SpaceWorld).Player.ToArray()[m];
                             for (int cry = 0; cry < 5; ++cry)
                             {
-                                Color crystalColor = Color.Red;
-                                int colorchance = rbitch.Next(100);
+                                Color crystalColor = DirectorSystem.CrystalColor();
                                 int amount = 25 * tier;
-                                if (colorchance > 50)
-                                {
-                                    crystalColor = Color.Yellow;
-                                    amount = 35 * tier;
-                                }
-                                if (colorchance > 70)
-                                {
-                                    crystalColor = Color.Blue;
-                                    amount = 15 * tier;
-
-                                }
-                                if (colorchance > 80)
-                                {
-                                    crystalColor = Color.Green;
-                                    amount = 10 * tier;
-                                }
-                                if (colorchance > 90)
-                                {
-                                    crystalColor = Color.Gray;
-                                    amount = 3;
-                                }
                                 Vector2 p = e.GetComponent<ITransform>().Position;
                                 float range = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
                                 float x = 2 * (float)rbitch.NextDouble() - 1;
@@ -223,7 +201,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         }
                     }
 
-                    if (blarg.Tag != "Base")
+                    if (blarg != null && blarg.Tag != "Base")
                     {
                         ScoreSystem.GivePoints(points);
                         BossScreen.BossKilled(bosses[type].BossName);
