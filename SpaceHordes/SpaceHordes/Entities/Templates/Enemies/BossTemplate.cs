@@ -69,7 +69,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             string spriteKey = "";
             int type = spawned;
 #if DEBUG
-            type = 9;
+            //type = 9;
 #endif
             spriteKey = bosses[type].SpriteKey;
 
@@ -155,12 +155,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
                 case 2:
                     points = 500;
-                    health = 500;
+                    health = 250;
                     break;
 
                 case 3:
                     points = 1000;
-                    health = 1000;
+                    health = 400;
                     break;
             }
 

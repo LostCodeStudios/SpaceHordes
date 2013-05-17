@@ -31,6 +31,7 @@ namespace SpaceHordes.Entities.Systems
         Surge,
         Boss,
         Peace,
+        Endless,
         Victory
     }
 
@@ -326,6 +327,10 @@ namespace SpaceHordes.Entities.Systems
                 case SpawnState.Wave:
                     difficulty = (waves + elapsedMinutes);
                     break;
+                case SpawnState.Endless:
+                    difficulty = elapsedMinutes;
+                    break;
+
                 case SpawnState.Surge:
                     difficulty = 2 * (waves + elapsedMinutes);
                     break;
@@ -524,7 +529,7 @@ namespace SpaceHordes.Entities.Systems
                     }
                 }
 
-                if (SpawnState != SpawnState.Boss)
+                if (SpawnState != SpawnState.Boss && SpawnState != SpawnState.Endless && SpawnState != SpawnState.Victory)
                 {
                     if (elapsedSeconds >= StateDurations[(int)SpawnState])
                     {
@@ -540,9 +545,9 @@ namespace SpaceHordes.Entities.Systems
                         init = false;
                     }
                 }
-                else
+                else if (SpawnState == SpawnState.Boss)
                 {
-                    if (Boss != null && !Boss.GetComponent<Health>().IsAlive)
+                    if (Boss != null && (!Boss.HasComponent<Health>() || !Boss.GetComponent<Health>().IsAlive))
                     {
                         elapsedSeconds = 0f;
                         elapsedMinutes = 0f;

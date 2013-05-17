@@ -58,7 +58,7 @@ namespace SpaceHordes.GameStates.Screens
         #endregion 
         
         bool[] levels;
-        static int levelCount = 4;
+        static int levelCount = 5;
         string[] levelTitles;
 
         int bossStart = 0;
@@ -76,7 +76,8 @@ namespace SpaceHordes.GameStates.Screens
                 "Wave 1",
                 "Wave 2",
                 "Wave 3",
-                "Boss Rush"
+                "Boss Rush",
+                "Endless"
             };
 
             levels = ReadData();
@@ -193,6 +194,12 @@ namespace SpaceHordes.GameStates.Screens
                         SpawnState.Victory
                     };
                     break;
+                case 4:
+                    states = new SpawnState[]
+                    {
+                        SpawnState.Endless
+                    };
+                    break;
                 default:
                     states = new SpawnState[]
                     {
@@ -210,6 +217,15 @@ namespace SpaceHordes.GameStates.Screens
         public static bool[] ReadData()
         {
             List<bool> data = new List<bool>();
+
+#if DEBUG
+            for (int i = 0; i < levelCount; ++i)
+            {
+                data.Add(true);
+            }
+
+            return data.ToArray();
+#endif
 
 #if WINDOWS
             if (File.Exists(FilePath))
@@ -255,6 +271,7 @@ namespace SpaceHordes.GameStates.Screens
                 WriteInitialData();
                 return ReadData();
             }
+
             return data.ToArray();
         }
 
@@ -309,6 +326,7 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             data[0] = true;
+            data[4] = true;
 #if XBOX
             c.Dispose();
 #endif

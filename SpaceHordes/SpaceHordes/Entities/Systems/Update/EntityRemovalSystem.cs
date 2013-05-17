@@ -32,7 +32,8 @@ namespace SpaceHordes.Entities.Systems
         public override void Process(Entity e)
         {
             ITransform t = TransformMapper.Get(e);
-                
+            if (t == null)
+                return;
             if(Vector2.Distance(t.Position, Vector2.Zero) > (e.Group == "Bullets" || e.Group == "Fire" ? bulletBound : bound))
             {
                 e.Delete();
