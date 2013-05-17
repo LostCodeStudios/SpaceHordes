@@ -30,7 +30,8 @@ namespace SpaceHordes.Entities.Systems
         Wave,
         Surge,
         Boss,
-        Peace
+        Peace,
+        Victory
     }
 
     public class DirectorSystem : IntervalEntitySystem
@@ -38,6 +39,7 @@ namespace SpaceHordes.Entities.Systems
         #region Fields
         private static Random r = new Random();
 
+        bool init = false;
         private Entity Base;
         private Entity Boss;
         private Entity[] Players;
@@ -56,6 +58,7 @@ namespace SpaceHordes.Entities.Systems
         private double maxThugs = 0.1;
 #endif
 
+        Queue<SpawnState> states = new Queue<SpawnState>();
         public SpawnState SpawnState = SpawnState.Peace;
         int waves = 0;
 
@@ -79,6 +82,8 @@ namespace SpaceHordes.Entities.Systems
         private float intervalSeconds = 0f;
 
         private int bossTier = 1;
+
+        public Action OnVictory;
 
         #endregion
 
@@ -268,7 +273,7 @@ namespace SpaceHordes.Entities.Systems
             ElapsedSurge = 0;
         }
 
-        public void LoadContent(Entity Base, Entity[] Players)
+        public void LoadContent(Entity Base, Entity[] Players, params SpawnState[] spawns)
         {
             this.Base = Base;
             this.Players = Players;
@@ -292,6 +297,11 @@ namespace SpaceHordes.Entities.Systems
                     PlayerToSpawn[id] = x;
                 };
             }
+
+            foreach (SpawnState state in spawns)
+            {
+                states.Enqueue(state);
+            }
         }
 
         #endregion
@@ -304,7 +314,13 @@ namespace SpaceHordes.Entities.Systems
             base.ProcessEntities(entities);
 
             SpaceWorld w = world as SpaceWorld;
-            
+
+            if (SpawnState == SpawnState.Victory)
+            {
+                if (OnVictory != null)
+                    OnVictory();
+            }
+
             switch (SpawnState)
             {
                 case SpawnState.Wave:
@@ -362,11 +378,23 @@ namespace SpaceHordes.Entities.Systems
                 spawnHunters(huntersToSpawn);
                 spawnDestroyers(destroyersToSpawn);
 
-                if (SpawnState == SpawnState.Boss && (Boss == null || (!Boss.HasComponent<Health>() || !Boss.GetComponent<Health>().IsAlive)))
+                if (SpawnState == SpawnState.Boss && !init)
                 {
                     spawnBoss();
+                    init = true;
                 }
-                
+
+                if (SpawnState == SpawnState.Wave && !init)
+                {
+                    spawnWave();
+                    init = true;
+                }
+
+                if (SpawnState == SpawnState.Surge && !init)
+                {
+                    spawnSurge();
+                    init = true;
+                }
 
                 #endregion Spawning
             }
@@ -503,23 +531,13 @@ namespace SpaceHordes.Entities.Systems
                         elapsedSeconds = 0f;
                         elapsedMinutes = 0f;
 
-                        if (SpawnState == SpawnState.Peace)
+                        if (SpawnState == SpawnState.Surge)
                         {
-                            spawnWave();
+                            setCategory(SongType.Loop);
                         }
-#if !DEMO
-                    else if (waves % 2 == 0)
-                    {
-                        SpawnState = SpawnState.Boss;
-                    }
-#endif
-                        else
-                        {
-                            if (SpawnState == SpawnState.Surge)
-                                setCategory(SongType.Loop);
 
-                            SpawnState = SpawnState.Peace;
-                        }
+                        SpawnState = states.Dequeue();
+                        init = false;
                     }
                 }
                 else
@@ -529,7 +547,8 @@ namespace SpaceHordes.Entities.Systems
                         elapsedSeconds = 0f;
                         elapsedMinutes = 0f;
 
-                        SpawnState = SpawnState.Peace;
+                        SpawnState = states.Dequeue();
+                        init = false;
                         setCategory(SongType.Loop);
                     }
                 }
@@ -540,14 +559,7 @@ namespace SpaceHordes.Entities.Systems
         {
             waves++;
 
-            int chance = r.Next(0, 101);
-            if (waves > 2 &&  chance > 80)
-                spawnSurge();
-            else
-            {
-                SpawnState = SpawnState.Wave;
-                HUDRenderSystem.SurgeWarning = "Wave " + waves.ToString();
-            }
+            HUDRenderSystem.SurgeWarning = "Wave " + waves.ToString();
         }
 
         #endregion
@@ -591,7 +603,8 @@ namespace SpaceHordes.Entities.Systems
         {
             elapsedSeconds = 0f;
             elapsedMinutes = 0f;
-            SpawnState = SpawnState.Peace;
+            SpawnState = states.Dequeue();
+            init = false;
             setCategory(SongType.Loop);
         }
 
@@ -610,7 +623,6 @@ namespace SpaceHordes.Entities.Systems
                 inv.CurrentGun.PowerUp((int)StateDurations[(int)SpawnState.Surge] * 1000, 3);
             }
 
-            SpawnState = SpawnState.Surge;
             setCategory(SongType.Surge);
         }
 

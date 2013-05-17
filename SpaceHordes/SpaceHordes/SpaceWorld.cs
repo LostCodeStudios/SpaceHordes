@@ -344,7 +344,9 @@ namespace SpaceHordes
             //Set up base.
             Base = this.CreateEntity("Base");
             Base.Refresh();
-            enemySpawnSystem.LoadContent(Base, Player.ToArray());
+
+            SpawnState[] states = args[1] as SpawnState[];
+            enemySpawnSystem.LoadContent(Base, Player.ToArray(), states);
 
             
         }

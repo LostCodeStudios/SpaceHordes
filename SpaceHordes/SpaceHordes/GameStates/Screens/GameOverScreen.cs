@@ -33,6 +33,8 @@ namespace SpaceHordes.GameStates.Screens
         private bool awaitCancel = false;
         private bool expired = false;
 
+        bool victory;
+
         private InputAction cancel;
 
         #endregion Fields
@@ -49,10 +51,16 @@ namespace SpaceHordes.GameStates.Screens
         #region Initialization
 
         public GameOverScreen(PlayerIndex[] players, long score)
+            : this(players, score, false)
+        {
+        }
+
+        public GameOverScreen(PlayerIndex[] players, long score, bool victory)
         {
             this.score = score;
             this.players = players;
             this.IsPopup = true;
+            this.victory = victory;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5f);
             TransitionOffTime = TimeSpan.FromSeconds(0.5f);
@@ -68,6 +76,9 @@ namespace SpaceHordes.GameStates.Screens
             base.Activate();
 
             text = "GAME OVER";
+
+            if (victory)
+                text = "VICTORY!";
 
             Rectangle viewport = new Rectangle(0, 0, ScreenHelper.Viewport.Width, ScreenHelper.Viewport.Height);
 

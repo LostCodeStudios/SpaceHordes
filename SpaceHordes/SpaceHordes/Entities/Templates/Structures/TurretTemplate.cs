@@ -119,7 +119,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Origin
              
-            e.AddComponent<Origin>(new Origin(args[1] as Entity));
+            //e.AddComponent<Origin>(new Origin(args[1] as Entity));
 
             #endregion
 

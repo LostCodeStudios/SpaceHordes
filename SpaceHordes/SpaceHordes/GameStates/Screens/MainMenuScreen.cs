@@ -61,7 +61,7 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(bossEntry);
 #endif
             MenuEntries.Add(introEntry);
-            MenuEntries.Add(tutorialEntry);
+            //MenuEntries.Add(tutorialEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
@@ -79,12 +79,12 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         private void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont", false), null);
+            Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont"), null);
         }
 
         void PlayTutorialEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont", true), null);
+            //Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont", true), null);
         }
 
         private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)

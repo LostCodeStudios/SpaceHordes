@@ -25,6 +25,16 @@ namespace SpaceHordes.Entities.Components
                 OnDeath(setter);
                 _DeathEvent = true;
             }
+
+            if (_Health > MaxHealth)
+            {
+                _Health = MaxHealth; //Duh
+            }
+        }
+
+        public void AddHealth(Entity setter, double health)
+        {
+            SetHealth(setter, _Health + health);
         }
 
         #region Properties

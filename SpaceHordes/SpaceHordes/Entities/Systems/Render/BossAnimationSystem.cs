@@ -46,7 +46,7 @@ namespace SpaceHordes.Entities.Systems
                     int splodeSound = rbitch.Next(1, 5);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
                     Vector2 poss = e.GetComponent<ITransform>().Position;
-                    world.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, e);
+                    world.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, e, e.GetComponent<IVelocity>().LinearVelocity);
                 }
                 s.FrameIndex = frame;
 

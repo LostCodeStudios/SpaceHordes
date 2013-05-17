@@ -31,7 +31,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private SpaceWorld _World;
         private static Random rbitch = new Random();
 
-        private static int spawned = 0;
+        public static int spawned = 0;
 
         #region Boss Info
         private static BossInfo[] bosses = new BossInfo[]

@@ -157,7 +157,12 @@ namespace SpaceHordes.Entities.Systems
                         }
                     }
 
-
+                    if (pad.IsButtonDown(Buttons.LeftTrigger) && lastPad.IsButtonUp(Buttons.LeftTrigger))
+                    {
+                        Health h = (world as SpaceWorld).Base.GetComponent<Health>();
+                        h.AddHealth(null, inv.YELLOW / 3);
+                        inv.YELLOW = 0;
+                    }
 
                     if (inv.YELLOW < MinePrice)
                     {
@@ -281,6 +286,13 @@ namespace SpaceHordes.Entities.Systems
                             world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
                         }
+                    }
+
+                    if (mouseState.RightButton == ButtonState.Pressed)
+                    {
+                        Health h = (world as SpaceWorld).Base.GetComponent<Health>();
+                        h.AddHealth(null, inv.YELLOW / 3);
+                        inv.YELLOW = 0;
                     }
 
                     if (inv.YELLOW < MinePrice)

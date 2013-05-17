@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Input;
 using SpaceHordes.Entities.Components;
 using System;
 using System.Collections.Generic;
+using SpaceHordes.Entities.Systems;
+using SpaceHordes.Entities.Templates.Enemies;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -25,7 +27,6 @@ namespace SpaceHordes.GameStates.Screens
 
         private float pauseAlpha;
         private InputAction pauseAction;
-        private bool multiplayer;
 
         private Vector2 mouseLoc;
 
@@ -35,11 +36,14 @@ namespace SpaceHordes.GameStates.Screens
 
         private SpaceWorld World;
 
+        int bossStart;
         private bool over;
+        bool victory;
         private TimeSpan elapsed = TimeSpan.Zero;
         private TimeSpan beforeGameOver = TimeSpan.FromSeconds(1);
 
         List<PlayerIndex> playerIndices = new List<PlayerIndex>();
+        SpawnState[] states;
 
         #endregion Fields
 
@@ -62,16 +66,15 @@ namespace SpaceHordes.GameStates.Screens
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(string fontName, bool tutorial, params PlayerIndex[] players)
+        public GameplayScreen(string fontName, int bossStart, PlayerIndex[] players, SpawnState[] states)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             this.fontName = fontName;
+            this.tutorial = false;
             gameFont = new ImageFont();
-
-            this.tutorial = tutorial;
-
+            this.bossStart = bossStart;
             pauseAction = new InputAction(
                 new Buttons[] { Buttons.Start, Buttons.Back },
                 new Keys[] { Keys.Escape },
@@ -81,6 +84,8 @@ namespace SpaceHordes.GameStates.Screens
             {
                 playerIndices.Add(idx);
             }
+
+            this.states = states;
         }
 
         /// <summary>
@@ -106,7 +111,7 @@ namespace SpaceHordes.GameStates.Screens
             //World
             World = new SpaceWorld(Manager.Game, ScreenHelper.SpriteSheet, this, tutorial);
             World.Initialize();
-            World.LoadContent(content, playerIndices.ToArray());
+            World.LoadContent(content, playerIndices.ToArray(), states);
 
             Manager.Game.ResetElapsedTime();
             World.Base.GetComponent<Health>().OnDeath +=
@@ -119,6 +124,8 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     score = World.Base.GetComponent<Score>().Value;
                 };
+            World.enemySpawnSystem.OnVictory += new Action(WinGame);
+            BossTemplate.spawned = bossStart;
         }
 
         public override void Deactivate()
@@ -275,9 +282,15 @@ namespace SpaceHordes.GameStates.Screens
             {
                 Manager.RemoveScreen(screen);
             }
-            Manager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score), null);
+            Manager.AddScreen(new GameOverScreen(SpaceWorld.Indices.ToArray(), score, victory), null);
             ExitScreen();
             MusicManager.Stop();
+        }
+
+        private void WinGame()
+        {
+            over = true;
+            victory = true;
         }
 
         private void EndGame()

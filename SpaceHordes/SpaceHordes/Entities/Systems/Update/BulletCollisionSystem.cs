@@ -24,8 +24,15 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-            if (!e.HasComponent<Bullet>())
+            try
+            {
+                if (!e.HasComponent<Bullet>())
+                    return;
+            }
+            catch
+            {
                 return;
+            }
 
             Particle particle = particleMapper.Get(e);
             Bullet bullet = bulletMapper.Get(e);

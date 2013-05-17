@@ -26,10 +26,10 @@ namespace SpaceHordes.GameStates.Screens
 
         string before = "Press A to join";
 
-        public PlayerEntryScreen(string fontName, bool tutorial)
+        public PlayerEntryScreen(string fontName)
         {
             font = fontName;
-            tut = tutorial;
+            tut = false;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -69,6 +69,12 @@ namespace SpaceHordes.GameStates.Screens
             {
                 ExitScreen();
                 Manager.AddScreen(new MainMenuScreen("Space Hordes", false), null);
+                return;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                Enter();
                 return;
             }
 
@@ -127,9 +133,9 @@ namespace SpaceHordes.GameStates.Screens
 
         void Enter()
         {
-            GameplayScreen gameplay = new GameplayScreen(font, tut, indices.ToArray());
+            LevelSelectScreen levels = new LevelSelectScreen(font, indices.ToArray());
             ExitScreen();
-            Manager.AddScreen(gameplay, null);
+            Manager.AddScreen(levels, null);
         }
     }
 }
