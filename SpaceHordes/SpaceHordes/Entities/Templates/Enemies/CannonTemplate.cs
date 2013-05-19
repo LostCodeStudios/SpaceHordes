@@ -115,6 +115,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             #endregion
 
             ++cannons;
+            e.Tag = "Cannon" + cannons.ToString();
             e.Group = "Enemies";
             return e;
         }

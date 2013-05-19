@@ -156,6 +156,8 @@ namespace SpaceHordes.GameStates.Screens
             SelectionChangeSound = "SelectChanged";
             SelectionSound = "Selection";
             CancelSound = "MenuCancel";
+
+            OnExit += new EventHandler(onExit);
         }
 
         #endregion Initialization

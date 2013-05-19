@@ -88,6 +88,7 @@ namespace SpaceHordes.Entities.Templates
             #region Health
 
             Health h = new Health(1);
+
             h.OnDeath +=
                 ent =>
                 {

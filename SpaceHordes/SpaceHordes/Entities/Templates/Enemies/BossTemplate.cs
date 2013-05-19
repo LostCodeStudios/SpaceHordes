@@ -92,7 +92,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         {
                             if ((f2.Body.UserData as Entity).Group == "Base")
                             {
+#if RELEASE
                                 (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0);
+#endif
                             }
                             (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
                                 (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
@@ -104,7 +106,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Vector2 pos = new Vector2(0, -1);
             pos.Normalize();
-            pos *= ScreenHelper.Viewport.Height;
+            pos *= ScreenHelper.Viewport.Height / 1.5f;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
             bitch.SleepingAllowed = false;

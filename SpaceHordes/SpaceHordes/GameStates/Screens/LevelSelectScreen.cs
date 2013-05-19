@@ -173,23 +173,16 @@ namespace SpaceHordes.GameStates.Screens
                     states = new SpawnState[]
                     {
                         SpawnState.Boss,
-                        SpawnState.Peace,
+                        SpawnState.Boss,
                         SpawnState.Boss,
                         SpawnState.Peace,
                         SpawnState.Boss,
-                        SpawnState.Peace,
+                        SpawnState.Boss,
                         SpawnState.Boss,
                         SpawnState.Peace,
                         SpawnState.Boss,
-                        SpawnState.Peace,
                         SpawnState.Boss,
-                        SpawnState.Peace,
                         SpawnState.Boss,
-                        SpawnState.Peace,
-                        SpawnState.Boss,
-                        SpawnState.Peace,
-                        SpawnState.Boss,
-                        SpawnState.Peace,
                         SpawnState.Boss,
                         SpawnState.Victory
                     };
@@ -209,10 +202,22 @@ namespace SpaceHordes.GameStates.Screens
             }
             #endregion
             ExitScreen();
-            Manager.AddScreen(new GameplayScreen(font, bossStart, indices, states), null);
+            Manager.AddScreen(new GameplayScreen(font, bossStart, indices, selectedEntry, states), null);
         }
 
         #region Static Methods
+
+        public static void LevelCleared(int level)
+        {
+            bool[] l = ReadData();
+
+            if (level < l.Length)
+            {
+                l[level] = true;
+            }
+
+            WriteData(l);
+        }
 
         public static bool[] ReadData()
         {

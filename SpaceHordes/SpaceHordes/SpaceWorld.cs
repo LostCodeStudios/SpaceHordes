@@ -40,6 +40,7 @@ namespace SpaceHordes
             this._Font = new ImageFont();
         }
 
+        int level;
 
         #region Initialization
 
@@ -60,6 +61,8 @@ namespace SpaceHordes
             _Font.SpaceWidth = 10;
             hudRenderSystem.LoadContent(_Font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
+
+            this.level = (int)args[1];
 #if DEBUG && WINDOWS //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
@@ -345,10 +348,8 @@ namespace SpaceHordes
             Base = this.CreateEntity("Base");
             Base.Refresh();
 
-            SpawnState[] states = args[1] as SpawnState[];
-            enemySpawnSystem.LoadContent(Base, Player.ToArray(), states);
-
-            
+            SpawnState[] states = args[2] as SpawnState[];
+            enemySpawnSystem.LoadContent(Base, Player.ToArray(), level, states);
         }
 
         #endregion Entities
@@ -368,15 +369,15 @@ namespace SpaceHordes
                 Speed += 0.001f;
 #endif
 
-            List<Body> toRemove = new List<Body>();
-            foreach (Body b in BodyList)
-            {
-                if (b.UserData == null || !(b.UserData is Entity))
-                    toRemove.Add(b);
-            }
-
-            foreach (Body b in toRemove)
-                BodyList.Remove(b);
+            //for (int i = BodyList.Count - 1; i >= 0; --i)
+            //{
+            //    if (BodyList[i].UserData == null)
+            //    {
+            //        PhysicsBody b = BodyList[i];
+            //        BodyList.Remove(b);
+            //        b.Dispose();
+            //    }
+            //}
         }
 
         public void SlowMow(ref FixtureProxy x, ref FixtureProxy z)

@@ -48,10 +48,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
                     if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
                         if ((f2.Body.UserData as Entity).Group != "Crystals")
                         {
-                            (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
-                                (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
+#if RELEASE
                             (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
+#endif
                         }
                     return true;
                 };

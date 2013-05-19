@@ -801,10 +801,11 @@ namespace SpaceHordes
             SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
             SoundManager.Add("SelectChanged", Content.Load<SoundEffect>("Sounds/Menu Select"));
             SoundManager.Add("MenuCancel", Content.Load<SoundEffect>("Sounds/Menu Back"));
-            //SoundManager.Add("Selection", Content.Load<SoundEffect>("Sounds/150222__killkhan__menu-select"));
+            //SoundManager.Add("Selection", Content.Load<SoundEffect>("Sounds/SELECTION"));
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
             SoundManager.Add("Pickup1", Content.Load<SoundEffect>("Sounds/pickup"));
+            SoundManager.Add("SurgeAlarm", Content.Load<SoundEffect>("Sounds/beep-5"));
             SoundManager.Add("SpaceElephant", Content.Load<SoundEffect>("Sounds/SpaceElephant"));
         }
 

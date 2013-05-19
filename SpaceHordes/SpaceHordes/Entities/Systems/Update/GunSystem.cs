@@ -53,7 +53,6 @@ namespace SpaceHordes.Entities.Systems
                 gun.BulletsToFire = false;
                 ITransform t = e.GetComponent<ITransform>();
 
-
                 int index;
                 try
                 {
@@ -76,12 +75,18 @@ namespace SpaceHordes.Entities.Systems
                 else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     gun.BulletsToFire = true;
 
-                if (GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger) || (!GamePad.GetState((PlayerIndex)index).IsConnected && Mouse.GetState().RightButton == ButtonState.Pressed))
-                    world.CreateEntityGroup("BaseShot", "Bullets" , e);
+                if (!inv.BuildMode && 
+                    (GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger) || 
+                    (!GamePad.GetState((PlayerIndex)index).IsConnected && Mouse.GetState().RightButton == ButtonState.Pressed)))
+                {
+                    world.CreateEntityGroup("BaseShot", "Bullets", e);
+                    if (gun.Ammunition <= 0)
+                        inv.ChangeGun(e, GunType.WHITE);
+                }
             }
 
             //Fire bullets bro
-            if (gun.Elapsed > gun.Interval / gun.Power && gun.BulletsToFire && gun.Ammunition > 0)
+            if (!inv.BuildMode && gun.Elapsed > gun.Interval / gun.Power && gun.BulletsToFire && gun.Ammunition > 0)
             {
                 if (inv._type == InvType.Cannon)
                 {
