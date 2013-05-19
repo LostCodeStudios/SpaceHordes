@@ -104,7 +104,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Vector2 pos = new Vector2(0, -1);
             pos.Normalize();
-            pos *= ScreenHelper.Viewport.Height;
+            pos *= ScreenHelper.Viewport.Height / 1.5f;
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
             bitch.SleepingAllowed = false;

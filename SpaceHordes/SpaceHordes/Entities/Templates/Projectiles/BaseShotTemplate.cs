@@ -26,24 +26,21 @@ namespace SpaceHordes.Entities.Templates.Events
             List<Entity> rets = new List<Entity>();
 
             //If the bullet type is not white
-            if (inv.CurrentGun != inv.WHITE && inv.CurrentGun.Ammunition > 0)
+            if (inv.YELLOW > 0)
             {
                 int shot = 1;
                 SoundManager.Play("Shot" + shot.ToString(), .25f);
                 //Shoot bullets out from base at an even division of the circle * a shot ratio
 
-                int pow = inv.CurrentGun.Power;
-                inv.CurrentGun.Power = 3; //POWER 3 BASE SHOT BITCH
-
                 double max = Math.PI * 2;
-                double step = (Math.PI * 2 * ShotRatio) / (Math.Min((double)inv.CurrentGun.Ammunition, MaxShot));
+                double step = (Math.PI * 2 * ShotRatio) / (Math.Min(inv.YELLOW, MaxShot));
                 for (double angle = 0;
                     angle < max;
                     angle += step)
                 {
                     Transform fireAt = new Transform(Vector2.Zero, (float)angle);
                     
-                    Entity bullet = world.CreateEntity(inv.CurrentGun.BulletTemplateTag, fireAt);
+                    Entity bullet = world.CreateEntity("WhiteBullet3", fireAt);
 
                     Bullet bb = bullet.GetComponent<Bullet>();
                     bb.Firer = null;
@@ -51,10 +48,9 @@ namespace SpaceHordes.Entities.Templates.Events
                     bullet.AddComponent<Bullet>(bb);
                     bullet.Refresh();
 
-                    rets.Add( bullet);
+                    rets.Add(bullet);
                 }
-                inv.CurrentGun.Ammunition = 0;
-                inv.CurrentGun.Power = pow;
+                inv.YELLOW = 0;
             }
             return rets.ToArray();
         }

@@ -34,7 +34,7 @@ namespace SpaceHordes.Entities.Systems
                 {
                     ai.Calculated = true;
 
-                    if (ai.Target == null && e.Group != "Structures")
+                    if (ai.Target == null && e.Group != "Structures" && !e.Tag.Contains("Cannon"))
                     {
                         if (e.HasComponent<Health>())
                             e.GetComponent<Health>().SetHealth(null, 0);

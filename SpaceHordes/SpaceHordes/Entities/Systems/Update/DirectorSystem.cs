@@ -8,6 +8,7 @@ using SpaceHordes.Entities.Templates.Objects;
 using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
 using GameLibrary.GameStates.Screens;
+using SpaceHordes.GameStates.Screens;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -82,7 +83,7 @@ namespace SpaceHordes.Entities.Systems
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        private int bossTier = 1;
+        int level;
 
         public Action OnVictory;
 
@@ -274,7 +275,7 @@ namespace SpaceHordes.Entities.Systems
             ElapsedSurge = 0;
         }
 
-        public void LoadContent(Entity Base, Entity[] Players, params SpawnState[] spawns)
+        public void LoadContent(Entity Base, Entity[] Players, int level, params SpawnState[] spawns)
         {
             this.Base = Base;
             this.Players = Players;
@@ -299,6 +300,8 @@ namespace SpaceHordes.Entities.Systems
                 };
             }
 
+            this.level = level;
+
             foreach (SpawnState state in spawns)
             {
                 states.Enqueue(state);
@@ -319,7 +322,15 @@ namespace SpaceHordes.Entities.Systems
             if (SpawnState == SpawnState.Victory)
             {
                 if (OnVictory != null)
+                {
                     OnVictory();
+                    LevelSelectScreen.LevelCleared(level + 1);
+                }
+            }
+
+            if (level == 3 || level == 4)
+            {
+                waves = 1;
             }
 
             switch (SpawnState)
@@ -330,7 +341,6 @@ namespace SpaceHordes.Entities.Systems
                 case SpawnState.Endless:
                     difficulty = elapsedMinutes;
                     break;
-
                 case SpawnState.Surge:
                     difficulty = 2 * (waves + elapsedMinutes);
                     break;

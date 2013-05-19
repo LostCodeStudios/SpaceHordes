@@ -25,8 +25,7 @@ namespace SpaceHordes.Entities.Systems
         public override void Initialize()
         {
             TransformMapper = new ComponentMapper<ITransform>(world);
-            bound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) * 2 + 1;
-            bulletBound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 1.5f;
+            bound = ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) / 1.5f;
         }
 
         public override void Process(Entity e)
@@ -34,7 +33,7 @@ namespace SpaceHordes.Entities.Systems
             ITransform t = TransformMapper.Get(e);
             if (t == null)
                 return;
-            if(Vector2.Distance(t.Position, Vector2.Zero) > (e.Group == "Bullets" || e.Group == "Fire" ? bulletBound : bound))
+            if(Vector2.Distance(t.Position, Vector2.Zero) > bound)
             {
                 e.Delete();
                 return;

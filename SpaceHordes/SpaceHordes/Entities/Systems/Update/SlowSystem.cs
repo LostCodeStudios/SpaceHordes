@@ -26,19 +26,6 @@ namespace SpaceHordes.Entities.Systems
             slowMapper = new ComponentMapper<Slow>(world);
         }
 
-        public override void Added(Entity e)
-        {
-            Slow slow = e.GetComponent<Slow>();
-            if (e.HasComponent<Sprite>())
-            {
-                Sprite s = e.GetComponent<Sprite>();
-                s.Color = Color.LightBlue;
-
-                e.Refresh();
-            } 
-            base.Added(e);
-        }
-
         public override void Process(Entity e)
         {
             Slow slow = slowMapper.Get(e);
@@ -48,15 +35,19 @@ namespace SpaceHordes.Entities.Systems
                 if (slow.Elapsed <= 0)
                 {
                     e.RemoveComponent<Slow>(slow);
-
+                    IDamping d = dampingMapper.Get(e);
+                    d.LinearDamping = 0;
+                    d.AngularDamping = 0;
                     if (e.HasComponent<AI>())
                     {
                         AI a = e.GetComponent<AI>();
                         e.RemoveComponent<AI>(e.GetComponent<AI>());
+                        a.Calculated = false;
                         e.AddComponent<AI>(a);
                     }
 
                     e.Refresh();
+                    return;
                 }
                 IVelocity velocity = velocityMapper.Get(e);
                 IDamping damping = dampingMapper.Get(e);
@@ -74,10 +65,18 @@ namespace SpaceHordes.Entities.Systems
                     damping.LinearDamping = 0;
 
                 Sprite s = e.GetComponent<Sprite>();
-
-            double mes = Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height / 4);
-            Vector2 offset = new Vector2((float)((r.NextDouble() * 2 - 1) * mes), (float)((r.NextDouble() * 2 - 1) * mes));
-            world.CreateEntity("FrostParticle", e, ConvertUnits.ToSimUnits(offset)).Refresh();
+                
+                Vector2 offset;
+                if (!e.Tag.Contains("Boss"))
+                {
+                    double mes = Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height / 4);
+                    offset = new Vector2((float)((r.NextDouble() * 2 - 1) * mes), (float)((r.NextDouble() * 2 - 1) * mes));
+                }
+                else
+                {
+                    offset = new Vector2((float)((r.NextDouble() * 2 - 1) * s.CurrentRectangle.Width / 2), (float)((r.NextDouble() * 2 - 1) * s.CurrentRectangle.Height / 2));
+                }
+                world.CreateEntity("FrostParticle", e, ConvertUnits.ToSimUnits(offset)).Refresh();
             }
         }
     }

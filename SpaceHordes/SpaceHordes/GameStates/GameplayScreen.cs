@@ -44,6 +44,7 @@ namespace SpaceHordes.GameStates.Screens
 
         List<PlayerIndex> playerIndices = new List<PlayerIndex>();
         SpawnState[] states;
+        int level;
 
         #endregion Fields
 
@@ -66,7 +67,7 @@ namespace SpaceHordes.GameStates.Screens
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen(string fontName, int bossStart, PlayerIndex[] players, SpawnState[] states)
+        public GameplayScreen(string fontName, int bossStart, PlayerIndex[] players, int level, SpawnState[] states)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -85,6 +86,7 @@ namespace SpaceHordes.GameStates.Screens
                 playerIndices.Add(idx);
             }
 
+            this.level = level;
             this.states = states;
         }
 
@@ -111,7 +113,7 @@ namespace SpaceHordes.GameStates.Screens
             //World
             World = new SpaceWorld(Manager.Game, ScreenHelper.SpriteSheet, this, tutorial);
             World.Initialize();
-            World.LoadContent(content, playerIndices.ToArray(), states);
+            World.LoadContent(content, playerIndices.ToArray(), level, states);
 
             Manager.Game.ResetElapsedTime();
             World.Base.GetComponent<Health>().OnDeath +=
