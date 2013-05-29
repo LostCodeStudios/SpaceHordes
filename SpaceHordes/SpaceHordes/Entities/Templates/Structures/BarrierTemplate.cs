@@ -47,13 +47,23 @@ namespace SpaceHordes.Entities.Templates.Objects
                 dist.Normalize();
                 dist *= distFromPlayer;
 
+
                 Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0] - dist);
-                Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
-                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
-                Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat4 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat5;
+                Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat16 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat15;
+                Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat4 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat5 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat16 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12;
                 Body.FixedRotation = false;
 
                 Body.RotateTo((Body.Position));
+
+
+                Body.OnCollision += (f1, f2, c)
+                    =>
+                {
+                    if (f2.CollisionCategories.HasFlag(GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12))
+                        return false;
+                    return true;
+                };
 
                 Body.SleepingAllowed = false;
             }
@@ -62,7 +72,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Sprite
 
-            Sprite s = new Sprite(_SpriteSheet, "barrier", 0.6f + barriers/10000);
+            Sprite s = new Sprite(_SpriteSheet, "barrier", 0.6f + (float)(barriers/10000f));
             e.AddComponent<Sprite>(s);
 
             #endregion Sprite

@@ -36,18 +36,9 @@ namespace SpaceHordes.Entities.Templates.Enemies
             switch (type)
             {
                 case 0:
-                    spriteKey = "graybulbwithsidegunthings";
-                    break;
-                case 1:
-                    spriteKey = "blueshipwithbulb";
-                    break;
-                case 2:
                     spriteKey = "purpleship";
                     break;
-                case 3:
-                    spriteKey = "browntriangleship";
-                    break;
-                case 4:
+                case 1:
                     spriteKey = "brownarmship";
                     break;
             }

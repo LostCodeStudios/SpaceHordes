@@ -67,7 +67,8 @@ namespace SpaceHordes.Entities.Templates
             Body.RotateTo(Body.Position);
             Body.Mass += 2;
 
-            Body.CollisionCategories = Category.Cat1;
+            Body.CollisionCategories = Category.Cat1 | Category.Cat12;
+
             #endregion Body
 
             #region Sprite
@@ -105,7 +106,11 @@ namespace SpaceHordes.Entities.Templates
 
             #region Inventory
 
-            Inventory inventory = e.AddComponent<Inventory>(new Inventory(50, 50, 50, 0, InvType.Player, ""));
+            uint yellow = 0;
+#if DEBUG
+            yellow = 1000;
+#endif
+            Inventory inventory = e.AddComponent<Inventory>(new Inventory(50, 50, 50, yellow, InvType.Player, ""));
 
             #endregion Inventory
 

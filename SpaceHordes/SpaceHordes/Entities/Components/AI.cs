@@ -425,7 +425,7 @@ namespace SpaceHordes.Entities.Components
                     Body b = ent.GetComponent<Body>();
                     float distance = Vector2.Distance(b.Position, target.Position);
 
-                    Vector2 direction = target.Position - b.Position + ent.GetComponent<Inventory>().CurrentGun.GunOffsets[0];
+                    Vector2 direction = target.Position - (b.Position + ent.GetComponent<Inventory>().CurrentGun.GunOffsets[0]);
                     direction.Normalize();
                     b.RotateTo(direction);
                     if (distance > shootDistance)

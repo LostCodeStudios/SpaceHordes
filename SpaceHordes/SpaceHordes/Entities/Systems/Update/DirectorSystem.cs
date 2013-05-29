@@ -339,13 +339,13 @@ namespace SpaceHordes.Entities.Systems
                     difficulty = (waves + elapsedMinutes);
                     break;
                 case SpawnState.Endless:
-                    difficulty = elapsedMinutes;
+                    difficulty = 1 + elapsedMinutes;
                     break;
                 case SpawnState.Surge:
                     difficulty = 2 * (waves + elapsedMinutes);
                     break;
                 case SpawnState.Boss:
-                    difficulty = 0.25f * (waves + elapsedMinutes);
+                    difficulty = 0.25f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
                     break;
                 case SpawnState.Peace:
                     difficulty = 0f;
@@ -384,9 +384,9 @@ namespace SpaceHordes.Entities.Systems
                 int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
                 int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, maxMooks * MookSpawnRate);
                 int thugsToSpawn = Math.Min(doubleToInt(difficulty / 50) * ThugSpawnRate, doubleToInt(maxThugs) * ThugSpawnRate);
-                int gunnersToSpawn = doubleToInt((double)structs / 50) * GunnerSpawnRate;
-                int huntersToSpawn = doubleToInt((double)Players.Length / 75) * HunterSpawnRate;
-                int destroyersToSpawn = doubleToInt((double)Players.Length / 300) * DestroyerSpawnRate;
+                int gunnersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)structs / 50) * GunnerSpawnRate : 0;
+                int huntersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 75) * HunterSpawnRate : 0;
+                int destroyersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 300) * DestroyerSpawnRate : 0;
                 spawnMooks(mooksToSpawn);
                 spawnThugs(thugsToSpawn);
                 spawnGunners(gunnersToSpawn);
@@ -640,6 +640,7 @@ namespace SpaceHordes.Entities.Systems
             }
 
             setCategory(SongType.Surge);
+            waves++;
         }
 
         private void spawnHunter()
@@ -655,7 +656,7 @@ namespace SpaceHordes.Entities.Systems
 
         private void spawnGunner()
         {
-            int type = r.Next(5);
+            int type = r.Next(2);
             if (string.IsNullOrEmpty(GunnerSprite))
                 World.CreateEntity(GunnerTemplate, type).Refresh();
             else

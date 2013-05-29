@@ -39,9 +39,9 @@ namespace SpaceHordes.Entities.Templates.Objects
                     1,
                     Body);
                 Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0]);
-                Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Static;
-                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1;
-                Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat5;
+                Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
+                Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat16;
+                Body.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat5 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat16;
                 Body.FixedRotation = false;
                 Body.RotateTo((Body.Position));
 

@@ -157,12 +157,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
                 case 2:
                     points = 500;
-                    health = 250;
+                    health = 175;
                     break;
 
                 case 3:
                     points = 1000;
-                    health = 400;
+                    health = 200;
                     break;
             }
 
