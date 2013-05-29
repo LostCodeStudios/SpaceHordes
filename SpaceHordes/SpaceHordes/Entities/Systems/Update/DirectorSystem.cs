@@ -523,7 +523,7 @@ namespace SpaceHordes.Entities.Systems
 
             if (!(world as SpaceWorld).Tutorial)
             {
-                if (SpawnState == SpawnState.Wave || SpawnState == SpawnState.Surge)
+                if (SpawnState == SpawnState.Wave || SpawnState == SpawnState.Surge || SpawnState == SpawnState.Endless)
                     intervalSeconds += secPerCall;
 
                 if (SpawnState == SpawnState.Surge)

@@ -5,6 +5,7 @@ using System.Text;
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
 #endif
+using GameLibrary.GameStates;
 using GameLibrary.GameStates.Screens;
 using System.IO;
 using SpaceHordes.Entities.Systems;
