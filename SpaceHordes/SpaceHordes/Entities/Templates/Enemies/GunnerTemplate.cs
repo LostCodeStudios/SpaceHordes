@@ -17,7 +17,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private EntityWorld _World;
         private static Random rbitch = new Random();
 
-        private float shootdistance = 10f;
         private static int gunners = 0;
         public GunnerTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {

@@ -129,6 +129,8 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
+#endif
+
         public static bool RumbleOn
         {
             get
@@ -157,8 +159,6 @@ namespace SpaceHordes.GameStates.Screens
                 SpaceHordes.ApplySettings();
             }
         }
-
-#endif
 
         #endregion Static Properties
 

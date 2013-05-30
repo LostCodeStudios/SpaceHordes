@@ -419,7 +419,6 @@ namespace SpaceHordes
 
         private HUDRenderSystem hudRenderSystem;
         private StarFieldRenderSystem starFieldRenderSystem;
-        private RadarRenderSystem radarRenderSystem;
 
         //Entities for safe keeping
         public List<Entity> Player = new List<Entity>();
@@ -429,11 +428,9 @@ namespace SpaceHordes
         #endregion Entity
 
         private SpriteSheet _spriteSheet;
-        private Texture2D _hud;
         public ImageFont _Font;
         public int Players = 0;
         int slowmow = 0;
-        bool slowmotion = false;
 
         public static List<PlayerIndex> Indices = new List<PlayerIndex>();
 

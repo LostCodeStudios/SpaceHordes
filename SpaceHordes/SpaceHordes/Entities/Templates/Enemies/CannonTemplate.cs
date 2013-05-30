@@ -17,7 +17,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private EntityWorld _World;
         private static Random rbitch = new Random();
 
-        private float shootdistance = 20f;
         private static int cannons = 0;
         public CannonTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {

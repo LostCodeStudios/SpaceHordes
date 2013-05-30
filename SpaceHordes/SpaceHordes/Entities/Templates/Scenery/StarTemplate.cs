@@ -12,7 +12,6 @@ namespace SpaceHordes.Entities.Templates
         private SpriteSheet spriteSheet;
         private static Random rbitch = new Random();
         private int stars = 0;
-        private int nebulas = 0;
         private static Vector2[] nebulaLocs = new Vector2[12];
 
         public StarTemplate(SpriteSheet spriteSheet)
