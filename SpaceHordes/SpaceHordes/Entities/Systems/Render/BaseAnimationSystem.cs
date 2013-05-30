@@ -38,30 +38,6 @@ namespace SpaceHordes.Entities.Systems
             }
 
             #endregion Float Effect
-
-            #region Sprite Animation
-
-            Sprite s = e.GetComponent<Sprite>();
-            Health h = e.GetComponent<Health>();
-
-            if (h != null || h.IsAlive)
-            {
-                e.RemoveComponent<Sprite>(s);
-
-                double healthFraction = (h.CurrentHealth / h.MaxHealth);
-
-                int frame = 0;
-                if (healthFraction < 0.66)
-                    frame = 1;
-                if (healthFraction < 0.33)
-                    frame = 2;
-
-                s.FrameIndex = frame;
-
-                e.AddComponent<Sprite>(s);
-            }
-
-            #endregion Sprite Animation
         }
     }
 }

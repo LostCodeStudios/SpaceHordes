@@ -192,20 +192,6 @@ namespace SpaceHordes.Entities.Systems
             }
             else
             {
-                int X = (int)ScreenHelper.Center.X;
-                int Y = (int)ScreenHelper.Center.Y;
-                float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
-                float Height = e.GetComponent<Sprite>().CurrentRectangle.Height;
-
-                Body body = e.GetComponent<Body>();
-
-                Vector2 loc = new Vector2(
-                    X + ConvertUnits.ToDisplayUnits(body.Position.X) - Width / 2,
-                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height / 2 - _Font.MeasureString(i.YELLOW.ToString()).Y);
-
-                //Draw backing
-                _Font.DrawString(_SpriteBatch, loc, i.YELLOW.ToString());
-
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], buildMenuSource, Color.White);
                 _SpriteBatch.Draw(_Hud, topLeft + boxOffsets[3] + selectionOffset, selectionSource, Color.White);
 
@@ -226,6 +212,34 @@ namespace SpaceHordes.Entities.Systems
             box.X = topLeft.X + boxOffsets[7].X;
             box.Y = topLeft.Y + boxOffsets[7].Y;
             _Font.DrawString(_SpriteBatch, box, yellow.ToString());
+
+            if (i.DisplayTag || i.BuildMode)
+            {
+                int X = (int)ScreenHelper.Center.X;
+                int Y = (int)ScreenHelper.Center.Y;
+                float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
+                float Height = e.GetComponent<Sprite>().CurrentRectangle.Height;
+
+                Body body = e.GetComponent<Body>();
+
+                string text = "";
+
+                if (i.DisplayTag)
+                {
+                    text = e.Tag;
+                }
+                else
+                {
+                    text = i.YELLOW.ToString();
+                }
+
+                Vector2 loc = new Vector2(
+                    X + ConvertUnits.ToDisplayUnits(body.Position.X) - Width / 2,
+                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height / 2 - _Font.MeasureString(text).Y);
+
+                //Draw backing
+                _Font.DrawString(_SpriteBatch, loc, text);
+            }
         }
     }
 }

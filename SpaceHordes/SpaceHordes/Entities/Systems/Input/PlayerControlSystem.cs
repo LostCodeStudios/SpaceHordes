@@ -190,7 +190,14 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion Aiming
 
+                #region Tag
 
+                if ((pad.IsButtonDown(Buttons.LeftShoulder) && (lastPad.IsButtonUp(Buttons.LeftShoulder)) || pad.IsButtonDown(Buttons.RightShoulder)) && lastPad.IsButtonUp(Buttons.RightShoulder))
+                {
+                    inv.DisplayTag = !inv.DisplayTag;
+                }
+
+                #endregion
             }
 
             #endregion Gamepad
@@ -312,6 +319,14 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion Aiming
 
+                #region Tag
+
+                if ((keyState.IsKeyDown(Keys.LeftShift) && lastKeyState.IsKeyUp(Keys.LeftShift)) || (keyState.IsKeyDown(Keys.RightShift) && lastKeyState.IsKeyUp(Keys.RightShift)))
+                {
+                    inv.DisplayTag = !inv.DisplayTag;
+                }
+
+                #endregion
 
                 //Rotation
                 if (b.LinearVelocity != Vector2.Zero)

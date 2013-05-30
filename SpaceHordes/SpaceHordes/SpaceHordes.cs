@@ -181,6 +181,8 @@ namespace SpaceHordes
             }
 #endif
 
+            SoundManager.UpdateRumble(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -833,10 +835,13 @@ namespace SpaceHordes
             int sound;
             int music;
             bool fullscreen;
-            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
+            bool rumbleOn;
+
+            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
 
             SoundManager.Volume = (float)sound / 10f;
             MusicManager.Volume = (float)music / 10f;
+            SoundManager.Rumble = rumbleOn;
 
             if (ScreenHelper.Graphics.IsFullScreen != fullscreen)
             {

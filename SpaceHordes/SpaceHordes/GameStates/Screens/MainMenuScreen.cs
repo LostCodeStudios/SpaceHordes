@@ -38,6 +38,8 @@ namespace SpaceHordes.GameStates.Screens
 
             MenuEntry introEntry = new MenuEntry("Intro");
 
+            MenuEntry creditsEntry = new MenuEntry("Credits");
+
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
@@ -49,6 +51,7 @@ namespace SpaceHordes.GameStates.Screens
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
             introEntry.Selected += IntroMenuEntrySelected;
+            creditsEntry.Selected += CreditEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
@@ -61,6 +64,7 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(bossEntry);
 #endif
             MenuEntries.Add(introEntry);
+            MenuEntries.Add(creditsEntry);
             //MenuEntries.Add(tutorialEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
@@ -115,6 +119,11 @@ namespace SpaceHordes.GameStates.Screens
             IntroScreen intro = new IntroScreen();
             intro.OnExit += new EventHandler(BossScreenExited);
             Manager.AddScreen(intro, e.PlayerIndex);
+        }
+
+        private void CreditEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            Manager.AddScreen(new CreditsScreen(), e.PlayerIndex);
         }
 
         /// <summary>
