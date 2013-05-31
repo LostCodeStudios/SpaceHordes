@@ -305,41 +305,50 @@ namespace SpaceHordes
         {
             Indices.Clear();
             //Set up player(s)
-            PlayerIndex[] index = args[0] as PlayerIndex[];
-            if (args != null && index.Length > 0 && index != null) //IF MULTIPLAYER
-            {
-                for (int i = 0; i < index.Length && i < 4; ++i)
-                {
-                    Entity e = CreateEntity("Player", (PlayerIndex)i);
-                    Body bitch = e.GetComponent<Body>();
-                    this.ContactManager.OnBroadphaseCollision +=
-                        new BroadphaseDelegate(this.SlowMow);
+//            PlayerIndex[] index = args[0] as PlayerIndex[];
+//            if (args != null && index.Length > 0 && index != null) //IF MULTIPLAYER
+//            {
+//                for (int i = 0; i < index.Length && i < 4; ++i)
+//                {
+//                    Entity e = CreateEntity("Player", (PlayerIndex)i);
+//                    Body bitch = e.GetComponent<Body>();
+//                    this.ContactManager.OnBroadphaseCollision +=
+//                        new BroadphaseDelegate(this.SlowMow);
 
 
-                    e.Refresh();
-                    Player.Add(e);
-                    Indices.Add((PlayerIndex)i);
-                    ++Players;
-                }
-#if WINDOWS
-                //Player 4 keyboard controlled
-                //if (index.Length == 1)
-                //{
-                    Entity c = CreateEntity("Player", (PlayerIndex)3);
-                    c.Refresh();
-                    Player.Add(c);
-                    Indices.Add(PlayerIndex.Four);
-                    ++Players;
-                //}
-#endif
-            }
-            else //IF SINGLEPLAYER
+//                    e.Refresh();
+//                    Player.Add(e);
+//                    Indices.Add((PlayerIndex)i);
+//                    ++Players;
+//                }
+//#if WINDOWS && DEBUG
+//                //Player 4 keyboard controlled
+//                //if (index.Length == 1)
+//                //{
+//                    Entity c = CreateEntity("Player", (PlayerIndex)3);
+//                    c.Refresh();
+//                    Player.Add(c);
+//                    Indices.Add(PlayerIndex.Four);
+//                    ++Players;
+//                //}
+//#endif
+//            }
+//            else //IF SINGLEPLAYER
+//            {
+//                Entity e = CreateEntity("Player", (PlayerIndex.One));
+//                e.Refresh();
+//                Player.Add(e);
+//                Players = 1;
+//                Indices.Add((PlayerIndex.One));
+//            }
+
+            for (int i = 0; i < 4; ++i)
             {
-                Entity e = CreateEntity("Player", (PlayerIndex.One));
+                Entity e = CreateEntity("Player", (PlayerIndex)i);
+
                 e.Refresh();
+
                 Player.Add(e);
-                Players = 1;
-                Indices.Add((PlayerIndex.One));
             }
 
             CreateEntityGroup("StarField", "Stars");
