@@ -5,6 +5,7 @@ using System.Text;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -37,6 +38,7 @@ namespace SpaceHordes.GameStates.Screens
             PlayerIndex indx;
             if (exit.Evaluate(input, ControllingPlayer, out indx))
             {
+                SoundManager.Play("MenuCancel");
                 ExitScreen();
             }
         }
