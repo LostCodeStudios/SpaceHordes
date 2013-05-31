@@ -56,7 +56,7 @@ namespace SpaceHordes.Entities.Systems
 #endif
 
 #if XBOX
-        private double maxMooks = 0.3;
+        private int maxMooks = 1;
         private double maxThugs = 0.1;
 #endif
 
@@ -382,7 +382,7 @@ namespace SpaceHordes.Entities.Systems
                 #region Spawning
 
                 int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
-                int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, (int)(maxMooks * MookSpawnRate));
+                int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, maxMooks * MookSpawnRate);
                 int thugsToSpawn = Math.Min(doubleToInt(difficulty / 50) * ThugSpawnRate, doubleToInt(maxThugs) * ThugSpawnRate);
                 int gunnersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)structs / 100) * GunnerSpawnRate : 0;
                 int huntersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 75) * HunterSpawnRate : 0;

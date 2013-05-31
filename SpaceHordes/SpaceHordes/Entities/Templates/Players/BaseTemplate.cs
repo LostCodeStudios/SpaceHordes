@@ -72,26 +72,24 @@ namespace SpaceHordes.Entities.Templates
 
                     double healthFraction = (h.CurrentHealth / h.MaxHealth);
 
-                    if (healthFraction >= 0.33 && Sprite.FrameIndex == 2)
-                    {
-                        Sprite.FrameIndex = 1;
-                    }
-                    else if (healthFraction < 0.33 && Sprite.FrameIndex == 1)
+                    if (healthFraction < 0.33 && Sprite.FrameIndex == 1)
                     {
                         Sprite.FrameIndex = 2;
                         SoundManager.SetVibration(0.3f, 0.3f);
                     }
-                    
-                    else if (healthFraction >= 0.66 && Sprite.FrameIndex == 1)
+                    else if (healthFraction >= 0.33 && Sprite.FrameIndex == 2)
                     {
-                        Sprite.FrameIndex = 0;
+                        Sprite.FrameIndex = 1;
                     }
                     else if (healthFraction < 0.66 && Sprite.FrameIndex == 0)
                     {
                         Sprite.FrameIndex = 1;
                         SoundManager.SetVibration(0.3f, 0.3f);
                     }
-                    
+                    else if (healthFraction >= 0.66 && Sprite.FrameIndex == 2)
+                    {
+                        Sprite.FrameIndex = 0;
+                    }
 
 
                     e.AddComponent<Sprite>(Sprite);

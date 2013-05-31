@@ -240,8 +240,6 @@ namespace SpaceHordes.GameStates.Screens
             this.sound.Text = "Sound Volume: ";
             this.sound.Text += SoundVolume.ToString();
 
-
-
             this.music.Text = "Music Volume: ";
             this.music.Text += MusicVolume.ToString();
 

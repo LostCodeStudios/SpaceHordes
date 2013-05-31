@@ -65,15 +65,9 @@ namespace SpaceHordes.GameStates.Screens
             PlayerIndex idx;
             if (cancelAction.Evaluate(input, null, out idx))
             {
-                if (entered[(int)idx])
-                {
-                    entered[(int)idx] = false;
-                }
-                else
-                {
-                    ExitScreen();
-                    Manager.AddScreen(new MainMenuScreen("Space Hordes", false), null);
-                }
+                ExitScreen();
+                Manager.AddScreen(new MainMenuScreen("Space Hordes", false), null);
+                return;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -84,9 +78,8 @@ namespace SpaceHordes.GameStates.Screens
 
             for (int x = 0; x < 4; ++x)
             {
-                PlayerIndex indexx;
                 idx = (PlayerIndex)x;
-                if (entryAction.Evaluate(input, idx, out indexx))
+                if (entryAction.Evaluate(input, idx, out idx))
                 {
                     SoundManager.Play("Selection");
                     if (entered[x])
