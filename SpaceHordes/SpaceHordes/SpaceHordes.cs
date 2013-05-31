@@ -181,6 +181,8 @@ namespace SpaceHordes
             }
 #endif
 
+            SoundManager.UpdateRumble(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -799,9 +801,11 @@ namespace SpaceHordes
             SoundManager.Add("Explosion2", Content.Load<SoundEffect>("Sounds/Explosion2"));
             SoundManager.Add("Explosion3", Content.Load<SoundEffect>("Sounds/Explosion3"));
             SoundManager.Add("Explosion4", Content.Load<SoundEffect>("Sounds/Explosion4"));
-            SoundManager.Add("SelectChanged", Content.Load<SoundEffect>("Sounds/Menu Select"));
-            SoundManager.Add("MenuCancel", Content.Load<SoundEffect>("Sounds/Menu Back"));
-            //SoundManager.Add("Selection", Content.Load<SoundEffect>("Sounds/SELECTION"));
+            SoundManager.Add("Construction", Content.Load<SoundEffect>("Sounds/Construction"));
+            SoundManager.Add("SelectChanged", Content.Load<SoundEffect>("Sounds/mouse_over4"));
+            SoundManager.Add("MenuCancel", Content.Load<SoundEffect>("Sounds/electric_deny2"));
+            SoundManager.Add("Selection", Content.Load<SoundEffect>("Sounds/melodic1_click"));
+            SoundManager.Add("DialogSound", Content.Load<SoundEffect>("Sounds/analogue_click"));
             SoundManager.Add("Shot1", Content.Load<SoundEffect>("Sounds/shot"));
             SoundManager.Add("Shot2", Content.Load<SoundEffect>("Sounds/shot2"));
             SoundManager.Add("Pickup1", Content.Load<SoundEffect>("Sounds/pickup"));
@@ -833,10 +837,13 @@ namespace SpaceHordes
             int sound;
             int music;
             bool fullscreen;
-            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen);
+            bool rumbleOn;
+
+            OptionsMenuScreen.ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
 
             SoundManager.Volume = (float)sound / 10f;
             MusicManager.Volume = (float)music / 10f;
+            SoundManager.Rumble = rumbleOn;
 
             if (ScreenHelper.Graphics.IsFullScreen != fullscreen)
             {

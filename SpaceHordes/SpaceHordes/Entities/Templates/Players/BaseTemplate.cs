@@ -6,6 +6,7 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -59,15 +60,41 @@ namespace SpaceHordes.Entities.Templates
 #if DEBUG
             health = 1000000;
 #endif
-
-            e.AddComponent<Health>(new Health(health)).OnDeath +=
+            Health h = new Health(health);
+            h.OnDeath +=
             ent =>
             {
                 Vector2 poss = e.GetComponent<ITransform>().Position;
                 world.CreateEntityGroup("BigExplosion", "Explosions", poss, 25, e, e.GetComponent<IVelocity>().LinearVelocity);
 
+                SoundManager.SetVibration(0.5f, 0.3f);
                 SoundManager.Play("Explosion1");
             };
+
+            h.OnDamage +=
+                ent =>
+                {
+                    SoundManager.SetVibration(0.25f, 0.15f);
+
+                    e.RemoveComponent<Sprite>(Sprite);
+
+                    double healthFraction = (h.CurrentHealth / h.MaxHealth);
+
+                    if (healthFraction < 0.33 && Sprite.FrameIndex == 1)
+                    {
+                        Sprite.FrameIndex = 2;
+                        SoundManager.SetVibration(0.3f, 0.3f);
+                    }
+                    else if (healthFraction < 0.66 && Sprite.FrameIndex == 0)
+                    {
+                        Sprite.FrameIndex = 1;
+                        SoundManager.SetVibration(0.3f, 0.3f);
+                    }
+
+                    e.AddComponent<Sprite>(Sprite);
+                };
+
+            e.AddComponent<Health>(h);
 
             e.AddComponent<HealthRender>(new HealthRender());
 

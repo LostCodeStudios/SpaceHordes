@@ -102,6 +102,10 @@ namespace SpaceHordes.GameStates.Screens
                 }
                 MenuEntries.Add(entry);
             }
+
+            SelectionChangeSound = "SelectChanged";
+            SelectionSound = "Selection";
+            CancelSound = "MenuCancel";
         }
 
         #endregion
@@ -240,7 +244,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 #if XBOX
             StorageContainer c = MyContainer;
-            if (c.FileExists("bosses.txt"))
+            if (c.FileExists("levels.txt"))
             {
                 StreamReader reader = new StreamReader(c.OpenFile("levels.txt", FileMode.Open));
 #endif
@@ -288,7 +292,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 #if XBOX
             StorageContainer c = MyContainer;
-            StreamWriter writer = new StreamWriter(c.OpenFile("bosses.txt", FileMode.Open));
+            StreamWriter writer = new StreamWriter(c.OpenFile("levels.txt", FileMode.Open));
 #endif
             for (int i = 0; i < levelCount; ++i)
             {
@@ -318,9 +322,9 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 #if XBOX
             StorageContainer c = MyContainer;
-            if (!c.FileExists("bosses.txt"))
+            if (!c.FileExists("levels.txt"))
             {
-                c.OpenFile("bosses.txt", FileMode.Create);
+                c.OpenFile("levels.txt", FileMode.Create);
             }
 #endif
 

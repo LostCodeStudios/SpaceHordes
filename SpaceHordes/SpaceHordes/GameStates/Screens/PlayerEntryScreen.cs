@@ -16,7 +16,6 @@ namespace SpaceHordes.GameStates.Screens
         InputAction entryAction;
         InputAction cancelAction;
         string font;
-        bool tut;
 
         Vector2[] offsets = new Vector2[4];
         Vector2[] corners = new Vector2[4];
@@ -29,7 +28,6 @@ namespace SpaceHordes.GameStates.Screens
         public PlayerEntryScreen(string fontName)
         {
             font = fontName;
-            tut = false;
 
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -83,6 +81,7 @@ namespace SpaceHordes.GameStates.Screens
                 idx = (PlayerIndex)x;
                 if (entryAction.Evaluate(input, idx, out idx))
                 {
+                    SoundManager.Play("Selection");
                     if (entered[x])
                     {
                         Enter();

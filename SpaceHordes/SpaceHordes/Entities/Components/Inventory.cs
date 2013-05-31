@@ -28,6 +28,8 @@ namespace SpaceHordes.Entities.Components
     {
         public InvType _type = InvType.Turret;
 
+        public bool DisplayTag = false;
+
         public Inventory()
             : this(0, 0, 0, 0, InvType.Turret, "")
         {

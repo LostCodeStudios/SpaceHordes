@@ -136,6 +136,8 @@ namespace SpaceHordes.Entities.Systems
                             //offset;
                              world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
+
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -145,6 +147,8 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= TurretPrice;
+
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -154,6 +158,8 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
+
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -190,7 +196,14 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion Aiming
 
+                #region Tag
 
+                if ((pad.IsButtonDown(Buttons.LeftShoulder) && (lastPad.IsButtonUp(Buttons.LeftShoulder)) || pad.IsButtonDown(Buttons.RightShoulder)) && lastPad.IsButtonUp(Buttons.RightShoulder))
+                {
+                    inv.DisplayTag = !inv.DisplayTag;
+                }
+
+                #endregion
             }
 
             #endregion Gamepad
@@ -267,6 +280,7 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -276,6 +290,7 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= TurretPrice;
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -285,6 +300,7 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -308,10 +324,18 @@ namespace SpaceHordes.Entities.Systems
                 Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
                 Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
                 Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
-                b.RotateTo(-aiming);
+                //b.RotateTo(-aiming);
 
                 #endregion Aiming
 
+                #region Tag
+
+                if ((keyState.IsKeyDown(Keys.LeftShift) && lastKeyState.IsKeyUp(Keys.LeftShift)) || (keyState.IsKeyDown(Keys.RightShift) && lastKeyState.IsKeyUp(Keys.RightShift)))
+                {
+                    inv.DisplayTag = !inv.DisplayTag;
+                }
+
+                #endregion
 
                 //Rotation
                 if (b.LinearVelocity != Vector2.Zero)

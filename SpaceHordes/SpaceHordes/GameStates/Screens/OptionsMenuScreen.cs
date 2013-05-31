@@ -24,6 +24,8 @@ namespace SpaceHordes.GameStates.Screens
 
         private MenuEntry music = new MenuEntry("Music Volume: 10");
 
+        private MenuEntry rumble = new MenuEntry("Gamepad Rumble: On");
+
 #if WINDOWS
         private MenuEntry fullScreen = new MenuEntry("Full Screen: Off");
 #endif
@@ -105,8 +107,9 @@ namespace SpaceHordes.GameStates.Screens
                 int sound;
                 int music;
                 bool fullscreen;
+                bool rumbleOn;
 
-                ReadSettings(out sound, out music, out fullscreen);
+                ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
 
                 return fullscreen;
             }
@@ -116,16 +119,31 @@ namespace SpaceHordes.GameStates.Screens
                 int sound;
                 int music;
                 bool fullscreen;
+                bool rumbleOn;
 
-                ReadSettings(out sound, out music, out fullscreen);
+                ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
 
-                WriteSettings(sound, music, value);
+                WriteSettings(sound, music, value, rumbleOn);
 
                 SpaceHordes.ApplySettings();
             }
         }
 
 #endif
+
+        static bool rumbleOn;
+        public static bool RumbleOn
+        {
+            get
+            {
+                return rumbleOn;
+            }
+
+            set
+            {
+                rumbleOn = value;
+            }
+        }
 
         #endregion Static Properties
 
@@ -137,17 +155,19 @@ namespace SpaceHordes.GameStates.Screens
         {
             this.sound.Selected += sound_selected;
             this.music.Selected += music_selected;
+            this.rumble.Selected += rumble_selected;
 
 #if WINDOWS
             this.fullScreen.Selected += fullScreen_selected;
 #endif
 
             bool fullsc;
-            ReadSettings(out soundVol, out musicVol, out fullsc);
+            ReadSettings(out soundVol, out musicVol, out fullsc, out rumbleOn);
             updateMenuEntryText();
 
             MenuEntries.Add(this.sound);
             MenuEntries.Add(this.music);
+            MenuEntries.Add(this.rumble);
 #if WINDOWS
             if (!ingame)
                 MenuEntries.Add(this.fullScreen);
@@ -179,15 +199,23 @@ namespace SpaceHordes.GameStates.Screens
             updateMenuEntryText();
         }
 
+        private void rumble_selected(object sender, EventArgs e)
+        {
+            RumbleOn = !RumbleOn;
+
+            updateMenuEntryText();
+        }
+
         private void onExit(object sender, EventArgs e)
         {
             int sound;
             int music;
             bool fullscreen;
+            bool rum;
 
-            ReadSettings(out sound, out music, out fullscreen);
+            ReadSettings(out sound, out music, out fullscreen, out rum);
 
-            WriteSettings(soundVol, musicVol, fullscreen);
+            WriteSettings(soundVol, musicVol, fullscreen, rumbleOn);
 
             SpaceHordes.ApplySettings();
         }
@@ -229,6 +257,19 @@ namespace SpaceHordes.GameStates.Screens
                     break;
             }
 #endif
+
+            this.rumble.Text = "Gamepad Rumble: ";
+
+            switch (RumbleOn)
+            {
+                case true:
+                    this.rumble.Text += "On";
+                    break;
+
+                case false:
+                    this.rumble.Text += "Off";
+                    break;
+            }
         }
 
         #endregion Helpers
@@ -240,13 +281,11 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         /// <param name="sound"></param>
         /// <param name="music"></param>
-        public static void ReadSettings(out int sound, out int music, out bool fullscreen)
+        public static void ReadSettings(out int sound, out int music, out bool fullscreen, out bool rumbleOn)
         {
+            UpToDate();
+
 #if WINDOWS
-            if (!File.Exists(FilePath))
-            {
-                WriteInitialSettings();
-            }
 
             using (TextReader tr = new StreamReader(FilePath))
             {
@@ -278,6 +317,24 @@ namespace SpaceHordes.GameStates.Screens
 
                     default:
                         fullscreen = false;
+                        break;
+                }
+
+                while (tr.ReadLine() != "[Rumble]")
+                { }
+
+                switch (tr.ReadLine())
+                {
+                    case "On":
+                        rumbleOn = true;
+                        break;
+
+                    case "Off":
+                        rumbleOn = false;
+                        break;
+
+                    default:
+                        rumbleOn = false;
                         break;
                 }
             }
@@ -325,12 +382,80 @@ namespace SpaceHordes.GameStates.Screens
                     fullscreen = false;
                     break;
             }
+
+            while (tr.ReadLine() != "[Rumble]")
+            {
+            }
+
+            switch (tr.ReadLine())
+            {
+                case "On":
+                    rumbleOn = true;
+                    break;
+
+                case "Off":
+                    rumbleOn = false;
+                    break;
+
+                default:
+                    rumbleOn = false;
+                    break;
+            }
+
             fullscreen = true;
             c.Dispose();
 #endif
         }
 
-        public static void WriteSettings(int sound, int music, bool fullscreen)
+        private static void UpToDate()
+        {
+#if WINDOWS
+            if (!File.Exists(FilePath))
+            {
+                WriteInitialSettings();
+                return;
+            }
+
+            using (TextReader tr = new StreamReader(FilePath))
+            {
+                string text = tr.ReadToEnd();
+                if (!text.Contains("[Rumble]"))
+                {
+                    tr.Close();
+                    WriteInitialSettings();
+                } 
+            }
+#endif
+
+#if XBOX
+            StorageContainer c = MyContainer;
+
+            if (!c.FileExists("settings.txt"))
+            {
+                c.Dispose();
+                WriteInitialSettings();
+                return;
+            }
+
+            using (TextReader tr = new StreamReader(c.OpenFile("settings.txt", FileMode.Open)))
+            {
+                string text = tr.ReadToEnd();
+    
+                if (!text.Contains("[Rumble]"))
+                {
+                    tr.Close();
+                    c.Dispose();
+                    WriteInitialSettings();
+                }
+
+                tr.Close();
+            }
+
+            c.Dispose();
+#endif
+        }
+
+        public static void WriteSettings(int sound, int music, bool fullscreen, bool rumbleOn)
         {
 #if WINDOWS
             StreamWriter writer = new StreamWriter(FilePath);
@@ -358,6 +483,20 @@ namespace SpaceHordes.GameStates.Screens
                     writer.WriteLine("Off");
                     break;
             }
+
+            writer.WriteLine("[Rumble]");
+
+            switch (rumbleOn)
+            {
+                case true:
+                    writer.WriteLine("On");
+                    break;
+                    
+                case false:
+                    writer.WriteLine("Off");
+                    break;
+            }
+
             writer.Close();
 #if XBOX
             c.Dispose();
@@ -388,7 +527,7 @@ namespace SpaceHordes.GameStates.Screens
             c.Dispose();
 #endif
 
-            WriteSettings(10, 10, true);
+            WriteSettings(10, 10, true, true);
         }
 
         #endregion Static Methods

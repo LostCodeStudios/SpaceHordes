@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameLibrary.GameStates;
+using GameLib.GameStates.Screens;
 
 namespace SpaceHordes.GameStates.Screens
 {
-    public class CreditsScreen : GameScreen
+    public class CreditsScreen : TextScreen
     {
-        string[] text = new string[]
+        
+
+        public CreditsScreen()
+            : base(
+            "Credits", 
+                new string[]
         {
-            "Credits",
-            "",
-            "Designed by Nathaniel Nelson",
-            "Code by William Guss and Nathaniel Nelson",
+            "Code",
+            "Nathaniel Nelson",
+            "William Guss",
             "",
             "Art",
             "Iron Plague art by Daniel Cook",
@@ -23,9 +28,13 @@ namespace SpaceHordes.GameStates.Screens
             "Space Fighter Loop Kevin MacLeod (incompetech.com)",
             "Cephalopod Kevin MacLeod (incompetech.com)",
             "In a Heartbeat Kevin MacLeod (incompetech.com)",
+            "Additional music by DST",
             "",
-            "",
-            "Additional music by DST"
-        };
+            "Sounds",
+            "bfxr",
+            ""
+        })
+        {
+        }
     }
 }

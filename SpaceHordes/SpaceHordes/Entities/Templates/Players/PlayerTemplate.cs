@@ -32,9 +32,10 @@ namespace SpaceHordes.Entities.Templates
         /// <returns></returns>
         public Entity BuildEntity(Entity e, params object[] args)
         {
+            PlayerIndex index = (PlayerIndex)args[0];
             e.Group = "Players";
-            string tag = "Player" + ((int)((PlayerIndex)args[0]) + 1);
-            e.Tag = "P" + ((int)((PlayerIndex)args[0]) + 1);
+            string tag = "Player" + ((int)index + 1);
+            e.Tag = "P" + ((int)index + 1);
 
             try
             {
@@ -60,12 +61,12 @@ namespace SpaceHordes.Entities.Templates
                 SetStartingLocations();
 
             //Set the position
-            Body.Position = locations[(PlayerIndex)args[0]];
+            Body.Position = locations[index];
             Body.BodyType = BodyType.Dynamic;
             Body.SleepingAllowed = false;
             Body.FixedRotation = true;
             Body.RotateTo(Body.Position);
-            Body.Mass += 2;
+            Body.Mass = 2;
 
             Body.CollisionCategories = Category.Cat1 | Category.Cat12;
 
@@ -97,6 +98,7 @@ namespace SpaceHordes.Entities.Templates
                     world.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
 
                     int splodeSound = r.Next(1, 5);
+                    SoundManager.SetVibration(index, 0.3f, 0.3f);
                     SoundManager.Play("Explosion" + splodeSound.ToString());
                 };
 

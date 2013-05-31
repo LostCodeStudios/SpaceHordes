@@ -11,7 +11,6 @@ namespace SpaceHordes.Entities.Systems
     public class BossAnimationSystem : EntityProcessingSystem
     {
         static Random rbitch = new Random();
-        EntityWorld world;
 
         public BossAnimationSystem(EntityWorld world)
             : base(typeof(Sprite), typeof(Animation), typeof(Health))

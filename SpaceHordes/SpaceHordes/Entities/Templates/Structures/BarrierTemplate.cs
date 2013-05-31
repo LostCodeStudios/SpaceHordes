@@ -47,7 +47,6 @@ namespace SpaceHordes.Entities.Templates.Objects
                 dist.Normalize();
                 dist *= distFromPlayer;
 
-
                 Body.Position = ConvertUnits.ToSimUnits((Vector2)args[0] - dist);
                 Body.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
                 Body.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat16 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat15;
@@ -56,13 +55,10 @@ namespace SpaceHordes.Entities.Templates.Objects
 
                 Body.RotateTo((Body.Position));
 
-
                 Body.OnCollision += (f1, f2, c)
                     =>
                 {
-                    if (
-                        (f2.CollisionCategories & GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12)
-                            == GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12)
+                    if ((f2.CollisionCategories & GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12) != 0)
                         return false;
                     return true;
                 };

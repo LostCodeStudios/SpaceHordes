@@ -13,8 +13,7 @@ namespace SpaceHordes.Entities.Systems
     {
         private Camera camera;
         private ComponentMapper<ITransform> TransformMapper;
-        float bound; 
-        float bulletBound;
+        float bound;
 
         public EntityRemovalSystem(Camera camera)
             : base(typeof(ITransform))
