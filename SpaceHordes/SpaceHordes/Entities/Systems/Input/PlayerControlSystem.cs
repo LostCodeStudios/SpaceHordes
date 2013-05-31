@@ -324,7 +324,7 @@ namespace SpaceHordes.Entities.Systems
                 Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
                 Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
                 Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
-                b.RotateTo(-aiming);
+                //b.RotateTo(-aiming);
 
                 #endregion Aiming
 

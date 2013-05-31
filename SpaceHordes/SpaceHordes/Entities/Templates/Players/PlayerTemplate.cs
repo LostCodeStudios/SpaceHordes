@@ -66,7 +66,7 @@ namespace SpaceHordes.Entities.Templates
             Body.SleepingAllowed = false;
             Body.FixedRotation = true;
             Body.RotateTo(Body.Position);
-            Body.Mass += 2;
+            Body.Mass = 2;
 
             Body.CollisionCategories = Category.Cat1 | Category.Cat12;
 

@@ -34,6 +34,8 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
             MenuEntry bossEntry = new MenuEntry("Bosses");
 
+            MenuEntry howtospacehordes = new MenuEntry("How To Play");
+
             MenuEntry introEntry = new MenuEntry("Intro");
 
             MenuEntry creditsEntry = new MenuEntry("Credits");
@@ -46,6 +48,7 @@ namespace SpaceHordes.GameStates.Screens
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
+            howtospacehordes.Selected += HowToSelected;
             introEntry.Selected += IntroMenuEntrySelected;
             creditsEntry.Selected += CreditEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
@@ -59,6 +62,7 @@ namespace SpaceHordes.GameStates.Screens
 #if !DEMO
             MenuEntries.Add(bossEntry);
 #endif
+            MenuEntries.Add(howtospacehordes);
             MenuEntries.Add(introEntry);
             MenuEntries.Add(creditsEntry);
             //MenuEntries.Add(tutorialEntry);
@@ -92,7 +96,7 @@ namespace SpaceHordes.GameStates.Screens
         private void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
-            Manager.AddScreen(bossBackdrop, ControllingPlayer);
+            Manager.AddScreen(bossBackdrop, e.PlayerIndex);
             BossScreen bosses = new BossScreen(ScreenHelper.SpriteSheet);
             bosses.OnExit += new EventHandler(BossScreenExited);
             Manager.AddScreen(bosses, e.PlayerIndex);
@@ -103,10 +107,17 @@ namespace SpaceHordes.GameStates.Screens
             bossBackdrop.ExitScreen();
         }
 
+        private void HowToSelected(object sender, PlayerIndexEventArgs e)
+        {
+            bossBackdrop = new ExitableBackgroundScreen("Textures/howtoplay", TransitionType.Slide);
+            Manager.AddScreen(bossBackdrop, e.PlayerIndex);
+            
+        }
+
         private void IntroMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
-            Manager.AddScreen(bossBackdrop, ControllingPlayer);
+            Manager.AddScreen(bossBackdrop, e.PlayerIndex);
             IntroScreen intro = new IntroScreen();
             intro.OnExit += new EventHandler(BossScreenExited);
             Manager.AddScreen(intro, e.PlayerIndex);
