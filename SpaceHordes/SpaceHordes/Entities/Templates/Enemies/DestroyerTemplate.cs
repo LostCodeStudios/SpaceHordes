@@ -63,7 +63,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 AI.CreateShoot(e, 2, ConvertUnits.ToSimUnits(400), true), "Players");
             AI shootingAi = e.AddComponent<AI>(a);
 
-            e.AddComponent<Health>(new Health(10)).OnDeath += LambdaComplex.BigEnemyDeath(e, _World, 10);
+            e.AddComponent<Health>(new Health(10)).OnDeath += LambdaComplex.BigEnemyDeath(e, _World, 50);
 
             #endregion AI/Health
 

@@ -65,8 +65,10 @@ namespace SpaceHordes.GameStates.Screens
             PlayerIndex idx;
             if (cancelAction.Evaluate(input, null, out idx))
             {
+                SoundManager.Play("MenuCancel");
                 if (entered[(int)idx])
                 {
+                    indices.Remove(idx);
                     entered[(int)idx] = false;
                 }
                 else

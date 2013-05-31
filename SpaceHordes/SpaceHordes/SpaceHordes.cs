@@ -121,6 +121,7 @@ namespace SpaceHordes
             screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
 
             ScreenHelper.SpriteSheet = new SpriteSheet(Content.Load<Texture2D>("Textures/spritesheet"));
+            ScreenHelper.SpriteFont = Content.Load<SpriteFont>("Fonts/menufont");
             SetSourceRectangles(ScreenHelper.SpriteSheet);
             SetSoundEffects();
             SetSongs();

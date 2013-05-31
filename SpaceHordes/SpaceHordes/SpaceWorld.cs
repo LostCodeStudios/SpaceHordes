@@ -17,6 +17,8 @@ using System;
 using SpaceHordes.Entities.Templates.Events;
 using SpaceHordes.GameStates.Screens;
 using GameLibrary.Dependencies.Physics.Dynamics;
+using SpaceHordes.Entities.Systems.Update;
+using SpaceHordes.Entities.Systems.Render;
 
 namespace SpaceHordes
 {
@@ -63,6 +65,8 @@ namespace SpaceHordes
             scoreSystem.LoadContent(Base);
 
             this.level = (int)args[1];
+
+
 #if DEBUG && WINDOWS //Debug render system
             this._DebugSystem.LoadContent(SpriteBatch.GraphicsDevice, Content,
                  new KeyValuePair<string, object>("Camera", this.Camera),
@@ -71,7 +75,7 @@ namespace SpaceHordes
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 
 #endif
-            //radarRenderSystem.LoadContent(Content);
+            
         }
 
         #endregion Content/Init
@@ -99,11 +103,13 @@ namespace SpaceHordes
             scoreSystem = this.SystemManager.SetSystem(new ScoreSystem(this), ExecutionType.Update, 0);
             this.SystemManager.SetSystem(new SmasherBallSystem(), ExecutionType.Update, 0);
             this.SystemManager.SetSystem(new PlayerClampSystem(), ExecutionType.Update, 0);
+            this.SystemManager.SetSystem(new FadingTextProcessingSystem(), ExecutionType.Update, 0);
 
             //Draw Systems
             healthRenderSystem = this.SystemManager.SetSystem<HealthRenderSystem>(new HealthRenderSystem(this.SpriteBatch), ExecutionType.Draw, 1);
             hudRenderSystem = this.SystemManager.SetSystem<HUDRenderSystem>(new HUDRenderSystem(), ExecutionType.Draw, 2);
-            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Update, 0);
+            starFieldRenderSystem = this.SystemManager.SetSystem<StarFieldRenderSystem>(new StarFieldRenderSystem(SpriteBatch), ExecutionType.Draw, 0);
+            this.SystemManager.SetSystem<FadingTextRenderSystem>(new FadingTextRenderSystem(SpriteBatch, ScreenHelper.SpriteFont), ExecutionType.Draw, 1);
             //radarRenderSystem = this.SystemManager.SetSystem<RadarRenderSystem>(new RadarRenderSystem(HUDRenderSystem.RadarScreenLocation,
             //    new Rectangle(-ScreenHelper.Viewport.Width * 2, -ScreenHelper.Viewport.Height * 2,
             //        ScreenHelper.Viewport.Width * 2, ScreenHelper.Viewport.Height * 2)),
@@ -149,7 +155,8 @@ namespace SpaceHordes
             this.SetEntityTemplate("Mine", new MineTemplate(_spriteSheet, this));
             this.SetEntityTemplate("Crystal", new CrystalTemplate(this, _spriteSheet));
             this.SetEntityGroupTemplate("BaseShot", new BaseShotTemplate());
-            
+            this.SetEntityTemplate("Score", new ScoreTextTemplate());
+
             this.SetEntityTemplate("EnemyBullet", new BulletTemplate(
                 new Sprite(_spriteSheet, "whiteshot1", 0.4f),
                 new Velocity(new Vector2(12), 0f),
@@ -309,7 +316,7 @@ namespace SpaceHordes
             {
                 for (int i = 0; i < index.Length && i < 4; ++i)
                 {
-                    Entity e = CreateEntity("Player", (PlayerIndex)i);
+                    Entity e = CreateEntity("Player", index[i]);
                     Body bitch = e.GetComponent<Body>();
                     this.ContactManager.OnBroadphaseCollision +=
                         new BroadphaseDelegate(this.SlowMow);
@@ -332,13 +339,14 @@ namespace SpaceHordes
                 //}
 #endif
             }
-            else //IF SINGLEPLAYER
+
+            else
             {
-                Entity e = CreateEntity("Player", (PlayerIndex.One));
-                e.Refresh();
-                Player.Add(e);
-                Players = 1;
-                Indices.Add((PlayerIndex.One));
+                Entity c = CreateEntity("Player", (PlayerIndex)3);
+                c.Refresh();
+                Player.Add(c);
+                Indices.Add(PlayerIndex.Four);
+                ++Players;
             }
 
             //for (int i = 0; i < 4; ++i)

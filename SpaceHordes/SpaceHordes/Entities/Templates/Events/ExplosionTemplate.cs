@@ -29,7 +29,7 @@ namespace SpaceHordes.Entities.Templates
 
             Vector2 center = new Vector2(_SpriteSheet[spriteKey][0].Center.X, _SpriteSheet[spriteKey][0].Center.Y);
 
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, 1));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, 0.97f));
             Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Once, 5));
             //ITransform i = e.AddComponent<ITransform>(new Transform((Vector2)args[1], 0f));
 

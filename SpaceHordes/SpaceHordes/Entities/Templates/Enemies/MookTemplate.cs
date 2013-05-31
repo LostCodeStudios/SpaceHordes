@@ -112,7 +112,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             a.Recalculate = false;
             e.AddComponent<AI>(a);
 
-            e.AddComponent<Health>(new Health(1)).OnDeath += LambdaComplex.SmallEnemyDeath(e, _World as SpaceWorld, 1);
+            e.AddComponent<Health>(new Health(1)).OnDeath += LambdaComplex.SmallEnemyDeath(e, _World as SpaceWorld, 5);
 
             #endregion AI/Health
 

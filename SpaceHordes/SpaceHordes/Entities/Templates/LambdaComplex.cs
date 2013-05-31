@@ -35,7 +35,6 @@ namespace SpaceHordes.Entities.Templates
 
                             h1.Damage(e2, h2.MaxHealth);
                             h2.Damage(e1, h1.MaxHealth);
-                            return true;
                         }
                     }
                     return false;
@@ -81,7 +80,7 @@ namespace SpaceHordes.Entities.Templates
                     }
                 }
 
-                return true;
+                return false;
             };
         }
 
@@ -106,7 +105,11 @@ namespace SpaceHordes.Entities.Templates
                 if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures") && e.HasComponent<Crystal>())
                 {
                     _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount);
-                    ScoreSystem.GivePoints(points);
+                    if (points != 0)
+                    {
+                        ScoreSystem.GivePoints(points);
+                        _World.CreateEntity("Score", points.ToString(), poss).Refresh();
+                    }
                 }
             };
         }
@@ -125,6 +128,7 @@ namespace SpaceHordes.Entities.Templates
                 {
                     _World.CreateEntity("Crystal", e.GetComponent<ITransform>().Position, e.GetComponent<Crystal>().Color, e.GetComponent<Crystal>().Amount);
                     ScoreSystem.GivePoints(points);
+                    _World.CreateEntity("Score", points.ToString(), poss).Refresh();
                 }
             };
         }
@@ -169,6 +173,7 @@ namespace SpaceHordes.Entities.Templates
                 if (blarg != null && blarg.Tag != "Base")
                 {
                     ScoreSystem.GivePoints(points);
+                    _World.CreateEntity("Score", points.ToString(), poss).Refresh();
                     BossScreen.BossKilled(bossName);
                 }
 

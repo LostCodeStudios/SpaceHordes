@@ -4,6 +4,7 @@ using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using System;
 using GameLibrary.GameStates;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -17,6 +18,7 @@ namespace SpaceHordes.GameStates.Screens
         public MainMenuScreen(string text)
             : this(text, false)
         {
+            menuCancel = new InputAction(new Buttons[] { }, new Keys[] { }, true);
         }
 
         /// <summary>

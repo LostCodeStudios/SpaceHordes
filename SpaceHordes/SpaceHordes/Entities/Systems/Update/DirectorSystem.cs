@@ -50,15 +50,8 @@ namespace SpaceHordes.Entities.Systems
 
         private double difficulty = 0;
 
-#if WINDOWS
-        private int maxMooks = 1;
-        private double maxThugs = 0.1;
-#endif
-
-#if XBOX
-        private double maxMooks = 0.3;
-        private double maxThugs = 0.1;
-#endif
+        private double maxMooks = 0.5;
+        private double maxThugs = 0.2;
 
         Queue<SpawnState> states = new Queue<SpawnState>();
         public SpawnState SpawnState = SpawnState.Peace;
@@ -382,11 +375,11 @@ namespace SpaceHordes.Entities.Systems
                 #region Spawning
 
                 int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
-                int mooksToSpawn = Math.Min(doubleToInt(difficulty / 7) * MookSpawnRate, (int)(maxMooks * MookSpawnRate));
-                int thugsToSpawn = Math.Min(doubleToInt(difficulty / 50) * ThugSpawnRate, doubleToInt(maxThugs) * ThugSpawnRate);
-                int gunnersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)structs / 100) * GunnerSpawnRate : 0;
-                int huntersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 75) * HunterSpawnRate : 0;
-                int destroyersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 300) * DestroyerSpawnRate : 0;
+                int mooksToSpawn = doubleToInt(Math.Min(difficulty / 7 * MookSpawnRate, maxMooks));
+                int thugsToSpawn = doubleToInt(Math.Min(difficulty / 50 * ThugSpawnRate, maxThugs));
+                int gunnersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)structs / 100 * GunnerSpawnRate) : 0;
+                int huntersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 75 * HunterSpawnRate * HunterSpawnRate) : 0;
+                int destroyersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 300 * DestroyerSpawnRate) : 0;
                 spawnMooks(mooksToSpawn);
                 spawnThugs(thugsToSpawn);
                 spawnGunners(gunnersToSpawn);

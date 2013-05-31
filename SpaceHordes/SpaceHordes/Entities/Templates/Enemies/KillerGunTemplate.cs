@@ -53,7 +53,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 1f, 0.5f, s, _World, true));
             e.AddComponent<Function>(f);
 
-            e.AddComponent<Health>(new Health(50)).OnDeath += LambdaComplex.BigEnemyDeath(e, _World as SpaceWorld, 25);
+            e.AddComponent<Health>(new Health(50)).OnDeath += LambdaComplex.BigEnemyDeath(e, _World as SpaceWorld, 50);
 
             #endregion AI/Health
 
