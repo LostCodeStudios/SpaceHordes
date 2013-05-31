@@ -136,6 +136,8 @@ namespace SpaceHordes.Entities.Systems
                             //offset;
                              world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
+
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -145,6 +147,8 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= TurretPrice;
+
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -154,6 +158,8 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
+
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -274,6 +280,7 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -283,6 +290,7 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= TurretPrice;
+                            SoundManager.Play("Construction");
                         }
                     }
 
@@ -292,6 +300,7 @@ namespace SpaceHordes.Entities.Systems
                         {
                             world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
                             inv.YELLOW -= MinePrice;
+                            SoundManager.Play("Construction");
                         }
                     }
 

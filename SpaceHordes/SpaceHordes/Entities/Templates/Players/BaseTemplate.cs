@@ -74,7 +74,7 @@ namespace SpaceHordes.Entities.Templates
             h.OnDamage +=
                 ent =>
                 {
-                    SoundManager.SetVibration(0.25f, 0.1f);
+                    SoundManager.SetVibration(0.25f, 0.15f);
 
                     e.RemoveComponent<Sprite>(Sprite);
 

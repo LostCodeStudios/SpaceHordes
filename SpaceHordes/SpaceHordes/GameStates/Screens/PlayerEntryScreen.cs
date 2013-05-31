@@ -81,6 +81,7 @@ namespace SpaceHordes.GameStates.Screens
                 idx = (PlayerIndex)x;
                 if (entryAction.Evaluate(input, idx, out idx))
                 {
+                    SoundManager.Play("Selection");
                     if (entered[x])
                     {
                         Enter();

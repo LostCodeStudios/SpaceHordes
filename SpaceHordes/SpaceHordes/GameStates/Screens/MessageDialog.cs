@@ -5,6 +5,7 @@ using System.Text;
 using SpaceHordes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameLibrary.Helpers;
 
 namespace GameLibrary.GameStates.Screens
 {
@@ -19,6 +20,7 @@ namespace GameLibrary.GameStates.Screens
         TimeSpan endPhrase;
         TimeSpan elapsed;
         Vector2 position;
+        string soundKey = "DialogSound";
 
         public Vector2 Position
         {
@@ -67,6 +69,7 @@ namespace GameLibrary.GameStates.Screens
                     elapsed = TimeSpan.Zero;
                     index++;
                     toDraw += next;
+                    SoundManager.Play(soundKey);
                 }
             }
         }

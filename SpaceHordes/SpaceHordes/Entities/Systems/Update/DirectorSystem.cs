@@ -854,21 +854,21 @@ namespace SpaceHordes.Entities.Systems
         //static Random r = new Random();
         public static Color CrystalColor()
         {
-            Color crystalColor = Color.Red;
-            int colorchance = r.Next(100);
-            if (colorchance > 22)
+            Color crystalColor = Color.Yellow;
+            int colorchance = r.Next(101);
+            if (colorchance > 30)
             {
-                crystalColor = Color.Yellow;
+                crystalColor = Color.Red;
             }
-            if (colorchance > 44)
+            if (colorchance > 51)
             {
                 crystalColor = Color.Blue;
             }
-            if (colorchance > 66)
+            if (colorchance > 72)
             {
                 crystalColor = Color.Green;
             }
-            if (colorchance > 90)
+            if (colorchance > 95)
             {
                 crystalColor = Color.Gray;
             }

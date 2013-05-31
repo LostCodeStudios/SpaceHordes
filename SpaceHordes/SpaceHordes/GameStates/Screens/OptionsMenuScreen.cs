@@ -131,32 +131,17 @@ namespace SpaceHordes.GameStates.Screens
 
 #endif
 
+        static bool rumbleOn;
         public static bool RumbleOn
         {
             get
             {
-                int sound;
-                int music;
-                bool fullscreen;
-                bool rumbleOn;
-
-                ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
-
                 return rumbleOn;
             }
 
             set
             {
-                int sound;
-                int music;
-                bool fullscreen;
-                bool rumbleOn;
-
-                ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
-
-                WriteSettings(sound, music, fullscreen, value);
-
-                SpaceHordes.ApplySettings();
+                rumbleOn = value;
             }
         }
 
@@ -177,7 +162,6 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
             bool fullsc;
-            bool rumbleOn;
             ReadSettings(out soundVol, out musicVol, out fullsc, out rumbleOn);
             updateMenuEntryText();
 
@@ -227,9 +211,9 @@ namespace SpaceHordes.GameStates.Screens
             int sound;
             int music;
             bool fullscreen;
-            bool rumbleOn;
+            bool rum;
 
-            ReadSettings(out sound, out music, out fullscreen, out rumbleOn);
+            ReadSettings(out sound, out music, out fullscreen, out rum);
 
             WriteSettings(soundVol, musicVol, fullscreen, rumbleOn);
 

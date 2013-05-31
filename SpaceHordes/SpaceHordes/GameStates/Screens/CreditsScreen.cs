@@ -28,7 +28,11 @@ namespace SpaceHordes.GameStates.Screens
             "Space Fighter Loop Kevin MacLeod (incompetech.com)",
             "Cephalopod Kevin MacLeod (incompetech.com)",
             "In a Heartbeat Kevin MacLeod (incompetech.com)",
-            "Additional music by DST"
+            "Additional music by DST",
+            "",
+            "Sounds",
+            "bfxr",
+            ""
         })
         {
         }

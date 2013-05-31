@@ -31,8 +31,6 @@ namespace SpaceHordes.GameStates.Screens
 
             MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
 
-            MenuEntry tutorialEntry = new MenuEntry("Tutorial");
-
             MenuEntry highScoresMenuEntry = new MenuEntry("High Scores");
             MenuEntry bossEntry = new MenuEntry("Bosses");
 
@@ -45,8 +43,6 @@ namespace SpaceHordes.GameStates.Screens
 
             //Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
-
-            tutorialEntry.Selected += PlayTutorialEntrySelected;
 
             highScoresMenuEntry.Selected += HighScoresMenuEntrySelected;
             bossEntry.Selected += BossMenuEntrySelected;
@@ -84,11 +80,6 @@ namespace SpaceHordes.GameStates.Screens
         private void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont"), null);
-        }
-
-        void PlayTutorialEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            //Manager.AddScreen(new PlayerEntryScreen("Textures/gamefont", true), null);
         }
 
         private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
