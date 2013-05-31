@@ -55,28 +55,9 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-
-
             Body b = bodyMapper.Get(e);
             Inventory inv = e.GetComponent<Inventory>();
             Gun g = inv.CurrentGun;
-
-            //Auto aiming
-            float CHEATRADIANS = (float)Math.PI / 1f;
-            //Ray casts a an arc of the circle the size of cheat radians
-            for (float radialOff = 0; radialOff < CHEATRADIANS; radialOff += CHEATRADIANS / 360)
-                world.RayCast((f, p, n, frac) =>
-                {
-                    b.Rotation = radialOff + b.Rotation - (CHEATRADIANS / 2f);
-                    if (f.UserData != null)
-                    {
-                        radialOff = CHEATRADIANS;
-                    }
-                    return 0;
-                }, b.Position,
-                    b.Position +
-                        new Vector2(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width),
-                            ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width) * (float)Math.Tan(b.Rotation + radialOff - CHEATRADIANS / 2f)));
 
             Vector2 target = Vector2.Zero;
 
@@ -211,7 +192,6 @@ namespace SpaceHordes.Entities.Systems
                 {
                     Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
                     b.RotateTo(aiming);
-
                 }
 
                 #endregion Aiming
@@ -386,8 +366,6 @@ namespace SpaceHordes.Entities.Systems
 
             //update position
             b.ApplyLinearImpulse((target) * new Vector2(_Velocity));
-
-
         }
     }
 }
