@@ -61,15 +61,7 @@ namespace SpaceHordes.Entities.Templates
             health = 1000000;
 #endif
             Health h = new Health(health);
-            h.OnDeath +=
-            ent =>
-            {
-                Vector2 poss = e.GetComponent<ITransform>().Position;
-                world.CreateEntityGroup("BigExplosion", "Explosions", poss, 25, e, e.GetComponent<IVelocity>().LinearVelocity);
-
-                SoundManager.SetVibration(0.5f, 0.3f);
-                SoundManager.Play("Explosion1");
-            };
+            h.OnDeath += LambdaComplex.BigEnemyDeath(e, world as SpaceWorld, 0);
 
             h.OnDamage +=
                 ent =>
@@ -85,11 +77,20 @@ namespace SpaceHordes.Entities.Templates
                         Sprite.FrameIndex = 2;
                         SoundManager.SetVibration(0.3f, 0.3f);
                     }
+                    else if (healthFraction >= 0.33 && Sprite.FrameIndex == 2)
+                    {
+                        Sprite.FrameIndex = 1;
+                    }
                     else if (healthFraction < 0.66 && Sprite.FrameIndex == 0)
                     {
                         Sprite.FrameIndex = 1;
                         SoundManager.SetVibration(0.3f, 0.3f);
                     }
+                    else if (healthFraction >= 0.66 && Sprite.FrameIndex == 2)
+                    {
+                        Sprite.FrameIndex = 0;
+                    }
+
 
                     e.AddComponent<Sprite>(Sprite);
                 };

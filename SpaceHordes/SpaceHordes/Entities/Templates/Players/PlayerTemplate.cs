@@ -91,16 +91,7 @@ namespace SpaceHordes.Entities.Templates
 
             Health h = new Health(1);
 
-            h.OnDeath +=
-                ent =>
-                {
-                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                    world.CreateEntity("Explosion", 0.5f, poss, ent, 3).Refresh();
-
-                    int splodeSound = r.Next(1, 5);
-                    SoundManager.SetVibration(index, 0.3f, 0.3f);
-                    SoundManager.Play("Explosion" + splodeSound.ToString());
-                };
+            h.OnDeath += LambdaComplex.SmallEnemyDeath(e, world as SpaceWorld, 0);
 
             e.AddComponent<Health>(h);
 

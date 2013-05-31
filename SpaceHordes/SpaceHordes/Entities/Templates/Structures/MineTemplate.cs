@@ -57,23 +57,9 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Health
 
-            e.AddComponent<Health>(new Health(1)).OnDeath +=
-                ent =>
-                {
-                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 20, ent, Vector2.Zero);
-
-                    int splodeSound = 1;
-                    SoundManager.Play("Explosion" + splodeSound.ToString());
-                };
+            e.AddComponent<Health>(new Health(1)).OnDeath += LambdaComplex.BigEnemyDeath(e, _World as SpaceWorld, 0);
 
             #endregion Health
-
-            #region Origin
-
-            //e.AddComponent<Origin>(new Origin(args[1] as Entity));
-
-            #endregion
 
             e.Group = "Structures";
             return e;

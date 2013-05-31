@@ -25,7 +25,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
-
             #region Body
             string spriteKey = (string)args[2];
             Vector2 offset = (Vector2)args[3];
@@ -36,25 +35,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3;
-            bitch.OnCollision +=
-                (f1, f2, c) =>
-                {
-                    if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>())
-                        if ((f2.Body.UserData as Entity).Group != "Crystals")
-                        {
-                            try
-                            {
-                                (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
-                                    (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                    - (f1.Body.UserData as Entity).GetComponent<Health>().CurrentHealth);
-                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0f);
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    return true;
-                };
+            bitch.OnCollision += LambdaComplex.BasicCollision();
             ++bitch.Mass;
 
             bitch.Position = (Vector2)args[0];
@@ -72,20 +53,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 f = new Function(AI.CreateKillerGun(e, o, offset, 0.05f, 1f, 0.5f, s, _World, true));
             e.AddComponent<Function>(f);
 
-            e.AddComponent<Health>(new Health(50)).OnDeath +=
-                ent =>
-                {
-                    Vector2 poss = e.GetComponent<ITransform>().Position;
-                    _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 10, ent, e.GetComponent<IVelocity>().LinearVelocity);
-
-                    int splodeSound = rbitch.Next(1, 5);
-                    SoundManager.Play("Explosion" + splodeSound.ToString());
-
-                    if (ent is Entity && (ent as Entity).Group != null && ((ent as Entity).Group == "Players" || (ent as Entity).Group == "Structures"))
-                    {
-                        ScoreSystem.GivePoints(10);
-                    }
-                };
+            e.AddComponent<Health>(new Health(50)).OnDeath += LambdaComplex.BigEnemyDeath(e, _World as SpaceWorld, 25);
 
             #endregion AI/Health
 

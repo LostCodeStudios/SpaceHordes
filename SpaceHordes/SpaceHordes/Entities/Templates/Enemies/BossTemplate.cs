@@ -83,25 +83,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat6;
-            bitch.OnCollision +=
-                (f1, f2, c) =>
-                {
-
-                    if (f2.Body.UserData != null && f2.Body.UserData is Entity && (f1.Body.UserData as Entity).HasComponent<Health>() && (f2.Body.UserData as Entity).HasComponent<Health>())
-                        if ((f2.Body.UserData as Entity).Group != "Crystals")
-                        {
-                            if ((f2.Body.UserData as Entity).Group == "Base")
-                            {
-#if RELEASE
-                                (f1.Body.UserData as Entity).GetComponent<Health>().SetHealth(f2.Body.UserData as Entity, 0);
-#endif
-                            }
-                            (f2.Body.UserData as Entity).GetComponent<Health>().SetHealth(f1.Body.UserData as Entity,
-                                (f2.Body.UserData as Entity).GetComponent<Health>().CurrentHealth
-                                - (f1.Body.UserData as Entity).GetComponent<Health>().MaxHealth);
-                        }
-                    return false;
-                };
+            bitch.OnCollision += LambdaComplex.BossCollision();
             ++bitch.Mass;
 
             Vector2 pos = new Vector2(0, -1);
@@ -114,8 +96,12 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             #region Animation
 
+            Animation a = null;
             if (s.Source.Count() > 1)
-                e.AddComponent<Animation>(new Animation(AnimationType.None, 10));
+            {
+                a = new Animation(AnimationType.None, 10);
+                e.AddComponent<Animation>(a);
+            }
 
             #endregion Animation
 
@@ -146,8 +132,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
             int points = 0;
             int health = 0;
 
-            
-
             switch (tier)
             {
                 case 1:
@@ -167,51 +151,37 @@ namespace SpaceHordes.Entities.Templates.Enemies
             }
 
             Health h = new Health(health);
-            h.OnDeath +=
-                blarg =>
-                {
-                    Vector2 poss = e.GetComponent<ITransform>().Position;
+            h.OnDeath += LambdaComplex.BossDeath(type, _World, e, s, tier, points, bosses[type].BossName);
 
-                    if (type < 6)
-                        _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, blarg, e.GetComponent<IVelocity>().LinearVelocity);
-                    else
+            if (a != null)
+            {
+                h.OnDamage +=
+                    ent =>
                     {
-                        _World.CreateEntityGroup("BiggerExplosion", "Explosions", poss, 7, blarg, e.GetComponent<IVelocity>().LinearVelocity);
-                    }
-
-                    int splodeSound = rbitch.Next(1, 5);
-                    SoundManager.Play("Explosion" + splodeSound.ToString());
-
-                    if (blarg is Entity && (blarg as Entity).Group != null && ((blarg as Entity).Group == "Players" || (blarg as Entity).Group == "Structures"))
-                    {
-                        for (int m = 0; m < (_World as SpaceWorld).Players; ++m)
+                        if (h.IsAlive && a.Type == AnimationType.None)
                         {
-                            Entity ent = (_World as SpaceWorld).Player.ToArray()[m];
-                            for (int cry = 0; cry < 5; ++cry)
+                            e.RemoveComponent<Sprite>(s);
+
+                            double healthFraction = (h.CurrentHealth / h.MaxHealth);
+
+                            int frame = 0;
+                            int frames = s.Source.Length;
+
+                            frame = (int)(frames - (frames * healthFraction));
+
+                            if (frame != s.FrameIndex)
                             {
-                                Color crystalColor = DirectorSystem.CrystalColor();
-                                int amount = 25 * tier;
-                                Vector2 p = e.GetComponent<ITransform>().Position;
-                                float range = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
-                                float x = 2 * (float)rbitch.NextDouble() - 1;
-                                float y = 2 * (float)rbitch.NextDouble() - 1;
-                                Vector2 offs = ConvertUnits.ToSimUnits(new Vector2(x, y) * range);
-                                p += offs;
-
-                                (_World as SpaceWorld).enemySpawnSystem.SpawnCrystal(p, crystalColor, amount, m);
+                                int splodeSound = rbitch.Next(1, 5);
+                                SoundManager.Play("Explosion" + splodeSound.ToString());
+                                Vector2 poss = e.GetComponent<ITransform>().Position;
+                                _World.CreateEntityGroup("BigExplosion", "Explosions", poss, 15, e, e.GetComponent<IVelocity>().LinearVelocity);
                             }
+                            s.FrameIndex = frame;
+
+                            e.AddComponent<Sprite>(s);
                         }
-                    }
-
-                    if (blarg != null && blarg.Tag != "Base")
-                    {
-                        ScoreSystem.GivePoints(points);
-                        BossScreen.BossKilled(bosses[type].BossName);
-                    }
-
-                    _World.enemySpawnSystem.ResetTags();
-                    _World.enemySpawnSystem.SpawnRate = 1;
-                };
+                    };
+            }
 
             if (spriteKey.Equals("flamer"))
             {

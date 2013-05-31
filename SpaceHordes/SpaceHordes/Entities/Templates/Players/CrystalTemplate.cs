@@ -54,17 +54,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             b.Position = pos;
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
 
-            e.GetComponent<Body>().OnCollision +=
-                (f1, f2, c) =>
-                {
-                    if ((f2.Body.UserData as Entity).Group == "Players")
-                    {
-                        (f2.Body.UserData as Entity).GetComponent<Inventory>().GiveCrystals((f1.Body.UserData as Entity).GetComponent<Crystal>());
-                        (f1.Body.UserData as Entity).Delete();
-                        SoundManager.Play("Pickup1");
-                    }
-                    return false;
-                };
+            e.GetComponent<Body>().OnCollision += LambdaComplex.CrystalCollision();
 
             if (args.Length > 3)
             {

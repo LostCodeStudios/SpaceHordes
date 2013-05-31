@@ -32,6 +32,11 @@ namespace SpaceHordes.Entities.Components
             }
         }
 
+        public void Damage(Entity setter, double amount)
+        {
+            SetHealth(setter, CurrentHealth - amount);
+        }
+
         public void AddHealth(Entity setter, double health)
         {
             SetHealth(setter, _Health + health);
