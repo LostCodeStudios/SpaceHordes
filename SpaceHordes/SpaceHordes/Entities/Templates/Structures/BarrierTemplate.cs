@@ -60,7 +60,9 @@ namespace SpaceHordes.Entities.Templates.Objects
                 Body.OnCollision += (f1, f2, c)
                     =>
                 {
-                    if (f2.CollisionCategories.HasFlag(GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12))
+                    if (
+                        (f2.CollisionCategories & GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12)
+                            == GameLibrary.Dependencies.Physics.Dynamics.Category.Cat12)
                         return false;
                     return true;
                 };
