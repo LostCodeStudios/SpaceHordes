@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SpaceHordes.Entities.Components;
 using System;
+using GameLibrary.Dependencies.Physics.Dynamics;
+using GameLibrary.Dependencies.Physics.Collision;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -181,18 +183,44 @@ namespace SpaceHordes.Entities.Systems
                 //Rotation
                 if (b.LinearVelocity != Vector2.Zero)
                 {
-                    if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
+                    if (!(Mouse.GetState().LeftButton == ButtonState.Pressed) && !pad.IsButtonDown(Buttons.RightTrigger))
                         b.RotateTo(b.LinearVelocity);
                     WasMoving[playerIndex] = true;
                 }
 
                 #region Aiming
 
+
+
+
                 if (pad.ThumbSticks.Right != Vector2.Zero)
                 {
                     Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
                     b.RotateTo(aiming);
                 }
+
+                ////AutoAiming
+                //float aimArc = (float)Math.PI / 3f;
+
+                //AABB searchRectangle = new AABB(b.Position, b.Position + new Vector2(ConvertUnits.ToSimUnits(440) * (float)Math.Cos(b.Rotation), ConvertUnits.ToSimUnits(440) * (float)Math.Sin(b.Rotation)));
+                //world.QueryAABB((f) =>
+                //{
+                //    if (f.Body != b && f.Body.UserData != null && (f.Body.UserData as Entity).Group != null && (f.Body.UserData as Entity).Group.Equals("Enemies"))
+                //    {
+                //        Console.WriteLine("Autoaiming: T = " + (f.Body.UserData as Entity).Id + ": " + (f.Body.UserData as Entity).Tag + ";");
+                //        float RotationDifference = (float)Math.Atan2(f.Body.Position.Y - b.Position.Y, f.Body.Position.X - b.Position.X);
+                //        //Test the actuall difference between the players rotation and the rotation of the target; is it under the aimArc.
+
+
+                //        Console.WriteLine("   INFO: BROTATION= " + b.Rotation + "; ROTATIONDIF= " + RotationDifference + "; ROTATIONDIF-BROTATION= " + Math.Abs(RotationDifference - b.Rotation) + ";");
+                //        if (Math.Abs(RotationDifference - b.Rotation) < aimArc)
+                //        {
+                //            b.RotateTo(f.Body.Position);
+                //            return false; //Terminate the query.
+                //        }
+                //    }
+                //    return true; // Keep searching
+                //}, ref searchRectangle);
 
                 #endregion Aiming
 
