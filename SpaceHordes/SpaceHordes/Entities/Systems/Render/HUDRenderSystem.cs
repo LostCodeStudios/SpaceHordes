@@ -56,10 +56,18 @@ namespace SpaceHordes.Entities.Systems
 
             hudLocations = new Rectangle[]
             {
+#if WINDOWS
+                new Rectangle(60, 30, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.Viewport.Bounds.Right - 60 - (int)hudDimmensions.X, 30, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(60, ScreenHelper.Viewport.Bounds.Bottom - 30 - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
+                new Rectangle(ScreenHelper.Viewport.Bounds.Right - 60 - (int)hudDimmensions.X, ScreenHelper.Viewport.Bounds.Bottom - 30 - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
+#endif
+#if XBOX
                 new Rectangle(ScreenHelper.TitleSafeArea.X, ScreenHelper.TitleSafeArea.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
                 new Rectangle(ScreenHelper.TitleSafeArea.Right - (int)hudDimmensions.X, ScreenHelper.TitleSafeArea.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
                 new Rectangle(ScreenHelper.TitleSafeArea.X, ScreenHelper.TitleSafeArea.Bottom - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y),
                 new Rectangle(ScreenHelper.TitleSafeArea.Right - (int)hudDimmensions.X, ScreenHelper.TitleSafeArea.Bottom - (int)hudDimmensions.Y, (int)hudDimmensions.X, (int)hudDimmensions.Y)
+#endif
             };
 
             //float topRadarPadding = 4f * radarScale;

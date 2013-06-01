@@ -17,6 +17,8 @@ namespace SpaceHordes.Entities.Templates
                 stars.Add(e);
             }
 
+            world.CreateEntity("Star", "Lolbig").Refresh();
+
             return stars.ToArray();
         }
     }

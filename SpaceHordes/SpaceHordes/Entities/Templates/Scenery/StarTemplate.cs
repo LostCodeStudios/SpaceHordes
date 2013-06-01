@@ -33,15 +33,27 @@ namespace SpaceHordes.Entities.Templates
 
             #region Sprite
 
-            Vector2 loc = new Vector2(rbitch.Next(-ScreenHelper.Viewport.Width / 2, ScreenHelper.Viewport.Width / 2), rbitch.Next(-ScreenHelper.Viewport.Width / 2, ScreenHelper.Viewport.Width / 2));
+            if (args.Length == 0)
+            {
+                Vector2 loc = new Vector2(rbitch.Next(-ScreenHelper.Viewport.Width / 2, ScreenHelper.Viewport.Width / 2), rbitch.Next(-ScreenHelper.Viewport.Width / 2, ScreenHelper.Viewport.Width / 2));
 
-            Sprite s = new Sprite(spriteSheet, "redstar", 0f);
+                Sprite s = new Sprite(spriteSheet, "redstar", 0f);
 
-            //Sprite s = e.AddComponent<Sprite>(new Sprite(spriteSheet, "redstar", loc, 1f, Color.White, 0));
-            s.FrameIndex = rbitch.Next(0, 3);
-            e.AddComponent<Sprite>(s);
-            Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 5));
-            Particle p = e.AddComponent<Particle>(new Particle(e, ConvertUnits.ToSimUnits(loc), (float)Math.Atan2(loc.Y, loc.X), Vector2.Zero, (float)rbitch.Next(-3, 3) * 0.01f));
+                s.FrameIndex = rbitch.Next(0, 3);
+                e.AddComponent<Sprite>(s);
+                Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 5));
+                Particle p = e.AddComponent<Particle>(new Particle(e, ConvertUnits.ToSimUnits(loc), (float)Math.Atan2(loc.Y, loc.X), Vector2.Zero, (float)rbitch.Next(-3, 3) * 0.01f));
+            }
+            else
+            {
+                Vector2 loc = Vector2.Zero;
+
+                Sprite s = new Sprite(spriteSheet, "nebula", 0f);
+
+                e.AddComponent<Sprite>(s);
+
+                Particle p = e.AddComponent<Particle>(new Particle(e, ConvertUnits.ToSimUnits(loc), 0f, Vector2.Zero, 0f));
+            }
 
             #endregion Sprite
 

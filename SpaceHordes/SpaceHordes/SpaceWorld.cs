@@ -329,20 +329,20 @@ namespace SpaceHordes
                 }
 #if WINDOWS //&& DEBUG
                 //Player 4 keyboard controlled
-                //if (index.Length == 1)
-                //{
-                    Entity c = CreateEntity("Player", (PlayerIndex)3);
+                if (index.Length == 1)
+                {
+                    Entity c = CreateEntity("Player", (PlayerIndex)1);
                     c.Refresh();
                     Player.Add(c);
-                    Indices.Add(PlayerIndex.Four);
+                    Indices.Add(PlayerIndex.Two);
                     ++Players;
-                //}
+                }
 #endif
             }
 
             else
             {
-                Entity c = CreateEntity("Player", (PlayerIndex)3);
+                Entity c = CreateEntity("Player", PlayerIndex.Four);
                 c.Refresh();
                 Player.Add(c);
                 Indices.Add(PlayerIndex.Four);

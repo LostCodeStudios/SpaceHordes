@@ -629,6 +629,12 @@ namespace SpaceHordes
                     new Rectangle(391, 441, 17, 19)
                 });
 
+            sourceRectangles.Add("nebula",
+                new Rectangle[]
+                {
+                    new Rectangle(21, 494, 134, 128)
+                });
+
             sourceRectangles.Add("squidship",
                 new Rectangle[] {
                     new Rectangle(409, 441, 26, 19)
