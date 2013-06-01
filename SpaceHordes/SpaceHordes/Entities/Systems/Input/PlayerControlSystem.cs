@@ -168,7 +168,7 @@ namespace SpaceHordes.Entities.Systems
                     if (pad.IsButtonDown(Buttons.LeftTrigger) && lastPad.IsButtonUp(Buttons.LeftTrigger))
                     {
                         Health h = (world as SpaceWorld).Base.GetComponent<Health>();
-                        h.AddHealth(null, inv.YELLOW / 3);
+                        h.AddHealth(null, inv.YELLOW / 6);
                         inv.YELLOW = 0;
                     }
 
@@ -335,7 +335,7 @@ namespace SpaceHordes.Entities.Systems
                     if (mouseState.RightButton == ButtonState.Pressed)
                     {
                         Health h = (world as SpaceWorld).Base.GetComponent<Health>();
-                        h.AddHealth(null, inv.YELLOW / 3);
+                        h.AddHealth(null, inv.YELLOW / 6);
                         inv.YELLOW = 0;
                     }
 

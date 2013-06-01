@@ -334,6 +334,7 @@ namespace SpaceHordes
                 {
                     Entity c = CreateEntity("Player", (PlayerIndex)1);
                     c.Refresh();
+                    c.GetComponent<Inventory>().YELLOW = 50;
                     Player.Add(c);
                     Indices.Add(PlayerIndex.Two);
                     ++Players;
