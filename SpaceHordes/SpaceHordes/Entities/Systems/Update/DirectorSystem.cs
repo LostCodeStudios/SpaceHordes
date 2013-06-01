@@ -44,7 +44,7 @@ namespace SpaceHordes.Entities.Systems
         bool init = false;
         private Entity Base;
         private Entity Boss;
-        private Entity[] Players;
+        private static Entity[] Players;
         public int[] RespawnTime;
         int[] PlayerToSpawn;
 
@@ -271,7 +271,7 @@ namespace SpaceHordes.Entities.Systems
         public void LoadContent(Entity Base, Entity[] Players, int level, params SpawnState[] spawns)
         {
             this.Base = Base;
-            this.Players = Players;
+            DirectorSystem.Players = Players;
             this.RespawnTime = new int[4];
             this.PlayerToSpawn = new int[4];
 
@@ -344,6 +344,9 @@ namespace SpaceHordes.Entities.Systems
                     difficulty = 0f;
                     break;
             }
+
+            //Player diffeculty scaling
+            difficulty *= (Players.Length*1.5f / 4f);
 
             #region MUSIC
 
@@ -847,21 +850,26 @@ namespace SpaceHordes.Entities.Systems
         //static Random r = new Random();
         public static Color CrystalColor()
         {
-            Color crystalColor = Color.Yellow;
+            Color crystalColor = Color.Yellow; //40%
             int colorchance = r.Next(101);
-            if (colorchance > 30)
+            if (colorchance > 50 && colorchance < 95) //45
             {
-                crystalColor = Color.Red;
+                int ran = r.Next(1, 3);
+                switch (ran)
+                {
+                    case 1:
+                        crystalColor = Color.Red;
+                        break;
+                    case 2:
+                        crystalColor = Color.Blue;
+                        break;
+                    case 3:
+                        crystalColor = Color.Green;
+                        break;
+                }
+
             }
-            if (colorchance > 51)
-            {
-                crystalColor = Color.Blue;
-            }
-            if (colorchance > 72)
-            {
-                crystalColor = Color.Green;
-            }
-            if (colorchance > 95)
+            if (colorchance > 95 - (25 / Players.Length)) //5%
             {
                 crystalColor = Color.Gray;
             }
