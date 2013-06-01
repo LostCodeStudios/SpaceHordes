@@ -19,20 +19,15 @@ namespace SpaceHordes.GameStates.Screens
             "Code",
             "Nathaniel Nelson",
             "William Guss",
-            "",
             "Art",
             "Iron Plague art by Daniel Cook",
             "Tyrian art by Daniel Cook",
-            "",
             "Music",
             "Space Fighter Loop Kevin MacLeod (incompetech.com)",
             "Cephalopod Kevin MacLeod (incompetech.com)",
             "In a Heartbeat Kevin MacLeod (incompetech.com)",
             "Additional music by DST",
-            "",
-            "Sounds",
-            "bfxr",
-            ""
+            "Sounds made with bfxr"
         })
         {
         }
