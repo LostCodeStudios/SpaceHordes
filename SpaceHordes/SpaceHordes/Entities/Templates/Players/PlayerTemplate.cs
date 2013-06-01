@@ -92,7 +92,11 @@ namespace SpaceHordes.Entities.Templates
             Health h = new Health(1);
 
             h.OnDeath += LambdaComplex.SmallEnemyDeath(e, world as SpaceWorld, 0);
-
+            h.OnDeath +=
+                ent =>
+                {
+                    SoundManager.SetVibration(index, 0.4f, 0.5f);
+                };
             e.AddComponent<Health>(h);
 
             #endregion Health

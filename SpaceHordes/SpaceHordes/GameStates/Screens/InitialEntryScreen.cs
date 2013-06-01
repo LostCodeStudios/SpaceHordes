@@ -120,6 +120,7 @@ namespace SpaceHordes.GameStates.Screens
                 setInitialInitials();
 #endif
 #if XBOX
+            ScreenManager.ForceDispose();
             StorageContainer c = MyContainer;
             if (!c.FileExists("initials.txt"))
             {

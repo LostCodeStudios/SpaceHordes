@@ -103,7 +103,13 @@ namespace SpaceHordes.GameStates.Screens
             gameFont.SpaceWidth = 8;
             gameFont.CharSpaceWidth = 1;
 
+#if XBOX
             scoreLocation = new Vector2(ScreenHelper.Center.X, ScreenHelper.TitleSafeArea.Y);
+#endif
+
+#if WINDOWS
+            scoreLocation = new Vector2(ScreenHelper.Center.X, 30);
+#endif
             scoreScale = 1f;
 
             spriteBatch = Manager.SpriteBatch;
