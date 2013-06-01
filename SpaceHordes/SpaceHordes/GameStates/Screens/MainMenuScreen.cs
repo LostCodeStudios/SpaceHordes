@@ -90,7 +90,7 @@ namespace SpaceHordes.GameStates.Screens
 
         private void HighScoresMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            Manager.AddScreen(new HighScoreScreen(), e.PlayerIndex);
+            Manager.AddScreen(new HighScoreScreen(-1), e.PlayerIndex);
         }
 
         private static BackgroundScreen bossBackdrop;

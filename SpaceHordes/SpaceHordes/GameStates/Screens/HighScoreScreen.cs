@@ -341,12 +341,14 @@ namespace SpaceHordes.GameStates.Screens
             if (left.Evaluate(input, ControllingPlayer, out index))
             {
                 SoundManager.Play("SelectChanged");
+                selectedScore = -1;
                 Players--;
             }
 
             if (right.Evaluate(input, ControllingPlayer, out index))
             {
                 SoundManager.Play("SelectChanged");
+                selectedScore = -1;
                 ++Players;
             }
         }
