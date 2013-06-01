@@ -68,9 +68,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             string spriteKey = "";
             int type = spawned;
-#if DEBUG
-            //type = 9;
-#endif
+
             spriteKey = bosses[type].SpriteKey;
 
             #endregion Sprite
@@ -92,6 +90,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             pos = ConvertUnits.ToSimUnits(pos);
             bitch.Position = pos;
             bitch.SleepingAllowed = false;
+
             #endregion Body
 
             #region Animation

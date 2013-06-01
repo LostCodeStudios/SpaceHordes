@@ -13,7 +13,7 @@ namespace SpaceHordes.Entities.Components
 
         public void SetHealth(Entity setter, double health)
         {
-            if (health < CurrentHealth && OnDamage != null)
+            if (OnDamage != null)
             {
                 OnDamage(setter);
                 Tick = 10;

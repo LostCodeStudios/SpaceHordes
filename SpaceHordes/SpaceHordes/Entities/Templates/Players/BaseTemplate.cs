@@ -56,7 +56,7 @@ namespace SpaceHordes.Entities.Templates
 
             e.AddComponent<Score>(new Score());
 
-            int health = 30;
+            int health = 40;
 #if DEBUG
             health = 1000000;
 #endif

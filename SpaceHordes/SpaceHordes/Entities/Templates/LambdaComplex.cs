@@ -76,7 +76,9 @@ namespace SpaceHordes.Entities.Templates
                         {
                             e1.GetComponent<Health>().SetHealth(e2, 0);
                         }
-                        e2.GetComponent<Health>().Damage(e1, 0);
+#if !DEBUG 
+                        e2.GetComponent<Health>().SetHealth(e1, 0);
+#endif
                     }
                 }
 

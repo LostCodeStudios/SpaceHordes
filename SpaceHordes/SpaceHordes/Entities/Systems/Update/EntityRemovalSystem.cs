@@ -3,6 +3,7 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using GameLibrary.Entities.Components;
+using System;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -40,6 +41,9 @@ namespace SpaceHordes.Entities.Systems
 
             if (e.HasComponent<Components.Timer>() && e.GetComponent<Components.Timer>().Update(world.Delta))
             {
+                if (e.Tag == "Boss1")
+                    Console.WriteLine("Whooops");
+
                 e.Delete();
             }
         }

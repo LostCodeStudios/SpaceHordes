@@ -323,6 +323,7 @@ namespace SpaceHordes
 
 
                     e.Refresh();
+                    e.GetComponent<Inventory>().YELLOW = 50;
                     Player.Add(e);
                     Indices.Add((PlayerIndex)i);
                     ++Players;
