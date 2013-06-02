@@ -622,7 +622,6 @@ namespace SpaceHordes.Entities.Systems
         private void spawnSurge()
         {
             HUDRenderSystem.SurgeWarning = "Surge";
-            SoundManager.Play("SurgeAlarm");
 
             for (int i = 0; i < Players.Length; ++i)
             {

@@ -55,15 +55,16 @@ namespace SpaceHordes
 #if XBOX
         private IAsyncResult result;
         bool needResult = true;
-        private bool needStorageDevice = true;
+        public static bool needStorageDevice = false;
         int debug = 0;
+        public static PlayerIndex controllingIndex;
 #endif
 
         #endregion Fields 
 
         #region Initalization
 
-        public   SpaceHordes()
+        public SpaceHordes()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -114,7 +115,7 @@ namespace SpaceHordes
 
             // TODO: use this.Content to load your game content here
             screenManager.AddScreen(new BackgroundScreen("Textures/Hiscore", TransitionType.Fade), null);
-            screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
+            screenManager.AddScreen(new StartScreen(), null);
 
             ScreenHelper.SpriteSheet = new SpriteSheet(Content.Load<Texture2D>("Textures/spritesheet"));
             ScreenHelper.SpriteFont = Content.Load<SpriteFont>("Fonts/menufont");
@@ -148,33 +149,40 @@ namespace SpaceHordes
         protected override void Update(GameTime gameTime)
         {
 #if XBOX //Storage Device stuff
+            try
+            {
 
             //UPDATE
             // Set the request flag
-            if (needStorageDevice)
-            {
-                if (!Guide.IsVisible && needResult)
+                if (needStorageDevice)
                 {
-                    result = StorageDevice.BeginShowSelector(
-                            PlayerIndex.One, null, null);
-                    needResult = false;
+                    if (!Guide.IsVisible && needResult)
+                    {
+                        result = StorageDevice.BeginShowSelector(controllingIndex, null, null);
+                        needResult = false;
+                    }
+
+                    if (result != null && result.IsCompleted)
+                    {
+                        StorageDevice device = StorageDevice.EndShowSelector(result);
+                        if (device != null && device.IsConnected)
+                        {
+                            ScreenManager.Storage = device;
+                            ApplySettings();
+                            MusicManager.PlaySong("Title");
+                            needStorageDevice = false;
+                        }
+                        else
+                        {
+                            result = null;
+                            needResult = true;
+                        }
+                    }
                 }
 
-                if (result != null && result.IsCompleted)
-                {
-                    StorageDevice device = StorageDevice.EndShowSelector(result);
-                    if (device != null && device.IsConnected)
-                    {
-                        ScreenManager.Storage = device;
-                        ApplySettings();
-                        MusicManager.PlaySong("Title");
-                        needStorageDevice = false;
-                    }
-                    else
-                    {
-                        throw new Exception("Storage bad");
-                    }
-                }
+            }
+            catch (GuideAlreadyVisibleException)
+            {
             }
 #endif
 
