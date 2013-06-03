@@ -119,9 +119,11 @@ namespace SpaceHordes.Entities.Components
             return
                 (target) =>
                 {
-                    if (!(target.UserData as Entity).GetComponent<Health>().IsAlive)
+                    Entity e = target.UserData as Entity;
+                    if (e.HasComponent<Health>() && ent.HasComponent<Health>() && !e.GetComponent<Health>().IsAlive)
                     {
                         ent.GetComponent<Health>().SetHealth(null, 0);
+                        return false;
                     }
 
                     Body b = ent.GetComponent<Body>();

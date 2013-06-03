@@ -26,7 +26,7 @@ namespace SpaceHordes.Entities.Systems
 
         public static uint TurretPrice = 25;
         public static uint BarrierPrice = 10;
-        public static uint MinePrice = 4;
+        public static uint MinePrice = 5;
 
         public PlayerControlSystem(float velocity)
             : base("Players")
