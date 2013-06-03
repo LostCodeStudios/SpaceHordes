@@ -244,25 +244,17 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     gamePadDisconnected = true;
                     disc = index;
+                    removebackgroundscreens();
+                    Manager.AddScreen(new ReconnectControllerScreen(), disc);
                 }
             }
 
             PlayerIndex playerI;
 
-            if (pauseAction.Evaluate(input, null, out playerI) || gamePadDisconnected)
+            if (pauseAction.Evaluate(input, null, out playerI))
             {
                 MusicManager.Pause();
-                List<GameScreen> remove = new List<GameScreen>();
-                foreach (GameScreen screen in Manager.GetScreens())
-                {
-                    if (screen is BackgroundScreen)
-                        remove.Add(screen);
-                }
-
-                foreach (GameScreen screen in remove)
-                {
-                    Manager.RemoveScreen(screen);
-                }
+                removebackgroundscreens();
 
                 PlayerIndex? idx = playerI;
                 if (gamePadDisconnected)
@@ -272,6 +264,21 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             mouseLoc = input.MouseLocation;
+        }
+
+        private void removebackgroundscreens()
+        {
+            List<GameScreen> remove = new List<GameScreen>();
+            foreach (GameScreen screen in Manager.GetScreens())
+            {
+                if (screen is BackgroundScreen)
+                    remove.Add(screen);
+            }
+
+            foreach (GameScreen screen in remove)
+            {
+                Manager.RemoveScreen(screen);
+            }
         }
 
         #endregion Input

@@ -119,6 +119,11 @@ namespace SpaceHordes.Entities.Components
             return
                 (target) =>
                 {
+                    if (!(target.UserData as Entity).GetComponent<Health>().IsAlive)
+                    {
+                        ent.GetComponent<Health>().SetHealth(null, 0);
+                    }
+
                     Body b = ent.GetComponent<Body>();
                     Vector2 distance = target.Position - b.Position;
 

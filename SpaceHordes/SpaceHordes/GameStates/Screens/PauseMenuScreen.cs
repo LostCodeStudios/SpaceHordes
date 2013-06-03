@@ -11,6 +11,8 @@ namespace SpaceHordes.GameStates.Screens
     /// </summary>
     internal class PauseMenuScreen : MenuScreen
     {
+        MenuEntry resumeGameMenuEntry;
+
         #region Initialization
 
         /// <summary>
@@ -20,7 +22,7 @@ namespace SpaceHordes.GameStates.Screens
             : base("Paused")
         {
             //Create our menu entries.
-            MenuEntry resumeGameMenuEntry = new MenuEntry("Resume Game");
+            resumeGameMenuEntry = new MenuEntry("Resume Game");
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
 
@@ -42,6 +44,17 @@ namespace SpaceHordes.GameStates.Screens
         #endregion Initialization
 
         #region Handle Input
+
+        public override void HandleInput(GameTime gameTime, InputState input)
+        {
+            base.HandleInput(gameTime, input);
+
+            PlayerIndex idx;
+            if (input.IsButtonPressed(Microsoft.Xna.Framework.Input.Buttons.Start, ControllingPlayer, out idx))
+            {
+                OnCancel(idx);
+            }
+        }
 
         /// <summary>
         /// Event handler for when the Quit Game menu entry is selected.

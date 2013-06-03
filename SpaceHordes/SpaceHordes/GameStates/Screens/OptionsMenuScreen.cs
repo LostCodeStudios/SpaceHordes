@@ -432,6 +432,11 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
             StorageContainer c = MyContainer;
 
+            if (c == null)
+            {
+                throw new Exception("Storage");
+            }
+
             if (!c.FileExists("settings.txt"))
             {
                 c.Dispose();
@@ -455,6 +460,7 @@ namespace SpaceHordes.GameStates.Screens
 
             c.Dispose();
 #endif
+
         }
 
         public static void WriteSettings(int sound, int music, bool fullscreen, bool rumbleOn)

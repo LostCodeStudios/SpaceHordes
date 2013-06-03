@@ -147,6 +147,7 @@
     <Compile Include="GameStates\Screens\OptionsMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PauseMenuScreen.cs" />
     <Compile Include="GameStates\Screens\PlayerEntryScreen.cs" />
+    <Compile Include="GameStates\Screens\ReconnectControllerScreen.cs" />
     <Compile Include="GameStates\Screens\StartScreen.cs" />
     <Compile Include="ImageFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
