@@ -168,18 +168,7 @@ namespace SpaceHordes
                         if (device != null && device.IsConnected)
                         {
                             ScreenManager.Storage = device;
-                            try
-                            {
-                                ApplySettings();
-                            }
-                            catch
-                            {
-                                screenManager.AddScreen(new StartScreen(true), null);
-                                result = null;
-                                needStorageDevice = false;
-                                needResult = true;
-                                return;
-                            }
+                            ApplySettings();
                             MusicManager.PlaySong("Title");
                             screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
                             needStorageDevice = false;

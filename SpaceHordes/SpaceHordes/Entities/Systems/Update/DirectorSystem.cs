@@ -335,7 +335,7 @@ namespace SpaceHordes.Entities.Systems
                     difficulty = 1 + elapsedMinutes;
                     break;
                 case SpawnState.Surge:
-                    difficulty = 2 * (waves + elapsedMinutes);
+                    difficulty = 2.5f * (waves + elapsedMinutes);
                     break;
                 case SpawnState.Boss:
                     difficulty = 0.25f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
@@ -593,7 +593,7 @@ namespace SpaceHordes.Entities.Systems
         private void spawnCrystal(int index)
         {
             Vector2 poss = Base.GetComponent<ITransform>().Position;
-            world.CreateEntity("Crystal", poss, Color.Gray, 3, Players[index], true);
+            SpawnCrystal(poss, Color.Gray, 3, index);
         }
 
         public void SpawnCrystal(Vector2 position, Color color, int amount, int index)

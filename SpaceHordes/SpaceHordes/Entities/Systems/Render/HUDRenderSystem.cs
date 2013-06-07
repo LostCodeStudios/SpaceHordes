@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SpaceHordes.Entities.Components;
 using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -225,7 +226,6 @@ namespace SpaceHordes.Entities.Systems
             {
                 int X = (int)ScreenHelper.Center.X;
                 int Y = (int)ScreenHelper.Center.Y;
-                float Width = e.GetComponent<Sprite>().CurrentRectangle.Width;
                 float Height = e.GetComponent<Sprite>().CurrentRectangle.Height;
 
                 Body body = e.GetComponent<Body>();
@@ -234,16 +234,29 @@ namespace SpaceHordes.Entities.Systems
 
                 if (i.DisplayTag)
                 {
-                    text = e.Tag;
+                    PlayerIndex idx = (PlayerIndex)playerIndex;
+
+                    SignedInGamer gamer = Gamer.SignedInGamers[idx];
+
+                    if (gamer != null)
+                    {
+                        text = gamer.Gamertag;
+                    }
+                    else
+                    {
+                        text = "Player " + playerNum.ToString();
+                    }
                 }
                 else
                 {
                     text = i.YELLOW.ToString();
                 }
 
+                Vector2 dim = _Font.MeasureString(text);
+
                 Vector2 loc = new Vector2(
-                    X + ConvertUnits.ToDisplayUnits(body.Position.X) - Width / 2,
-                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height / 2 - _Font.MeasureString(text).Y);
+                    X + ConvertUnits.ToDisplayUnits(body.Position.X) - dim.X / 2,
+                    Y + ConvertUnits.ToDisplayUnits(body.Position.Y) - Height / 2 - dim.Y);
 
                 //Draw backing
                 _Font.DrawString(_SpriteBatch, loc, text);

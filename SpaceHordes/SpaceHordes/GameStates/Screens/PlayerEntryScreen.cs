@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.GamerServices;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -122,7 +123,11 @@ namespace SpaceHordes.GameStates.Screens
 
                 if (entered[i])
                 {
-                    text = "Player " + ((PlayerIndex)i).ToString();
+                    SignedInGamer gamer = Gamer.SignedInGamers[(PlayerIndex)i];
+                    if (gamer != null)
+                        text = gamer.Gamertag;
+                    else
+                        text = "Player " + (i + 1).ToString();
                     color = Color.Yellow;
                 }
                 else
