@@ -2,9 +2,8 @@
 using GameLibrary.Helpers;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
-using System;
-using GameLibrary.GameStates;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -60,13 +59,13 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(highScoresMenuEntry);
 
-
 #if !DEMO
             MenuEntries.Add(bossEntry);
 #endif
             MenuEntries.Add(howtospacehordes);
             MenuEntries.Add(introEntry);
             MenuEntries.Add(creditsEntry);
+
             //MenuEntries.Add(tutorialEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
@@ -113,7 +112,6 @@ namespace SpaceHordes.GameStates.Screens
         {
             bossBackdrop = new ExitableBackgroundScreen("Textures/howtoplay", TransitionType.Slide);
             Manager.AddScreen(bossBackdrop, e.PlayerIndex);
-            
         }
 
         private void IntroMenuEntrySelected(object sender, PlayerIndexEventArgs e)

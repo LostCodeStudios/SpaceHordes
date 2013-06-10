@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.GameStates;
-using GameLib.GameStates.Screens;
+﻿using GameLib.GameStates.Screens;
 
 namespace SpaceHordes.GameStates.Screens
 {
     public class CreditsScreen : TextScreen
     {
-        
-
         public CreditsScreen()
             : base(
-            "Credits", 
+            "Credits",
                 new string[]
         {
             "Code",

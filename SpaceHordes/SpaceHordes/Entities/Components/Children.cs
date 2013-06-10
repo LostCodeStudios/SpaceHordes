@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Components
 {
     public class Children : Component
     {
-        List<Entity> children = new List<Entity>();
+        private List<Entity> children = new List<Entity>();
 
         public Children(List<Entity> c)
         {

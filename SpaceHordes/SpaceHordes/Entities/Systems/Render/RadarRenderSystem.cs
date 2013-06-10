@@ -86,7 +86,6 @@ namespace SpaceHordes.Entities.Systems
 
         public void DrawCircle(Vector2 center, float radius, Color color)
         {
-            
             if (!_PrimBatch.IsReady())
             {
                 throw new InvalidOperationException("BeginCustomDraw must be called before drawing anything.");
@@ -137,6 +136,7 @@ namespace SpaceHordes.Entities.Systems
 
                 theta += increment;
             }
+
             //DrawCircle(center, radius, color);
 
             //DrawSegment(center, center + axis * radius, color);

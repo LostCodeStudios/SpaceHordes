@@ -1,9 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
-using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
+using GameLibrary.Entities.Components.Physics;
 using SpaceHordes.Entities.Components;
 using System;
-using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Systems
 {

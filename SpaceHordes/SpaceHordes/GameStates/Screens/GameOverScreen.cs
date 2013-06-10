@@ -33,7 +33,7 @@ namespace SpaceHordes.GameStates.Screens
         private bool awaitCancel = false;
         private bool expired = false;
 
-        bool victory;
+        private bool victory;
 
         private InputAction cancel;
 

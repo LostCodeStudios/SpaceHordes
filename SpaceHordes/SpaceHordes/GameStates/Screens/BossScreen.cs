@@ -5,9 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
 #endif
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +32,7 @@ namespace SpaceHordes.GameStates.Screens
     public class BossScreen : GameScreen
     {
         #region Boss Info
+
         private static BossInfo[] bosses = new BossInfo[]
         {
             new BossInfo("smasher", "The Smasher"),
@@ -43,7 +46,8 @@ namespace SpaceHordes.GameStates.Screens
             new BossInfo("massivebluemissile", "The Jabber-W0K"),
             new BossInfo("killerhead", "The Destroyer")
         };
-        #endregion
+
+        #endregion Boss Info
 
         #region Fields
 
@@ -59,13 +63,14 @@ namespace SpaceHordes.GameStates.Screens
         private InputAction previous;
         private InputAction cancel;
 
-        bool[] data;
+        private bool[] data;
 
         #endregion Fields
 
         #region Static Properties
 
 #if WINDOWS
+
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -93,6 +98,7 @@ namespace SpaceHordes.GameStates.Screens
         }
 
 #endif
+
         public static bool[] ClearedBosses
         {
             get { return clearedBosses; }

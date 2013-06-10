@@ -1,8 +1,6 @@
 ﻿using GameLibrary.Dependencies.Entities;
-using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
-using SpaceHordes.Entities.Components;
 
 namespace SpaceHordes.Entities.Systems
 {

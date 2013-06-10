@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SpaceHordes.Entities.Components;
 using System;
-using GameLibrary.Dependencies.Physics.Dynamics;
-using GameLibrary.Dependencies.Physics.Collision;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -51,8 +49,6 @@ namespace SpaceHordes.Entities.Systems
 
             lastKeyState = keyState;
             lastPadState = (GamePadState[])padState.Clone();
-
-            
         }
 
         public override void Process(Entity e)
@@ -135,8 +131,9 @@ namespace SpaceHordes.Entities.Systems
                             SpaceWorld w = world as SpaceWorld;
                             Vector2 offset = (w.Base.GetComponent<Body>().Position - b.Position);
                             offset.Normalize();
+
                             //offset;
-                             world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
+                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
                             inv.YELLOW -= BarrierPrice;
 
                             SoundManager.Play("Construction");
@@ -190,9 +187,6 @@ namespace SpaceHordes.Entities.Systems
 
                 #region Aiming
 
-
-
-
                 if (pad.ThumbSticks.Right != Vector2.Zero)
                 {
                     Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
@@ -210,7 +204,6 @@ namespace SpaceHordes.Entities.Systems
                 //        Console.WriteLine("Autoaiming: T = " + (f.Body.UserData as Entity).Id + ": " + (f.Body.UserData as Entity).Tag + ";");
                 //        float RotationDifference = (float)Math.Atan2(f.Body.Position.Y - b.Position.Y, f.Body.Position.X - b.Position.X);
                 //        //Test the actuall difference between the players rotation and the rotation of the target; is it under the aimArc.
-
 
                 //        Console.WriteLine("   INFO: BROTATION= " + b.Rotation + "; ROTATIONDIF= " + RotationDifference + "; ROTATIONDIF-BROTATION= " + Math.Abs(RotationDifference - b.Rotation) + ";");
                 //        if (Math.Abs(RotationDifference - b.Rotation) < aimArc)
@@ -231,7 +224,7 @@ namespace SpaceHordes.Entities.Systems
                     inv.DisplayTag = !inv.DisplayTag;
                 }
 
-                #endregion
+                #endregion Tag
             }
 
             #endregion Gamepad
@@ -363,7 +356,7 @@ namespace SpaceHordes.Entities.Systems
                     inv.DisplayTag = !inv.DisplayTag;
                 }
 
-                #endregion
+                #endregion Tag
 
                 //Rotation
                 if (b.LinearVelocity != Vector2.Zero)

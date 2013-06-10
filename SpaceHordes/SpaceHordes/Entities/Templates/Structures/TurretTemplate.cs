@@ -5,8 +5,8 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using System.Collections.Generic;
 using SpaceHordes.Entities.Systems;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Templates.Objects
 {
@@ -118,10 +118,10 @@ namespace SpaceHordes.Entities.Templates.Objects
             #endregion Health
 
             #region Origin
-             
+
             //e.AddComponent<Origin>(new Origin(args[1] as Entity));
 
-            #endregion
+            #endregion Origin
 
             e.Group = "Structures";
 

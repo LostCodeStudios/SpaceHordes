@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using SpaceHordes.Entities.Systems;
 using System;
-using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -18,6 +17,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private static Random rbitch = new Random();
 
         private static int cannons = 0;
+
         public CannonTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             cannons = 0;
@@ -27,8 +27,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
-
             #region Body
+
             string spriteKey = "blaster";
             bool rotateTo = true;
             if (args.Length > 2)
@@ -79,7 +79,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             }
             e.AddComponent<Inventory>(i);
 
-            #endregion
+            #endregion Inventory
 
             ++cannons;
             e.Tag = "Cannon" + cannons.ToString();

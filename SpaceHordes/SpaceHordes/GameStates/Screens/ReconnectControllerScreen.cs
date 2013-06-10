@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.GameStates.Screens;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.GameStates.Screens;
 using GameLibrary.Input;
 
 namespace SpaceHordes.GameStates.Screens
 {
     public class ReconnectControllerScreen : MenuScreen
     {
-        MenuEntry okayEntry;
+        private MenuEntry okayEntry;
 
         public ReconnectControllerScreen()
             : base("")
@@ -29,7 +24,7 @@ namespace SpaceHordes.GameStates.Screens
             okayEntry.Text = "Reconnect Player " + ControllingPlayer.ToString();
         }
 
-        void select(object sender, PlayerIndexEventArgs e)
+        private void select(object sender, PlayerIndexEventArgs e)
         {
             ExitScreen();
         }

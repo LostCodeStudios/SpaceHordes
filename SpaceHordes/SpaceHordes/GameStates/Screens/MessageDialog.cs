@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SpaceHordes;
+﻿using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Helpers;
+using SpaceHordes;
+using System;
+using System.Linq;
 
 namespace GameLibrary.GameStates.Screens
 {
     public class MessageDialog
     {
-        ImageFont font;
-        int index = 0;
+        private ImageFont font;
+        private int index = 0;
         public bool Enabled = false;
-        string message;
-        string toDraw;
-        TimeSpan betweenLetters;
-        TimeSpan endPhrase;
-        TimeSpan elapsed;
-        Vector2 position;
-        string soundKey = "DialogSound";
+        private string message;
+        private string toDraw;
+        private TimeSpan betweenLetters;
+        private TimeSpan endPhrase;
+        private TimeSpan elapsed;
+        private Vector2 position;
+        private string soundKey = "DialogSound";
 
         public Vector2 Position
         {
@@ -30,7 +28,7 @@ namespace GameLibrary.GameStates.Screens
 
         public bool Visible = true;
 
-        char[] phraseEnders;
+        private char[] phraseEnders;
 
         public MessageDialog(ImageFont font, Vector2 position, string message, TimeSpan letters, TimeSpan phrase, char[] phrases)
         {
@@ -46,7 +44,7 @@ namespace GameLibrary.GameStates.Screens
         }
 
         public MessageDialog(ImageFont font, Vector2 position, string message, TimeSpan letters, TimeSpan phrase)
-            : this(font, position, message, letters, phrase, new char[] { '.', '!', '?', ','})
+            : this(font, position, message, letters, phrase, new char[] { '.', '!', '?', ',' })
         {
         }
 

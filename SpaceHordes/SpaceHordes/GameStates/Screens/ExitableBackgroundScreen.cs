@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameLibrary.Helpers;
 using GameLibrary.Input;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
-using GameLibrary.Helpers;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceHordes.GameStates.Screens
 {
     public class ExitableBackgroundScreen : BackgroundScreen
     {
-        InputAction exit;
+        private InputAction exit;
 
         public ExitableBackgroundScreen(string filename, TransitionType type)
             : base(filename, type)
