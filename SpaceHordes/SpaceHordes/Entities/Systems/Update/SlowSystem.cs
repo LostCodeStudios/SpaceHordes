@@ -1,9 +1,9 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System;
-using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -12,7 +12,7 @@ namespace SpaceHordes.Entities.Systems
         private ComponentMapper<IVelocity> velocityMapper;
         private ComponentMapper<IDamping> dampingMapper;
         private ComponentMapper<Slow> slowMapper;
-        static Random r = new Random();
+        private static Random r = new Random();
 
         public SlowSystem()
             : base(typeof(IVelocity), typeof(Slow))

@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using SpaceHordes.Entities.Systems;
 using System;
-using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -18,6 +17,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private static Random rbitch = new Random();
 
         private static int destroyers = 0;
+
         public DestroyerTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             destroyers = 0;
@@ -27,8 +27,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
         public Entity BuildEntity(Entity e, params object[] args)
         {
-
             #region Body
+
             string spriteKey = "redgrayblobship";
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
@@ -72,7 +72,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
             Inventory i = new Inventory(0, 0, 0, 0, InvType.Cannon, spriteKey);
             e.AddComponent<Inventory>(i);
 
-            #endregion
+            #endregion Inventory
 
             ++destroyers;
             e.Group = "Enemies";

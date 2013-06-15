@@ -1,25 +1,25 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
+using GameLibrary.GameStates.Screens;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
+using SpaceHordes.Entities.Templates.Objects;
+using SpaceHordes.GameStates.Screens;
 using System;
 using System.Collections.Generic;
-using SpaceHordes.Entities.Templates.Objects;
-using GameLibrary.Entities.Components;
-using GameLibrary.Helpers;
-using GameLibrary.GameStates.Screens;
-using SpaceHordes.GameStates.Screens;
 
 namespace SpaceHordes.Entities.Systems
 {
-    enum MusicState
+    internal enum MusicState
     {
         TransitionOn,
         TransitionOff,
         Transitioned
     }
 
-    enum SongType
+    internal enum SongType
     {
         Loop,
         Boss,
@@ -39,26 +39,28 @@ namespace SpaceHordes.Entities.Systems
     public class DirectorSystem : IntervalEntitySystem
     {
         #region Fields
+
         private static Random r = new Random();
 
-        bool init = false;
+        private bool init = false;
         private Entity Base;
         private Entity Boss;
         private static Entity[] Players;
         public int[] RespawnTime;
-        int[] PlayerToSpawn;
+        private int[] PlayerToSpawn;
 
         private double difficulty = 0;
 
         private double maxMooks = 0.5;
         private double maxThugs = 0.2;
 
-        Queue<SpawnState> states = new Queue<SpawnState>();
+        private Queue<SpawnState> states = new Queue<SpawnState>();
         public SpawnState SpawnState = SpawnState.Peace;
-        int waves = 0;
+        private int waves = 0;
 
-        int elapsedWarning = 0;
-        int warningTime = 3000;
+        private int elapsedWarning = 0;
+        private int warningTime = 3000;
+
         public static float[] StateDurations = new float[]
         {
             45f,
@@ -68,55 +70,56 @@ namespace SpaceHordes.Entities.Systems
         };
 
         public static int ElapsedSurge = 0;
-        float nextSeconds = 0;
+        private float nextSeconds = 0;
 
         //Start off with a minute worth of time so spawns don't delay by a minute due to casting
         private float elapsedSeconds; private float secPerCall = 0.333f;
+
         private float elapsedMinutes; private float minPerCall = 0.333f / 60;
         private int timesCalled = 0;
         private float intervalSeconds = 0f;
 
-        int level;
+        private int level;
 
         public Action OnVictory;
 
-        #endregion
+        #endregion Fields
 
         #region Song Tags
 
-        string[] loopSongs = new string[]
+        private string[] loopSongs = new string[]
         {
             "SpaceLoop",
             "Azimuth"
         };
 
-        string[] bossSongs = new string[]
+        private string[] bossSongs = new string[]
         {
             "Heartbeat",
             "4Tran"
         };
 
-        string[] surgeSongs = new string[]
+        private string[] surgeSongs = new string[]
         {
             "Cephelopod",
             "AngryMod"
         };
 
-        MusicState musicState = MusicState.Transitioned;
-        float tempVolume = 0f;
-        string nextSong = "";
+        private MusicState musicState = MusicState.Transitioned;
+        private float tempVolume = 0f;
+        private string nextSong = "";
 
-        #endregion
+        #endregion Song Tags
 
         #region Spawn Rates
 
-        public  int MookSpawnRate = 1;
-        public  int ThugSpawnRate = 1;
-        public  int GunnerSpawnRate = 1;
-        public  int HunterSpawnRate = 1;
-        public  int DestroyerSpawnRate = 1;
+        public int MookSpawnRate = 1;
+        public int ThugSpawnRate = 1;
+        public int GunnerSpawnRate = 1;
+        public int HunterSpawnRate = 1;
+        public int DestroyerSpawnRate = 1;
 
-        public  int SpawnRate
+        public int SpawnRate
         {
             set
             {
@@ -128,7 +131,7 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
-        #endregion
+        #endregion Spawn Rates
 
         #region Enemy Tags
 
@@ -147,7 +150,7 @@ namespace SpaceHordes.Entities.Systems
         public string DestroyerTemplate = "Destroyer";
         public string BossTemplate = "Boss";
 
-        public  void ResetTags()
+        public void ResetTags()
         {
             MookSprite = "";
             ThugSprite = "";
@@ -159,9 +162,10 @@ namespace SpaceHordes.Entities.Systems
             BossTemplate = "Boss";
         }
 
-        #endregion
+        #endregion Enemy Tags
 
         #region Tutorial
+
         public MessageDialog CurrentDialog;
 
 #if XBOX
@@ -212,7 +216,8 @@ namespace SpaceHordes.Entities.Systems
         };
 #endif
 #if WINDOWS
-        string[] tutorialMessages = new string[]
+
+        private string[] tutorialMessages = new string[]
         {
             "WELCOME TO SPACE HORDES.",
             "MOVE WITH W A S D.",
@@ -256,9 +261,11 @@ namespace SpaceHordes.Entities.Systems
             "NOW YOU HAVE LEARNED ALMOST EVERYTHING THERE IS TO KNOW.",
             "SEE IF YOU CAN PLAY ON YOUR OWN."
         };
+
 #endif
-        int message = 0;
-        #endregion
+        private int message = 0;
+
+        #endregion Tutorial
 
         #region Initialization
 
@@ -301,9 +308,10 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
-        #endregion
+        #endregion Initialization
 
         /*********/
+
         #region Processing
 
         protected override void ProcessEntities(Dictionary<int, Entity> entities)
@@ -331,22 +339,26 @@ namespace SpaceHordes.Entities.Systems
                 case SpawnState.Wave:
                     difficulty = (waves + elapsedMinutes);
                     break;
+
                 case SpawnState.Endless:
                     difficulty = 1 + elapsedMinutes;
                     break;
+
                 case SpawnState.Surge:
                     difficulty = 2.5f * (waves + elapsedMinutes);
                     break;
+
                 case SpawnState.Boss:
                     difficulty = 0.25f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
                     break;
+
                 case SpawnState.Peace:
                     difficulty = 0f;
                     break;
             }
 
             //Player diffeculty scaling
-            difficulty *= (Players.Length*1.5f / 4f);
+            difficulty *= (Players.Length * 1.5f / 4f);
 
             #region MUSIC
 
@@ -357,10 +369,11 @@ namespace SpaceHordes.Entities.Systems
             }
 
             updateMusic();
-            
-            #endregion
+
+            #endregion MUSIC
 
             #region REALGAME
+
             if (!w.Tutorial)
             {
                 #region Scoring
@@ -409,7 +422,8 @@ namespace SpaceHordes.Entities.Systems
 
                 #endregion Spawning
             }
-            #endregion
+
+            #endregion REALGAME
 
             #region TUTORIAL
 
@@ -476,7 +490,7 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
-            #endregion
+            #endregion TUTORIAL
 
             #region Player Respawn
 
@@ -501,13 +515,14 @@ namespace SpaceHordes.Entities.Systems
                 }
             }
 
-            #endregion
+            #endregion Player Respawn
 
             updateTimes();
             ++timesCalled;
         }
 
-        #endregion
+        #endregion Processing
+
         /*********/
 
         #region Helpers
@@ -573,7 +588,7 @@ namespace SpaceHordes.Entities.Systems
             HUDRenderSystem.SurgeWarning = "Wave " + waves.ToString();
         }
 
-        #endregion
+        #endregion Helpers
 
         #region Spawn Helpers
 
@@ -708,7 +723,7 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
-        #endregion
+        #endregion Spawn Helpers
 
         #region Math Helpers
 
@@ -721,11 +736,9 @@ namespace SpaceHordes.Entities.Systems
         {
             float i = (int)f;
 
-            float c = r.Next(0, 101)/100f;
+            float c = r.Next(0, 101) / 100f;
             if (c < f - i)
                 ++i;
-
-           
 
             return (int)i;
         }
@@ -757,7 +770,7 @@ namespace SpaceHordes.Entities.Systems
                 return value;
         }
 
-        #endregion
+        #endregion Math Helpers
 
         #region Tutorial Helpers
 
@@ -768,11 +781,11 @@ namespace SpaceHordes.Entities.Systems
             CurrentDialog.Enabled = true;
         }
 
-        #endregion
+        #endregion Tutorial Helpers
 
         #region Music Helpers
 
-        void updateMusic()
+        private void updateMusic()
         {
             switch (musicState)
             {
@@ -785,6 +798,7 @@ namespace SpaceHordes.Entities.Systems
                         MusicManager.PlaySong(nextSong);
                     }
                     break;
+
                 case MusicState.TransitionOn:
                     MusicManager.Volume += 0.1f;
                     if (MusicManager.Volume >= tempVolume)
@@ -825,7 +839,7 @@ namespace SpaceHordes.Entities.Systems
             changeSong(key);
         }
 
-        void changeSong(string songKey)
+        private void changeSong(string songKey)
         {
             if (MusicManager.IsPlaying)
             {
@@ -842,7 +856,7 @@ namespace SpaceHordes.Entities.Systems
             }
         }
 
-        #endregion
+        #endregion Music Helpers
 
         #region Crystal Color Gen
 
@@ -859,14 +873,15 @@ namespace SpaceHordes.Entities.Systems
                     case 1:
                         crystalColor = Color.Red;
                         break;
+
                     case 2:
                         crystalColor = Color.Blue;
                         break;
+
                     case 3:
                         crystalColor = Color.Green;
                         break;
                 }
-
             }
             if (colorchance > 95 - (25 / Players.Length)) //5%
             {
@@ -876,6 +891,6 @@ namespace SpaceHordes.Entities.Systems
             return crystalColor;
         }
 
-        #endregion
+        #endregion Crystal Color Gen
     }
 }

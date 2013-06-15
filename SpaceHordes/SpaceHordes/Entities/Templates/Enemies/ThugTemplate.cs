@@ -18,6 +18,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         private static Random rbitch = new Random();
 
         private static int thugs = 0;
+
         public ThugTemplate(SpriteSheet spriteSheet, EntityWorld world)
         {
             thugs = 0;
@@ -68,7 +69,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 5, 1f, bitch);
-            Sprite s = new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f + (float)thugs/1000000f);
+            Sprite s = new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, 0.5f + (float)thugs / 1000000f);
             if (spriteKey.Contains("swastika"))
                 s.Origin = new Vector2(s.CurrentRectangle.Width / 2, s.CurrentRectangle.Height / 2);
             e.AddComponent<Sprite>(s);

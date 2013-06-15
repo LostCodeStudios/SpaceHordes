@@ -1,7 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using SpaceHordes.Entities.Systems;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -63,7 +63,7 @@ namespace SpaceHordes.Entities.Components
                         offsets.Add(new Vector2(0, -12));
                         offsets.Add(new Vector2(0, 8));
                         break;
-                    
+
                     case "blueshipwithbulb":
                         offsets.Add(new Vector2(0, -10));
                         offsets.Add(new Vector2(0, 8));
@@ -80,7 +80,7 @@ namespace SpaceHordes.Entities.Components
             }
             else if (type == InvType.Cannon)
             {
-                WHITE = new Gun(-1, 2500, 1, "", InvType.Cannon, new Vector2[] {});
+                WHITE = new Gun(-1, 2500, 1, "", InvType.Cannon, new Vector2[] { });
                 _CurrentGunType = GunType.WHITE;
             }
         }
@@ -155,7 +155,7 @@ namespace SpaceHordes.Entities.Components
         {
             GiveCrystals(color, amount, false);
         }
-        
+
         public void GiveCrystals(Color color, int amount, bool surgeCrystal)
         {
             if (color == Color.Red)

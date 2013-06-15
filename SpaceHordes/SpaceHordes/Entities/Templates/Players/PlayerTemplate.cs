@@ -7,8 +7,8 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -16,7 +16,7 @@ namespace SpaceHordes.Entities.Templates
     {
         private World world;
         private SpriteSheet spriteSheet;
-        static Random r = new Random();
+        private static Random r = new Random();
 
         public PlayerTemplate(World world, SpriteSheet spriteSheet)
         {
@@ -45,6 +45,7 @@ namespace SpaceHordes.Entities.Templates
             {
                 throw new FormatException("Yeah fuck you" + e.Tag);
             }
+
             #region Body
 
             //Set up initial body

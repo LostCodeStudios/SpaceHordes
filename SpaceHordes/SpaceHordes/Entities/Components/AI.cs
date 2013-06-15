@@ -1,10 +1,9 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using GameLibrary.Helpers;
-using GameLibrary.Entities.Components;
-using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Components
 {
@@ -35,7 +34,7 @@ namespace SpaceHordes.Entities.Components
             : this(target, behavior, "", 200f)
         {
         }
-        
+
         public AI(Body target, Func<Body, bool> behavior, string targetGroup, float searchRadius)
         {
             this.Target = target;
@@ -155,18 +154,16 @@ namespace SpaceHordes.Entities.Components
                 {
                     if (time > sideTime)
                     {
-                        
                         time = 0f;
                     }
 
                     Body b = ent.GetComponent<Body>();
-                    float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width/2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
+                    float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
 
                     if (!ent.HasComponent<Slow>())
                     {
-                        b.Position = new Vector2(x, b.Position.Y + speed * world.Delta/1000);
+                        b.Position = new Vector2(x, b.Position.Y + speed * world.Delta / 1000);
 
-                    
                         time += (float)world.Delta / 1000;
                     }
                     else
@@ -196,7 +193,6 @@ namespace SpaceHordes.Entities.Components
                     {
                         b.Position = new Vector2(x, b.Position.Y + speed * world.Delta / 1000);
 
-                    
                         time += (float)world.Delta / 1000;
                         ent.GetComponent<Children>().CallChildren(b);
                     }
@@ -320,8 +316,6 @@ namespace SpaceHordes.Entities.Components
                     Body b = ent.GetComponent<Body>();
                     float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * time)));
 
-                    
-
                     if (shotTime > shootTime)
                     {
                         shotTime = 0f;
@@ -374,8 +368,6 @@ namespace SpaceHordes.Entities.Components
 
                     Body b = ent.GetComponent<Body>();
                     float x = (float)(ConvertUnits.ToSimUnits(ScreenHelper.Viewport.Width / 2) * (Math.Cos(MathHelper.ToRadians(360 / sideTime) * ttttime)));
-
-                    
 
                     time += (float)_World.Delta / 1000;
 
@@ -479,5 +471,6 @@ namespace SpaceHordes.Entities.Components
                 };
         }
     }
+
         #endregion Behaviors
 }

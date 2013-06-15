@@ -5,12 +5,10 @@ using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SpaceHordes.Entities.Templates.Events
 {
-    class BaseShotTemplate : IEntityGroupTemplate
+    internal class BaseShotTemplate : IEntityGroupTemplate
     {
         public static double ShotRatio = 0.22;
 #if XBOX
@@ -20,6 +18,7 @@ namespace SpaceHordes.Entities.Templates.Events
 #if WINDOWS
         public static double MaxShot = 500;
 #endif
+
         public Entity[] BuildEntityGroup(EntityWorld world, params object[] args)
         {
             Inventory inv = (args[0] as Entity).GetComponent<Inventory>();
@@ -30,6 +29,7 @@ namespace SpaceHordes.Entities.Templates.Events
             {
                 int shot = 1;
                 SoundManager.Play("Shot" + shot.ToString(), .25f);
+
                 //Shoot bullets out from base at an even division of the circle * a shot ratio
 
                 double max = Math.PI * 2;
@@ -39,7 +39,7 @@ namespace SpaceHordes.Entities.Templates.Events
                     angle += step)
                 {
                     Transform fireAt = new Transform(Vector2.Zero, (float)angle);
-                    
+
                     Entity bullet = world.CreateEntity("WhiteBullet3", fireAt);
 
                     Bullet bb = bullet.GetComponent<Bullet>();

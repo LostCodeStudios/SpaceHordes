@@ -5,11 +5,9 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using SpaceHordes.Entities.Systems;
-using SpaceHordes.GameStates.Screens;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -34,6 +32,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         public static int spawned = 0;
 
         #region Boss Info
+
         private static BossInfo[] bosses = new BossInfo[]
         {
             new BossInfo("smasher", "The Smasher"), //0 //Fully implemented
@@ -47,7 +46,8 @@ namespace SpaceHordes.Entities.Templates.Enemies
             new BossInfo("massivebluemissile", "The Jabber-W0K"), //8 //Fully implemented
             new BossInfo("killerhead", "The Destroyer") //9 //Fully implemented
         };
-        #endregion
+
+        #endregion Boss Info
 
         public BossTemplate(SpriteSheet spriteSheet, SpaceWorld world)
         {
@@ -77,7 +77,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
 
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
             FixtureFactory.AttachEllipse(ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Width / 2), ConvertUnits.ToSimUnits(_SpriteSheet[spriteKey][0].Height / 2), 20, 1f, bitch);
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, spriteKey != "bigredblobboss" ? 0.5f + (float)type/10000f : 0.55f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, spriteKey, bitch, 1f, Color.White, spriteKey != "bigredblobboss" ? 0.5f + (float)type / 10000f : 0.55f));
             bitch.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
             bitch.CollisionCategories = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat2;
             bitch.CollidesWith = GameLibrary.Dependencies.Physics.Dynamics.Category.Cat1 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat3 | GameLibrary.Dependencies.Physics.Dynamics.Category.Cat6;
@@ -196,7 +196,6 @@ namespace SpaceHordes.Entities.Templates.Enemies
                 h.OnDamage +=
                     ent =>
                     {
-
                         //Fire flame from random spot
 
                         int range = s.CurrentRectangle.Width / 2;
@@ -204,7 +203,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
                         Vector2 pos1 = bitch.Position + ConvertUnits.ToSimUnits(new Vector2(posx, 0));
 
                         float x = posx / range;
-                                
+
                         float y = 1;
 
                         Vector2 velocity = new Vector2(x, y);

@@ -9,7 +9,8 @@ namespace SpaceHordes.Entities.Components
     /// </summary>
     public class Gun : Component
     {
-        InvType _Type;
+        private InvType _Type;
+
         public Gun(int ammunition, int interval, int power, string bulletTemplateTag, InvType type, params Vector2[] offsets)
         {
             Ammunition = ammunition;
@@ -126,7 +127,7 @@ namespace SpaceHordes.Entities.Components
         private bool _BulletsToFire = false;
         private int ammo;
 
-        List<Vector2> gunOffsets = new List<Vector2>();
+        private List<Vector2> gunOffsets = new List<Vector2>();
 
         #endregion Fields
 
@@ -150,7 +151,5 @@ namespace SpaceHordes.Entities.Components
         }
 
         #endregion Methods
-
-
     }
 }

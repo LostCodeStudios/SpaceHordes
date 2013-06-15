@@ -75,8 +75,8 @@ namespace SpaceHordes.Entities.Systems
                 else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     gun.BulletsToFire = true;
 
-                if (!inv.BuildMode && 
-                    (GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger) || 
+                if (!inv.BuildMode &&
+                    (GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger) ||
                     (!GamePad.GetState((PlayerIndex)index).IsConnected && Mouse.GetState().RightButton == ButtonState.Pressed)))
                 {
                     world.CreateEntityGroup("BaseShot", "Bullets", e);
@@ -118,7 +118,6 @@ namespace SpaceHordes.Entities.Systems
                         else
                             SoundManager.Play("Shot" + shot.ToString());
                     }
-
 
                     --gun.Ammunition;
                     if (gun.Ammunition == 0)

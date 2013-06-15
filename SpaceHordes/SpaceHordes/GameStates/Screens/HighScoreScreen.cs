@@ -4,9 +4,11 @@ using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
 #endif
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -66,6 +68,7 @@ namespace SpaceHordes.GameStates.Screens
         #region Static Properties
 
 #if WINDOWS
+
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -301,7 +304,6 @@ namespace SpaceHordes.GameStates.Screens
             {
                 c.Dispose();
             }
-
 
             ReadScores(players, out initials, out scores);
 #endif

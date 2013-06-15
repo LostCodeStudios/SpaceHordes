@@ -1,12 +1,12 @@
 ﻿using GameLibrary.GameStates.Screens;
 using System;
 using System.IO;
+
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
 #endif
-using GameLibrary.GameStates;
-using GameLibrary.Helpers;
 
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -45,6 +45,7 @@ namespace SpaceHordes.GameStates.Screens
         #region Static Properties
 
 #if WINDOWS
+
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -55,6 +56,7 @@ namespace SpaceHordes.GameStates.Screens
                 return Environment.GetFolderPath(Environment.SpecialFolder.Personal) + @"\Space Hordes";
             }
         }
+
         /// <summary>
         /// The path of the scores text file
         /// </summary>
@@ -65,9 +67,11 @@ namespace SpaceHordes.GameStates.Screens
                 return FolderPath + @"\settings.txt";
             }
         }
+
 #endif
 
-        static int soundVol;
+        private static int soundVol;
+
         public static int SoundVolume
         {
             get
@@ -82,7 +86,8 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        static int musicVol;
+        private static int musicVol;
+
         public static int MusicVolume
         {
             get
@@ -131,7 +136,8 @@ namespace SpaceHordes.GameStates.Screens
 
 #endif
 
-        static bool rumbleOn;
+        private static bool rumbleOn;
+
         public static bool RumbleOn
         {
             get
@@ -239,8 +245,6 @@ namespace SpaceHordes.GameStates.Screens
         {
             this.sound.Text = "Sound Volume: ";
             this.sound.Text += SoundVolume.ToString();
-
-
 
             this.music.Text = "Music Volume: ";
             this.music.Text += MusicVolume.ToString();
@@ -425,7 +429,7 @@ namespace SpaceHordes.GameStates.Screens
                 {
                     tr.Close();
                     WriteInitialSettings();
-                } 
+                }
             }
 #endif
 
@@ -447,7 +451,7 @@ namespace SpaceHordes.GameStates.Screens
             using (TextReader tr = new StreamReader(c.OpenFile("settings.txt", FileMode.Open)))
             {
                 string text = tr.ReadToEnd();
-    
+
                 if (!text.Contains("[Rumble]"))
                 {
                     tr.Close();
@@ -460,7 +464,6 @@ namespace SpaceHordes.GameStates.Screens
 
             c.Dispose();
 #endif
-
         }
 
         public static void WriteSettings(int sound, int music, bool fullscreen, bool rumbleOn)
@@ -471,7 +474,7 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
             StorageContainer c = MyContainer;
             StreamWriter writer = new StreamWriter(c.OpenFile("settings.txt", FileMode.Open));
-            
+
 #endif
             writer.WriteLine("[Sound]");
             writer.WriteLine(sound);
@@ -499,7 +502,7 @@ namespace SpaceHordes.GameStates.Screens
                 case true:
                     writer.WriteLine("On");
                     break;
-                    
+
                 case false:
                     writer.WriteLine("Off");
                     break;
@@ -516,7 +519,6 @@ namespace SpaceHordes.GameStates.Screens
 #if WINDOWS
             if (!Directory.Exists(FolderPath))
                 Directory.CreateDirectory(FolderPath);
-
 
             if (!File.Exists(FilePath))
             {

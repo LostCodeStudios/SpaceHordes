@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
 #endif
-using GameLibrary.GameStates;
+
 using GameLibrary.GameStates.Screens;
 using System.IO;
 using SpaceHordes.Entities.Systems;
-using SpaceHordes.Entities.Templates.Enemies;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 
@@ -30,6 +28,7 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
 #if WINDOWS
+
         /// <summary>
         /// The folder path where save files will be stored for PC.
         /// </summary>
@@ -55,17 +54,19 @@ namespace SpaceHordes.GameStates.Screens
 #endif
             }
         }
+
 #endif
-        #endregion 
-        
-        bool[] levels;
-        static int levelCount = 5;
-        string[] levelTitles;
 
-        int bossStart = 0;
+        #endregion Static Properties
 
-        string font;
-        PlayerIndex[] indices;
+        private bool[] levels;
+        private static int levelCount = 5;
+        private string[] levelTitles;
+
+        private int bossStart = 0;
+
+        private string font;
+        private PlayerIndex[] indices;
 
         #region Initialization
 
@@ -108,12 +109,14 @@ namespace SpaceHordes.GameStates.Screens
             CancelSound = "MenuCancel";
         }
 
-        #endregion
+        #endregion Initialization
 
         private void select(object sender, EventArgs e)
         {
             SpawnState[] states;
+
             #region Levels
+
             switch (selectedEntry)
             {
                 case 0:
@@ -132,6 +135,7 @@ namespace SpaceHordes.GameStates.Screens
                         SpawnState.Victory
                     };
                     break;
+
                 case 1:
                     bossStart = 3;
                     states = new SpawnState[]
@@ -149,6 +153,7 @@ namespace SpaceHordes.GameStates.Screens
                         SpawnState.Victory
                     };
                     break;
+
                 case 2:
                     bossStart = 6;
                     states = new SpawnState[]
@@ -173,6 +178,7 @@ namespace SpaceHordes.GameStates.Screens
                         SpawnState.Victory
                     };
                     break;
+
                 case 3:
                     bossStart = 0;
                     states = new SpawnState[]
@@ -192,12 +198,14 @@ namespace SpaceHordes.GameStates.Screens
                         SpawnState.Victory
                     };
                     break;
+
                 case 4:
                     states = new SpawnState[]
                     {
                         SpawnState.Endless
                     };
                     break;
+
                 default:
                     states = new SpawnState[]
                     {
@@ -205,7 +213,9 @@ namespace SpaceHordes.GameStates.Screens
                     };
                     break;
             }
-            #endregion
+
+            #endregion Levels
+
             ExitScreen();
             Manager.AddScreen(new GameplayScreen(font, bossStart, indices, selectedEntry, states), null);
         }
@@ -343,6 +353,6 @@ namespace SpaceHordes.GameStates.Screens
             WriteData(data);
         }
 
-        #endregion
+        #endregion Static Methods
     }
 }

@@ -3,9 +3,11 @@ using GameLibrary.GameStates.Screens;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+
 #if XBOX
 using Microsoft.Xna.Framework.Storage;
 #endif
+
 using System;
 using System.IO;
 
@@ -101,7 +103,7 @@ namespace SpaceHordes.GameStates.Screens
                 true);
 
             accept = new InputAction(
-                new Buttons[] { Buttons.Start , Buttons.A },
+                new Buttons[] { Buttons.Start, Buttons.A },
                 new Keys[] { Keys.Enter, Keys.Space },
                 true);
         }
@@ -241,7 +243,6 @@ namespace SpaceHordes.GameStates.Screens
 
             if (!expired && accept.Evaluate(input, ControllingPlayer, out index))
             {
-                
                 parent.Initials.Add(Initials);
                 SetInitialsOf((PlayerIndex)ControllingPlayer, Initials);
                 ExitScreen();

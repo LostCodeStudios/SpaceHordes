@@ -1,8 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
-using GameLibrary.Entities.Components.Physics;
+using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
-using GameLibrary.Entities.Components;
 using System;
 
 namespace SpaceHordes.Entities.Systems
@@ -14,7 +13,7 @@ namespace SpaceHordes.Entities.Systems
     {
         private Camera camera;
         private ComponentMapper<ITransform> TransformMapper;
-        float bound;
+        private float bound;
 
         public EntityRemovalSystem(Camera camera)
             : base(typeof(ITransform))
@@ -33,7 +32,7 @@ namespace SpaceHordes.Entities.Systems
             ITransform t = TransformMapper.Get(e);
             if (t == null)
                 return;
-            if(Vector2.Distance(t.Position, Vector2.Zero) > bound)
+            if (Vector2.Distance(t.Position, Vector2.Zero) > bound)
             {
                 e.Delete();
                 return;

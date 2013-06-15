@@ -96,8 +96,8 @@ namespace SpaceHordes.Entities.Components
             world.QueryAABB(
                 fixture =>
                 {
-                    if(shapeCount < shapes.Length-1)
-                    shapes[shapeCount++] = fixture;
+                    if (shapeCount < shapes.Length - 1)
+                        shapes[shapeCount++] = fixture;
 
                     // Continue the query.
                     return true;
@@ -418,8 +418,8 @@ namespace SpaceHordes.Entities.Components
                             {
                                 val.X += Math.Abs(vectImp.X);
                                 val.Y += Math.Abs(vectImp.Y);
-                                if(vectorList.Count < 2000)
-                                vectorList.Add(val);
+                                if (vectorList.Count < 2000)
+                                    vectorList.Add(val);
                             }
                             else
                             {
@@ -427,7 +427,7 @@ namespace SpaceHordes.Entities.Components
                                 val.X = Math.Abs(vectImp.X);
                                 val.Y = Math.Abs(vectImp.Y);
                                 if (vectorList.Count < 2000)
-                                vectorList.Add(val);
+                                    vectorList.Add(val);
                                 exploded.Add(f, vectorList);
                             }
 

@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using GameLibrary.GameStates.Screens;
 using GameLibrary.Input;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -24,8 +19,8 @@ namespace SpaceHordes.GameStates.Screens
             MenuEntries.Add(enter);
         }
 
-        bool entered = false;
-        PlayerIndex entryIndex;
+        private bool entered = false;
+        private PlayerIndex entryIndex;
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
@@ -62,7 +57,7 @@ namespace SpaceHordes.GameStates.Screens
             }
         }
 
-        void entry(object sender, PlayerIndexEventArgs e)
+        private void entry(object sender, PlayerIndexEventArgs e)
         {
             entered = true;
             entryIndex = e.PlayerIndex;

@@ -7,19 +7,15 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SpaceHordes.Entities.Templates.Objects
 {
     public class FireTemplate : IEntityTemplate
     {
-        World _World;
-        SpriteSheet _SS;
+        private World _World;
+        private SpriteSheet _SS;
 
-        static int num = 0;
+        private static int num = 0;
 
         public FireTemplate(World world, SpriteSheet ss)
         {
@@ -29,7 +25,7 @@ namespace SpaceHordes.Entities.Templates.Objects
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="e"></param>
         /// <param name="args">The position and velocity of the bullet + the health/damage</param>
@@ -39,10 +35,13 @@ namespace SpaceHordes.Entities.Templates.Objects
             e.Group = "Fire";
 
             #region Sprite
+
             Sprite fireSprite = e.AddComponent<Sprite>(new Sprite(_SS, "minifire", 0.55f + (float)num / 1000000f));
-            #endregion
+
+            #endregion Sprite
 
             #region Body
+
             //Creates a body based off of the position and velocity supplied in the args list.
             Body bitch = e.AddComponent<Body>(new Body(_World, e));
 
@@ -77,8 +76,8 @@ namespace SpaceHordes.Entities.Templates.Objects
                         }
                     return false;
                 };
-            #endregion
 
+            #endregion Body
 
             return e;
         }

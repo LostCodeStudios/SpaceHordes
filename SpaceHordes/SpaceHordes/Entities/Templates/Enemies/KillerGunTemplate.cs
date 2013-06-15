@@ -5,9 +5,7 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using SpaceHordes.Entities.Systems;
 using System;
-using System.Linq;
 
 namespace SpaceHordes.Entities.Templates.Enemies
 {
@@ -26,6 +24,7 @@ namespace SpaceHordes.Entities.Templates.Enemies
         public Entity BuildEntity(Entity e, params object[] args)
         {
             #region Body
+
             string spriteKey = (string)args[2];
             Vector2 offset = (Vector2)args[3];
 

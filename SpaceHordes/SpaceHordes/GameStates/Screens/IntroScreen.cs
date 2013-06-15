@@ -1,4 +1,5 @@
 ﻿using GameLibrary.GameStates;
+using GameLibrary.GameStates.Screens;
 using GameLibrary.Helpers;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
@@ -6,25 +7,22 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using GameLibrary.GameStates.Screens;
+
 namespace SpaceHordes.GameStates.Screens
 {
     public class IntroScreen : GameScreen
     {
-        string[] introText = new string[]
+        private string[] introText = new string[]
         {
             "SON... OUR RADAR IS PICKING UP MASSIVE SPACE HORDES.",
             "YOU MUST DEFEND THE SPACE STATION AT ALL COSTS!",
             "YOU ARE THE LAST HOPE FOR MANKIND!"
         };
 
-        MessageDialog[] dialogs;
-        int index = 0;
+        private MessageDialog[] dialogs;
+        private int index = 0;
 
-        Texture2D face;
+        private Texture2D face;
 
         private ContentManager content;
         private InputAction cancel;
@@ -62,7 +60,7 @@ namespace SpaceHordes.GameStates.Screens
             float y = 2 * ScreenHelper.Viewport.Height / 3;
             for (int i = 0; i < introText.Length; ++i)
             {
-                float x = ScreenHelper.Center.X - font.MeasureString(introText[i]).X/2;
+                float x = ScreenHelper.Center.X - font.MeasureString(introText[i]).X / 2;
                 float height = font.MeasureString(introText[i]).Y + 10;
                 dialogs[i] = new MessageDialog(font, new Vector2(x, y), introText[i], TimeSpan.FromSeconds(0.07), TimeSpan.FromSeconds(0.2));
                 y += height;
@@ -99,7 +97,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             Manager.SpriteBatch.Begin();
 
-            Vector2 faceDim = new Vector2(face.Width*3, face.Height*3);
+            Vector2 faceDim = new Vector2(face.Width * 3, face.Height * 3);
 
             Vector2 faceOffs = Vector2.Zero;
             if (ScreenState == ScreenState.TransitionOn)
@@ -115,7 +113,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 Vector2 transitionOffset = Vector2.Zero;
                 if (ScreenState == ScreenState.TransitionOff)
-                    transitionOffset = new Vector2(-ScreenHelper.Viewport.Width*(1-TransitionAlpha),0);
+                    transitionOffset = new Vector2(-ScreenHelper.Viewport.Width * (1 - TransitionAlpha), 0);
 
                 d.Draw(Manager.SpriteBatch, transitionOffset);
             }
