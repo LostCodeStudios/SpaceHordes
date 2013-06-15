@@ -37,32 +37,31 @@ namespace SpaceHordes.Entities.Systems
             Particle particle = particleMapper.Get(e);
             Bullet bullet = bulletMapper.Get(e);
 
-
-                world.RayCast(
-                    delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
+            world.RayCast(
+                delegate(Fixture fix, Vector2 point, Vector2 normal, float fraction) //On hit
+                {
+                    ++bullet.collisionChecked;
+                    if (fix.Body.UserData is Entity)
                     {
-                        ++bullet.collisionChecked;
-                        if (fix.Body.UserData is Entity)
-                        {
-                            if ((fix.Body.UserData as Entity).HasComponent<Health>()
-                                && (fix.Body.UserData as Entity).Group == bullet.DamageGroup)
-                            { //Do damage
-                                (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
-                                    (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
-                                e.Delete(); //Remove bullet
+                        if ((fix.Body.UserData as Entity).HasComponent<Health>()
+                            && (fix.Body.UserData as Entity).Group == bullet.DamageGroup)
+                        { //Do damage
+                            (fix.Body.UserData as Entity).GetComponent<Health>().SetHealth(bullet.Firer,
+                                (fix.Body.UserData as Entity).GetComponent<Health>().CurrentHealth - bullet.Damage);
+                            e.Delete(); //Remove bullet
 
-                                if (bullet.OnBulletHit != null)
-                                {
-                                    //Do bullet effects here........... Maybe a call back?{
-                                    bullet.OnBulletHit(fix.Body.UserData as Entity);
-                                }
-
-                                if (!(fix.Body.UserData as Entity).HasComponent<Health>() || (fix.Body.UserData as Entity).GetComponent<Health>().IsAlive)
-                                    world.CreateEntity("Explosion", 0f, particle.Position, fix.Body.UserData, 1, fix.Body.LinearVelocity, fix.Body.UserData).Refresh();
+                            if (bullet.OnBulletHit != null)
+                            {
+                                //Do bullet effects here........... Maybe a call back?{
+                                bullet.OnBulletHit(fix.Body.UserData as Entity);
                             }
+
+                            if (!(fix.Body.UserData as Entity).HasComponent<Health>() || (fix.Body.UserData as Entity).GetComponent<Health>().IsAlive)
+                                world.CreateEntity("Explosion", 0f, particle.Position, fix.Body.UserData, 1, fix.Body.LinearVelocity, fix.Body.UserData).Refresh();
                         }
-                        return 0;
-                    }, particle.Position,  particle.Position + particle.LinearVelocity * new Vector2(World.Delta * .001f));
+                    }
+                    return 0;
+                }, particle.Position, particle.Position + particle.LinearVelocity * new Vector2(World.Delta * .001f));
         }
     }
 }

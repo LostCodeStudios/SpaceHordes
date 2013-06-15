@@ -6,7 +6,6 @@ using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using Microsoft.Xna.Framework.Input;
 
 namespace SpaceHordes.Entities.Templates
 {
@@ -81,7 +80,7 @@ namespace SpaceHordes.Entities.Templates
                         Sprite.FrameIndex = 2;
                         SoundManager.SetVibration(0.3f, 0.3f);
                     }
-                    
+
                     else if (healthFraction >= 0.66 && Sprite.FrameIndex == 1)
                     {
                         Sprite.FrameIndex = 0;
@@ -91,8 +90,6 @@ namespace SpaceHordes.Entities.Templates
                         Sprite.FrameIndex = 1;
                         SoundManager.SetVibration(0.3f, 0.3f);
                     }
-                    
-
 
                     e.AddComponent<Sprite>(Sprite);
                 };

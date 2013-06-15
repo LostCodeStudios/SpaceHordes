@@ -1,9 +1,9 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using System;
-using GameLibrary.Entities.Components.Physics;
 
 namespace SpaceHordes.Entities.Templates
 {

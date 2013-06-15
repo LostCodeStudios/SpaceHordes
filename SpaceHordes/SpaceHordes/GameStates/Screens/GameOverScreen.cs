@@ -33,7 +33,7 @@ namespace SpaceHordes.GameStates.Screens
         private bool awaitCancel = false;
         private bool expired = false;
 
-        bool victory;
+        private bool victory;
 
         private InputAction cancel;
 
@@ -113,8 +113,8 @@ namespace SpaceHordes.GameStates.Screens
             {
                 for (int i = 0; i < players.Length; ++i)
                 {
-                    initialEntryScreens[i] = new InitialEntryScreen(screenLocations[i], this);
-                    Manager.AddScreen(initialEntryScreens[i], (PlayerIndex)i);
+                    initialEntryScreens[i] = new InitialEntryScreen(screenLocations[(int)players[i]], this);
+                    Manager.AddScreen(initialEntryScreens[i], players[i]);
                 }
             }
         }

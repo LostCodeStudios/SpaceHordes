@@ -1,10 +1,9 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components;
+using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 using System;
-using GameLibrary.Entities.Components.Physics;
-using GameLibrary.Entities.Components;
-using Microsoft.Xna.Framework;
-using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -24,7 +23,8 @@ namespace SpaceHordes.Entities.Systems
         {
             base.Process();
         }
-        Random r = new Random();
+
+        private Random r = new Random();
 
         public override void Process(Entity e)
         {

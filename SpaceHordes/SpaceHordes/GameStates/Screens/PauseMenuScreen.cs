@@ -11,7 +11,7 @@ namespace SpaceHordes.GameStates.Screens
     /// </summary>
     internal class PauseMenuScreen : MenuScreen
     {
-        MenuEntry resumeGameMenuEntry;
+        private MenuEntry resumeGameMenuEntry;
 
         #region Initialization
 

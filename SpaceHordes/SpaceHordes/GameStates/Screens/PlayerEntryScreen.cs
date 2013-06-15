@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.GameStates;
-using GameLibrary.Input;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
+﻿using GameLibrary.GameStates;
 using GameLibrary.Helpers;
-using Microsoft.Xna.Framework.Graphics;
+using GameLibrary.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.GameStates.Screens
 {
     public class PlayerEntryScreen : GameScreen
     {
-        InputAction entryAction;
-        InputAction cancelAction;
-        string font;
+        private InputAction entryAction;
+        private InputAction cancelAction;
+        private string font;
 
-        Vector2[] offsets = new Vector2[4];
-        Vector2[] corners = new Vector2[4];
+        private Vector2[] offsets = new Vector2[4];
+        private Vector2[] corners = new Vector2[4];
 
-        bool[] entered = new bool[4];
-        List<PlayerIndex> indices = new List<PlayerIndex>();
+        private bool[] entered = new bool[4];
+        private List<PlayerIndex> indices = new List<PlayerIndex>();
 
-        string before = "Press A to join";
+        private string before = "Press A to join";
 
         public PlayerEntryScreen(string fontName)
         {
@@ -115,7 +113,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 float trans = (float)Math.Pow(TransitionPosition, 2);//TransitionPosition;
                 Vector2 pos;
-                
+
                 pos = offsets[i] + ((corners[i] - offsets[i]) * trans);
 
                 string text;
@@ -144,7 +142,7 @@ namespace SpaceHordes.GameStates.Screens
             fucker.End();
         }
 
-        void Enter()
+        private void Enter()
         {
             LevelSelectScreen levels = new LevelSelectScreen(font, indices.ToArray());
             ExitScreen();

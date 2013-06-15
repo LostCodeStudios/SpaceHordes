@@ -1,21 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Dependencies.Entities;
-using SpaceHordes.Entities.Components;
-using Microsoft.Xna.Framework;
+using GameLibrary.Dependencies.Physics.Dynamics;
 using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
+using SpaceHordes.Entities.Components;
 using SpaceHordes.Entities.Systems;
 using SpaceHordes.GameStates.Screens;
+using System;
 
 namespace SpaceHordes.Entities.Templates
 {
     internal static class LambdaComplex
     {
-        static Random rbitch = new Random();
+        private static Random rbitch = new Random();
 
         #region Collision
 
@@ -76,7 +73,7 @@ namespace SpaceHordes.Entities.Templates
                         {
                             e1.GetComponent<Health>().SetHealth(e2, 0);
                         }
-#if !DEBUG 
+#if !DEBUG
                         e2.GetComponent<Health>().SetHealth(e1, 0);
 #endif
                     }
@@ -86,11 +83,11 @@ namespace SpaceHordes.Entities.Templates
             };
         }
 
-        #endregion
+        #endregion Collision
 
         #region Damage
 
-        #endregion
+        #endregion Damage
 
         #region Death
 
@@ -184,6 +181,6 @@ namespace SpaceHordes.Entities.Templates
             };
         }
 
-        #endregion
+        #endregion Death
     }
 }

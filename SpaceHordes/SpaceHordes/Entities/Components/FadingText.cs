@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
+﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Components
 {
     public class FadingText : Component
     {
-        string text;
-        float elapsedTime;
-        float time;
-        Vector2 position;
-        Vector2 origin;
+        private string text;
+        private float elapsedTime;
+        private float time;
+        private Vector2 position;
+        private Vector2 origin;
 
         public FadingText(string text, float time, Vector2 position)
         {

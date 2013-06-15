@@ -177,6 +177,8 @@ namespace SpaceHordes
                         {
                             result = null;
                             needResult = true;
+                            needStorageDevice = false;
+                            screenManager.AddScreen(new StartScreen(), null);
                         }
                     }
                 }

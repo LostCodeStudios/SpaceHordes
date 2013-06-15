@@ -5,7 +5,6 @@ using GameLibrary.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceHordes.Entities.Components;
-using System;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -67,6 +66,7 @@ namespace SpaceHordes.Entities.Systems
 
                 int posX = X + (int)ConvertUnits.ToDisplayUnits(body.Position.X) - (int)s.CurrentRectangle.Width / 2;
                 int posY = Y + (int)ConvertUnits.ToDisplayUnits(body.Position).Y - (int)Height / 2;
+
                 //Draw backing
                 _SpriteBatch.Draw(_BarTexture,
                     new Rectangle(
@@ -78,7 +78,6 @@ namespace SpaceHordes.Entities.Systems
                         posX, posY,
                         (int)((health.CurrentHealth / health.MaxHealth) * Width),
                             2), Color.Red);
-
             }
         }
 

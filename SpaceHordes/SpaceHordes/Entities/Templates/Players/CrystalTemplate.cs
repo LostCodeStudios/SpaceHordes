@@ -13,7 +13,8 @@ namespace SpaceHordes.Entities.Templates.Objects
         private EntityWorld _World;
         private SpriteSheet _SpriteSheet;
 
-        static int crystals = 0;
+        private static int crystals = 0;
+
         public CrystalTemplate(EntityWorld World, SpriteSheet spriteSheet)
         {
             crystals = 0;
@@ -46,7 +47,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             if (color == Color.Gray)
                 source = "graycrystal";
 
-            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f + (float)crystals/10000f));
+            Sprite s = e.AddComponent<Sprite>(new Sprite(_SpriteSheet, source, 0.2f + (float)crystals / 10000f));
             Body b = e.AddComponent<Body>(new Body(_World, e));
             b.IsBullet = true;
             FixtureFactory.AttachEllipse((float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Width / 1.5), (float)ConvertUnits.ToSimUnits(s.CurrentRectangle.Height / 1.5), 3, 1f, b);
@@ -55,7 +56,7 @@ namespace SpaceHordes.Entities.Templates.Objects
             b.BodyType = GameLibrary.Dependencies.Physics.Dynamics.BodyType.Dynamic;
 
             e.GetComponent<Body>().OnCollision += LambdaComplex.CrystalCollision();
-            
+
             if (args.Length > 4)
             {
                 e.AddComponent<Crystal>(new Crystal(color, (int)args[2], true));
@@ -66,7 +67,7 @@ namespace SpaceHordes.Entities.Templates.Objects
                 e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));
                 e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(), AI.CreateFollow(e, 5f, false)));
             }
-            
+
             else
             {
                 e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));

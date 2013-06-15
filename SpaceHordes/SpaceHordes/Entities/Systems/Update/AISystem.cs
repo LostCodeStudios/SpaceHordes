@@ -5,7 +5,6 @@ using GameLibrary.Entities.Components;
 using GameLibrary.Entities.Components.Physics;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
-using System;
 using System.Collections.Generic;
 
 namespace SpaceHordes.Entities.Systems
@@ -26,7 +25,7 @@ namespace SpaceHordes.Entities.Systems
 
             bool behavior;
 
-            if (ai.Target != null) 
+            if (ai.Target != null)
             {
                 if (World.EntityManager.GetEntity((ai.Target.UserData as Entity).Id) == null)
                     ai.Target = null;
@@ -49,7 +48,7 @@ namespace SpaceHordes.Entities.Systems
             ai.Calculated = true;
             ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
 
-            if (ai.Target == null && e.Group != "Structures" && e.Tag.Contains("Boss"))
+            if (ai.Target == null && e.Group != "Structures" && !e.Tag.Contains("Boss"))
             {
                 if (e.HasComponent<Health>())
                     e.GetComponent<Health>().SetHealth(null, 0);
@@ -80,7 +79,6 @@ namespace SpaceHordes.Entities.Systems
             {
                 if (x.Body.BodyId != location.BodyId)
                 {
-
                     if (string.IsNullOrEmpty(ai.TargetGroup) || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group))
                     {
                         bodies.Add(x.Body);
@@ -94,7 +92,6 @@ namespace SpaceHordes.Entities.Systems
                 PhysicsBody[] list = new PhysicsBody[bodies.Count];
                 bodies.CopyTo(list);
                 Entity ent = (location.UserData as Entity);
-
 
                 //SORT BY TARGETING TYPE.
                 switch (ai.Targeting)

@@ -6,10 +6,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceHordes.Entities.Components;
-using System;
-using System.Collections.Generic;
 using SpaceHordes.Entities.Systems;
 using SpaceHordes.Entities.Templates.Enemies;
+using System;
+using System.Collections.Generic;
 
 namespace SpaceHordes.GameStates.Screens
 {
@@ -36,15 +36,15 @@ namespace SpaceHordes.GameStates.Screens
 
         private SpaceWorld World;
 
-        int bossStart;
+        private int bossStart;
         private bool over;
-        bool victory;
+        private bool victory;
         private TimeSpan elapsed = TimeSpan.Zero;
         private TimeSpan beforeGameOver = TimeSpan.FromSeconds(1);
 
-        List<PlayerIndex> playerIndices = new List<PlayerIndex>();
-        SpawnState[] states;
-        int level;
+        private List<PlayerIndex> playerIndices = new List<PlayerIndex>();
+        private SpawnState[] states;
+        private int level;
 
         #endregion Fields
 
@@ -204,7 +204,6 @@ namespace SpaceHordes.GameStates.Screens
                 World.enemySpawnSystem.CurrentDialog.Draw(spriteBatch);
             if (!tutorial)
             {
-                
                 Vector2 scoreSize = gameFont.MeasureString(score.ToString()) * scoreScale;
                 gameFont.DrawString(
                     spriteBatch,

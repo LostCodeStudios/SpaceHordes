@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameLibrary.Dependencies.Entities;
-using Microsoft.Xna.Framework.Graphics;
+﻿using GameLibrary.Dependencies.Entities;
 using Microsoft.Xna.Framework;
 using SpaceHordes.Entities.Components;
 

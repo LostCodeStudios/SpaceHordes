@@ -1,12 +1,7 @@
 ﻿using GameLibrary.Dependencies.Entities;
 using GameLibrary.Entities.Components.Physics;
-using Microsoft.Xna.Framework;
-using SpaceHordes.Entities.Components;
-using System;
-using System.Collections.Generic;
-using SpaceHordes.Entities.Templates.Objects;
-using GameLibrary.Entities.Components;
 using GameLibrary.Helpers;
+using Microsoft.Xna.Framework;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -23,14 +18,14 @@ namespace SpaceHordes.Entities.Systems
 
             Vector2 pos = ConvertUnits.ToDisplayUnits(b.Position);
 
-            if (pos.X < -ScreenHelper.Viewport.Width/2)
-                pos.X = -ScreenHelper.Viewport.Width/2;
-            if (pos.Y < -ScreenHelper.Viewport.Height/2)
-                pos.Y = -ScreenHelper.Viewport.Height/2;
-            if (pos.X > ScreenHelper.Viewport.Width/2)
-                pos.X = ScreenHelper.Viewport.Width/2;
-            if (pos.Y > ScreenHelper.Viewport.Height/2)
-                pos.Y = ScreenHelper.Viewport.Height/2;
+            if (pos.X < -ScreenHelper.Viewport.Width / 2)
+                pos.X = -ScreenHelper.Viewport.Width / 2;
+            if (pos.Y < -ScreenHelper.Viewport.Height / 2)
+                pos.Y = -ScreenHelper.Viewport.Height / 2;
+            if (pos.X > ScreenHelper.Viewport.Width / 2)
+                pos.X = ScreenHelper.Viewport.Width / 2;
+            if (pos.Y > ScreenHelper.Viewport.Height / 2)
+                pos.Y = ScreenHelper.Viewport.Height / 2;
 
             if (pos != ConvertUnits.ToDisplayUnits(b.Position))
             {

@@ -20,13 +20,13 @@ namespace SpaceHordes.Entities.Systems
         {
             base.Process();
         }
-        Random r = new Random();
+
+        private Random r = new Random();
 
         public override void Process(Entity e)
         {
             ITransform t = e.GetComponent<ITransform>();
             t.Position = new Vector2((float)Math.Cos(t.Rotation), (float)Math.Sin(t.Rotation)) * t.Position.Length();
-
         }
     }
 }

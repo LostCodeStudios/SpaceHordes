@@ -29,7 +29,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             //e.AddComponent<Origin>(new Origin(args[1] as Entity));
 
-            #endregion
+            #endregion Origin
 
             #region Body
 
@@ -70,7 +70,7 @@ namespace SpaceHordes.Entities.Templates.Objects
 
             #region Sprite
 
-            Sprite s = new Sprite(_SpriteSheet, "barrier", 0.6f + (float)(barriers/10000f));
+            Sprite s = new Sprite(_SpriteSheet, "barrier", 0.6f + (float)(barriers / 10000f));
             e.AddComponent<Sprite>(s);
 
             #endregion Sprite

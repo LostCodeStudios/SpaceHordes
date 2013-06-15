@@ -1,12 +1,12 @@
 ﻿using GameLibrary.Dependencies.Entities;
+using GameLibrary.Entities.Components;
+using GameLibrary.Entities.Components.Physics;
 using GameLibrary.Helpers;
 using GameLibrary.Helpers.Drawing;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceHordes.Entities.Components;
-using GameLibrary.Entities.Components;
-using GameLibrary.Entities.Components.Physics;
-using Microsoft.Xna.Framework.GamerServices;
 
 namespace SpaceHordes.Entities.Systems
 {
@@ -19,15 +19,19 @@ namespace SpaceHordes.Entities.Systems
         #region Locations
 
         private static Vector2 hudDimmensions;
+
         //private static Vector2 radarDimmensions;
         private static Vector2 warningDimmensions;
+
         private static Rectangle[] hudLocations;
+
         //private static Rectangle radarLocation;
         //public static Rectangle RadarScreenLocation;
         private static Rectangle warningLocation;
 
         //private static Rectangle radarSource;
         private static Rectangle hudSource;
+
         private static Rectangle buildMenuSource;
         private static Rectangle selectionSource;
         private static Rectangle warningSource;
@@ -51,6 +55,7 @@ namespace SpaceHordes.Entities.Systems
             #region HUD Specifications
 
             hudDimmensions = new Vector2(96, 51);
+
             //float radarScale = 2.6f;
             //radarDimmensions = new Vector2(86, 50) * radarScale;
             warningDimmensions = new Vector2(173, 76);
@@ -111,6 +116,7 @@ namespace SpaceHordes.Entities.Systems
             _SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             base.Process();
+
             //_SpriteBatch.Draw(_Hud, radarLocation, radarSource, Color.White);
 
             SpaceWorld w = world as SpaceWorld;
@@ -169,7 +175,7 @@ namespace SpaceHordes.Entities.Systems
             Vector2 selectionOffset = new Vector2(-2, -3);
 
             _Font.DrawString(_SpriteBatch, labelLoc, label);
-            
+
             if (!i.BuildMode)
             {
                 _SpriteBatch.Draw(_Hud, hudLocations[playerIndex], hudSource, Color.White);
