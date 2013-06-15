@@ -49,7 +49,7 @@ namespace SpaceHordes.Entities.Systems
             ai.Calculated = true;
             ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
 
-            if (ai.Target == null && e.Group != "Structures" && e.Tag.Contains("Boss"))
+            if (ai.Target == null && e.Group != "Structures" && !e.Tag.Contains("Boss"))
             {
                 if (e.HasComponent<Health>())
                     e.GetComponent<Health>().SetHealth(null, 0);

@@ -152,6 +152,15 @@ namespace SpaceHordes.Entities.Templates.Enemies
             Health h = new Health(health);
             h.OnDeath += LambdaComplex.BossDeath(type, _World, e, s, tier, points, bosses[type].BossName);
 
+            if (type == 1)
+            {
+                h.OnDeath += 
+                    ex =>
+                        {
+                               Console.WriteLine("DEad");
+                        };
+            }
+
             if (a != null)
             {
                 h.OnDamage +=

@@ -64,7 +64,7 @@ namespace SpaceHordes.GameStates.Screens
             {
                 float x = ScreenHelper.Center.X - font.MeasureString(introText[i]).X/2;
                 float height = font.MeasureString(introText[i]).Y + 10;
-                dialogs[i] = new MessageDialog(font, new Vector2(x, y), introText[i], TimeSpan.FromSeconds(0.1), TimeSpan.FromSeconds(0.5));
+                dialogs[i] = new MessageDialog(font, new Vector2(x, y), introText[i], TimeSpan.FromSeconds(0.07), TimeSpan.FromSeconds(0.2));
                 y += height;
             }
         }

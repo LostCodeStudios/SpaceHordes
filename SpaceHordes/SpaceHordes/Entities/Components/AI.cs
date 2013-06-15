@@ -169,6 +169,10 @@ namespace SpaceHordes.Entities.Components
                     
                         time += (float)world.Delta / 1000;
                     }
+                    else
+                    {
+                        handleSlow(ent, world);
+                    }
                     return false;
                 };
         }
@@ -195,6 +199,10 @@ namespace SpaceHordes.Entities.Components
                     
                         time += (float)world.Delta / 1000;
                         ent.GetComponent<Children>().CallChildren(b);
+                    }
+                    else
+                    {
+                        handleSlow(ent, world);
                     }
 
                     return false;
@@ -293,6 +301,7 @@ namespace SpaceHordes.Entities.Components
                         shotttt += (float)_World.Delta / 1000;
                         time += (float)_World.Delta / 1000;
                     }
+
                     return false;
                 };
         }
@@ -329,8 +338,23 @@ namespace SpaceHordes.Entities.Components
                         shotTime += (float)_World.Delta / 1000;
                         time += (float)_World.Delta / 1000;
                     }
+                    else
+                    {
+                        handleSlow(ent, _World);
+                    }
                     return false;
                 };
+        }
+
+        private static void handleSlow(Entity ent, EntityWorld _World)
+        {
+            (_World as SpaceWorld).slowSystem.SpawnFrostEffect(ent);
+            Slow slow = ent.GetComponent<Slow>();
+            slow.Elapsed--;
+            if (slow.Elapsed <= 0)
+            {
+                ent.RemoveComponent<Slow>(slow);
+            }
         }
 
         public static Func<Body, bool> CreateBigGreen(Entity ent, float speed, float sideTime, float shootTime, float shotTime, float nonShoot, Sprite s, EntityWorld _World)
@@ -391,6 +415,10 @@ namespace SpaceHordes.Entities.Components
                         shotttt += (float)_World.Delta / 1000;
                         time += (float)_World.Delta / 1000;
                         ttttime += (float)_World.Delta / 1000;
+                    }
+                    else
+                    {
+                        handleSlow(ent, _World);
                     }
                     return false;
                 };

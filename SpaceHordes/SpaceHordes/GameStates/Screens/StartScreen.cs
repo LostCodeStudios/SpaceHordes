@@ -36,7 +36,7 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
                 SignedInGamer gamer = Gamer.SignedInGamers[entryIndex];
 
-                if (gamer == null || gamer.IsGuest && !Guide.IsVisible)
+                if ((gamer == null || gamer.IsGuest) && !Guide.IsVisible)
                 {
                     try
                     {

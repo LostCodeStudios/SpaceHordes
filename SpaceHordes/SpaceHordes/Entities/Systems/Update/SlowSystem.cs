@@ -7,7 +7,7 @@ using GameLibrary.Helpers;
 
 namespace SpaceHordes.Entities.Systems
 {
-    internal class SlowSystem : EntityProcessingSystem
+    public class SlowSystem : EntityProcessingSystem
     {
         private ComponentMapper<IVelocity> velocityMapper;
         private ComponentMapper<IDamping> dampingMapper;
@@ -64,20 +64,25 @@ namespace SpaceHordes.Entities.Systems
                 else
                     damping.LinearDamping = 0;
 
-                Sprite s = e.GetComponent<Sprite>();
-                
-                Vector2 offset;
-                if (!e.Tag.Contains("Boss"))
-                {
-                    double mes = Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height / 4);
-                    offset = new Vector2((float)((r.NextDouble() * 2 - 1) * mes), (float)((r.NextDouble() * 2 - 1) * mes));
-                }
-                else
-                {
-                    offset = new Vector2((float)((r.NextDouble() * 2 - 1) * s.CurrentRectangle.Width / 2), (float)((r.NextDouble() * 2 - 1) * s.CurrentRectangle.Height / 2));
-                }
-                world.CreateEntity("FrostParticle", e, ConvertUnits.ToSimUnits(offset)).Refresh();
+                SpawnFrostEffect(e);
             }
+        }
+
+        public void SpawnFrostEffect(Entity e)
+        {
+            Sprite s = e.GetComponent<Sprite>();
+
+            Vector2 offset;
+            if (!e.Tag.Contains("Boss"))
+            {
+                double mes = Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height / 4);
+                offset = new Vector2((float)((r.NextDouble() * 2 - 1) * mes), (float)((r.NextDouble() * 2 - 1) * mes));
+            }
+            else
+            {
+                offset = new Vector2((float)((r.NextDouble() * 2 - 1) * s.CurrentRectangle.Width / 2), (float)((r.NextDouble() * 2 - 1) * s.CurrentRectangle.Height / 2));
+            }
+            world.CreateEntity("FrostParticle", e, ConvertUnits.ToSimUnits(offset)).Refresh();
         }
     }
 }

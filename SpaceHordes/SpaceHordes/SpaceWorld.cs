@@ -325,7 +325,7 @@ namespace SpaceHordes
                     e.Refresh();
                     e.GetComponent<Inventory>().YELLOW = 50;
                     Player.Add(e);
-                    Indices.Add((PlayerIndex)i);
+                    Indices.Add(index[i]);
                     ++Players;
                 }
 #if WINDOWS //&& DEBUG
@@ -426,7 +426,7 @@ namespace SpaceHordes
 
         public DirectorSystem enemySpawnSystem;
         private AISystem enemyMovementSystem;
-        private SlowSystem slowSystem;
+        public SlowSystem slowSystem;
         private PlayerControlSystem playerControlSystem;
         private ExplosionSystem explosionSystem;
         private DamageSystem damageSystem;
