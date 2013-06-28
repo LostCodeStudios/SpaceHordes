@@ -10,6 +10,7 @@ using System.IO;
 using SpaceHordes.Entities.Systems;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
+using GameLibrary.GameStates;
 
 namespace SpaceHordes.GameStates.Screens
 {

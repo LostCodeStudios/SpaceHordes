@@ -8,22 +8,23 @@ namespace SpaceHordes.GameStates.Screens
     {
         public CreditsScreen()
             : base(
-            "Credits", 
+            "Credits",
                 new string[]
-        {
-            "Code",
-            "Nathaniel Nelson",
-            "William Guss",
-            "Art",
-            "Iron Plague art by Daniel Cook",
-            "Tyrian art by Daniel Cook",
-            "Music",
-            "Space Fighter Loop Kevin MacLeod (incompetech.com)",
-            "Cephalopod Kevin MacLeod (incompetech.com)",
-            "In a Heartbeat Kevin MacLeod (incompetech.com)",
-            "Additional music by DST",
-            "Sounds made with bfxr"
-        })
+                {
+                    "Code",
+                    "Nathaniel Nelson",
+                    "William Guss",
+                    "Art",
+                    "Iron Plague art by Daniel Cook",
+                    "Tyrian art by Daniel Cook",
+                    "Music",
+                    "Space Fighter Loop Kevin MacLeod (incompetech.com)",
+                    "Cephalopod Kevin MacLeod (incompetech.com)",
+                    "In a Heartbeat Kevin MacLeod (incompetech.com)",
+                    "Additional music by DST",
+                    "Sounds made with bfxr"
+                })
         {
         }
     }
+}

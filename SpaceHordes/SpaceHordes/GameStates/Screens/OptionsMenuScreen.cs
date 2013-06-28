@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Storage;
 #endif
 
 using GameLibrary.Helpers;
+using GameLibrary.GameStates;
 
 namespace SpaceHordes.GameStates.Screens
 {
