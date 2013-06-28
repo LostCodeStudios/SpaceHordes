@@ -43,7 +43,7 @@ namespace SpaceHordes.GameStates.Screens
                     }
                 }
 
-                else
+                else if (gamer != null && !gamer.IsGuest)
                 {
                     SpaceHordes.needStorageDevice = true;
                     SpaceHordes.controllingIndex = entryIndex;
