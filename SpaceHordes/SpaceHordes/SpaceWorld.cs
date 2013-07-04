@@ -318,8 +318,6 @@ namespace SpaceHordes
                 {
                     Entity e = CreateEntity("Player", index[i]);
                     Body bitch = e.GetComponent<Body>();
-                    this.ContactManager.OnBroadphaseCollision +=
-                        new BroadphaseDelegate(this.SlowMow);
 
 
                     e.Refresh();
@@ -398,17 +396,6 @@ namespace SpaceHordes
             //}
         }
 
-        public void SlowMow(ref FixtureProxy x, ref FixtureProxy z)
-        {
-            Entity c = (z.Fixture.Body.UserData as Entity);
-            if (c != null && c.Group != null && c.Group == "Players")
-                slowmow++;
-            if (slowmow > 10)
-            {
-                //Console.WriteLine("slomo");
-                //slowmotion = true;
-            }
-        }
         #endregion Functioning Loop
 
         #region Fields

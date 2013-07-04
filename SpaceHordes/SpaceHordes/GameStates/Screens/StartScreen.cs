@@ -43,7 +43,7 @@ namespace SpaceHordes.GameStates.Screens
                     }
                 }
 
-                else
+                else if (gamer != null && !gamer.IsGuest)
                 {
                     SpaceHordes spaceHordes = Manager.Game as SpaceHordes;
                     spaceHordes.NeedStorage = true;
