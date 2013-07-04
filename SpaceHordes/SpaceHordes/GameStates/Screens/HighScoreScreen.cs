@@ -427,41 +427,44 @@ namespace SpaceHordes.GameStates.Screens
         /// <param name="scores">The 10 scores.</param>
         public static void WriteScores(int players, string[] initials, long[] scores)
         {
-            Dictionary<int, string[]> initials1 = new Dictionary<int, string[]>();
-            Dictionary<int, long[]> scores1 = new Dictionary<int, long[]>();
-
-            for (int x = 1; x <= 4; ++x)
+            try
             {
-                string[] initials2;
-                long[] scores2;
-                ReadScores(x, out initials2, out scores2);
-                initials1.Add(x, initials2);
-                scores1.Add(x, scores2);
-            }
+                Dictionary<int, string[]> initials1 = new Dictionary<int, string[]>();
+                Dictionary<int, long[]> scores1 = new Dictionary<int, long[]>();
+
+                for (int x = 1; x <= 4; ++x)
+                {
+                    string[] initials2;
+                    long[] scores2;
+                    ReadScores(x, out initials2, out scores2);
+                    initials1.Add(x, initials2);
+                    scores1.Add(x, scores2);
+                }
 
 #if WINDOWS
             StreamWriter sw = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StreamWriter sw = new StreamWriter(StorageHelper.OpenFile("scores.txt", FileMode.Open));
+                StreamWriter sw = new StreamWriter(StorageHelper.OpenFile("scores.txt", FileMode.Open));
 #endif
-            for (int x = 1; x <= 4; ++x)
-            {
-                if (x != players)
+                for (int x = 1; x <= 4; ++x)
                 {
-                    //put initials1 rows into 1d array
+                    if (x != players)
+                    {
+                        //put initials1 rows into 1d array
 
-                    WriteScores(x, initials1[x], scores1[x], sw);
+                        WriteScores(x, initials1[x], scores1[x], sw);
+                    }
+
+                    else
+                    {
+                        WriteScores(players, initials, scores, sw);
+                    }
                 }
 
-                else
-                {
-                    WriteScores(players, initials, scores, sw);
-                }
+                sw.Close();
             }
-
-            sw.Close();
-
+            catch { }
         }
 
         public static void WriteScores(int players, string[] initials, long[] scores, StreamWriter writer)
@@ -480,6 +483,8 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         public static void WriteInitialScores()
         {
+            try
+            {
 #if WINDOWS
             if (!Directory.Exists(FolderPath))
                 Directory.CreateDirectory(FolderPath);
@@ -494,13 +499,15 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            if (!StorageHelper.FileExists("scores.text"))
-            {
-                StorageHelper.OpenFile("scores.txt", FileMode.Create);
-            }
+                if (!StorageHelper.FileExists("scores.text"))
+                {
+                    StorageHelper.OpenFile("scores.txt", FileMode.Create).Close();
+                }
 #endif
 
-            WriteScores(1, FirstInitials1, FirstScores1);
+                WriteScores(1, FirstInitials1, FirstScores1);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -516,9 +523,9 @@ namespace SpaceHordes.GameStates.Screens
             string[] tags = new string[4];
 
 #if WINDOWS
-            if (File.Exists(FilePath))
-            {
-                TextReader tr = new StreamReader(FilePath);
+        if (File.Exists(FilePath))
+        {
+            TextReader tr = new StreamReader(FilePath);
 #endif
 #if XBOX
             if (StorageHelper.FileExists("scores.txt"))
@@ -553,7 +560,7 @@ namespace SpaceHordes.GameStates.Screens
                 if (tags.Contains<string>("[" + players.ToString() + "]"))
                 {
 #if WINDOWS
-                    TextReader r = new StreamReader(FilePath);
+                TextReader r = new StreamReader(FilePath);
 #endif
 #if XBOX
                     TextReader r = new StreamReader(StorageHelper.OpenFile("scores.txt", FileMode.OpenOrCreate));
@@ -619,6 +626,8 @@ namespace SpaceHordes.GameStates.Screens
         /// <returns>The place at which the score was placed.</returns>
         public static int AddScore(int players, string names, long score)
         {
+            try
+            {
 #if WINDOWS
             if (!File.Exists(FilePath))
             {
@@ -627,39 +636,44 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
 #if XBOX
-            if (!StorageHelper.FileExists("scores.txt"))
-            {
-                WriteInitialScores();
-            }
+                if (!StorageHelper.FileExists("scores.txt"))
+                {
+                    WriteInitialScores();
+                }
 #endif
 
-            string[] initials;
-            long[] scores;
-            ReadScores(players, out initials, out scores);
+                string[] initials;
+                long[] scores;
+                ReadScores(players, out initials, out scores);
 
-            if (!(score > scores[scores.Length - 1]))
-                return -1;
+                if (!(score > scores[scores.Length - 1]))
+                    return -1;
 
-            int place = scores.Length - 1;
+                int place = scores.Length - 1;
 
-            for (int i = 0; i < scores.Length; ++i)
-            {
-                if (score > scores[i])
+                for (int i = 0; i < scores.Length; ++i)
                 {
-                    place = i;
-                    break;
+                    if (score > scores[i])
+                    {
+                        place = i;
+                        break;
+                    }
                 }
+
+                for (int i = scores.Length - 1; i > place; i--)
+                    scores[i] = scores[i - 1];
+
+                scores[place] = score;
+                initials[place] = names;
+
+                WriteScores(players, initials, scores);
+
+                return place;
             }
-
-            for (int i = scores.Length - 1; i > place; i--)
-                scores[i] = scores[i - 1];
-
-            scores[place] = score;
-            initials[place] = names;
-
-            WriteScores(players, initials, scores);
-
-            return place;
+            catch
+            {
+                return -1;
+            }
         }
 
         /// <summary>

@@ -323,6 +323,15 @@ namespace SpaceHordes.GameStates.Screens
                     newS.lastIndex = index;
                     newS.currentKey = key;
                     newS.OnExit += MainMenuScreen.BossScreenExited;
+
+#if XBOX
+                    if (!StorageHelper.CheckStorage())
+                    {
+                        CallExit();
+                        return;
+                    }
+#endif
+
                     Manager.AddScreen(newS, ControllingPlayer);
                 }
             }
@@ -340,6 +349,15 @@ namespace SpaceHordes.GameStates.Screens
                     newS.lastIndex = index;
                     newS.currentKey = key;
                     newS.OnExit += MainMenuScreen.BossScreenExited;
+
+#if XBOX
+                    if (!StorageHelper.CheckStorage())
+                    {
+                        CallExit();
+                        return;
+                    }
+#endif
+
                     Manager.AddScreen(newS, ControllingPlayer);
                 }
             }
@@ -359,7 +377,9 @@ namespace SpaceHordes.GameStates.Screens
 
         public static bool[] ReadData()
         {
-            List<bool> data = new List<bool>();
+            try
+            {
+                List<bool> data = new List<bool>();
 
 #if WINDOWS
             if (File.Exists(FilePath))
@@ -367,61 +387,79 @@ namespace SpaceHordes.GameStates.Screens
                 StreamReader reader = new StreamReader(FilePath);
 #endif
 #if XBOX
-            if (StorageHelper.FileExists("bosses.txt"))
-            {
-                StreamReader reader = new StreamReader(StorageHelper.OpenFile("bosses.txt", FileMode.Open));
+                if (StorageHelper.FileExists("bosses.txt"))
+                {
+                    StreamReader reader = new StreamReader(StorageHelper.OpenFile("bosses.txt", FileMode.Open));
 #endif
+                    for (int x = 0; x < bosses.Length; ++x)
+                    {
+                        string next = reader.ReadLine();
+
+                        switch (next)
+                        {
+                            case "True":
+                                data.Add(true);
+                                break;
+
+                            case "False":
+                                data.Add(false);
+                                break;
+
+                            default:
+                                data.Add(false);
+                                break;
+                        }
+                    }
+
+                    reader.Close();
+                }
+                else
+                {
+                    WriteInitialData();
+                    return ReadData();
+                }
+                return data.ToArray();
+            }
+            catch
+            {
+                List<bool> data = new List<bool>();
                 for (int x = 0; x < bosses.Length; ++x)
                 {
-                    string next = reader.ReadLine();
-
-                    switch (next)
-                    {
-                        case "True":
-                            data.Add(true);
-                            break;
-
-                        case "False":
-                            data.Add(false);
-                            break;
-
-                        default:
-                            data.Add(false);
-                            break;
-                    }
+                    data.Add(false);
                 }
-
-                reader.Close();
+                return data.ToArray();
             }
-            else
-            {
-                WriteInitialData();
-                return ReadData();
-            }
-            return data.ToArray();
         }
 
         public static void WriteData(bool[] data)
         {
+            try
+            {
 #if WINDOWS
             StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("bosses.txt", FileMode.Open));
+                StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("bosses.txt", FileMode.Open));
 #endif
-            for (int i = 0; i < bosses.Count(); ++i)
-            {
-                writer.WriteLine(data[i].ToString());
-            }
+                for (int i = 0; i < bosses.Count(); ++i)
+                {
+                    writer.WriteLine(data[i].ToString());
+                }
 
-            writer.Close();
+                writer.Close();
 #if XBOX
-            StorageHelper.SaveChanges();
+                StorageHelper.SaveChanges();
 #endif
+            }
+            catch
+            {
+            }
         }
 
         public static void WriteInitialData()
         {
+            try
+            {
 #if WINDOWS
             if (!Directory.Exists(FolderPath))
                 Directory.CreateDirectory(FolderPath);
@@ -436,22 +474,25 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            if (!StorageHelper.FileExists("bosses.txt"))
-            {
-                StorageHelper.OpenFile("bosses.txt", FileMode.Create);
-            }
+                if (!StorageHelper.FileExists("bosses.txt"))
+                {
+                    StorageHelper.OpenFile("bosses.txt", FileMode.Create).Close();
+                }
 #endif
 
-            bool[] data = new bool[bosses.Length];
+                bool[] data = new bool[bosses.Length];
 
-            for (int i = 0; i < bosses.Length; ++i)
-            {
-                data[i] = false;
-            }
+                for (int i = 0; i < bosses.Length; ++i)
+                {
+                    data[i] = false;
+                }
 #if XBOX
-            StorageHelper.SaveChanges();
+                StorageHelper.SaveChanges();
 #endif
-            WriteData(data);
+                WriteData(data);
+            }
+            catch
+            { }
         }
 
         public static void BossKilled(string bossName)

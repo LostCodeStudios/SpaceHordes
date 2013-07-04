@@ -74,6 +74,18 @@ namespace SpaceHordes.GameStates.Screens
                 "Endless"
             };
 
+            this.font = fontName;
+            this.indices = indices;
+
+            SelectionChangeSound = "SelectChanged";
+            SelectionSound = "Selection";
+            CancelSound = "MenuCancel";
+        }
+
+        public override void Activate()
+        {
+            base.Activate();
+
 #if XBOX
             if (StorageHelper.CheckStorage())
             {
@@ -82,18 +94,15 @@ namespace SpaceHordes.GameStates.Screens
             else
             {
                 levels = new bool[levelCount];
-                for (int i = 0; i < levelCount; ++i)
-                {
-                    levels[i] = true;
-                }
+                levels[0] = true;
+                levels[levelCount] = true;
             }
 #endif
 #if WINDOWS
             levels = ReadData();
 #endif
 
-            this.font = fontName;
-            this.indices = indices;
+           
 
             for (int i = 0; i < levelCount; ++i)
             {
@@ -111,10 +120,6 @@ namespace SpaceHordes.GameStates.Screens
                 }
                 MenuEntries.Add(entry);
             }
-
-            SelectionChangeSound = "SelectChanged";
-            SelectionSound = "Selection";
-            CancelSound = "MenuCancel";
         }
 
         #endregion Initialization
@@ -232,26 +237,32 @@ namespace SpaceHordes.GameStates.Screens
 
         public static void LevelCleared(int level)
         {
-#if XBOX
-            if (!StorageHelper.CheckStorage())
+            try
             {
-                return;
-            }
+#if XBOX
+                if (!StorageHelper.CheckStorage())
+                {
+                    return;
+                }
 #endif
 
-            bool[] l = ReadData();
+                bool[] l = ReadData();
 
-            if (level < l.Length)
-            {
-                l[level] = true;
+                if (level < l.Length)
+                {
+                    l[level] = true;
+                }
+
+                WriteData(l);
             }
-
-            WriteData(l);
+            catch { }
         }
 
         public static bool[] ReadData()
         {
-            List<bool> data = new List<bool>();
+            try
+            {
+                List<bool> data = new List<bool>();
 
 #if DEBUG
             for (int i = 0; i < levelCount; ++i)
@@ -268,59 +279,68 @@ namespace SpaceHordes.GameStates.Screens
                 StreamReader reader = new StreamReader(FilePath);
 #endif
 #if XBOX
-            if (StorageHelper.FileExists("levels.txt"))
-            {
-                StreamReader reader = new StreamReader(StorageHelper.OpenFile("levels.txt", FileMode.Open));
-#endif
-                for (int x = 0; x < levelCount; ++x)
+                if (StorageHelper.FileExists("levels.txt"))
                 {
-                    string next = reader.ReadLine();
-
-                    switch (next)
+                    StreamReader reader = new StreamReader(StorageHelper.OpenFile("levels.txt", FileMode.Open));
+#endif
+                    for (int x = 0; x < levelCount; ++x)
                     {
-                        case "True":
-                            data.Add(true);
-                            break;
+                        string next = reader.ReadLine();
 
-                        case "False":
-                            data.Add(false);
-                            break;
+                        switch (next)
+                        {
+                            case "True":
+                                data.Add(true);
+                                break;
 
-                        default:
-                            data.Add(false);
-                            break;
+                            case "False":
+                                data.Add(false);
+                                break;
+
+                            default:
+                                data.Add(false);
+                                break;
+                        }
                     }
+
+                    reader.Close();
+                }
+                else
+                {
+                    WriteInitialData();
+                    return ReadData();
                 }
 
-                reader.Close();
+                return data.ToArray();
             }
-            else
+            catch
             {
-                WriteInitialData();
-                return ReadData();
+                return new bool[levelCount];
             }
-
-            return data.ToArray();
         }
 
         public static void WriteData(bool[] data)
         {
+            try
+            {
 #if WINDOWS
             StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("levels.txt", FileMode.Open));
+                StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("levels.txt", FileMode.Open));
 #endif
-            for (int i = 0; i < levelCount; ++i)
-            {
-                writer.WriteLine(data[i].ToString());
+                for (int i = 0; i < levelCount; ++i)
+                {
+                    writer.WriteLine(data[i].ToString());
+                }
+
+                writer.Close();
+
+#if XBOX
+                StorageHelper.SaveChanges();
+#endif
             }
-
-            writer.Close();
-
-            #if XBOX
-            StorageHelper.SaveChanges();
-            #endif
+            catch { }
         }
 
         public static void WriteInitialData()
@@ -341,7 +361,7 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
             if (!StorageHelper.FileExists("levels.txt"))
             {
-                StorageHelper.OpenFile("levels.txt", FileMode.Create);
+                StorageHelper.OpenFile("levels.txt", FileMode.Create).Close();
             }
 #endif
 

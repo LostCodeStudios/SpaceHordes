@@ -40,6 +40,7 @@ namespace SpaceHordes.Entities.Templates
                 Sprite s = new Sprite(spriteSheet, "redstar", 0f);
 
                 s.FrameIndex = rbitch.Next(0, 3);
+                s.Scale = (float)rbitch.NextDouble();
                 e.AddComponent<Sprite>(s);
                 Animation a = e.AddComponent<Animation>(new Animation(AnimationType.Bounce, 5));
                 Particle p = e.AddComponent<Particle>(new Particle(e, ConvertUnits.ToSimUnits(loc), (float)Math.Atan2(loc.Y, loc.X), Vector2.Zero, (float)rbitch.Next(-3, 3) * 0.01f));
@@ -49,6 +50,8 @@ namespace SpaceHordes.Entities.Templates
                 Vector2 loc = Vector2.Zero;
 
                 Sprite s = new Sprite(spriteSheet, "nebula", 0f);
+
+                
 
                 e.AddComponent<Sprite>(s);
 

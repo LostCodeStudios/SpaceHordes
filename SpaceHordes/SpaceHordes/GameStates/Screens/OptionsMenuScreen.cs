@@ -160,10 +160,6 @@ namespace SpaceHordes.GameStates.Screens
             this.fullScreen.Selected += fullScreen_selected;
 #endif
 
-            bool fullsc;
-            ReadSettings(out soundVol, out musicVol, out fullsc, out rumbleOn);
-            updateMenuEntryText();
-
             MenuEntries.Add(this.sound);
             MenuEntries.Add(this.music);
             MenuEntries.Add(this.rumble);
@@ -177,6 +173,13 @@ namespace SpaceHordes.GameStates.Screens
             CancelSound = "MenuCancel";
 
             OnExit += new EventHandler(onExit);
+        }
+
+        public override void Activate()
+        {
+            bool fullsc;
+            ReadSettings(out soundVol, out musicVol, out fullsc, out rumbleOn);
+            updateMenuEntryText();
         }
 
         #endregion Initialization
@@ -207,6 +210,11 @@ namespace SpaceHordes.GameStates.Screens
 
         private void onExit(object sender, EventArgs e)
         {
+#if XBOX
+            if (!StorageHelper.CheckStorage())
+                return;
+#endif
+
             int sound;
             int music;
             bool fullscreen;
@@ -398,6 +406,8 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             fullscreen = true;
+
+            tr.Close();
 #endif
         }
 
@@ -508,7 +518,7 @@ namespace SpaceHordes.GameStates.Screens
 #if XBOX
             if (!StorageHelper.FileExists("settings.txt"))
             {
-                StorageHelper.OpenFile("settings.txt", FileMode.Create);
+                StorageHelper.OpenFile("settings.txt", FileMode.Create).Close();
             }
 #endif
 

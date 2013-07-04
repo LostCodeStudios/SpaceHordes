@@ -49,6 +49,7 @@ namespace SpaceHordes.GameStates.Screens
                     spaceHordes.NeedStorage = true;
                     spaceHordes.ControllingIndex = entryIndex;
                     ExitScreen();
+                    Manager.AddScreen(new MainMenuScreen("Space Hordes"), null);
                 }
                 return;
 #endif

@@ -82,6 +82,12 @@ namespace SpaceHordes.GameStates.Screens
 
             Rectangle viewport = new Rectangle(0, 0, ScreenHelper.Viewport.Width, ScreenHelper.Viewport.Height);
 
+            titleFont = Manager.TitleFont;
+            textFont = Manager.Font;
+
+            titleLocation = new Vector2(
+                    viewport.Center.X, viewport.Center.Y - viewport.Height * 0.1f);
+
 #if XBOX
             if (!StorageHelper.CheckStorage()) return;
 #endif
@@ -92,14 +98,6 @@ namespace SpaceHordes.GameStates.Screens
                 titleLocation = new Vector2(
                     viewport.Center.X, viewport.Height * 0.1736111111111111f);
             }
-            else
-            {
-                titleLocation = new Vector2(
-                    viewport.Center.X, viewport.Center.Y - viewport.Height * 0.1f);
-            }
-
-            titleFont = Manager.TitleFont;
-            textFont = Manager.Font;
 
             subtitleLocation = new Vector2(
                 viewport.Center.X, titleLocation.Y + titleFont.MeasureString(text).Y / 2);

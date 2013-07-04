@@ -96,8 +96,16 @@ namespace SpaceHordes.GameStates.Screens
 
         private void BossMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
-            Manager.AddScreen(bossBackdrop, e.PlayerIndex);
+            bool storage = true;
+
+#if XBOX
+            storage = StorageHelper.CheckStorage();
+#endif
+            if (storage)
+            {
+                bossBackdrop = new BackgroundScreen("Textures/GameMenu", TransitionType.Slide);
+                Manager.AddScreen(bossBackdrop, e.PlayerIndex);
+            }
             BossScreen bosses = new BossScreen(ScreenHelper.SpriteSheet);
             bosses.OnExit += new EventHandler(BossScreenExited);
             Manager.AddScreen(bosses, e.PlayerIndex);
@@ -141,6 +149,10 @@ namespace SpaceHordes.GameStates.Screens
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
+#if XBOX
+            StorageHelper.DisposeContainer(); 
+#endif
+
             Manager.Game.Exit();
         }
 
