@@ -113,20 +113,12 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Static Properties
 
-#if XBOX
-        public static StorageContainer MyContainer
-        {
-            get
-            {
-                return ScreenManager.GetContainer();
-            }
-        }
-#endif
-
         #region Initialization
 
         public BossScreen(SpriteSheet sheet)
         {
+            needsStorage = true;
+
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
@@ -168,14 +160,14 @@ namespace SpaceHordes.GameStates.Screens
                     Keys.Escape
                 },
                 true);
-
-            data = ReadData();
         }
 
         public override void Activate()
         {
             if (content == null)
                 content = new ContentManager(Manager.Game.Services, "Content");
+
+            data = ReadData();
         }
 
         /// <summary>
@@ -375,10 +367,9 @@ namespace SpaceHordes.GameStates.Screens
                 StreamReader reader = new StreamReader(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            if (c.FileExists("bosses.txt"))
+            if (StorageHelper.FileExists("bosses.txt"))
             {
-                StreamReader reader = new StreamReader(c.OpenFile("bosses.txt", FileMode.Open));
+                StreamReader reader = new StreamReader(StorageHelper.OpenFile("bosses.txt", FileMode.Open));
 #endif
                 for (int x = 0; x < bosses.Length; ++x)
                 {
@@ -401,15 +392,9 @@ namespace SpaceHordes.GameStates.Screens
                 }
 
                 reader.Close();
-#if XBOX
-                c.Dispose();
-#endif
             }
             else
             {
-#if XBOX
-                c.Dispose();
-#endif
                 WriteInitialData();
                 return ReadData();
             }
@@ -422,8 +407,7 @@ namespace SpaceHordes.GameStates.Screens
             StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            StreamWriter writer = new StreamWriter(c.OpenFile("bosses.txt", FileMode.Open));
+            StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("bosses.txt", FileMode.Open));
 #endif
             for (int i = 0; i < bosses.Count(); ++i)
             {
@@ -432,7 +416,7 @@ namespace SpaceHordes.GameStates.Screens
 
             writer.Close();
 #if XBOX
-            c.Dispose();
+            StorageHelper.SaveChanges();
 #endif
         }
 
@@ -452,10 +436,9 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            if (!c.FileExists("bosses.txt"))
+            if (!StorageHelper.FileExists("bosses.txt"))
             {
-                c.OpenFile("bosses.txt", FileMode.Create);
+                StorageHelper.OpenFile("bosses.txt", FileMode.Create);
             }
 #endif
 
@@ -466,7 +449,7 @@ namespace SpaceHordes.GameStates.Screens
                 data[i] = false;
             }
 #if XBOX
-            c.Dispose();
+            StorageHelper.SaveChanges();
 #endif
             WriteData(data);
         }

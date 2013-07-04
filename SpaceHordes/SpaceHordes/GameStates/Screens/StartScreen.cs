@@ -45,8 +45,9 @@ namespace SpaceHordes.GameStates.Screens
 
                 else
                 {
-                    SpaceHordes.needStorageDevice = true;
-                    SpaceHordes.controllingIndex = entryIndex;
+                    SpaceHordes spaceHordes = Manager.Game as SpaceHordes;
+                    spaceHordes.NeedStorage = true;
+                    spaceHordes.ControllingIndex = entryIndex;
                     ExitScreen();
                 }
                 return;

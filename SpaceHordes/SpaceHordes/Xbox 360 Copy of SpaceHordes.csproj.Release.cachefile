@@ -3,6 +3,7 @@ Content\Fonts\menufont.xnb
 Content\Fonts\titlefont.xnb
 Content\Fonts\InitialEntryFont.xnb
 Content\Fonts\debugfont.xnb
+Content\Fonts\creditfont.xnb
 Content\Textures\blank.xnb
 Content\Textures\GameMenu.xnb
 Content\Textures\Hiscore.xnb
@@ -33,7 +34,6 @@ Content\Music\DST-2ndBallad.xnb
 Content\Music\DST-4Tran.xnb
 Content\Music\DST-AngryMod.xnb
 Content\Music\DST-Azimuth.xnb
-Content\Fonts\creditfont.xnb
 Content\Music\Cephelopod.wma
 Content\Music\Space Fighter Loop.wma
 Content\Music\In a Heartbeat.wma

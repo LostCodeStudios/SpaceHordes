@@ -11,22 +11,13 @@ using SpaceHordes.Entities.Systems;
 using GameLibrary.Input;
 using Microsoft.Xna.Framework;
 using GameLibrary.GameStates;
+using GameLibrary.Helpers;
 
 namespace SpaceHordes.GameStates.Screens
 {
     public class LevelSelectScreen : MenuScreen
     {
         #region Static Properties
-
-#if XBOX
-        public static StorageContainer MyContainer
-        {
-            get
-            {
-                return ScreenManager.GetContainer();
-            }
-        }
-#endif
 
 #if WINDOWS
 
@@ -83,7 +74,23 @@ namespace SpaceHordes.GameStates.Screens
                 "Endless"
             };
 
+#if XBOX
+            if (StorageHelper.CheckStorage())
+            {
+                levels = ReadData();
+            }
+            else
+            {
+                levels = new bool[levelCount];
+                for (int i = 0; i < levelCount; ++i)
+                {
+                    levels[i] = true;
+                }
+            }
+#endif
+#if WINDOWS
             levels = ReadData();
+#endif
 
             this.font = fontName;
             this.indices = indices;
@@ -225,6 +232,13 @@ namespace SpaceHordes.GameStates.Screens
 
         public static void LevelCleared(int level)
         {
+#if XBOX
+            if (!StorageHelper.CheckStorage())
+            {
+                return;
+            }
+#endif
+
             bool[] l = ReadData();
 
             if (level < l.Length)
@@ -254,10 +268,9 @@ namespace SpaceHordes.GameStates.Screens
                 StreamReader reader = new StreamReader(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            if (c.FileExists("levels.txt"))
+            if (StorageHelper.FileExists("levels.txt"))
             {
-                StreamReader reader = new StreamReader(c.OpenFile("levels.txt", FileMode.Open));
+                StreamReader reader = new StreamReader(StorageHelper.OpenFile("levels.txt", FileMode.Open));
 #endif
                 for (int x = 0; x < levelCount; ++x)
                 {
@@ -280,15 +293,9 @@ namespace SpaceHordes.GameStates.Screens
                 }
 
                 reader.Close();
-#if XBOX
-                c.Dispose();
-#endif
             }
             else
             {
-#if XBOX
-                c.Dispose();
-#endif
                 WriteInitialData();
                 return ReadData();
             }
@@ -302,8 +309,7 @@ namespace SpaceHordes.GameStates.Screens
             StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            StreamWriter writer = new StreamWriter(c.OpenFile("levels.txt", FileMode.Open));
+            StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("levels.txt", FileMode.Open));
 #endif
             for (int i = 0; i < levelCount; ++i)
             {
@@ -311,9 +317,10 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             writer.Close();
-#if XBOX
-            c.Dispose();
-#endif
+
+            #if XBOX
+            StorageHelper.SaveChanges();
+            #endif
         }
 
         public static void WriteInitialData()
@@ -332,10 +339,9 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            if (!c.FileExists("levels.txt"))
+            if (!StorageHelper.FileExists("levels.txt"))
             {
-                c.OpenFile("levels.txt", FileMode.Create);
+                StorageHelper.OpenFile("levels.txt", FileMode.Create);
             }
 #endif
 
@@ -348,9 +354,7 @@ namespace SpaceHordes.GameStates.Screens
 
             data[0] = true;
             data[4] = true;
-#if XBOX
-            c.Dispose();
-#endif
+
             WriteData(data);
         }
 

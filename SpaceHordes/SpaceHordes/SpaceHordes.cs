@@ -53,11 +53,8 @@ namespace SpaceHordes
         private ScreenManager screenManager;
 
 #if XBOX
-        private IAsyncResult result;
-        bool needResult = true;
-        public static bool needStorageDevice = false;
-        int debug = 0;
-        public static PlayerIndex controllingIndex;
+        public PlayerIndex ControllingIndex;
+        public bool NeedStorage = false;
 #endif
 
         #endregion Fields 
@@ -149,43 +146,20 @@ namespace SpaceHordes
         protected override void Update(GameTime gameTime)
         {
 #if XBOX //Storage Device stuff
-            try
+            if (NeedStorage)
             {
+                
+                bool successful = StorageHelper.Initialize(ControllingIndex);
 
-            //UPDATE
-            // Set the request flag
-                if (needStorageDevice)
+                if (successful)
                 {
-                    if (!Guide.IsVisible && needResult)
-                    {
-                        result = StorageDevice.BeginShowSelector(controllingIndex, null, null);
-                        needResult = false;
-                    }
+                    StorageHelper.ContainerName = "Space Hordes";
+                    StorageHelper.OpenContainer();
 
-                    if (result != null && result.IsCompleted)
-                    {
-                        StorageDevice device = StorageDevice.EndShowSelector(result);
-                        if (device != null && device.IsConnected)
-                        {
-                            ScreenManager.Storage = device;
-                            ApplySettings();
-                            MusicManager.PlaySong("Title");
-                            screenManager.AddScreen(new MainMenuScreen("Space Hordes"), null);
-                            needStorageDevice = false;
-                        }
-                        else
-                        {
-                            result = null;
-                            needResult = true;
-                            needStorageDevice = false;
-                            screenManager.AddScreen(new StartScreen(), null);
-                        }
-                    }
+                    NeedStorage = false;
+                    ApplySettings();
+                    MusicManager.PlaySong("Title");
                 }
-
-            }
-            catch (GuideAlreadyVisibleException)
-            {
             }
 #endif
 

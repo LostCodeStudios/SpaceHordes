@@ -82,6 +82,10 @@ namespace SpaceHordes.GameStates.Screens
 
             Rectangle viewport = new Rectangle(0, 0, ScreenHelper.Viewport.Width, ScreenHelper.Viewport.Height);
 
+#if XBOX
+            if (!StorageHelper.CheckStorage()) return;
+#endif
+
             if (HighScoreScreen.IsHighScore(players.Length, score))
             {
                 text2 = "High score! Enter your initials.";

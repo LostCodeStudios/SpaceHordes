@@ -33,16 +33,6 @@ namespace SpaceHordes.GameStates.Screens
 
         #endregion Fields
 
-#if XBOX
-        public static StorageContainer MyContainer
-        {
-            get
-            {
-                return ScreenManager.GetContainer();
-            }
-        }
-#endif
-
         #region Static Properties
 
 #if WINDOWS
@@ -160,6 +150,8 @@ namespace SpaceHordes.GameStates.Screens
         public OptionsMenuScreen(bool ingame)
             : base("Options")
         {
+            needsStorage = true;
+
             this.sound.Selected += sound_selected;
             this.music.Selected += music_selected;
             this.rumble.Selected += rumble_selected;
@@ -348,16 +340,12 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
 #if XBOX
-            StorageContainer c = MyContainer;
-
-            if (!c.FileExists("settings.txt"))
+            if (!StorageHelper.FileExists("settings.txt"))
             {
-                c.Dispose();
                 WriteInitialSettings();
-                c = MyContainer;
             }
 
-            TextReader tr = new StreamReader(c.OpenFile("settings.txt", FileMode.Open));
+            TextReader tr = new StreamReader(StorageHelper.OpenFile("settings.txt", FileMode.Open));
 
             while (tr.ReadLine() != "[Sound]")
             {
@@ -410,7 +398,6 @@ namespace SpaceHordes.GameStates.Screens
             }
 
             fullscreen = true;
-            c.Dispose();
 #endif
         }
 
@@ -435,35 +422,25 @@ namespace SpaceHordes.GameStates.Screens
 #endif
 
 #if XBOX
-            StorageContainer c = MyContainer;
-
-            if (c == null)
+            if (!StorageHelper.FileExists("settings.txt"))
             {
-                throw new Exception("Storage");
-            }
-
-            if (!c.FileExists("settings.txt"))
-            {
-                c.Dispose();
                 WriteInitialSettings();
                 return;
             }
 
-            using (TextReader tr = new StreamReader(c.OpenFile("settings.txt", FileMode.Open)))
+            using (TextReader tr = new StreamReader(StorageHelper.OpenFile("settings.txt", FileMode.Open)))
             {
                 string text = tr.ReadToEnd();
 
                 if (!text.Contains("[Rumble]"))
                 {
                     tr.Close();
-                    c.Dispose();
                     WriteInitialSettings();
                 }
 
                 tr.Close();
             }
 
-            c.Dispose();
 #endif
         }
 
@@ -473,8 +450,7 @@ namespace SpaceHordes.GameStates.Screens
             StreamWriter writer = new StreamWriter(FilePath);
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            StreamWriter writer = new StreamWriter(c.OpenFile("settings.txt", FileMode.Open));
+            StreamWriter writer = new StreamWriter(StorageHelper.OpenFile("settings.txt", FileMode.Open));
 
 #endif
             writer.WriteLine("[Sound]");
@@ -511,7 +487,7 @@ namespace SpaceHordes.GameStates.Screens
 
             writer.Close();
 #if XBOX
-            c.Dispose();
+            StorageHelper.SaveChanges();
 #endif
         }
 
@@ -530,12 +506,10 @@ namespace SpaceHordes.GameStates.Screens
             }
 #endif
 #if XBOX
-            StorageContainer c = MyContainer;
-            if (!c.FileExists("settings.txt"))
+            if (!StorageHelper.FileExists("settings.txt"))
             {
-                c.CreateFile("settings.txt");
+                StorageHelper.OpenFile("settings.txt", FileMode.Create);
             }
-            c.Dispose();
 #endif
 
             WriteSettings(10, 10, true, true);
