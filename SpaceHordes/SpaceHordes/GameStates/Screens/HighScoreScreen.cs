@@ -252,6 +252,7 @@ namespace SpaceHordes.GameStates.Screens
         public HighScoreScreen(int players, int selected)
         {
             needsStorage = true;
+            this.players = players;
 
             selectedScore = selected;
 
@@ -295,26 +296,7 @@ namespace SpaceHordes.GameStates.Screens
         {
             base.Activate();
 
-#if WINDOWS
-
             Players = players;
-
-            if (!File.Exists(FilePath))
-            {
-                WriteInitialScores();
-            }
-
-            ReadScores(players, out initials, out scores);
-#endif
-#if XBOX
-            Players = players;
-            if (!StorageHelper.FileExists("scores.txt"))
-            {
-                WriteInitialScores();
-            }
-
-            ReadScores(players, out initials, out scores);
-#endif
         }
 
         #endregion Initialization

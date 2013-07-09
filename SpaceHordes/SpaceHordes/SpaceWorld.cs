@@ -330,23 +330,30 @@ namespace SpaceHordes
                 //Player 4 keyboard controlled
                 if (index.Length == 1)
                 {
-                    Entity c = CreateEntity("Player", (PlayerIndex)1);
-                    c.Refresh();
-                    c.GetComponent<Inventory>().YELLOW = 50;
-                    Player.Add(c);
-                    Indices.Add(PlayerIndex.Two);
-                    ++Players;
+                    for (int i = 0; i < 3; ++i)
+                    {
+                        Entity c = CreateEntity("Player", (PlayerIndex)i);
+                        c.Refresh();
+                        c.GetComponent<Inventory>().YELLOW = 50;
+                        Player.Add(c);
+                        Indices.Add((PlayerIndex)i);
+                        ++Players;
+                    }
                 }
 #endif
             }
 
             else
             {
-                Entity c = CreateEntity("Player", PlayerIndex.Four);
-                c.Refresh();
-                Player.Add(c);
-                Indices.Add(PlayerIndex.Four);
-                ++Players;
+                for (int i = 0; i < 3; ++i)
+                {
+                    Entity c = CreateEntity("Player", (PlayerIndex)i);
+                    c.Refresh();
+                    c.GetComponent<Inventory>().YELLOW = 50;
+                    Player.Add(c);
+                    Indices.Add((PlayerIndex)i);
+                    ++Players;
+                }
             }
 
             //for (int i = 0; i < 4; ++i)
