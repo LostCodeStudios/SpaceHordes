@@ -53,6 +53,12 @@ namespace SpaceHordes.Entities.Components
 
         #region Properties
 
+        public bool Custom
+        {
+            set;
+            get;
+        }
+
         /// <summary>
         /// The radius in which the AISystem will search for a new target.
         /// </summary>

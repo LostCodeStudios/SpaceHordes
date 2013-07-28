@@ -23,6 +23,12 @@ namespace SpaceHordes.Entities.Systems
 
             AI ai = e.GetComponent<AI>();
 
+            if (ai.Custom)
+            {
+                ai.Behavior(ai.Target);
+                return;
+            }
+
             bool behavior;
 
             if (ai.Target != null)

@@ -503,7 +503,10 @@ namespace SpaceHordes.Entities.Systems
                     if (RespawnTime[i] <= 0)
                     {
                         RespawnTime[i] = 0;
-                        Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i);
+                        if (i >= PlayerIndicies.Length)
+                            Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i, true);
+                        else
+                            Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i);
                         Entity e = Players[PlayerToSpawn[i]];
                         e.GetComponent<Health>().OnDeath += x =>
                         {
@@ -892,5 +895,7 @@ namespace SpaceHordes.Entities.Systems
         }
 
         #endregion Crystal Color Gen
+
+        public static PlayerIndex[] PlayerIndicies { get; set; }
     }
 }

@@ -119,7 +119,12 @@ namespace SpaceHordes.GameStates.Screens
             //World
             World = new SpaceWorld(Manager.Game, ScreenHelper.SpriteSheet, this, tutorial);
             World.Initialize();
+
+#if WINDOWS
+            World.LoadContent(content, new PlayerIndex[] { PlayerIndex.One }, level, states);
+#else
             World.LoadContent(content, playerIndices.ToArray(), level, states);
+#endif
 
             Manager.Game.ResetElapsedTime();
             World.Base.GetComponent<Health>().OnDeath +=

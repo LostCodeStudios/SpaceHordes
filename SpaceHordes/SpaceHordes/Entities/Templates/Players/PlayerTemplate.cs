@@ -112,6 +112,28 @@ namespace SpaceHordes.Entities.Templates
 
             #endregion Inventory
 
+            #region AI
+            //Create AI if it's an artificial player.
+            if (args.Length >= 2 && (bool)args[1])
+            {
+                e.AddComponent<AI>(new AI(null,
+                    (target) =>
+                    {
+                        //BEGIN THE ARTIFICIAL CODE!
+
+
+
+
+
+
+
+
+
+                        return false;
+                    })).Custom = true;
+            }
+            #endregion
+
             return e;
         }
 
