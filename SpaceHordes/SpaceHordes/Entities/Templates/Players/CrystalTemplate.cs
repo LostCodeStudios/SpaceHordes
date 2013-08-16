@@ -73,6 +73,25 @@ namespace SpaceHordes.Entities.Templates.Objects
                 e.AddComponent<Crystal>(new Crystal(color, (int)args[2]));
             }
             e.Group = "Crystals";
+
+
+            e.AddComponent<AI>(new AI((args[3] as Entity).GetComponent<Body>(), //AI was severely lagging the game.
+                (target) =>
+                {
+                    if ((target.UserData as Entity).HasComponent<Health>() && (target.UserData as Entity).GetComponent<Health>().IsAlive && target.Position != b.Position && (target.UserData as Entity).Group == "Players")
+                    {
+                        Vector2 distance = target.Position - b.Position;
+                        distance.Normalize();
+                        b.LinearVelocity = distance * new Vector2(14);
+                        return false;
+                    }
+                    else
+                    {
+                        e.Delete();
+                        return false;
+                    }
+                }));
+
             e.Refresh();
             return e;
         }

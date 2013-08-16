@@ -337,19 +337,19 @@ namespace SpaceHordes.Entities.Systems
             switch (SpawnState)
             {
                 case SpawnState.Wave:
-                    difficulty = (waves + elapsedMinutes);
+                    difficulty = 2 + (waves + elapsedMinutes);
                     break;
 
                 case SpawnState.Endless:
-                    difficulty = 1 + elapsedMinutes;
+                    difficulty = 3 + elapsedMinutes;
                     break;
 
                 case SpawnState.Surge:
-                    difficulty = 2.5f * (waves + elapsedMinutes);
+                    difficulty = 3.5f * (waves + elapsedMinutes);
                     break;
 
                 case SpawnState.Boss:
-                    difficulty = 0.25f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
+                    difficulty = 0.75f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
                     break;
 
                 case SpawnState.Peace:

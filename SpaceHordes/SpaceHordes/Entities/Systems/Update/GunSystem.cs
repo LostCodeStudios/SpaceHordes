@@ -50,7 +50,6 @@ namespace SpaceHordes.Entities.Systems
 
             if (e.Group.Equals("Players"))
             {
-                gun.BulletsToFire = false;
                 ITransform t = e.GetComponent<ITransform>();
 
                 int index;

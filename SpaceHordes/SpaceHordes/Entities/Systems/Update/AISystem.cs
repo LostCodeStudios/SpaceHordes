@@ -23,11 +23,7 @@ namespace SpaceHordes.Entities.Systems
 
             AI ai = e.GetComponent<AI>();
 
-            if (ai.Custom)
-            {
-                ai.Behavior(ai.Target);
-                return;
-            }
+
 
             bool behavior;
 
@@ -39,7 +35,7 @@ namespace SpaceHordes.Entities.Systems
                 {
                     ai.Calculated = true;
 
-                    if (ai.Target == null && e.Group != "Structures" && !e.Tag.Contains("Cannon"))
+                    if (ai.Target == null && e.Group != "Players" && e.Group != "Structures" && !e.Tag.Contains("Cannon"))
                     {
                         if (e.HasComponent<Health>())
                             e.GetComponent<Health>().SetHealth(null, 0);
@@ -54,13 +50,15 @@ namespace SpaceHordes.Entities.Systems
             ai.Calculated = true;
             ai.Target = _FindNewTarget(ai, e.GetComponent<Body>());
 
-            if (ai.Target == null && e.Group != "Structures" && !e.Tag.Contains("Boss"))
+            if (ai.Target == null && e.Group != "Players" && e.Group != "Structures" && !e.Tag.Contains("Boss"))
             {
                 if (e.HasComponent<Health>())
                     e.GetComponent<Health>().SetHealth(null, 0);
                 else
                     e.Delete();
             }
+            else if (ai.Target == null && e.Group == "Players")
+                ai.Behavior(null);
 
             e.Refresh();
         }
@@ -85,7 +83,11 @@ namespace SpaceHordes.Entities.Systems
             {
                 if (x.Body.BodyId != location.BodyId)
                 {
-                    if (string.IsNullOrEmpty(ai.TargetGroup) || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group))
+                    if ((string.IsNullOrEmpty(ai.TargetGroup) || ai.TargetGroup.Equals((x.Body.UserData as Entity).Group)) &&
+                        !(world.GetEntity((x.Body.UserData as Entity).Id) == null || (
+                                world.GetEntity((x.Body.UserData as Entity).Id) != null &&
+                                world.GetEntity((x.Body.UserData as Entity).Id).GetComponent<Body>() != null &&
+                                !world.GetEntity((x.Body.UserData as Entity).Id).GetComponent<Body>().Equals(x.Body))))
                     {
                         bodies.Add(x.Body);
                     }
