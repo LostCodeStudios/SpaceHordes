@@ -50,7 +50,6 @@ namespace SpaceHordes.Entities.Systems
 
             if (e.Group.Equals("Players"))
             {
-                gun.BulletsToFire = false;
                 ITransform t = e.GetComponent<ITransform>();
 
                 int index;
@@ -62,26 +61,30 @@ namespace SpaceHordes.Entities.Systems
                 {
                     return;
                 }
-                PlayerIndex playerIndex = (PlayerIndex)index;
-                GamePadState padState = GamePad.GetState(playerIndex);
-                KeyboardState keyState = Keyboard.GetState();
 
-                if (padState.IsConnected)
+                if (!e.HasComponent<AI>())
                 {
-                    if (padState.IsButtonDown(Buttons.RightTrigger))
+                    PlayerIndex playerIndex = (PlayerIndex)index;
+                    GamePadState padState = GamePad.GetState(playerIndex);
+                    KeyboardState keyState = Keyboard.GetState();
+
+                    if (padState.IsConnected)
+                    {
+                        if (padState.IsButtonDown(Buttons.RightTrigger))
+                            gun.BulletsToFire = true;
+                    }
+
+                    else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                         gun.BulletsToFire = true;
-                }
 
-                else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                    gun.BulletsToFire = true;
-
-                if (!inv.BuildMode &&
-                    (GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger) ||
-                    (!GamePad.GetState((PlayerIndex)index).IsConnected && Mouse.GetState().RightButton == ButtonState.Pressed)))
-                {
-                    world.CreateEntityGroup("BaseShot", "Bullets", e);
-                    if (gun.Ammunition <= 0)
-                        inv.ChangeGun(e, GunType.WHITE);
+                    if (!inv.BuildMode &&
+                        (GamePad.GetState((PlayerIndex)index).IsButtonDown(Buttons.LeftTrigger) ||
+                        (!GamePad.GetState((PlayerIndex)index).IsConnected && Mouse.GetState().RightButton == ButtonState.Pressed)))
+                    {
+                        world.CreateEntityGroup("BaseShot", "Bullets", e);
+                        if (gun.Ammunition <= 0)
+                            inv.ChangeGun(e, GunType.WHITE);
+                    }
                 }
             }
 

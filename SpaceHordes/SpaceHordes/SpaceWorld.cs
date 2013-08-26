@@ -316,9 +316,11 @@ namespace SpaceHordes
             Indices.Clear();
             //Set up player(s)
             PlayerIndex[] index = args[0] as PlayerIndex[];
-            if (args != null && index.Length > 0 && index != null) //IF MULTIPLAYER
+            DirectorSystem.PlayerIndicies = index;
+
+            for (int i = 0;  i < 4; ++i)
             {
-                for (int i = 0; i < index.Length && i < 4; ++i)
+                if (i < index.Length)
                 {
                     Entity e = CreateEntity("Player", index[i]);
                     Body bitch = e.GetComponent<Body>();
@@ -330,44 +332,23 @@ namespace SpaceHordes
                     Indices.Add(index[i]);
                     ++Players;
                 }
-#if WINDOWS //&& DEBUG
-                //Player 4 keyboard controlled
-                if (index.Length == 1)
+                else
                 {
-                    for (int i = 0; i < 3; ++i)
-                    {
-                        Entity c = CreateEntity("Player", (PlayerIndex)i);
-                        c.Refresh();
-                        c.GetComponent<Inventory>().YELLOW = 50;
-                        Player.Add(c);
-                        Indices.Add((PlayerIndex)i);
-                        ++Players;
-                    }
-                }
-#endif
-            }
+                    Entity e = CreateEntity("Player", (PlayerIndex)(i), true);
+                    Body bitch = e.GetComponent<Body>();
 
-            else
-            {
-                for (int i = 0; i < 3; ++i)
-                {
-                    Entity c = CreateEntity("Player", (PlayerIndex)i);
-                    c.Refresh();
-                    c.GetComponent<Inventory>().YELLOW = 50;
-                    Player.Add(c);
-                    Indices.Add((PlayerIndex)i);
+
+                    e.Refresh();
+                    e.GetComponent<Inventory>().YELLOW = 50;
+                    Player.Add(e);
                     ++Players;
                 }
             }
+            
 
-            //for (int i = 0; i < 4; ++i)
-            //{
-            //    Entity e = CreateEntity("Player", (PlayerIndex)i);
 
-            //    e.Refresh();
 
-            //    Player.Add(e);
-            //}
+
 
             CreateEntityGroup("StarField", "Stars");
 

@@ -53,340 +53,342 @@ namespace SpaceHordes.Entities.Systems
 
         public override void Process(Entity e)
         {
-            Body b = bodyMapper.Get(e);
-            Inventory inv = e.GetComponent<Inventory>();
-            Gun g = inv.CurrentGun;
-
-            Vector2 target = Vector2.Zero;
-
-            #region Gamepad
-
-            int playerIndex;
-            try
+            if (!e.HasComponent<AI>())
             {
-                playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
-            }
-            catch
-            {
-                Console.WriteLine("Tag: " + e.Tag);
-                return;
-            }
+                Body b = bodyMapper.Get(e);
+                Inventory inv = e.GetComponent<Inventory>();
+                Gun g = inv.CurrentGun;
 
-            PlayerIndex index = (PlayerIndex)playerIndex;
-            GamePadState pad = padState[playerIndex];
-            GamePadState lastPad = lastPadState[playerIndex];
+                Vector2 target = Vector2.Zero;
 
-            if (GamePad.GetState(index).IsConnected)
-            {
-                #region Movement
+                #region Gamepad
 
-                target = new Vector2(pad.ThumbSticks.Left.X, -pad.ThumbSticks.Left.Y);
-
-                #endregion Movement
-
-                #region Gun Swapping
-
-                if (!inv.BuildMode)
+                int playerIndex;
+                try
                 {
-                    if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
-                    {
-                        if (inv.CurrentGun == inv.BLUE)
-                            inv.ChangeGun(e, GunType.WHITE);
-                        else if (inv.BLUE.Ammunition > 0)
-                            inv.ChangeGun(e, GunType.BLUE);
-                    }
-
-                    if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
-                    {
-                        if (inv.CurrentGun == inv.GREEN)
-                            inv.ChangeGun(e, GunType.WHITE);
-                        else if (inv.GREEN.Ammunition > 0)
-                            inv.ChangeGun(e, GunType.GREEN);
-                    }
-
-                    if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
-                    {
-                        if (inv.CurrentGun == inv.RED)
-                            inv.ChangeGun(e, GunType.WHITE);
-                        else if (inv.RED.Ammunition > 0)
-                            inv.ChangeGun(e, GunType.RED);
-                    }
+                    playerIndex = int.Parse(e.Tag.Replace("P", "")) - 1;
+                }
+                catch
+                {
+                    return;
                 }
 
-                #endregion Gun Swapping
+                PlayerIndex index = (PlayerIndex)playerIndex;
+                GamePadState pad = padState[playerIndex];
+                GamePadState lastPad = lastPadState[playerIndex];
 
-                #region Building
-
-                if (pad.IsButtonDown(Buttons.Y) && lastPad.IsButtonUp(Buttons.Y))
+                if (GamePad.GetState(index).IsConnected)
                 {
-                    inv.BuildMode = !inv.BuildMode;
-                }
+                    #region Movement
 
-                if (inv.BuildMode)
-                {
-                    if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
+                    target = new Vector2(pad.ThumbSticks.Left.X, -pad.ThumbSticks.Left.Y);
+
+                    #endregion Movement
+
+                    #region Gun Swapping
+
+                    if (!inv.BuildMode)
                     {
-                        if (inv.YELLOW >= BarrierPrice)
+                        if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
                         {
-                            SpaceWorld w = world as SpaceWorld;
-                            Vector2 offset = (w.Base.GetComponent<Body>().Position - b.Position);
-                            offset.Normalize();
+                            if (inv.CurrentGun == inv.BLUE)
+                                inv.ChangeGun(e, GunType.WHITE);
+                            else if (inv.BLUE.Ammunition > 0)
+                                inv.ChangeGun(e, GunType.BLUE);
+                        }
 
-                            //offset;
-                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
-                            inv.YELLOW -= BarrierPrice;
+                        if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
+                        {
+                            if (inv.CurrentGun == inv.GREEN)
+                                inv.ChangeGun(e, GunType.WHITE);
+                            else if (inv.GREEN.Ammunition > 0)
+                                inv.ChangeGun(e, GunType.GREEN);
+                        }
 
-                            SoundManager.Play("Construction");
+                        if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
+                        {
+                            if (inv.CurrentGun == inv.RED)
+                                inv.ChangeGun(e, GunType.WHITE);
+                            else if (inv.RED.Ammunition > 0)
+                                inv.ChangeGun(e, GunType.RED);
                         }
                     }
 
-                    if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
-                    {
-                        if (inv.YELLOW >= TurretPrice)
-                        {
-                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
-                            inv.YELLOW -= TurretPrice;
+                    #endregion Gun Swapping
 
-                            SoundManager.Play("Construction");
+                    #region Building
+
+                    if (pad.IsButtonDown(Buttons.Y) && lastPad.IsButtonUp(Buttons.Y))
+                    {
+                        inv.BuildMode = !inv.BuildMode;
+                    }
+
+                    if (inv.BuildMode)
+                    {
+                        if (pad.IsButtonDown(Buttons.X) && lastPad.IsButtonUp(Buttons.X))
+                        {
+                            if (inv.YELLOW >= BarrierPrice)
+                            {
+                                SpaceWorld w = world as SpaceWorld;
+                                Vector2 offset = (w.Base.GetComponent<Body>().Position - b.Position);
+                                offset.Normalize();
+
+                                //offset;
+                                world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position - offset), e).Refresh();
+                                inv.YELLOW -= BarrierPrice;
+
+                                SoundManager.Play("Construction");
+                            }
+                        }
+
+                        if (pad.IsButtonDown(Buttons.A) && lastPad.IsButtonUp(Buttons.A))
+                        {
+                            if (inv.YELLOW >= TurretPrice)
+                            {
+                                world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
+                                inv.YELLOW -= TurretPrice;
+
+                                SoundManager.Play("Construction");
+                            }
+                        }
+
+                        if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
+                        {
+                            if (inv.YELLOW >= MinePrice)
+                            {
+                                world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
+                                inv.YELLOW -= MinePrice;
+
+                                SoundManager.Play("Construction");
+                            }
+                        }
+
+                        if (pad.IsButtonDown(Buttons.LeftTrigger) && lastPad.IsButtonUp(Buttons.LeftTrigger))
+                        {
+                            Health h = (world as SpaceWorld).Base.GetComponent<Health>();
+                            h.AddHealth(null, inv.YELLOW / 6);
+                            inv.YELLOW = 0;
+                        }
+
+                        if (inv.YELLOW < MinePrice)
+                        {
+                            inv.BuildMode = false;
                         }
                     }
 
-                    if (pad.IsButtonDown(Buttons.B) && lastPad.IsButtonUp(Buttons.B))
-                    {
-                        if (inv.YELLOW >= MinePrice)
-                        {
-                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
-                            inv.YELLOW -= MinePrice;
+                    #endregion Building
 
-                            SoundManager.Play("Construction");
-                        }
+                    //Rotation
+                    if (b.LinearVelocity != Vector2.Zero)
+                    {
+                        if (!(Mouse.GetState().LeftButton == ButtonState.Pressed) && !pad.IsButtonDown(Buttons.RightTrigger))
+                            b.RotateTo(b.LinearVelocity);
+                        WasMoving[playerIndex] = true;
                     }
 
-                    if (pad.IsButtonDown(Buttons.LeftTrigger) && lastPad.IsButtonUp(Buttons.LeftTrigger))
+                    #region Aiming
+
+                    if (pad.ThumbSticks.Right != Vector2.Zero)
                     {
-                        Health h = (world as SpaceWorld).Base.GetComponent<Health>();
-                        h.AddHealth(null, inv.YELLOW / 6);
-                        inv.YELLOW = 0;
+                        Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
+                        b.RotateTo(aiming);
                     }
 
-                    if (inv.YELLOW < MinePrice)
+                    ////AutoAiming
+                    //float aimArc = (float)Math.PI / 3f;
+
+                    //AABB searchRectangle = new AABB(b.Position, b.Position + new Vector2(ConvertUnits.ToSimUnits(440) * (float)Math.Cos(b.Rotation), ConvertUnits.ToSimUnits(440) * (float)Math.Sin(b.Rotation)));
+                    //world.QueryAABB((f) =>
+                    //{
+                    //    if (f.Body != b && f.Body.UserData != null && (f.Body.UserData as Entity).Group != null && (f.Body.UserData as Entity).Group.Equals("Enemies"))
+                    //    {
+                    //        Console.WriteLine("Autoaiming: T = " + (f.Body.UserData as Entity).Id + ": " + (f.Body.UserData as Entity).Tag + ";");
+                    //        float RotationDifference = (float)Math.Atan2(f.Body.Position.Y - b.Position.Y, f.Body.Position.X - b.Position.X);
+                    //        //Test the actuall difference between the players rotation and the rotation of the target; is it under the aimArc.
+
+                    //        Console.WriteLine("   INFO: BROTATION= " + b.Rotation + "; ROTATIONDIF= " + RotationDifference + "; ROTATIONDIF-BROTATION= " + Math.Abs(RotationDifference - b.Rotation) + ";");
+                    //        if (Math.Abs(RotationDifference - b.Rotation) < aimArc)
+                    //        {
+                    //            b.RotateTo(f.Body.Position);
+                    //            return false; //Terminate the query.
+                    //        }
+                    //    }
+                    //    return true; // Keep searching
+                    //}, ref searchRectangle);
+
+                    #endregion Aiming
+
+                    #region Tag
+
+                    if ((pad.IsButtonDown(Buttons.LeftShoulder) && (lastPad.IsButtonUp(Buttons.LeftShoulder)) || pad.IsButtonDown(Buttons.RightShoulder)) && lastPad.IsButtonUp(Buttons.RightShoulder))
                     {
-                        inv.BuildMode = false;
+                        inv.DisplayTag = !inv.DisplayTag;
                     }
+
+                    #endregion Tag
                 }
 
-                #endregion Building
+                #endregion Gamepad
 
-                //Rotation
-                if (b.LinearVelocity != Vector2.Zero)
-                {
-                    if (!(Mouse.GetState().LeftButton == ButtonState.Pressed) && !pad.IsButtonDown(Buttons.RightTrigger))
-                        b.RotateTo(b.LinearVelocity);
-                    WasMoving[playerIndex] = true;
-                }
-
-                #region Aiming
-
-                if (pad.ThumbSticks.Right != Vector2.Zero)
-                {
-                    Vector2 aiming = new Vector2(pad.ThumbSticks.Right.X, -pad.ThumbSticks.Right.Y);
-                    b.RotateTo(aiming);
-                }
-
-                ////AutoAiming
-                //float aimArc = (float)Math.PI / 3f;
-
-                //AABB searchRectangle = new AABB(b.Position, b.Position + new Vector2(ConvertUnits.ToSimUnits(440) * (float)Math.Cos(b.Rotation), ConvertUnits.ToSimUnits(440) * (float)Math.Sin(b.Rotation)));
-                //world.QueryAABB((f) =>
-                //{
-                //    if (f.Body != b && f.Body.UserData != null && (f.Body.UserData as Entity).Group != null && (f.Body.UserData as Entity).Group.Equals("Enemies"))
-                //    {
-                //        Console.WriteLine("Autoaiming: T = " + (f.Body.UserData as Entity).Id + ": " + (f.Body.UserData as Entity).Tag + ";");
-                //        float RotationDifference = (float)Math.Atan2(f.Body.Position.Y - b.Position.Y, f.Body.Position.X - b.Position.X);
-                //        //Test the actuall difference between the players rotation and the rotation of the target; is it under the aimArc.
-
-                //        Console.WriteLine("   INFO: BROTATION= " + b.Rotation + "; ROTATIONDIF= " + RotationDifference + "; ROTATIONDIF-BROTATION= " + Math.Abs(RotationDifference - b.Rotation) + ";");
-                //        if (Math.Abs(RotationDifference - b.Rotation) < aimArc)
-                //        {
-                //            b.RotateTo(f.Body.Position);
-                //            return false; //Terminate the query.
-                //        }
-                //    }
-                //    return true; // Keep searching
-                //}, ref searchRectangle);
-
-                #endregion Aiming
-
-                #region Tag
-
-                if ((pad.IsButtonDown(Buttons.LeftShoulder) && (lastPad.IsButtonUp(Buttons.LeftShoulder)) || pad.IsButtonDown(Buttons.RightShoulder)) && lastPad.IsButtonUp(Buttons.RightShoulder))
-                {
-                    inv.DisplayTag = !inv.DisplayTag;
-                }
-
-                #endregion Tag
-            }
-
-            #endregion Gamepad
-
-            #region Keyboard
+                #region Keyboard
 
 #if WINDOWS
-            else
-            {
-                #region Movement
-
-                if (keyState.IsKeyDown(Keys.D))
-                { //Right
-                    target += Vector2.UnitX;
-                }
-                else if (keyState.IsKeyDown(Keys.A))
-                { //Left
-                    target += -Vector2.UnitX;
-                }
-
-                if (keyState.IsKeyDown(Keys.S))
-                { //Down
-                    target += Vector2.UnitY;
-                }
-                else if (keyState.IsKeyDown(Keys.W))
-                { //Up?
-                    target += -Vector2.UnitY;
-                }
-
-                #endregion Movement
-
-                #region Gun Swapping
-
-                if (!inv.BuildMode)
+                else
                 {
-                    if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
-                    {
-                        if (inv.CurrentGun == inv.BLUE)
-                            inv.ChangeGun(e, GunType.WHITE);
-                        else if (inv.BLUE.Ammunition > 0)
-                            inv.ChangeGun(e, GunType.BLUE);
+                    #region Movement
+
+                    if (keyState.IsKeyDown(Keys.D))
+                    { //Right
+                        target += Vector2.UnitX;
+                    }
+                    else if (keyState.IsKeyDown(Keys.A))
+                    { //Left
+                        target += -Vector2.UnitX;
                     }
 
-                    if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
-                    {
-                        if (inv.CurrentGun == inv.GREEN)
-                            inv.ChangeGun(e, GunType.WHITE);
-                        else if (inv.GREEN.Ammunition > 0)
-                            inv.ChangeGun(e, GunType.GREEN);
+                    if (keyState.IsKeyDown(Keys.S))
+                    { //Down
+                        target += Vector2.UnitY;
+                    }
+                    else if (keyState.IsKeyDown(Keys.W))
+                    { //Up?
+                        target += -Vector2.UnitY;
                     }
 
-                    if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
+                    #endregion Movement
+
+                    #region Gun Swapping
+
+                    if (!inv.BuildMode)
                     {
-                        if (inv.CurrentGun == inv.RED)
-                            inv.ChangeGun(e, GunType.WHITE);
-                        else if (inv.RED.Ammunition > 0)
-                            inv.ChangeGun(e, GunType.RED);
-                    }
-                }
-
-                #endregion Gun Swapping
-
-                #region Building
-
-                if (keyState.IsKeyDown(Keys.D4) && lastKeyState.IsKeyUp(Keys.D4))
-                {
-                    inv.BuildMode = !inv.BuildMode;
-                }
-                if (inv.BuildMode)
-                {
-                    if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
-                    {
-                        if (inv.YELLOW >= BarrierPrice)
+                        if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
                         {
-                            world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
-                            inv.YELLOW -= BarrierPrice;
-                            SoundManager.Play("Construction");
+                            if (inv.CurrentGun == inv.BLUE)
+                                inv.ChangeGun(e, GunType.WHITE);
+                            else if (inv.BLUE.Ammunition > 0)
+                                inv.ChangeGun(e, GunType.BLUE);
+                        }
+
+                        if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
+                        {
+                            if (inv.CurrentGun == inv.GREEN)
+                                inv.ChangeGun(e, GunType.WHITE);
+                            else if (inv.GREEN.Ammunition > 0)
+                                inv.ChangeGun(e, GunType.GREEN);
+                        }
+
+                        if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
+                        {
+                            if (inv.CurrentGun == inv.RED)
+                                inv.ChangeGun(e, GunType.WHITE);
+                            else if (inv.RED.Ammunition > 0)
+                                inv.ChangeGun(e, GunType.RED);
                         }
                     }
 
-                    if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
+                    #endregion Gun Swapping
+
+                    #region Building
+
+                    if (keyState.IsKeyDown(Keys.D4) && lastKeyState.IsKeyUp(Keys.D4))
                     {
-                        if (inv.YELLOW >= TurretPrice)
+                        inv.BuildMode = !inv.BuildMode;
+                    }
+                    if (inv.BuildMode)
+                    {
+                        if (keyState.IsKeyDown(Keys.D1) && lastKeyState.IsKeyUp(Keys.D1))
                         {
-                            world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
-                            inv.YELLOW -= TurretPrice;
-                            SoundManager.Play("Construction");
+                            if (inv.YELLOW >= BarrierPrice)
+                            {
+                                world.CreateEntity("Barrier", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
+                                inv.YELLOW -= BarrierPrice;
+                                SoundManager.Play("Construction");
+                            }
+                        }
+
+                        if (keyState.IsKeyDown(Keys.D2) && lastKeyState.IsKeyUp(Keys.D2))
+                        {
+                            if (inv.YELLOW >= TurretPrice)
+                            {
+                                world.CreateEntity("Turret", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
+                                inv.YELLOW -= TurretPrice;
+                                SoundManager.Play("Construction");
+                            }
+                        }
+
+                        if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
+                        {
+                            if (inv.YELLOW >= MinePrice)
+                            {
+                                world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
+                                inv.YELLOW -= MinePrice;
+                                SoundManager.Play("Construction");
+                            }
+                        }
+
+                        if (mouseState.RightButton == ButtonState.Pressed)
+                        {
+                            Health h = (world as SpaceWorld).Base.GetComponent<Health>();
+                            h.AddHealth(null, inv.YELLOW / 6);
+                            inv.YELLOW = 0;
+                        }
+
+                        if (inv.YELLOW < MinePrice)
+                        {
+                            inv.BuildMode = false;
                         }
                     }
 
-                    if (keyState.IsKeyDown(Keys.D3) && lastKeyState.IsKeyUp(Keys.D3))
+                    #endregion Building
+
+                    #region Aiming
+
+                    Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
+                    Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
+                    Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
+                    b.RotateTo(-aiming);
+
+                    #endregion Aiming
+
+                    #region Tag
+
+                    if ((keyState.IsKeyDown(Keys.LeftShift) && lastKeyState.IsKeyUp(Keys.LeftShift)) || (keyState.IsKeyDown(Keys.RightShift) && lastKeyState.IsKeyUp(Keys.RightShift)))
                     {
-                        if (inv.YELLOW >= MinePrice)
-                        {
-                            world.CreateEntity("Mine", ConvertUnits.ToDisplayUnits(b.Position), e).Refresh();
-                            inv.YELLOW -= MinePrice;
-                            SoundManager.Play("Construction");
-                        }
+                        inv.DisplayTag = !inv.DisplayTag;
                     }
 
-                    if (mouseState.RightButton == ButtonState.Pressed)
-                    {
-                        Health h = (world as SpaceWorld).Base.GetComponent<Health>();
-                        h.AddHealth(null, inv.YELLOW / 6);
-                        inv.YELLOW = 0;
-                    }
+                    #endregion Tag
 
-                    if (inv.YELLOW < MinePrice)
+                    //Rotation
+                    if (b.LinearVelocity != Vector2.Zero)
                     {
-                        inv.BuildMode = false;
+                        if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
+                            b.RotateTo(b.LinearVelocity);
+                        WasMoving[playerIndex] = true;
                     }
                 }
-
-                #endregion Building
-
-                #region Aiming
-
-                Vector2 mouseLoc = new Vector2(mouseState.X, mouseState.Y);
-                Vector2 mouseWorldLoc = mouseLoc - ScreenHelper.Center;
-                Vector2 aiming = b.Position - ConvertUnits.ToSimUnits(mouseWorldLoc);
-                b.RotateTo(-aiming);
-
-                #endregion Aiming
-
-                #region Tag
-
-                if ((keyState.IsKeyDown(Keys.LeftShift) && lastKeyState.IsKeyUp(Keys.LeftShift)) || (keyState.IsKeyDown(Keys.RightShift) && lastKeyState.IsKeyUp(Keys.RightShift)))
-                {
-                    inv.DisplayTag = !inv.DisplayTag;
-                }
-
-                #endregion Tag
-
-                //Rotation
-                if (b.LinearVelocity != Vector2.Zero)
-                {
-                    if (!(Mouse.GetState().LeftButton == ButtonState.Pressed))
-                        b.RotateTo(b.LinearVelocity);
-                    WasMoving[playerIndex] = true;
-                }
-            }
 #endif
 
-            #endregion Keyboard
+                #endregion Keyboard
 
-            if (WasMoving[playerIndex]) //Stops movement
-            {
-                b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);
-                WasMoving[playerIndex] = false;
+                if (WasMoving[playerIndex]) //Stops movement
+                {
+                    b.LinearDamping = (float)Math.Pow(_Velocity, _Velocity * 4);
+                    WasMoving[playerIndex] = false;
+                }
+                else
+                    b.LinearDamping = 0;
+
+                if (target != Vector2.Zero) //If being moved by player
+                {
+                    target.Normalize();
+                    WasMoving[playerIndex] = true;
+                    b.LinearDamping = _Velocity * 2;
+                }
+
+                //update position
+                b.ApplyLinearImpulse((target) * new Vector2(_Velocity));
             }
-            else
-                b.LinearDamping = 0;
-
-            if (target != Vector2.Zero) //If being moved by player
-            {
-                target.Normalize();
-                WasMoving[playerIndex] = true;
-                b.LinearDamping = _Velocity * 2;
-            }
-
-            //update position
-            b.ApplyLinearImpulse((target) * new Vector2(_Velocity));
         }
     }
 }

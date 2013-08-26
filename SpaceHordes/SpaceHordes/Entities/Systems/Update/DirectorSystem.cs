@@ -337,19 +337,19 @@ namespace SpaceHordes.Entities.Systems
             switch (SpawnState)
             {
                 case SpawnState.Wave:
-                    difficulty = (waves + elapsedMinutes);
+                    difficulty = 2 + (waves + elapsedMinutes);
                     break;
 
                 case SpawnState.Endless:
-                    difficulty = 1 + elapsedMinutes;
+                    difficulty = 3 + elapsedMinutes;
                     break;
 
                 case SpawnState.Surge:
-                    difficulty = 2.5f * (waves + elapsedMinutes);
+                    difficulty = 3.5f * (waves + elapsedMinutes);
                     break;
 
                 case SpawnState.Boss:
-                    difficulty = 0.25f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
+                    difficulty = 0.75f * ((waves < 1 ? 1 : waves) + elapsedMinutes);
                     break;
 
                 case SpawnState.Peace:
@@ -503,7 +503,10 @@ namespace SpaceHordes.Entities.Systems
                     if (RespawnTime[i] <= 0)
                     {
                         RespawnTime[i] = 0;
-                        Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i);
+                        if (i >= PlayerIndicies.Length)
+                            Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i, true);
+                        else
+                            Players[PlayerToSpawn[i]] = World.CreateEntity("Player", (PlayerIndex)i);
                         Entity e = Players[PlayerToSpawn[i]];
                         e.GetComponent<Health>().OnDeath += x =>
                         {
@@ -892,5 +895,7 @@ namespace SpaceHordes.Entities.Systems
         }
 
         #endregion Crystal Color Gen
+
+        public static PlayerIndex[] PlayerIndicies { get; set; }
     }
 }
