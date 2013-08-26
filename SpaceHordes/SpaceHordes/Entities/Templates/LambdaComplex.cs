@@ -156,7 +156,7 @@ namespace SpaceHordes.Entities.Templates
                         for (int cry = 0; cry < 5; ++cry)
                         {
                             Color crystalColor = DirectorSystem.CrystalColor();
-                            int amount = 25 * tier;
+                            int amount = 20 * tier;
                             Vector2 p = e.GetComponent<ITransform>().Position;
                             float range = (float)Math.Sqrt(s.CurrentRectangle.Width * s.CurrentRectangle.Height);
                             float x = 2 * (float)rbitch.NextDouble() - 1;

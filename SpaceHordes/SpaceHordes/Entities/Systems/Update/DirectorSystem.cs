@@ -393,7 +393,7 @@ namespace SpaceHordes.Entities.Systems
                 int structs = TurretTemplate.Turrets.Count + BarrierTemplate.barriers;
                 int mooksToSpawn = doubleToInt(Math.Min(difficulty / 7 * MookSpawnRate, maxMooks));
                 int thugsToSpawn = doubleToInt(Math.Min(difficulty / 50 * ThugSpawnRate, maxThugs));
-                int gunnersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)structs / 100 * GunnerSpawnRate) : 0;
+                int gunnersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)structs / 75 * GunnerSpawnRate) : 0;
                 int huntersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 75 * HunterSpawnRate * HunterSpawnRate) : 0;
                 int destroyersToSpawn = SpawnState != SpawnState.Peace ? doubleToInt((double)Players.Length / 300 * DestroyerSpawnRate) : 0;
                 spawnMooks(mooksToSpawn);

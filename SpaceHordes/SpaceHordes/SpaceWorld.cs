@@ -57,6 +57,8 @@ namespace SpaceHordes
         /// <param name="args"></param>
         public override void LoadContent(ContentManager Content, params object[] args)
         {
+            this.level = (int)args[1];
+
             base.LoadContent(Content, args);
 
             _Font.LoadContent(Content, "Textures/gamefont", 1f);
@@ -64,7 +66,7 @@ namespace SpaceHordes
             hudRenderSystem.LoadContent(_Font, Content.Load<Texture2D>("Textures/HUD"));
             scoreSystem.LoadContent(Base);
 
-            this.level = (int)args[1];
+            
 
 
 #if DEBUG && WINDOWS //Debug render system
@@ -75,6 +77,8 @@ namespace SpaceHordes
                  new KeyValuePair<string, object>("EntitySystem Time:\n", this.SystemManager));
 
 #endif
+
+
             
         }
 
